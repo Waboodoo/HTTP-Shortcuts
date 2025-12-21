@@ -87,7 +87,7 @@ This section explains how you can interact with these variables from a script.
 <a id="get-variable"></a>
 ### getVariable
 
-You can access the value of any of your local or global variables via the `getVariable()` function. Simply pass the variable's name or ID as a parameter.
+You can access the value of any of your local or global variables via the `getVariable()` function. Simply pass the variable's name or ID as the first argument.
 
 ```js
 const myValue = getVariable('myVariable');
@@ -98,7 +98,7 @@ const myValue = getVariable('myVariable');
 <a id="set-variable"></a>
 ### setVariable
 
-You can store a value as a string into a variable via the `setVariable()` function. Simply pass the variable's name or ID as the first parameter and the value you want to store as the second parameter.
+You can store a value as a string into a variable via the `setVariable()` function. Simply pass the variable's name or ID as the first argument and the value you want to store as the second argument.
 
 In the case of a global variable, if its type supports it, the value will be used for the current shortcut execution and will also be stored. In the case of a local variable, the value will only be used for the current execution, as local variables are not persisted.
 
@@ -108,7 +108,7 @@ setVariable('myVariable', 'Hello World');
 
 > Please note that there is a size limit of 30'000 characters. If you set a value larger than that, it will be used unaltered for the current execution, but the value that is stored will be truncated.
 
-As an optional third parameter you can pass a boolean. If it is `true`, the new value will be stored but not used immediately for the current execution. This is useful for global variables of types which support the 'Remember value' feature (such as Date Input, Time Input, Text Input, etc.) as it allows to change the stored previous value which is used as the default selected value. This parameter has no effect for local variables, as they are not persisted.
+As an optional third argument you can pass a boolean. If it is `true`, the new value will be stored but not used immediately for the current execution. This is useful for global variables of types which support the 'Remember value' feature (such as Date Input, Time Input, Text Input, etc.) as it allows to change the stored previous value which is used as the default selected value. This argument has no effect for local variables, as they are not persisted.
 
 ```js
 setVariable('myVariable', 'Hello World', true); // only changes the stored value, but variable will still resolve normally if used afterwards
@@ -184,20 +184,20 @@ The `orientation` field is an integer with the following meaning:
 <a id="read-write-files"></a>
 ### Reading and Writing Files
 
-If you want to read from an existing file or write data to a file, you first need to mount the directory which contains the file. This can be done via the ["(Mounted) Directories screen](directories.md). Once you have a mounted directory, you can use the `getDirectory()` function to get a handle to it. Pass the name of the mounted directory as the first parameter. This handle then lets you read and write files, using the `readFile()`, `writeFile()` and `appendFile()` functions.
+If you want to read from an existing file or write data to a file, you first need to mount the directory which contains the file. This can be done via the ["(Mounted) Directories screen](directories.md). Once you have a mounted directory, you can use the `getDirectory()` function to get a handle to it. Pass the name of the mounted directory as the first argument. This handle then lets you read and write files, using the `readFile()`, `writeFile()` and `appendFile()` functions.
 
-For `readFiles()`, pass the name or path of the file you wish to read from as the first parameter, relative to the mounted directory. The file must exist, otherwise an error is raised. As an optional second parameter, you can pass the encoding that should be used to read the file, which defaults to UTF-8. The file's entire content is returned as a string.
+For `readFiles()`, pass the name or path of the file you wish to read from as the first argument, relative to the mounted directory. The file must exist, otherwise an error is raised. As an optional second argument, you can pass the encoding that should be used to read the file, which defaults to UTF-8. The file's entire content is returned as a string.
 
 ```js
 const dir = getDirectory('myMountedDirectory');
 const fileContent = dir.readFile('someDir/someFile.txt');
 ```
 
-For `writeFile()` and `appendFile()`, pass the name or path of the file you wish to write to as the first parameter, relative to the mounted directory. If the file or a directory along its path does not yet exist, it is automatically created.
+For `writeFile()` and `appendFile()`, pass the name or path of the file you wish to write to as the first argument, relative to the mounted directory. If the file or a directory along its path does not yet exist, it is automatically created.
 
 > For `writeFile()`, if the file already exists, its contents will be replaced without warning! For `appendFile()`, the new content will be appended and the existing file content is preserved.
 
-As the second parameter, pass the content you wish to write into the file. If this is an array, `Uint8Array` or `Int8Array`, it will be written as bytes. Otherwise, it will be written as a string, using UTF-8 encoding.
+As the second argument, pass the content you wish to write into the file. If this is an array, `Uint8Array` or `Int8Array`, it will be written as bytes. Otherwise, it will be written as a string, using UTF-8 encoding.
 
 ```js
 const dir = getDirectory('myMountedDirectory');
@@ -208,7 +208,7 @@ dir.appendFile('someFile.txt', [72, 101, 108, 108, 111]);
 <a id="read-selected-files"></a>
 ### Reading selected files
 
-The `getDirectory` function can also be used to read the contents of files that have been selected or shared, i.e., the files listed in `selectedFiles`. Instead of passing the name or ID of a mounted directory, simply omit the parameter. You can then call the `readFile()` function on the returned object, using either the file name or ID as the first parameter.
+The `getDirectory` function can also be used to read the contents of files that have been selected or shared, i.e., the files listed in `selectedFiles`. Instead of passing the name or ID of a mounted directory, simply omit the argument. You can then call the `readFile()` function on the returned object, using either the file name or ID as the first argument.
 
 ```js
 const dir = getDirectory();
@@ -225,7 +225,7 @@ This section describes how you can interact with the user (i.e., you), during th
 <a id="show-toast"></a>
 ### showToast
 
-With this function you can display a toast message on the screen. Simply pass your message as the first parameter.
+With this function you can display a toast message on the screen. Simply pass your message as the first argument.
 
 ```js
 showToast('Hello World');
@@ -236,7 +236,7 @@ showToast('Hello World');
 <a id="show-dialog"></a>
 ### showDialog
 
-With this function you can display a dialog window on the screen. Simply pass your message as the first parameter, and optionally a title for the dialog as the second parameter. The dialog will be displayed until its *"OK"* button is pressed.
+With this function you can display a dialog window on the screen. Simply pass your message as the first argument, and optionally a title for the dialog as the second argument. The dialog will be displayed until its *"OK"* button is pressed.
 
 ```js
 showDialog('My Message', 'My Title');
@@ -246,9 +246,9 @@ showDialog('You can also use <b>basic</b> <i>HTML</i> for formatting the message
 
 > Please note that no dialog will be displayed if the string you pass is empty.
 
-As an optional third parameter, you can pass an object with additional options. Currently, the only supported option is `buttons`, which is an array of 1-2 strings to customize the buttons displayed on the dialog.
+As an optional third argument, you can pass an object with additional options. Currently, the only supported option is `buttons`, which is an array of 1-2 strings to customize the buttons displayed on the dialog.
 
-The function returns an object with a `result` field in it, which resolves to either "ok" (if no custom buttons were defined and the default OK button was clicked), "button1" (if the first custom button was clicked), "button2" (if the second custom button was clicked), or "cancelled" (if the dialog was cancelled).
+The function returns an object with a `result` field in it, which resolves to either "ok" (if no custom buttons were defined and the default OK button was clicked), "button1" (if the first custom button was clicked), "button2" (if the second custom button was clicked), or "canceled" (if the dialog was canceled).
 
 ```js
 const dialogResult = showDialog('My Message', 'My Title', {buttons: ['Yay', 'Oh no']});
@@ -285,9 +285,9 @@ showWindow({
 
 Similar to how JavaScript works in a browser, you can use `prompt()` and `confirm()` to ask the user for input as part of a workflow.
 
-`prompt()` will open a dialog window asking for text input. The entered text is then returned as a string. If the dialog is cancelled, `null` is returned instead. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field. As an optional third parameter, you may pass an object with additional options. Currently only the `multiline` option is supported, which when set to `true` will change the text input field to allow for multiline text.
+`prompt()` will open a dialog window asking for text input. The entered text is then returned as a string. If the dialog is canceled, `null` is returned instead. Pass a message in as the first argument, and optionally a second argument to prefill the text input field. As an optional third argument, you may pass an object with additional options. Currently only the `multiline` option is supported, which when set to `true` will change the text input field to allow for multiline text.
 
-`confirm()` will open a confirmation dialog. It returns true if the dialog is confirmed, or false if it is cancelled. Pass a message in as the first parameter.
+`confirm()` will open a confirmation dialog. It returns true if the dialog is confirmed, or false if it is canceled. Pass a message in as the first argument.
 
 ```js
 if (confirm('Are you sure?')) {
@@ -304,11 +304,11 @@ prompt("What's your story?", "I was born in...", { multiline: true });
 <a id="prompt-number"></a>
 ### promptNumber
 
-You can use the `promptNumber` function to open an input dialog that asks for a number. The entered number will be the return value, or `null` if the dialog is cancelled. If the entered value is not a valid number `NaN` will be returned.
+You can use the `promptNumber` function to open an input dialog that asks for a number. The entered number will be the return value, or `null` if the dialog is canceled. If the entered value is not a valid number `NaN` will be returned.
 
 See also [promptNumberSlider](#prompt-number-slider).
 
-As the first parameter pass the text to display on the dialog. This must not be empty. As an optional second parameter you may pass a default value which is used to prefill the input field.
+As the first argument pass the text to display on the dialog. This must not be empty. As an optional second argument you may pass a default value which is used to prefill the input field.
 
 ```js
 const myNumber = promptNumber('What is your favorite number?', 42);
@@ -317,14 +317,14 @@ const myNumber = promptNumber('What is your favorite number?', 42);
 <a id="prompt-number-slider"></a>
 ### promptNumberSlider
 
-The `promptNumberSlider` function opens a dialog window that shows a horizontal number slider widget. The selected number will be the return value, or `null` if the dialog is cancelled.
+The `promptNumberSlider` function opens a dialog window that shows a horizontal number slider widget. The selected number will be the return value, or `null` if the dialog is canceled.
 
-As the first parameter pass an object that may contain the following fields to configure the dialog and the slider:
+As the first argument pass an object that may contain the following fields to configure the dialog and the slider:
 
 |Parameter|Description|Type / Values|
 |---|---|---|
 |title|Defines the title of the dialog|string|
-|text|The main content to duakig|string|
+|text|The main content to dialog|string|
 |prefix|Text displayed before the number|string|
 |suffix|Text displayed after the number|string|
 |value|The initially selected value|number|
@@ -347,7 +347,7 @@ const myNumber = promptNumberSlider({
 <a id="prompt-password"></a>
 ### promptPassword
 
-The `promptPassword()` function opens a text input dialog that asks for a password. The entered password is then returned, or `null` if the dialog is cancelled. Pass a message in as the first parameter, and optionally a second parameter to prefill the text input field.
+The `promptPassword()` function opens a text input dialog that asks for a password. The entered password is then returned, or `null` if the dialog is canceled. Pass a message in as the first argument, and optionally a second argument to prefill the text input field.
 
 ```js
 const myPassword = promptPassword("Please enter your password:");
@@ -357,7 +357,7 @@ const myPassword2 = promptPassword("Please enter your password:", "secret123");
 <a id="prompt-color"></a>
 ### promptColor
 
-The `promptColor()` function opens a color picker. The selected color is returned in hex RGB (e.g. FF0000 for red), or `null` if the picker is cancelled. As an optional first parameter you can pass in the pre-selected color. As an optional second parameter you can pass a title for the picker dialog.
+The `promptColor()` function opens a color picker. The selected color is returned in hex RGB (e.g. FF0000 for red), or `null` if the picker is canceled. As an optional first argument you can pass in the pre-selected color. As an optional second argument you can pass a title for the picker dialog.
 
 ```js
 const myColor = promptColor();
@@ -370,7 +370,7 @@ If you need the red, green and blue components separately, check out [this examp
 <a id="prompt-date"></a>
 ### promptDate
 
-The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the date format that should be used for the return value (defaults to yyyy-MM-dd), and as a second parameter you may pass the preselected date (in yyyy-MM-dd format). As an optional third parameter you can pass a title for the picker dialog.
+The `promptDate()` function opens a date picker. The selected date is returned, or `null` if the picker is canceled. As the first argument, you may pass the date format that should be used for the return value (defaults to yyyy-MM-dd), and as a second argument you may pass the preselected date (in yyyy-MM-dd format). As an optional third argument you can pass a title for the picker dialog.
 
 ```js
 const myDate = promptDate();
@@ -381,7 +381,7 @@ const myDate3 = promptDate(null, null, "Pick a date");
 <a id="prompt-time"></a>
 ### promptTime
 
-The `promptTime()` function opens a time picker. The selected time is returned, or `null` if the picker is cancelled. As the first parameter, you may pass the time format that should be used for the return value (defaults to HH:mm), and as a second parameter you may pass the preselected time (in HH:mm format). As an optional third parameter you can pass a title for the picker dialog.
+The `promptTime()` function opens a time picker. The selected time is returned, or `null` if the picker is canceled. As the first argument, you may pass the time format that should be used for the return value (defaults to HH:mm), and as a second argument you may pass the preselected time (in HH:mm format). As an optional third argument you can pass a title for the picker dialog.
 
 ```js
 const myTime = promptTime();
@@ -392,7 +392,7 @@ const myTime3 = promptTime(null, null, "Pick a time");
 <a id="show-selection"></a>
 ### showSelection & showMultiSelection
 
-These functions allows you to display a dialog with multiple options to choose from. The first parameter must be either an object consisting of key-value string pairs, or an array of strings. As an optional second parameter you may pass a title for the dialog.
+These functions allows you to display a dialog with multiple options to choose from. The first argument must be either an object consisting of key-value string pairs, or an array of strings. As an optional second argument you may pass a title for the dialog.
 
 For `showSelection`, a single option can be selected, and the function returns its key or value, or `null` if the dialog is closed without a selection (e.g. by pressing the back button).
 
@@ -427,7 +427,7 @@ const availableWeekdays = showMultiSelection({
 <a id="show-notification"></a>
 ### showNotification
 
-The `showNotification()` function allows you to display text in a notification. As the first parameter, pass the title of the notification and as an optional second parameter you can pass a message.
+The `showNotification()` function allows you to display text in a notification. As the first argument, pass the title of the notification and as an optional second argument you can pass a message.
 
 > The first time this function is used, you will be prompted to grant the notification permission. If you decline, the function will not do anything. To enable it again, you need to go to the app's permissions settings and grant the notification permission manually.
 
@@ -448,9 +448,9 @@ playSound();
 <a id="speak"></a>
 ### speak
 
-With this function you can have a piece of text be read out loud, using the device's text-to-speech engine. Simply pass the text you want to read as the first parameter, and optionally a language identifier as the second parameter.
+With this function you can have a piece of text be read out loud, using the device's text-to-speech engine. Simply pass the text you want to read as the first argument, and optionally a language identifier as the second argument.
 
-> Please note that only the first 400 characters will be read. Please also note that the second parameter is ignored if the language is not supported.
+> Please note that only the first 400 characters will be read. Please also note that the second argument is ignored if the language is not supported.
 
 ```js
 speak('Hello World');
@@ -463,7 +463,7 @@ speak('Dieser Text ist deutsch', 'de');
 <a id="vibrate"></a>
 ### vibrate
 
-With this function you can cause the device to vibrate (if supported). As an optional first parameter, you can pass the number of the vibration pattern you want to use, and as an optional second parameter you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
+With this function you can cause the device to vibrate (if supported). As an optional first argument, you can pass the number of the vibration pattern you want to use, and as an optional second argument you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
 
 Vibration patterns:
 
@@ -478,7 +478,7 @@ vibrate(2, true);
 <a id="scan-barcode"></a>
 ### scanBarcode
 
-The `scanBarcode` function lets you scan a barcode (e.g. a QR code). On success the function returns the raw data of the barcode as a string. If the scanner is cancelled, `null` is returned instead.
+The `scanBarcode` function lets you scan a barcode (e.g. a QR code). On success the function returns the raw data of the barcode as a string. If the scanner is canceled, `null` is returned instead.
 
 ```js
 const code = scanBarcode();
@@ -494,7 +494,7 @@ This section lists all the built-in functions which you can use to modify existi
 <a id="rename-shortcut"></a>
 ### renameShortcut
 
-With this function you can rename a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new name as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
+With this function you can rename a shortcut. Simply pass the name or ID of a shortcut as the first argument and the new name as the second one. You can also pass an empty string as the first argument to target the current shortcut.
 
 ```js
 renameShortcut('Old Name', 'New Name');
@@ -503,7 +503,7 @@ renameShortcut('Old Name', 'New Name');
 <a id="change-description"></a>
 ### changeDescription
 
-With this function you can change the description of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the new description as the second one. You can also pass an empty string as the first parameter to target the current shortcut.
+With this function you can change the description of a shortcut. Simply pass the name or ID of a shortcut as the first argument and the new description as the second one. You can also pass an empty string as the first argument to target the current shortcut.
 
 ```js
 changeDescription('My Shortcut', 'New Description');
@@ -514,7 +514,7 @@ changeDescription('My Shortcut', 'New Description');
 <a id="change-icon"></a>
 ### changeIcon
 
-With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first parameter and the name of the icon as the second one. You can also pass an empty string as the first parameter to target the current shortcut. Use the *"Add Code Snippet"* button in the app to select an icon. Alternatively, you can check the [source code](https://github.com/Waboodoo/HTTP-Shortcuts/blob/develop/HTTPShortcuts/app/src/main/kotlin/ch/rmy/android/http_shortcuts/icons/Icons.kt) for all the available icons names (look for the prefix "R.drawable.", everything after it is a valid icon name).
+With this function you can change the icon of a shortcut. Simply pass the name or ID of a shortcut as the first argument and the name of the icon as the second one. You can also pass an empty string as the first argument to target the current shortcut. Use the *"Add Code Snippet"* button in the app to select an icon. Alternatively, you can check the [source code](https://github.com/Waboodoo/HTTP-Shortcuts/blob/develop/HTTPShortcuts/app/src/main/kotlin/ch/rmy/android/http_shortcuts/icons/Icons.kt) for all the available icons names (look for the prefix "R.drawable.", everything after it is a valid icon name).
 
 ```js
 changeIcon('My Shortcut', 'bitsies_lightbulb');
@@ -523,7 +523,7 @@ changeIcon('My Shortcut', 'bitsies_lightbulb');
 <a id="set-shortcut-hidden"></a>
 ### setShortcutHidden
 
-This function allows you to show or hide individual shortcuts inside the app. Simply pass the name or ID of a shortcut as the first parameter and `true` or `false` as the second parameter. You can also pass an empty string as the first parameter to target the current shortcut.
+This function allows you to show or hide individual shortcuts inside the app. Simply pass the name or ID of a shortcut as the first argument and `true` or `false` as the second argument. You can also pass an empty string as the first argument to target the current shortcut.
 
 ```js
 setShortcutHidden('My Shortcut', true);
@@ -534,7 +534,7 @@ setShortcutHidden('My Shortcut', true);
 <a id="set-category-hidden"></a>
 ### setCategoryHidden
 
-This function allows you to show or hide categories. Simply pass the name or ID of a category as the first parameter and `true` or `false` as the second parameter.
+This function allows you to show or hide categories. Simply pass the name or ID of a category as the first argument and `true` or `false` as the second argument.
 
 ```js
 setCategoryHidden('My Category', true);
@@ -569,7 +569,7 @@ abort();
 
 If the shortcut was called from another shortcut via the [executeShortcut](#execute-shortcut) function, only the current shortcut will be aborted. If you want to abort also the calling shortcut, you can use `abortAll()`.
 
-As part of the "Run on Success" code block, you can also use the `abortAndTreatAsFailure()` function, which skips the rest of the "success" steps and instead treats the execution as a failure, meaning that the "Run on Failure" code will be run, as well as any other failure-related steps such as displaying an error message. You can use this in cases where the default behavior of only checking the HTTP status code is not enough to determine whether a request should be considered a success. As an optional parameter, you can pass a string which will be used as the error message.
+As part of the "Run on Success" code block, you can also use the `abortAndTreatAsFailure()` function, which skips the rest of the "success" steps and instead treats the execution as a failure, meaning that the "Run on Failure" code will be run, as well as any other failure-related steps such as displaying an error message. You can use this in cases where the default behavior of only checking the HTTP status code is not enough to determine whether a request should be considered a success. As an optional argument, you can pass a string which will be used as the error message.
 
 ```js
 // Basic example
@@ -616,7 +616,7 @@ htmlDecode("<b>Hello</b>"); // returns Hello
 <a id="hash"></a>
 ### hash
 
-With the `hash` function you can compute the hash of a given string. The first parameter denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`) and the second one the string to hash. The return value is in hex format.
+With the `hash` function you can compute the hash of a given string. The first argument denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`) and the second one the string to hash. The return value is in hex format.
 
 ```js
 const hashed = hash('SHA-256', 'Hello world');
@@ -626,7 +626,7 @@ const hashed = hash('SHA-256', 'Hello world');
 <a id="hmac"></a>
 ### hmac
 
-With the `hmac` function you can compute the [HMAC](https://en.wikipedia.org/wiki/HMAC) of a given message. The first parameter denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`), the second one the secret key, and the third one the message (as a string or byte array) for which to compute the HMAC. The returned value is a `Uint8Array`.
+With the `hmac` function you can compute the [HMAC](https://en.wikipedia.org/wiki/HMAC) of a given message. The first argument denotes the hashing algorithm to use (supported algorithms are `MD5`, `SHA-1`, `SHA-256`, and `SHA-512`), the second one the secret key, and the third one the message (as a string or byte array) for which to compute the HMAC. The returned value is a `Uint8Array`.
 
 ```js
 const myHMAC = hmac('SHA-256', 'my_key123', 'Hello world');
@@ -709,7 +709,7 @@ The result variable now holds the following object (blank text fields omitted fo
 const title = result.children[0].children[0].text;
 ```
 
-As a second parameter, you can provide a query to search for and parse only specific parts of the HTML. In this case, the returned value is an array of all found elements. By default, this query string is interpreted as a CSS-style selector, but you can also provide an XPath query by passing the string "xpath" as the third parameter.
+As a second argument, you can provide a query to search for and parse only specific parts of the HTML. In this case, the returned value is an array of all found elements. By default, this query string is interpreted as a CSS-style selector, but you can also provide an XPath query by passing the string "xpath" as the third argument.
 ```js
 const myHTML = '...'; // same as in the example above
 
@@ -819,7 +819,7 @@ For this function to work, location services need to be enabled and the app need
 <a id="wol"></a>
 ### Wake-on-LAN
 
-You can use the `wakeOnLan` function to send a magic packet to turn on another device on your network. The first parameter has to be the MAC-address of the device. As the optional second parameter, you can pass the network/broadcast address to be used, and as the third parameter you can define the port.
+You can use the `wakeOnLan` function to send a magic packet to turn on another device on your network. The first argument has to be the MAC-address of the device. As the optional second argument, you can pass the network/broadcast address to be used, and as the third argument you can define the port.
 
 ```js
 wakeOnLan('01-23-45-67-89-ab');
@@ -830,7 +830,7 @@ wakeOnLan('01-23-45-67-89-ab', '255.255.255.255', 9);
 <a id="send-http-request"></a>
 ### Send HTTP request
 
-The `sendHttpRequest` function allows you to send a simple HTTP request. The first parameter is the URL, the second (optional) parameter provides an object with additional options. The following fields are supported in the options object:
+The `sendHttpRequest` function allows you to send a simple HTTP request. The first argument is the URL, the second (optional) argument provides an object with additional options. The following fields are supported in the options object:
 
 |Parameter|Description|Type / Values|
 |---|---|---|
@@ -869,7 +869,7 @@ if (result.status == "success") {
 <a id="send-mqtt-message"></a>
 ### Send MQTT message
 
-The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first parameter is the URI of the server/broker, the second (optional) parameter provides options for the connection (e.g. username and password) and the third parameter is an array of all the messages that should be sent.
+The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first argument is the URI of the server/broker, the second (optional) argument provides options for the connection (e.g. username and password) and the third argument is an array of all the messages that should be sent.
 
 ```js
 sendMQTTMessages(
@@ -889,7 +889,7 @@ sendMQTTMessages(
 
 You can use the `sendTCPPacket` function to send a TCP packet to another device on your network. This can be useful when interacting with devices that have a telnet interface.
 
-Pass the packet data as the first parameter (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its TCP port as the third parameter.
+Pass the packet data as the first argument (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second argument and its TCP port as the third argument.
 
 ```js
 sendTCPPacket('hello', '192.168.1.42', 1337);
@@ -897,7 +897,7 @@ sendTCPPacket('hello', '192.168.1.42', 1337);
 sendTCPPacket([0x68, 0x65, 0x6C, 0x6C, 0x6F], 'example.com', 4242);
 ```
 
-If you want to listen for incoming data from the TCP connection, you can specify so by passing in a configuration object as the fourth parameter. This object may have the following fields:
+If you want to listen for incoming data from the TCP connection, you can specify so by passing in a configuration object as the fourth argument. This object may have the following fields:
 
 - `read`: If set to "text", all incoming data is read as text and returned as a string. If set to "line", only a single line of text is read and returned as a string. If not specified, nothing is read and `null` is returned.
 - `timeout`: The time in milliseconds after which the socket is automatically closed. Must be at most 30000, defaults to 3000. If `read` is set to "text" and this timeout is hit, all data that was read until that point is returned.
@@ -913,7 +913,7 @@ const reply = sendTCPPacket('hello', '192.168.1.42', 1337, {
 <a id="send-udp-packet"></a>
 ### Send UDP Packet
 
-You can use the `sendUDPPacket` function to send a UDP packet to another device on your network. Pass the packet data as the first parameter (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second parameter and its UDP port as the third parameter.
+You can use the `sendUDPPacket` function to send a UDP packet to another device on your network. Pass the packet data as the first argument (either as a string, `Uint8Array` or array of numbers denoting bytes), the target host's name or IP address as the second argument and its UDP port as the third argument.
 
 ```js
 sendUDPPacket('hello', '192.168.1.42', 1337);
@@ -929,13 +929,13 @@ This section lists all of the built-in functions which do not fall into a specif
 <a id="trigger-shortcut"></a>
 ### enqueueShortcut
 
-With this function you can enqueue a shortcut to execute after the current one (or after the last enqueued one if there are already shortcuts scheduled to execute). Simply pass the name or ID of a shortcut as the first parameter.
+With this function you can enqueue a shortcut to execute after the current one (or after the last enqueued one if there are already shortcuts scheduled to execute). Simply pass the name or ID of a shortcut as the first argument.
 
 ```js
 enqueueShortcut('My Other Shortcut');
 ```
 
-Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
+Optionally you can pass an object as the second argument to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
 
 ```js
 enqueueShortcut('My Other Shortcut', {
@@ -944,7 +944,7 @@ enqueueShortcut('My Other Shortcut', {
 });
 ```
 
-As an optional third parameter, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time.
+As an optional third argument, you can pass the number of milliseconds by which to delay the execution. This way you can schedule a shortcut to run at a later point in time.
 
 > Please note that the delay will not be exact and can not exceed 5 minutes.
 
@@ -959,7 +959,7 @@ Also note that this might lead to infinite loops if the enqueued shortcut also e
 <a id="cancel-shortcut"></a>
 ### cancelShortcut
 
-The `cancelShortcut` function can be used to cancel the execution of a shortcut, i.e., a shortcut that is enqueued to run at a later point in time, e.g. because it was scheduled with `enqueueShortcut`, or was configured to run with a delay or to repeat. Pass the ID or name as the first parameter.
+The `cancelShortcut` function can be used to cancel the execution of a shortcut, i.e., a shortcut that is enqueued to run at a later point in time, e.g. because it was scheduled with `enqueueShortcut`, or was configured to run with a delay or to repeat. Pass the ID or name as the first argument.
 
 ```js
 cancelShortcut('My Repeating Shortcut');
@@ -968,13 +968,13 @@ cancelShortcut('My Repeating Shortcut');
 <a id="execute-shortcut"></a>
 ### executeShortcut
 
-This function allows you to execute another shortcut within the current one and receive its result. Pass the name or ID of a shortcut as the first parameter.
+This function allows you to execute another shortcut within the current one and receive its result. Pass the name or ID of a shortcut as the first argument.
 
 ```js
 executeShortcut('My Other Shortcut');
 ```
 
-Optionally you can pass an object as the second parameter to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
+Optionally you can pass an object as the second argument to provide values for variables. This will not change the stored values of the variables but they will assume the specified value when the other shortcut is executed. This is particularly useful for dynamic variable types (such as *"Text Input"* or *"Multiple Choice Selection"*).
 
 ```js
 executeShortcut('My Other Shortcut', {
@@ -1049,7 +1049,7 @@ This mechanism works both for the `enqueueShortcut` and the `executeShortcut` fu
 <a id="log-event"></a>
 ### Log Event
 
-The `logEvent` function allows you to log custom events into the Event History (which you'll find by selecting "Trouble Shooting" in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first parameter and optionally a message with details as the second parameter.
+The `logEvent` function allows you to log custom events into the Event History (which you'll find by selecting "Trouble Shooting" in the app's main menu). This can be used for debugging and troubleshooting. Pass an event title as the first argument and optionally a message with details as the second argument.
 
 ```js
 logEvent('Hello World');
@@ -1091,7 +1091,7 @@ const clipboardValue = getClipboardContent();
 <a id="copy-to-clipboard"></a>
 ### Copy to the Clipboard
 
-With the `copyToClipboard` function you can copy a value to the device's clipboard. Simply pass the value you want to copy as the first parameter.
+With the `copyToClipboard` function you can copy a value to the device's clipboard. Simply pass the value you want to copy as the first argument.
 
 ```js
 copyToClipboard('Hello World');
@@ -1102,7 +1102,7 @@ copyToClipboard('Hello World');
 <a id="share-text"></a>
 ### Share Text with Another App
 
-You can use the `shareText` function to share a piece of text with another app. Simply pass the value you want to share as the first parameter. This will open the system's share picker where you can select which app to share into.
+You can use the `shareText` function to share a piece of text with another app. Simply pass the value you want to share as the first argument. This will open the system's share picker where you can select which app to share into.
 
 ```js
 shareText('Hello World');
@@ -1130,7 +1130,7 @@ openUrl('https://www.wikipedia.org/');
 
 > Please note that this can not be used to open files.
 
-As a second parameter, you may pass the package name of the browser or app that should handle the URL. You may instead also pass "custom-tabs" or "custom-tabs(\[package-name])" to open the URL using a custom tab instead of a standalone browser window.
+As a second argument, you may pass the package name of the browser or app that should handle the URL. You may instead also pass "custom-tabs" or "custom-tabs(\[package-name])" to open the URL using a custom tab instead of a standalone browser window.
 
 ```js
 openUrl('https://example.com', 'org.mozilla.firefox');
@@ -1139,7 +1139,7 @@ openUrl('https://example.com', 'custom-tabs(org.mozilla.firefox)');
 
 <a id="send-intent"></a>
 ### Send Intent
-With this function you can send an [Intent](https://developer.android.com/guide/components/intents-filters). It takes an object as its only parameter, where the object should have one or more of the following properties:
+With this function you can send an [Intent](https://developer.android.com/guide/components/intents-filters). It takes an object as its only argument, where the object should have one or more of the following properties:
 
 |Parameter|Description|Type / Values|
 |---|---|---|
@@ -1210,7 +1210,7 @@ The above example is equivalent to calling `openApp('com.android.chrome')`.
 
 <a id="trigger-tasker-task"></a>
 ### Trigger Tasker Task
-If you have [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) installed on your device, you can use this function to trigger one of its tasks. Pass in the name of the task as the first parameter, and optionally an object containing some key-value pairs to pass along as local variables as the second argument.
+If you have [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) installed on your device, you can use this function to trigger one of its tasks. Pass in the name of the task as the first argument, and optionally an object containing some key-value pairs to pass along as local variables as the second argument.
 
 ```js
 triggerTaskerTask('doStuff');
@@ -1248,7 +1248,7 @@ runTermuxCommand({
 
 <a id="set-wireguard-tunnel-state"></a>
 ### Set Wireguard Tunnel State
-If you have [Wireguard](https://play.google.com/store/apps/details?id=com.wireguard.android) installed, you can use the `setWireguardTunnelState` function to enable or disable a tunnel. Pass in the name of the tunnel as the first parameter, and as the second parameter pass `true` to enable the tunnel or `false` to disable it.
+If you have [Wireguard](https://play.google.com/store/apps/details?id=com.wireguard.android) installed, you can use the `setWireguardTunnelState` function to enable or disable a tunnel. Pass in the name of the tunnel as the first argument, and as the second argument pass `true` to enable the tunnel or `false` to disable it.
 
 ```js
 setWireguardTunnelState('my-tunnel', true);
