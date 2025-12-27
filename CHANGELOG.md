@@ -1,3 +1,21 @@
+## Version 4.1.0
+
+### Potentially Breaking Change
+- There is a minor change in how the app URL-encodes the values of global variables, which affects all variables where the "URL encode" option is enabled. Previously, a space character would be turned into a `+` character. Going forward, it will be turned into `%20` instead. This should work fine in most cases or even improve things, but might break the behavior of some of your shortcuts if you have very specific logic or requirements in your shortcuts or your servers.
+
+### Improvements
+- It is now possible to display a static title at the top of your global variable home screen widgets
+- There is now a [promptNumberSlider](https://http-shortcuts.rmy.ch/scripting#prompt-number-slider) Scripting function, which allows to prompt for a number using a horizontal slider, the same kind used for "Number Slider" variables
+- You can now use the [getDeviceId](https://http-shortcuts.rmy.ch/scripting#device-id) Scripting function to query the randomly generated ID of your device, which might help with differentiating different devices on the server side if they all share the same shortcuts
+- The Code Snippet Picker in the Scripting feature now features a "URL Encode" option, to transform arbitrary text to be URL-safe
+
+### Bugfixes
+- An experimental fix is applied to mitigate crashes that occasionally happen when displaying very large HTML documents
+- Fixed a crash when displaying Scripting error messages in Vietnamese
+
+### Miscellaneous
+- The build number is now displayed next to the app's version number on the Information screen
+
 ## Version 4.0.0
 
 ### Breaking Change
