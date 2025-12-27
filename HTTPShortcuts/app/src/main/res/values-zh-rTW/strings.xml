@@ -264,6 +264,7 @@
     <string name="import_failure_reason_invalid_json">JSON 無效</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">選取的檔案乃由此應用程式較新的版本匯出。請確定您已安裝此應用程式的最新版本。</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="other">%d 個捷徑已匯入。</item>
@@ -791,6 +792,7 @@
     <string name="action_type_prompt_title">提示輸入文字</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">提示輸入數字</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">提示輸入日期</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -853,6 +855,7 @@
     <string name="action_type_open_url_title">開啟 URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">開啟應用程式</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">無法傳送意圖：%s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -1345,6 +1348,8 @@
     <string name="action_type_html_encode_description">將一個純文字字串編碼，使其為 HTML 安全</string>
     <!-- Description for htmlDecode function in scripting -->
     <string name="action_type_html_decode_description">將一個 HTML 字串解碼成純文字</string>
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <!-- Description for URL Encode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">找不到可供開啟 URL %s 的應用程式。</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1388,8 +1393,11 @@
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">比例因素</string>
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <string name="label_category_shortcut_label_visibility">捷徑標籤</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">可見</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">隱藏</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">背景</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1890,4 +1898,5 @@
     <string name="message_delete_all">您即將刪除您所有的捷徑、變數等。此動作無法復原。要繼續嗎？</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">資料已成功還原。</string>
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
 </resources>

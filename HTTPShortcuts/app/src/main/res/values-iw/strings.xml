@@ -271,6 +271,7 @@
     <string name="import_failure_reason_invalid_json">JSON אינו חוקי</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">הקובץ שנבחר יוצא על ידי גרסה חדשה יותר של האפליקציה. אנא ודא שהגרסה העדכנית ביותר של האפליקציה מותקנת.</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="one">קיצור דרך אחד יובא.</item>
@@ -810,6 +811,7 @@
     <string name="action_type_prompt_title">הצג בקשה לטקסט</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">בקשה למספר</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">בקשה לתאריך</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -869,6 +871,7 @@
     <string name="action_type_open_url_title">פתח את כתובת האתר</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">אפליקציה פתוחה</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">נכשל לשלוח Intent: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -1361,6 +1364,8 @@
     <string name="action_type_base64encode_description">ממירה מחרוזת או Uint8Array (מערך בתים) למחרוזת מקודדת Base64</string>
     <!-- Description for htmlEncode function in scripting -->
     <!-- Description for htmlDecode function in scripting -->
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <!-- Description for URL Encode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">לא נמצאה אפליקציה שיכולה לפתוח את כתובת האתר %s.</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1771,4 +1776,5 @@
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
     <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
 </resources>

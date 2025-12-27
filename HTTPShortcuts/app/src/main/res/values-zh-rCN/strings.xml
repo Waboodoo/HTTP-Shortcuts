@@ -264,6 +264,8 @@
     <string name="import_failure_reason_invalid_json">错误的 JSON 文件</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">所选择的文件是由最新版本的应用程序导出的。请确保您已经安装了最新版本的应用程序。</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
+    <string name="import_failure_invalid_file">导入失败。文件似乎格式不正确或已损坏。</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="other">已导入一个快捷方式</item>
@@ -791,6 +793,8 @@
     <string name="action_type_prompt_title">提示文本</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">提示号码</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
+    <string name="action_type_prompt_number_slider_title">提示数字(滑块)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">提示日期</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -853,6 +857,8 @@
     <string name="action_type_open_url_title">打开 URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">打开应用</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
+    <string name="action_type_get_device_id_title">获取设备ID</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">发送意图失败: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -1345,6 +1351,10 @@
     <string name="action_type_html_encode_description">编码纯文本字符串使它符合 HTML 安全规范</string>
     <!-- Description for htmlDecode function in scripting -->
     <string name="action_type_html_decode_description">将 HTML 字符串解码为纯文本</string>
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <string name="action_type_url_encode">URL 编码</string>
+    <!-- Description for URL Encode function in scripting -->
+    <string name="action_type_url_encode_description">编码字符串使其可以安全地在 URL 中使用</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">未找到能打开 URL %s 的应用。</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1899,4 +1909,6 @@
     <string name="message_delete_all">即将删除所有的快捷方式、变量等。此操作无法撤销。继续吗？</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">数据恢复成功。</string>
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
+    <string name="label_variable_widget_title">小部件标题</string>
 </resources>

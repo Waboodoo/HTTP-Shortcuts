@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- The name of the app -->
-    <string name="app_name">Горячие клавиши HTTP</string>
+    <string name="app_name">Ярлыки запросов HTTP</string>
     <!-- The name of the default category -->
-    <string name="shortcuts">Ярлыки</string>
+    <string name="shortcuts">Мои ярлыки</string>
     <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">Ярлык</string>
     <!-- Title in editor when editing a shortcut -->
@@ -23,7 +23,7 @@
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
     <string name="label_broadcast_address">Адрес трансляции</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="label_browser_package_name">Браузер</string>
+    <string name="label_browser_package_name">Обозреватель</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Использовать браузер по умолчанию</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
@@ -67,6 +67,7 @@
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Выполнить</string>
     <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Выбрать</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Редактировать</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -126,6 +127,7 @@
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
     <string name="validation_mac_address_invalid">Пожалуйста, введите правильный MAC-адрес.</string>
     <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
+    <string name="validation_mqtt_server_url_invalid">Пожалуйста, введите правильный URL сервера MQTT.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
     <string name="error_http">Ошибка %1$s. Код состояния %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
@@ -171,6 +173,7 @@
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
     <string name="section_request_headers">Заголовки запроса</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
+    <string name="section_mqtt_messages">Сообщения</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
     <string name="section_request_body">Тело запроса / Параметры</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
@@ -184,9 +187,13 @@
     <!-- Label of input field to provide request body of a shortcut -->
     <string name="label_custom_body">Тело запроса</string>
     <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_topic">Тема</string>
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_payload">Содержимое</string>
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <string name="title_mqtt_message_edit">Изменить сообщение</string>
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <string name="title_mqtt_message_add">Добавить сообщение</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Настройки</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -254,6 +261,7 @@
     <string name="import_failure_reason_invalid_json">Неверный JSON</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">Выбранный файл был экспортирован более новой версией приложения. Убедитесь, что у вас установлена последняя версия приложения.</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="one">Импортировано %d ярлык.</item>
@@ -316,6 +324,12 @@
         <item quantity="other">%d миллисекунд</item>
     </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
+    <plurals name="minutes">
+        <item quantity="one">%d минута</item>
+        <item quantity="few">%d минуты</item>
+        <item quantity="many">%d минут</item>
+        <item quantity="other">%d минут</item>
+    </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
     <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
@@ -327,7 +341,9 @@
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Связаться с разработчиком</string>
     <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Сообщество на Reddit</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">Официальный сабреддит приложения, для обсуждения и обмена идеями</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Вопросы, пожелания, отзывы…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -567,10 +583,15 @@
 
 Но у вас еще нет настроенных переменных.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
+    <string name="help_text_no_global_variables_yet">У вас ещё нет глобальных переменных. Нажмите кнопку %s ниже, чтобы начать.</string>
     <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">Локальная переменная</string>
     <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_subtitle_local_variable">Значение должно быть передано или установлено через сценарий</string>
     <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">Локальная переменная</string>
     <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">Введите имя вашей локальной переменной, состоящее из цифр, букв и знаков подчеркивания.</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Переменные</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -580,6 +601,7 @@
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Пожалуйста, добавьте хотя бы один вариант.</string>
     <!-- Error message, shown in variable editor when a select option uses the same value as another -->
+    <string name="error_select_value_already_in_use">Это значение уже используется другой опцией.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Формат даты недействителен.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -635,11 +657,13 @@
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_create_browser_shortcut">Ярлык браузера</string>
     <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_create_mqtt_shortcut">Ярлык MQTT</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_create_wol_shortcut">Ярлык Wake-on-LAN</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
     <string name="button_description_create_browser_shortcut">Откройте URL-адрес в браузере</string>
     <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_description_create_mqtt_shortcut">Отправляет MQTT сообщения</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
     <string name="button_description_create_wol_shortcut">Пробуждение компьютера в сети</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
@@ -741,7 +765,7 @@
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
     <string name="label_response_handling_subtitle">Определите, как обрабатывать ответ</string>
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
-    <string name="label_scripting">писать сценарии</string>
+    <string name="label_scripting">Писать сценарии</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
     <string name="label_scripting_subtitle">Запускать код JavaScript до или после выполнения</string>
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
@@ -778,6 +802,7 @@
     <string name="action_type_prompt_title">Запрос текста</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">Запросить номер</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">Запрос даты</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -819,6 +844,7 @@
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Запустить ярлык</string>
     <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
+    <string name="action_type_cancel_shortcut_title">Отменить ярлык</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">Выполнить ярлык</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -830,6 +856,7 @@
     <!-- Shortcut Action Description: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_description">Запланируйте запуск другого ярлыка после завершения работы текущего ярлыка</string>
     <!-- Shortcut Action Description: Cancel a scheduled shortcut -->
+    <string name="action_type_cancel_shortcut_description">Отменить запланированное, отложенное или повторяющееся исполнение ярлыка</string>
     <!-- Shortcut Action Description: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_description">Немедленное выполнение другого ярлыка и возврат его результата</string>
     <!-- Shortcut Action Title: Send an Android Intent, e.g. to trigger or invoke some action in another app -->
@@ -838,6 +865,7 @@
     <string name="action_type_open_url_title">Открытый URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Открытое приложение</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Не удалось отправить intent: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -849,6 +877,7 @@
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Включение или отключение туннеля Wireguard</string>
     <!-- Shortcut Action Title: Run a command in the Termux app -->
+    <string name="action_type_run_termux_command_title">Выполнить команду Termux</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Получить текущее местоположение</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -926,11 +955,13 @@
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
     <string name="subtitle_editor_toolbar_trigger_shortcut">Мульти-ярлык</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
+    <string name="subtitle_editor_toolbar_mqtt_shortcut">Ярлык MQTT</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <string name="subtitle_editor_toolbar_wol_shortcut">Ярлык Wake-on-LAN</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <string name="subtitle_basic_request_settings_prompt">Установите URL ярлыка и метод HTTP</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
+    <string name="subtitle_basic_request_settings_prompt_for_mqtt">Установить адрес сервера MQTT</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <string name="subtitle_basic_request_settings_prompt_for_wol">Установить MAC-адрес и порт ярлыка</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
@@ -957,6 +988,7 @@
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
     <string name="subtitle_authentication_bearer">Аутентификация на предъявителя с токеном</string>
     <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
+    <string name="subtitle_authentication_username_and_password_set">Имя пользователя и пароль установлены</string>
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Параметры не заданы</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
@@ -980,9 +1012,11 @@
     <!-- Empty state, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers">Заголовки не установлены</string>
     <!-- Empty state, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages">сообщения не установлены</string>
     <!-- Empty state instructions, shown in list when there are no custom request headers yet -->
     <string name="empty_state_request_headers_instructions">Нажмите кнопку +, чтобы добавить заголовок запроса.</string>
     <!-- Empty state instructions, shown in list when there are no MQTT messages yet, for an MQTT shortcut -->
+    <string name="empty_state_mqtt_messages_instructions">Нажмите кнопку +, чтобы добавить MQTT сообщение.</string>
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <string name="empty_state_request_parameters">Параметры не установлены</string>
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
@@ -992,7 +1026,7 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
     <string name="label_accept_cookies">Хранить cookies</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
-    <string name="label_keep_connection_open">Продолжать открывать соединение после запроса</string>
+    <string name="label_keep_connection_open">Держать соединение открытым после запроса</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
     <string name="label_pre_request_script">Запустить до выполнения</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
@@ -1161,6 +1195,7 @@
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
     <string name="label_widget_label_color">Цвет ярлыка</string>
     <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
+    <string name="label_variable_widget">Виджет переменной</string>
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
     <string name="error_invalid_character">Неправильный символ: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
@@ -1332,9 +1367,12 @@
     <string name="action_type_html_encode_description">Кодирует обычную текстовую строку, чтобы сделать её HTML-безопасной</string>
     <!-- Description for htmlDecode function in scripting -->
     <string name="action_type_html_decode_description">Декодирует HTML-строку в простой текст</string>
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <!-- Description for URL Encode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Не найдено приложение, которое может открыть URL %s.</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
+    <string name="error_permission_required_for_url">Отсутствует разрешение на открытие %s.</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
     <string name="error_no_app_found">Не найдено приложение с именем пакета %s.</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
@@ -1372,14 +1410,19 @@
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">Тип макета</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">Коэффициент масштабирования</string>
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <string name="label_category_shortcut_label_visibility">Метки ярлыка</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">Видимо</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">Скрыто</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Справочная информация</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <string name="description_customizable_widget">Выберите цвет ярлыка вашего ярлыка или полностью скройте его.</string>
     <!-- Description for the "Variable Widget", shown in Android's widget picker -->
+    <string name="description_variable_widget">Показывать значение статической глобальной переменной.</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <string name="action_type_parse_json">Разбор JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
@@ -1616,10 +1659,15 @@
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
     <string name="option_file_data_source_specific_file">Использовать конкретный файл</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a static (text) value -->
+    <string name="option_file_data_source_static_value">Использовать статическое значение</string>
     <!-- Button label, for choosing a directory that contains a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_directory">Выберите папку</string>
     <!-- Subtitle, shown on button for selecting a directory that contains file to use as a request body or parameter. %s is a placeholder for the selected directory's name -->
+    <string name="subtitle_file_data_source_choose_directory">Использовать файл из «%s»</string>
     <!-- Label for input field, to enter the name of a file that should be used as a request body parameter. -->
+    <string name="label_file_data_source_file_name">Файл</string>
     <!-- Label for input field, to enter static text that should be used as a file request body parameter. -->
+    <string name="label_file_data_source_static_value">Значение</string>
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="button_select_response_toolbar_buttons">Показать кнопки панели инструментов</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
@@ -1694,9 +1742,11 @@
     <!-- Dialog message, shown the first time the user uses the Wireguard integration, to help them set it up correctly -->
     <string name="wireguard_setup_instructions">Убедитесь, что в приложении Wireguard также включена опция «Разрешать приложения для дистанционного управления».</string>
     <!-- Dialog message, shown the first time the user uses the Termux integration, to help them set it up correctly -->
+    <string name="termux_setup_instructions">Не забудьте включить параметр «allow-external-apps» в файле «termux.properties».</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Разрешение Wireguard не предоставлено.</string>
     <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
+    <string name="termux_permission_not_granted">Разрешение Termux не было предоставлено.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">ID устройства</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1799,6 +1849,7 @@
     <!-- Accessibility label for the floating action button, to add a header -->
     <string name="accessibility_label_add_header_fab">Добавить заголовок</string>
     <!-- Accessibility label for the floating action button, to add an MQTT message to an MQTT shortcut -->
+    <string name="accessibility_label_add_mqtt_message_fab">Добавить сообщение</string>
     <!-- Accessibility label for the floating action button, to add a parameter -->
     <string name="accessibility_label_add_parameter_fab">Добавить параметр</string>
     <!-- Accessibility label for the floating action button, to create new categories -->
@@ -1816,6 +1867,7 @@
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Перейти к документации</string>
     <!-- Accessibility label for "Set Password" button in exporter -->
+    <string name="accessibility_label_set_password_for_export">Задать пароль</string>
     <!-- Accessibility label for "Select all" button in exporter -->
     <string name="accessibility_label_select_all_for_export">Выбрать все</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
@@ -1843,23 +1895,42 @@
     <!-- Empty state, shown in list when there are no category sections yet -->
     <string name="empty_state_category_sections">В этой категории еще нет разделов.</string>
     <!-- Empty state instructions, shown in list when there are no category sections yet -->
+    <string name="empty_state_category_sections_instructions">Разделы позволяют группировать ярлыки в рамках категории.\n\nНажмите кнопку «+», чтобы добавить новый раздел.</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Этот раздел пуст. Вы можете переместить ярлыки в него путем долгого нажатия и выбора \“%s\”.</string>
     <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <string name="dialog_title_import">Импорт</string>
     <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
+    <string name="dialog_text_import_with_password">Для этого импорта требуется пароль.</string>
     <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
+    <string name="dialog_text_import_with_password_retry">Неправильный пароль. Пожалуйста, попробуйте снова.</string>
     <!-- Error message: shown when a file for an HTTP request could not be found. %s is a placeholder for the file's name. -->
+    <string name="error_failed_to_access_file">Не удалось получить доступ к файлу \“%s\”. Убедитесь, что файл существует и что содержащая его папка смонтирована.</string>
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
+    <string name="dialog_title_export_encryption">Задать пароль</string>
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
+    <string name="dialog_text_export_with_password">Для защиты ваших данных вы можете зашифровать экспортированный файл с паролем. Оставьте пустым, чтобы не шифровать.</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
+    <string name="accessibility_rotate_cw">Повернуть по часовой стрелке</string>
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <string name="error_termux_not_running">Не удалось выполнить команду, приложение Termux не активно.</string>
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <string name="label_variable_widget_select_variable">Глобальная переменная</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
+    <string name="empty_state_variable_widget">С помощью этого виджета вы можете отобразить значение глобальной переменной типа \“%s\” на вашем домашнем экране.\n\nУ вас пока нет таких переменных. Вы можете создать их в главном меню приложения.</string>
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
+    <string name="error_manual_data_migration">Похоже, вы давно не обновляли приложение. В результате автоматическое обновление ваших ярлыков, переменных и т. д. для совместимости с этой версией невозможно. Но не волнуйтесь, ваши данные не потеряны. Вот что вы можете сделать:\n\nПерейдите в %s и следуйте инструкциям.</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <string name="button_restore_data">Восстановить данные</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <string name="button_export_data">Экспортировать данные</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <string name="button_import_data">Импортировать данные</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <string name="button_delete_data">Удалить данные</string>
     <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <string name="message_delete_all">Вы собираетесь удалить все ваши ярлыки, переменные и т. д. Это действие не может быть отменено. Продолжить?</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <string name="message_data_restored">Данные успешно восстановлены.</string>
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
 </resources>

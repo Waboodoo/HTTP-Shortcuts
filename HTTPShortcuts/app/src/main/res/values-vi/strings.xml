@@ -241,6 +241,7 @@
     <string name="import_failure_reason_invalid_json">JSON không hợp lệ</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">Tệp đã chọn đã được xuất bởi phiên bản mới hơn của ứng dụng. Vui lòng đảm bảo rằng bạn đã cài đặt phiên bản mới nhất của ứng dụng.</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="other">Đã nhập 1 phím tắt.</item>
@@ -732,6 +733,7 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
     <string name="action_type_prompt_title">Lời nhắc cho văn bản</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">Lời nhắc cho ngày</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -786,6 +788,7 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <string name="action_type_open_url_title">mở URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Mở chương trình</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Không gửi được ý định: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -936,7 +939,7 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <string name="dialog_title_error">Lỗi</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">lỗi JavaScript:%s%s</string>
+    <string name="error_js_pattern">lỗi JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
     <string name="error_js_pattern_with_line_number">Lỗi JavaScript (tại dòng %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
@@ -1244,6 +1247,8 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <string name="action_type_base64encode_description">Chuyển đổi một chuỗi hoặc Uint8Array (mảng byte) thành chuỗi được mã hóa Base64</string>
     <!-- Description for htmlEncode function in scripting -->
     <!-- Description for htmlDecode function in scripting -->
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <!-- Description for URL Encode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Không tìm thấy ứng dụng nào có thể mở URL %s.</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1558,4 +1563,5 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
     <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
 </resources>

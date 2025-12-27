@@ -264,6 +264,7 @@
     <string name="import_failure_reason_invalid_json">無効なJSON</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">選択したファイルは、アプリの新しいバージョンでエクスポートされました。 現在のスマホに最新バージョンのアプリがインストールされていることを確認してください。</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="other">%d 個のショートカットをインポート完了</item>
@@ -791,6 +792,7 @@
     <string name="action_type_prompt_title">テキスト プロンプト</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">数値の入力待ち</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">日付入力</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -853,6 +855,7 @@
     <string name="action_type_open_url_title">URLを開く</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">アプリを開く</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">インテント送信に失敗: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -1345,6 +1348,8 @@
     <string name="action_type_html_encode_description">プレーンテキスト文字をエンコードする（HTMLセーフ）</string>
     <!-- Description for htmlDecode function in scripting -->
     <string name="action_type_html_decode_description">HTML文字列をプレーンテキストに変換する</string>
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <!-- Description for URL Encode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">URL %s を開けるアプリが見つかりませんでした。</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1893,4 +1898,5 @@
     <string name="message_delete_all">ショートカット、変数などをすべて削除しようとしています。一度消すと元に戻すことはできません。続行しますか？</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">データを正常に復元しました。</string>
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
 </resources>

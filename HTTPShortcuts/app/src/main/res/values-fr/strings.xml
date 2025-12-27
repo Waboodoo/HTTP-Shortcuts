@@ -269,6 +269,7 @@ Cliquer sur + pour ajouter une variable.</string>
     <string name="import_failure_reason_invalid_json">JSON invalide</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">Le fichier sélectionné a été exporté par une version plus récente de l\'application. Veuillez vous assurer que vous avez installé la dernière version de l\'application.</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="one">%d raccourci importé.</item>
@@ -809,6 +810,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="action_type_prompt_title">Demande de texte</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">Demande de nombre</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">Demande de date</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -869,6 +871,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="action_type_open_url_title">Ouvrir l\'URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Ouvrir l\'application</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Échec de l\'envoi de l\'intention : %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -1369,6 +1372,8 @@ Vous pouvez activer cette fonctionnalité en modifiant un raccourci et en cochan
     <string name="action_type_html_encode_description">Encode une chaîne en texte brut pour la rendre sécurisée au format HTML</string>
     <!-- Description for htmlDecode function in scripting -->
     <string name="action_type_html_decode_description">Décode une chaîne HTML en texte brut</string>
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <!-- Description for URL Encode function in scripting -->
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Aucune application n\'a été trouvée qui puisse ouvrir l\'URL %s.</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1913,4 +1918,5 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
     <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
 </resources>

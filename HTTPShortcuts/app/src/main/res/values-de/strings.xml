@@ -265,6 +265,8 @@
     <string name="import_failure_reason_invalid_json">Ungültiges JSON</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">Die gewählte Datei wurde von einer neueren Version der App exportiert und kann somit nicht importiert werden. Bitte installiere die neuste Version der App.</string>
+    <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
+    <string name="import_failure_invalid_file">Import fehlgeschlagen. Die Datei scheint nicht im richtigen Format zu sein oder wurde beschädigt.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="one">%d Shortcut importiert.</item>
@@ -803,6 +805,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="action_type_prompt_title">Aufforderung zur Texteingabe</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">Aufforderung zur Zahleingabe</string>
+    <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
+    <string name="action_type_prompt_number_slider_title">Aufforderung zur Zahleingabe (Schieberegler)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">Aufforderung zur Datumseingabe</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -865,6 +869,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="action_type_open_url_title">URL öffnen</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">App öffnen</string>
+    <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
+    <string name="action_type_get_device_id_title">Geräte-ID abrufen</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Senden von Intent fehlgeschlagen: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -1361,6 +1367,10 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="action_type_html_encode_description">Kodiert Text um ihn HTML-sicher zu machen</string>
     <!-- Description for htmlDecode function in scripting -->
     <string name="action_type_html_decode_description">Dekodiert einen HTML-String in Klartext</string>
+    <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <string name="action_type_url_encode">Kodieren für URLs</string>
+    <!-- Description for URL Encode function in scripting -->
+    <string name="action_type_url_encode_description">Kodiert einen String so, dass er sicher in einer URL verwendet werden kann</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">Es wurde keine App gefunden welche die URL %s öffnen kann.</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1913,4 +1923,6 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="message_delete_all">Du bist dabei, alle deine Shortcuts, Variablen usw. zu löschen. Dies kann nicht rückgängig gemacht werden. Trotzdem fortfahren?</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">Daten erfolgreich wiederhergestellt.</string>
+    <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
+    <string name="label_variable_widget_title">Widget-Titel</string>
 </resources>
