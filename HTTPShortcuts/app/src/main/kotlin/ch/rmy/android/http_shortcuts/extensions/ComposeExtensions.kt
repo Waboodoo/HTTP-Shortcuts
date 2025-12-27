@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.localization.Localizable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -46,18 +47,22 @@ fun <T : WebView> rememberWebView(init: (Context, isRestore: Boolean) -> T): T {
             override fun restore(value: Bundle): T =
                 init(context, true)
                     .apply {
+                        logInfo("Restoring web view state")
                         restoreState(value)
                     }
 
             override fun SaverScope.save(value: T): Bundle {
+                logInfo("Saving web view state")
                 val bundle = Bundle()
                 value.saveState(bundle)
 
                 // If the bundle is too big, it's safer to discard it to avoid TransactionTooLargeException
                 val bytes = bundle.getByteArray("WEBVIEW_CHROMIUM_STATE")
                 if (bytes != null && bytes.size > 200_000) {
+                    logInfo("Ignoring web view state of ${bytes.size} bytes")
                     return Bundle()
                 }
+                logInfo("Saved web view state of ${bytes?.size} bytes")
                 return bundle
             }
         },
