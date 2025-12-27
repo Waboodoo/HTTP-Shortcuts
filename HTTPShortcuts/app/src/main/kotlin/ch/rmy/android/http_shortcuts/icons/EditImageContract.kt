@@ -6,10 +6,8 @@ import android.graphics.Bitmap.CompressFormat
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toFile
 import ch.rmy.android.http_shortcuts.activities.imageeditor.ImageEditorActivity
 import ch.rmy.android.http_shortcuts.activities.imageeditor.ImageEditorActivity.Companion.getOutputUri
-import java.io.File
 
 class EditImageContract(
     private val title: String? = null,
@@ -38,7 +36,7 @@ class EditImageContract(
         if (resultCode == AppCompatActivity.RESULT_CANCELED) {
             return Result.Canceled
         }
-        val file = intent?.takeIf { resultCode == AppCompatActivity.RESULT_OK }?.getOutputUri()?.toFile()
+        val file = intent?.takeIf { resultCode == AppCompatActivity.RESULT_OK }?.getOutputUri()
         return if (file != null) {
             Result.Success(file)
         } else {
@@ -53,7 +51,7 @@ class EditImageContract(
     )
 
     sealed interface Result {
-        data class Success(val imageFile: File) : Result
+        data class Success(val imageUri: Uri) : Result
         data object Failure : Result
         data object Canceled : Result
     }

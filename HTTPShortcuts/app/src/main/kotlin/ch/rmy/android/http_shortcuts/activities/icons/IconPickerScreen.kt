@@ -35,7 +35,7 @@ fun IconPickerScreen() {
         ),
     ) { result ->
         when (result) {
-            is EditImageContract.Result.Success -> viewModel.onIconCreated(result.imageFile)
+            is EditImageContract.Result.Success -> viewModel.onIconCreated(result.imageUri)
             is EditImageContract.Result.Failure -> viewModel.onIconCreationFailed()
             is EditImageContract.Result.Canceled -> Unit
         }

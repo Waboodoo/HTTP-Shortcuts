@@ -9,7 +9,6 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.FilePickerUtil
-import ch.rmy.android.framework.utils.FileUtil.getUriFromFile
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.icons.EditImageContract
 import ch.rmy.android.http_shortcuts.utils.BarcodeScannerContract
@@ -36,7 +35,7 @@ class ExternalRequestFragment : Fragment() {
     private val cropImage = registerForActivityResult(EditImageContract()) { result ->
         returnResult(
             when (result) {
-                is EditImageContract.Result.Success -> ExternalResult.File(fileUri = getUriFromFile(requireContext(), result.imageFile))
+                is EditImageContract.Result.Success -> ExternalResult.File(fileUri = result.imageUri)
                 else -> ExternalResult.Cancelled
             },
         )

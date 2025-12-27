@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.net.toUri
+import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
@@ -118,12 +118,12 @@ fun ImageEditorScreen(
                         saveCompressQuality = 95,
                         reqWidth = maxSize ?: 0,
                         reqHeight = maxSize ?: 0,
-                        customOutputUri = File(context.cacheDir, "image-editor-${newUUID()}").toUri(),
+                        customOutputUri = getTempFileUri(context, compressFormat),
                     )
                 },
             )
         },
-    ) { viewState ->
+    ) {
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = {
@@ -143,6 +143,18 @@ fun ImageEditorScreen(
             LoadingIndicator()
         }
     }
+}
+
+private fun getTempFileUri(context: Context, format: Bitmap.CompressFormat): Uri {
+    val extension = when (format) {
+        Bitmap.CompressFormat.JPEG -> "jpg"
+        Bitmap.CompressFormat.PNG -> "png"
+        else -> "webp"
+    }
+    return FileUtil.getUriFromFile(
+        context,
+        File(context.cacheDir, "image-editor-${newUUID()}.$extension"),
+    )
 }
 
 @Composable

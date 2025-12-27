@@ -81,11 +81,15 @@ constructor(
         emitEvent(IconPickerEvent.ShowImageCropper(image, selectedShape))
     }
 
-    fun onIconCreated(iconFile: File) = runAction {
+    fun onIconCreated(iconUri: Uri) = runAction {
         val iconName = IconUtil.generateCustomIconName(circular = selectedShape == IconShape.CIRCLE)
         val targetFile = File(context.filesDir, iconName)
         withContext(Dispatchers.IO) {
-            iconFile.renameTo(targetFile)
+            context.contentResolver.openInputStream(iconUri)!!.use { inputStream ->
+                targetFile.outputStream().use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
         }
         val icon = ShortcutIcon.CustomIcon(iconName)
 
