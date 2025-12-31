@@ -1139,7 +1139,7 @@ openUrl('https://example.com', 'custom-tabs(org.mozilla.firefox)');
 
 <a id="send-intent"></a>
 ### Send Intent
-With this function you can send an [Intent](https://developer.android.com/guide/components/intents-filters). It takes an object as its only argument, where the object should have one or more of the following properties:
+With the `sendIntent` function you can send an [Intent](https://developer.android.com/guide/components/intents-filters), which allows you to interact with other Android apps on the same device. It takes an object as its only argument, where the object should have one or more of the properties listed in the table below. Which values to use depends on the target app, so please consult their documentation, source code or developers for more information.
 
 |Parameter|Description|Type / Values|
 |---|---|---|
