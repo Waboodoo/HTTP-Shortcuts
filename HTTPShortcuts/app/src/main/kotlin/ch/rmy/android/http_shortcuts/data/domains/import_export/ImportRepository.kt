@@ -63,6 +63,7 @@ constructor(
     private val settings: Settings,
 ) : BaseRepository(database) {
     suspend fun import(base: ImportBase, mode: ImportMode) = commitTransaction {
+        val existingVariables = globalVariableDao().getVariables()
         if (mode == ImportMode.REPLACE) {
             categoryDao().deleteAllCategories()
             sectionDao().deleteAllSections()
@@ -75,7 +76,7 @@ constructor(
         }
         importAppConfig(base, mode)
         importCategories(base.categories ?: emptyList(), mode)
-        importVariables(base.variables ?: emptyList(), mode)
+        importVariables(base.variables ?: emptyList(), mode, existingVariables)
         importCertificatePins(base.certificatePins ?: emptyList())
         importWorkingDirectories(base.workingDirectories ?: emptyList(), fromSameDevice = base.originDeviceId == settings.deviceId)
         validate()
@@ -425,13 +426,22 @@ constructor(
         }
     }
 
-    private suspend fun Database.importVariables(importVariables: List<ImportVariable>, mode: ImportMode) {
+    private suspend fun Database.importVariables(importVariables: List<ImportVariable>, mode: ImportMode, existingVariables: List<GlobalVariable>) {
         val variables = importVariables.mapIndexed { index, variable ->
             GlobalVariable(
                 id = variable.id ?: newUUID(),
                 key = variable.key!!,
                 type = variable.type?.let { VariableType.parse(it) } ?: VariableType.CONSTANT,
-                value = variable.value,
+                value = if (variable.isExcludeValueFromExport == true && variable.value.isNullOrEmpty()) {
+                    val oldVariable = existingVariables.find { it.id == variable.id }
+                    if (oldVariable != null && oldVariable.isExcludeValueFromExport) {
+                        oldVariable.value
+                    } else {
+                        variable.value
+                    }
+                } else {
+                    variable.value
+                },
                 data = variable.data,
                 rememberValue = variable.rememberValue == true,
                 urlEncode = variable.urlEncode == true,
@@ -448,9 +458,7 @@ constructor(
         with(globalVariableDao()) {
             when (mode) {
                 ImportMode.MERGE -> {
-                    val existingVariables = getVariables()
                     val newVariablesById = variables.associateBy { it.id }
-
                     existingVariables.forEach { variable ->
                         newVariablesById[variable.id]?.let { newVariable ->
                             insertOrUpdateVariable(

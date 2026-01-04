@@ -39,10 +39,9 @@ constructor(
         shortcutIds: Collection<ShortcutId>? = null,
         globalVariableIds: Collection<GlobalVariableId>? = null,
         excludeDefaults: Boolean,
-        excludeVariableValuesIfNeeded: Boolean = true,
     ): ExportStatus {
         val base = withContext(Dispatchers.Default) {
-            exportBaseLoader.getBase(shortcutIds, globalVariableIds, excludeVariableValuesIfNeeded)
+            exportBaseLoader.getBase(shortcutIds, globalVariableIds)
         }
         return withContext(Dispatchers.IO) {
             when (format) {

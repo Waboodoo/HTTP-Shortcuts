@@ -72,7 +72,6 @@ constructor(
     suspend fun getBase(
         shortcutIds: Collection<ShortcutId>?,
         globalVariableIds: Collection<GlobalVariableId>?,
-        excludeVariableValuesIfNeeded: Boolean,
     ): ExportBase {
         val shortcuts = shortcutRepository.getShortcuts()
             .runIfNotNull(shortcutIds) { shortcutIds ->
@@ -329,7 +328,7 @@ constructor(
                             ?.type,
                         value = variable.value
                             ?.takeUnlessEmpty()
-                            ?.takeUnless { excludeVariableValuesIfNeeded && variable.isExcludeValueFromExport },
+                            ?.takeUnless { variable.isExcludeValueFromExport },
                         data = variable.data?.takeUnless { it.isEmpty() || it == "{}" },
                         rememberValue = variable.rememberValue.trueOrNull(),
                         urlEncode = variable.urlEncode.trueOrNull(),

@@ -37,7 +37,6 @@ class RemoteEditManager(
             exporter.exportToUri(
                 FileUtil.getUriFromFile(context, file),
                 format = ExportFormat.LEGACY_JSON,
-                excludeVariableValuesIfNeeded = false,
                 excludeDefaults = false,
             )
             pushToServer(deviceId, password, file)
