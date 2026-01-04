@@ -1,7 +1,6 @@
 package ch.rmy.android.http_shortcuts.data.domains.import_export
 
 import androidx.core.net.toUri
-import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.framework.extensions.truncate
@@ -546,7 +545,6 @@ constructor(
             if (variable.type == VariableType.SELECT) {
                 val values = variable.getStringListData(SelectType.KEY_VALUES)
                 require(!values.isNullOrEmpty()) { "'select' variable without options found" }
-                require(!values.hasDuplicatesBy { it }) { "'select' variable with duplicate option values found" }
             }
         }
     }

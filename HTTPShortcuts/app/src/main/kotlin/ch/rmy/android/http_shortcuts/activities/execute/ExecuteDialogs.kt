@@ -181,13 +181,21 @@ private fun ExecuteDialog(
         is ExecuteDialogState.MultiSelection -> {
             MultiSelectDialog(
                 title = dialogState.title?.localize(),
-                entries = dialogState.values.map { (value, label) ->
-                    MenuEntry(value, label)
+                entries = dialogState.values.mapIndexed { index, (_, label) ->
+                    MenuEntry(index, label)
                 },
                 allowEmpty = true,
-                onDismissRequest = { selected ->
-                    if (selected != null) {
-                        onResult(selected)
+                onDismissRequest = { selectedIndex ->
+                    if (selectedIndex != null) {
+                        onResult(
+                            dialogState.values.mapIndexedNotNull { index, (key, _) ->
+                                if (index in selectedIndex) {
+                                    key
+                                } else {
+                                    null
+                                }
+                            },
+                        )
                     } else {
                         onDismissed()
                     }
