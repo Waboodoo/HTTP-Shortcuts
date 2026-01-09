@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.net.Uri
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.variables.Variables.RAW_PLACEHOLDER_REGEX
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
@@ -25,7 +26,15 @@ object Validation {
                         scheme.equals("https", ignoreCase = true)
                 } == true
                 ) &&
+            isValidOkHttpUrl(uri)
+
+    private fun isValidOkHttpUrl(uri: Uri): Boolean =
+        try {
             uri.toString().toHttpUrlOrNull() != null
+        } catch (e: Exception) {
+            logException(e)
+            false
+        }
 
     fun isValidInHeaderName(c: Char): Boolean =
         c in '!'..'~'
