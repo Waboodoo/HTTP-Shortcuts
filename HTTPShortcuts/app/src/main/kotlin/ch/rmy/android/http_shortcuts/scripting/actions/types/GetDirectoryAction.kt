@@ -32,7 +32,12 @@ constructor(
         return executionContext.scriptingEngine.buildJsObject {
             function("readFile") { args ->
                 logInfo("directory.readFile() called")
-                val filePath = args.getString(0)!!
+                val filePath = args.getString(0)
+                    ?: executionContext.throwException(
+                        ActionException {
+                            "No file path parameter provided to 'readFile'"
+                        },
+                    )
                 val encoding = args.getString(1)
                 val fileUri = directoryHandle.getFileUriForReading(filePath)
                 val charset = encoding?.let {
@@ -59,7 +64,12 @@ constructor(
             }
             function("writeFile") { args ->
                 logInfo("directory.writeFile() called")
-                val filePath = args.getString(0)!!
+                val filePath = args.getString(0)
+                    ?: executionContext.throwException(
+                        ActionException {
+                            "No file path parameter provided to 'writeFile'"
+                        },
+                    )
                 val content = args.getByteArray(1) ?: return@function null
                 val fileUri = directoryHandle.getFileUriForWriting(filePath)
                 contentResolver.openOutputStream(fileUri, "wt")!!
@@ -69,7 +79,12 @@ constructor(
             }
             function("appendFile") { args ->
                 logInfo("directory.appendFile() called")
-                val filePath = args.getString(0)!!
+                val filePath = args.getString(0)
+                    ?: executionContext.throwException(
+                        ActionException {
+                            "No file path parameter provided to 'appendFile'"
+                        },
+                    )
                 val content = args.getByteArray(1) ?: return@function null
                 val fileUri = directoryHandle.getFileUriForWriting(filePath)
                 contentResolver.openOutputStream(fileUri, "wa")!!
