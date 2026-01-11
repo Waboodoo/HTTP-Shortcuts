@@ -25,11 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.variablewidget.models.SelectableShortcut
 import ch.rmy.android.http_shortcuts.activities.variablewidget.models.SelectableVariable
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 
 @Composable
@@ -39,9 +41,12 @@ fun VariableWidgetSettingsContent(
     variableValue: String?,
     fontSize: Int,
     title: String,
+    shortcutId: ShortcutId?,
+    shortcuts: List<SelectableShortcut>,
     onVariableSelected: (GlobalVariableId?) -> Unit,
     onFontSizeChanged: (Int) -> Unit,
     onTitleChanged: (String) -> Unit,
+    onShortcutSelected: (ShortcutId?) -> Unit,
 ) {
     if (variables.isEmpty()) {
         Box(
@@ -114,8 +119,7 @@ fun VariableWidgetSettingsContent(
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = Spacing.MEDIUM)
-                .padding(bottom = Spacing.MEDIUM),
+                .padding(horizontal = Spacing.MEDIUM),
             label = {
                 Text(stringResource(R.string.label_variable_widget_title))
             },
@@ -123,6 +127,25 @@ fun VariableWidgetSettingsContent(
             onValueChange = onTitleChanged,
             maxLines = 2,
         )
+
+        VerticalSpacer(Spacing.SMALL)
+
+        SelectionField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.MEDIUM),
+            title = stringResource(R.string.label_variable_widget_select_shortcut),
+            selectedKey = shortcutId,
+            items = buildList {
+                add(null to "---")
+                shortcuts.forEach { shortcut ->
+                    add(shortcut.shortcutId to shortcut.name)
+                }
+            },
+            onItemSelected = onShortcutSelected,
+        )
+
+        VerticalSpacer(Spacing.MEDIUM)
     }
 }
 

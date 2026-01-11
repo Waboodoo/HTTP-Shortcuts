@@ -514,6 +514,7 @@ sealed interface NavigationDestination {
             val variableId: GlobalVariableId,
             val fontSize: Int,
             val title: String,
+            val shortcutId: ShortcutId?,
         ) : Serializable
 
         const val RESULT_VARIABLE_WIDGET_SETTINGS_CANCELLED = "variable-widget-settings-cancelled"

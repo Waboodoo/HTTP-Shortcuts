@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 
 @Entity(tableName = "variable_widget")
@@ -16,4 +17,6 @@ data class VariableWidget(
     val fontSize: Int,
     @ColumnInfo(name = "Title", defaultValue = "")
     val title: String,
+    @ColumnInfo(name = "shortcut_id")
+    val shortcutId: ShortcutId? = null,
 )

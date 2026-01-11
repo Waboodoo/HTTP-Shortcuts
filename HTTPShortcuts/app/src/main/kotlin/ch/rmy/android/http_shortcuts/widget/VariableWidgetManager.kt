@@ -1,15 +1,20 @@
 package ch.rmy.android.http_shortcuts.widget
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
 import androidx.core.util.TypedValueCompat
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.domains.widgets.VariableWidgetsRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.VariableWidget
 import javax.inject.Inject
@@ -25,8 +30,9 @@ constructor(
         globalVariableId: GlobalVariableId,
         fontSize: Int,
         title: String,
+        shortcutId: ShortcutId?,
     ) {
-        variableWidgetsRepository.createOrUpdateVariableWidget(widgetId, globalVariableId, fontSize, title)
+        variableWidgetsRepository.createOrUpdateVariableWidget(widgetId, globalVariableId, fontSize, title, shortcutId)
     }
 
     suspend fun updateAllWidgets(context: Context) {
@@ -59,6 +65,26 @@ constructor(
 
     private fun updateWidget(context: Context, variableWidget: VariableWidget, globalVariable: GlobalVariable?) {
         RemoteViews(context.packageName, R.layout.variable_widget).also { views ->
+            val shortcutId = variableWidget.shortcutId
+            if (shortcutId != null) {
+                views.setOnClickPendingIntent(
+                    R.id.widget_base,
+                    ExecuteActivity.IntentBuilder(shortcutId)
+                        .trigger(ShortcutTriggerType.WIDGET)
+                        .build(context)
+                        .let { intent ->
+                            PendingIntent.getActivity(context, variableWidget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE)
+                        },
+                )
+            } else {
+                // There's no way to remove a click action, so instead we just set a dummy intent that won't be handled by anything
+                val intent = Intent("http-shortcuts-dummy-action")
+                views.setOnClickPendingIntent(
+                    R.id.widget_base,
+                    PendingIntent.getBroadcast(context, variableWidget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE),
+                )
+            }
+
             views.setTextViewText(R.id.widget_text, globalVariable?.value?.ifEmpty { "-" } ?: "???")
 
             val fontSize = variableWidget.fontSize.toFloat()

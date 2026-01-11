@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.data.domains.widgets
 
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.models.VariableWidget
 import javax.inject.Inject
@@ -16,6 +17,7 @@ constructor(
         variableId: GlobalVariableId,
         fontSize: Int,
         title: String,
+        shortcutId: ShortcutId?,
     ) = query {
         variableWidgetDao().insertOrReplace(
             VariableWidget(
@@ -23,6 +25,7 @@ constructor(
                 variableId = variableId,
                 fontSize = fontSize,
                 title = title,
+                shortcutId = shortcutId,
             ),
         )
     }

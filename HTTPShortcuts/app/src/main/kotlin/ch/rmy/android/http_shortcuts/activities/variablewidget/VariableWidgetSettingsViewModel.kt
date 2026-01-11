@@ -2,7 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.variablewidget
 
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.activities.variablewidget.models.SelectableShortcut
 import ch.rmy.android.http_shortcuts.activities.variablewidget.models.SelectableVariable
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.VariableWidgetsRepository
@@ -18,6 +22,7 @@ class VariableWidgetSettingsViewModel
 constructor(
     application: Application,
     private val globalVariableRepository: GlobalVariableRepository,
+    private val shortcutRepository: ShortcutRepository,
     private val variableWidgetsRepository: VariableWidgetsRepository,
 ) : BaseViewModel<VariableWidgetSettingsViewModel.InitData, VariableWidgetSettingsViewState>(application) {
 
@@ -36,12 +41,19 @@ constructor(
             ?.let { constants.find { it.id == widget.variableId } }
             ?: constants.firstOrNull()
 
+        val selectableShortcuts = shortcutRepository.getShortcuts()
+            .map { shortcut ->
+                SelectableShortcut(shortcutId = shortcut.id, name = shortcut.name)
+            }
+
         return VariableWidgetSettingsViewState(
             selectableVariables = selectableVariables,
             selectedVariable = selectedVariable?.toSelectableVariable(),
             variableValue = selectedVariable?.value,
             fontSize = widget?.fontSize ?: 22,
             title = widget?.title ?: "",
+            shortcutId = widget?.shortcutId,
+            selectableShortcuts = selectableShortcuts,
         )
     }
 
@@ -76,6 +88,14 @@ constructor(
         }
     }
 
+    fun onShortcutSelected(shortcutId: ShortcutId?) = runAction {
+        updateViewState {
+            copy(
+                shortcutId = shortcutId,
+            )
+        }
+    }
+
     fun onSubmitButtonClicked() = runAction {
         val variableId = viewState.selectedVariable?.variableId ?: skipAction()
         closeScreen(
@@ -83,6 +103,7 @@ constructor(
                 variableId = variableId,
                 fontSize = viewState.fontSize,
                 title = viewState.title,
+                shortcutId = viewState.shortcutId,
             ),
         )
     }

@@ -1900,6 +1900,8 @@
     <string name="error_termux_not_running">Failed to run command, Termux app is not active.</string>
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <string name="label_variable_widget_select_variable">Global Variable</string>
+    <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
+    <string name="label_variable_widget_select_shortcut">When clicked, run shortcut</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">With this widget you can display the value of a global variable of type \“%s\” on your home screen.\n\nYou don\'t have any such variables yet. You can create them from the app\'s main menu.</string>
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->

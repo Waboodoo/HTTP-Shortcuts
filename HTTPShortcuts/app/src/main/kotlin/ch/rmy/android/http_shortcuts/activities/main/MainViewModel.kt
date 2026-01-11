@@ -553,6 +553,7 @@ constructor(
         variableId: GlobalVariableId,
         fontSize: Int,
         title: String,
+        shortcutId: ShortcutId?,
     ) = runAction {
         logInfo("Variable widget settings submitted")
         val widgetId = initData.widgetId ?: skipAction()
@@ -561,6 +562,7 @@ constructor(
             globalVariableId = variableId,
             fontSize = fontSize,
             title = title,
+            shortcutId = shortcutId,
         )
         variableWidgetManager.updateWidgets(context, variableId)
         finish(
