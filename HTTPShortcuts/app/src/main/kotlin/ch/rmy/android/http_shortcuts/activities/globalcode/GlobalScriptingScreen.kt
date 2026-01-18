@@ -1,13 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.globalcode
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.outlined.PostAdd
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
@@ -40,12 +37,12 @@ fun GlobalScriptingScreen(
         backButton = BackButton.CROSS,
         actions = { viewState ->
             ToolbarIcon(
-                Icons.AutoMirrored.Filled.HelpOutline,
+                painterResource(R.drawable.outline_help_24),
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )
             ToolbarIcon(
-                Icons.Filled.Check,
+                painterResource(R.drawable.outline_check_24),
                 contentDescription = stringResource(R.string.action_save_global_scripting),
                 enabled = viewState.saveButtonEnabled,
                 onClick = viewModel::onSaveButtonClicked,
@@ -56,7 +53,7 @@ fun GlobalScriptingScreen(
                 onClick = viewModel::onCodeSnippetButtonClicked,
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.PostAdd,
+                    painter = painterResource(R.drawable.outline_post_add_24),
                     contentDescription = stringResource(R.string.button_add_code_snippet),
                 )
             }

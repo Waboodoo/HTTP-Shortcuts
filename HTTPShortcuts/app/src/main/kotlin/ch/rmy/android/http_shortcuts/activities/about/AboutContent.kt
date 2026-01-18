@@ -4,14 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Article
-import androidx.compose.material.icons.automirrored.outlined.LiveHelp
-import androidx.compose.material.icons.outlined.Code
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.People
-import androidx.compose.material.icons.outlined.PermDeviceInformation
-import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -45,28 +37,28 @@ fun AboutContent(
             .padding(bottom = Spacing.SMALL),
     ) {
         SettingsButton(
-            icon = Icons.AutoMirrored.Outlined.LiveHelp,
+            icon = painterResource(R.drawable.outline_live_help_24),
             title = stringResource(R.string.settings_documentation),
             subtitle = stringResource(R.string.settings_documentation_summary),
             onClick = onDocumentationButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Code,
+            icon = painterResource(R.drawable.outline_code_24),
             title = stringResource(R.string.settings_changelog),
             subtitle = stringResource(R.string.settings_changelog_summary, versionNumber),
             onClick = onChangeLogButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Email,
+            icon = painterResource(R.drawable.outline_mail_24),
             title = stringResource(R.string.settings_mail),
             subtitle = stringResource(R.string.settings_mail_summary),
             onClick = onContactButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.PermDeviceInformation,
+            icon = painterResource(R.drawable.outline_mobile_info_24),
             title = stringResource(R.string.settings_device_id),
             subtitle = if (crashReportingAllowed) {
                 stringResource(R.string.settings_device_id_summary, deviceId)
@@ -84,14 +76,14 @@ fun AboutContent(
         )
 
         SettingsButton(
-            icon = painterResource(R.drawable.ic_gift),
+            icon = painterResource(R.drawable.outline_featured_seasonal_and_gifts_24),
             title = stringResource(R.string.settings_donate),
             subtitle = stringResource(R.string.settings_donate_summary),
             onClick = onDonateButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Translate,
+            icon = painterResource(R.drawable.outline_translate_24),
             title = stringResource(R.string.settings_help_translate),
             subtitle = stringResource(R.string.settings_help_translate_summary),
             onClick = onTranslateButtonClicked,
@@ -121,14 +113,14 @@ fun AboutContent(
         )
 
         SettingsButton(
-            icon = Icons.AutoMirrored.Outlined.Article,
+            icon = painterResource(R.drawable.outline_article_24),
             title = stringResource(R.string.settings_privacy_policy),
             subtitle = stringResource(R.string.settings_privacy_policy_summary),
             onClick = onPrivacyPolicyButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.People,
+            icon = painterResource(R.drawable.outline_group_24),
             title = stringResource(R.string.settings_licenses),
             subtitle = stringResource(R.string.settings_licenses_summary),
             onClick = onAcknowledgementButtonClicked,

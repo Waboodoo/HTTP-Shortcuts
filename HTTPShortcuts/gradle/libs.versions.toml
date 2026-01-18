@@ -64,7 +64,6 @@ androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "b
 androidx-browser = { module = "androidx.browser:browser", version.ref = "browser" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
-androidx-compose-materialIconsExtended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidXCore" }

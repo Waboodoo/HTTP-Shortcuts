@@ -1,14 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DataObject
-import androidx.compose.material.icons.filled.Folder
-import androidx.compose.material.icons.filled.ImportExport
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Troubleshoot
-import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Menu
@@ -27,37 +20,37 @@ fun MainMenu(
     Menu {
         MenuItem(
             title = stringResource(R.string.title_categories),
-            icon = Icons.Filled.ViewWeek,
+            icon = painterResource(R.drawable.outline_view_week_24),
             onClick = onCategoriesButtonClicked,
         )
         MenuItem(
             title = stringResource(R.string.title_variables),
-            icon = Icons.Filled.DataObject,
+            icon = painterResource(R.drawable.outline_data_object_24),
             onClick = onVariablesButtonClicked,
         )
         MenuItem(
             title = stringResource(R.string.menu_action_working_directories),
-            icon = Icons.Filled.Folder,
+            icon = painterResource(R.drawable.outline_folder_24),
             onClick = onWorkingDirectoriesClicked,
         )
         MenuItem(
             title = stringResource(R.string.title_import_export),
-            icon = Icons.Filled.ImportExport,
+            icon = painterResource(R.drawable.outline_compare_arrows_24),
             onClick = onImportExportButtonClicked,
         )
         MenuItem(
             title = stringResource(R.string.settings_troubleshooting),
-            icon = Icons.Filled.Troubleshoot,
+            icon = painterResource(R.drawable.outline_troubleshoot_24),
             onClick = onTroubleShootingButtonClicked,
         )
         MenuItem(
             title = stringResource(R.string.title_settings),
-            icon = Icons.Filled.Settings,
+            icon = painterResource(R.drawable.outline_settings_24),
             onClick = onSettingsButtonClicked,
         )
         MenuItem(
             title = stringResource(R.string.title_about),
-            icon = Icons.Filled.Info,
+            icon = painterResource(R.drawable.outline_info_24),
             onClick = onAboutButtonClicked,
         )
     }

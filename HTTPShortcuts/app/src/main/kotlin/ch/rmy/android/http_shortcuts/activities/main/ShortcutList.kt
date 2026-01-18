@@ -16,8 +16,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.HourglassEmpty
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -32,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -321,7 +320,7 @@ private fun ShortcutListItem(
                 {
                     // TODO(???): Add background / shadow if needed
                     // TODO(???): Animate in & out
-                    Icon(Icons.Outlined.HourglassEmpty, null)
+                    painterResource(R.drawable.outline_hourglass_empty_24)
                 }
             } else {
                 null
@@ -453,7 +452,7 @@ private fun ShortcutGridItem(
                 // TODO(???): Add background / shadow if needed
                 // TODO(???): Animate in & out
                 Icon(
-                    Icons.Outlined.HourglassEmpty,
+                    painterResource(R.drawable.outline_hourglass_empty_24),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSecondary,
                     modifier = Modifier

@@ -11,11 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.OpenInBrowser
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.KeyboardArrowDown
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,6 +33,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.consume
@@ -92,14 +88,14 @@ fun DocumentationScreen(url: Uri?) {
         subtitle = subtitle,
         actions = {
             ToolbarIcon(
-                Icons.Filled.Search,
+                painterResource(R.drawable.outline_search_24),
                 contentDescription = stringResource(R.string.menu_action_search),
                 onClick = {
                     searchQuery = if (searchQuery == null) "" else null
                 },
             )
             ToolbarIcon(
-                Icons.Filled.OpenInBrowser,
+                painterResource(R.drawable.outline_open_in_browser_24),
                 contentDescription = stringResource(R.string.button_open_documentation_in_browser),
                 onClick = viewModel::onOpenInBrowserButtonClicked,
             )
@@ -198,7 +194,7 @@ private fun SearchBar(
         Row(modifier = Modifier.padding(end = Spacing.SMALL)) {
             val enabled = results?.second?.let { it > 1 } == true
             Icon(
-                Icons.Outlined.KeyboardArrowUp,
+                painterResource(R.drawable.outline_keyboard_arrow_up_24),
                 contentDescription = stringResource(R.string.accessibility_search_go_to_previous),
                 modifier = Modifier
                     .clickable(
@@ -215,7 +211,7 @@ private fun SearchBar(
                     },
             )
             Icon(
-                Icons.Outlined.KeyboardArrowDown,
+                painterResource(R.drawable.outline_keyboard_arrow_down_24),
                 contentDescription = stringResource(R.string.accessibility_search_go_to_next),
                 modifier = Modifier
                     .clickable(

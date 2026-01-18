@@ -1,13 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
@@ -79,25 +73,25 @@ private fun ContextMenuDialog(
     ) {
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
-            icon = Icons.Filled.Edit,
+            icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditClicked,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_manage_sections),
-            icon = Icons.Filled.Menu,
+            icon = painterResource(R.drawable.outline_menu_24),
             onClick = onManageSectionsClicked,
         )
         if (contextMenuState.placeOnHomeScreenOptionVisible) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_place_category),
-                icon = Icons.Filled.Home,
+                icon = painterResource(R.drawable.outline_home_24),
                 onClick = onPlaceOnHomeScreenClicked,
             )
         }
         if (contextMenuState.showOptionVisible) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_show_category),
-                icon = Icons.Filled.Visibility,
+                icon = painterResource(R.drawable.outline_visibility_24),
                 onClick = {
                     onVisibilityChangeRequested(true)
                 },
@@ -106,7 +100,7 @@ private fun ContextMenuDialog(
         if (contextMenuState.hideOptionVisible) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_hide_category),
-                icon = Icons.Filled.VisibilityOff,
+                icon = painterResource(R.drawable.outline_visibility_off_24),
                 enabled = contextMenuState.hideOptionEnabled,
                 onClick = {
                     onVisibilityChangeRequested(false)
@@ -115,7 +109,7 @@ private fun ContextMenuDialog(
         }
         SelectDialogEntry(
             label = stringResource(R.string.action_delete),
-            icon = Icons.Filled.Delete,
+            icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteClicked,
             enabled = contextMenuState.deleteOptionEnabled,
         )

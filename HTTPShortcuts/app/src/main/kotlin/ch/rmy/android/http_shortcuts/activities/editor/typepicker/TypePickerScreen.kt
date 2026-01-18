@@ -1,8 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.editor.typepicker
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
@@ -25,7 +24,7 @@ fun TypePickerScreen(
         backButton = BackButton.ARROW,
         actions = {
             ToolbarIcon(
-                Icons.AutoMirrored.Filled.HelpOutline,
+                painterResource(R.drawable.outline_help_24),
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )

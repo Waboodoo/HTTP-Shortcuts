@@ -1,9 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
@@ -36,7 +35,7 @@ fun GlobalVariableEditorScreen(
         backButton = BackButton.CROSS,
         actions = {
             ToolbarIcon(
-                Icons.Filled.Check,
+                painterResource(R.drawable.outline_check_24),
                 contentDescription = stringResource(R.string.save_button),
                 onClick = viewModel::onSaveButtonClicked,
             )

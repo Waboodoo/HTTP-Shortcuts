@@ -6,21 +6,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Badge
-import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material.icons.outlined.ControlPoint
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Javascript
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material.icons.outlined.RemoveRedEye
-import androidx.compose.material.icons.outlined.Shield
-import androidx.compose.material.icons.outlined.Title
-import androidx.compose.material.icons.outlined.TouchApp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
@@ -65,7 +53,7 @@ fun SettingsContent(
             title = stringResource(R.string.settings_title_basic),
         ) {
             SettingsSelection(
-                icon = Icons.Outlined.Language,
+                icon = painterResource(R.drawable.outline_language_24),
                 title = stringResource(R.string.settings_language),
                 selectedKey = selectedLanguage,
                 items = listOf(
@@ -100,7 +88,7 @@ fun SettingsContent(
             )
 
             SettingsButton(
-                icon = Icons.Outlined.Lock,
+                icon = painterResource(R.drawable.outline_lock_24),
                 title = stringResource(R.string.settings_lock_app_title),
                 subtitle = stringResource(R.string.settings_lock_app_summary),
                 onClick = onLockButtonClicked,
@@ -108,7 +96,7 @@ fun SettingsContent(
 
             if (quickSettingsTileButtonVisible) {
                 SettingsButton(
-                    icon = Icons.Outlined.ControlPoint,
+                    icon = painterResource(R.drawable.outline_widgets_24),
                     title = stringResource(R.string.settings_add_quick_settings_tile_title),
                     subtitle = stringResource(R.string.settings_add_quick_settings_tile_summary),
                     onClick = onQuickSettingsTileButtonClicked,
@@ -120,14 +108,14 @@ fun SettingsContent(
             title = stringResource(R.string.settings_appearance),
         ) {
             SettingsButton(
-                icon = Icons.Outlined.Title,
+                icon = painterResource(R.drawable.outline_title_24),
                 title = stringResource(R.string.settings_app_title_title),
                 subtitle = stringResource(R.string.settings_app_title_summary),
                 onClick = onChangeTitleButtonClicked,
             )
 
             SettingsSelection(
-                icon = Icons.Outlined.DarkMode,
+                icon = painterResource(R.drawable.outline_dark_mode_24),
                 title = stringResource(R.string.settings_dark_theme),
                 selectedKey = selectedDarkModeOption,
                 items = listOf(
@@ -140,7 +128,7 @@ fun SettingsContent(
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 SettingsSelection(
-                    icon = Icons.Outlined.Palette,
+                    icon = painterResource(R.drawable.outline_palette_24),
                     title = stringResource(R.string.settings_dynamic_color),
                     selectedKey = colorTheme,
                     items = listOf(
@@ -152,7 +140,7 @@ fun SettingsContent(
             }
 
             SettingsSelection(
-                icon = Icons.Outlined.RemoveRedEye,
+                icon = painterResource(R.drawable.outline_hide_source_24),
                 title = stringResource(R.string.settings_title_show_hidden_shortcuts),
                 selectedKey = showHiddenShortcuts,
                 items = listOf(
@@ -167,7 +155,7 @@ fun SettingsContent(
             title = stringResource(R.string.settings_title_global_shortcut_settings),
         ) {
             SettingsSelection(
-                icon = Icons.Outlined.TouchApp,
+                icon = painterResource(R.drawable.outline_touch_app_24),
                 title = stringResource(R.string.settings_click_behavior),
                 selectedKey = selectedClickActionOption,
                 items = listOf(
@@ -179,20 +167,20 @@ fun SettingsContent(
             )
 
             SettingsButton(
-                icon = Icons.Outlined.Badge,
+                icon = painterResource(R.drawable.outline_badge_24),
                 title = stringResource(R.string.settings_user_agent),
                 onClick = onUserAgentButtonClicked,
             )
 
             SettingsButton(
-                icon = Icons.Outlined.Javascript,
+                icon = painterResource(R.drawable.outline_javascript_24),
                 title = stringResource(R.string.settings_global_scripting),
                 subtitle = stringResource(R.string.settings_global_scripting_summary),
                 onClick = onGlobalScriptingButtonClicked,
             )
 
             SettingsButton(
-                icon = Icons.Outlined.Shield,
+                icon = painterResource(R.drawable.outline_pinboard_24),
                 title = stringResource(R.string.settings_certificate_pinning),
                 onClick = onCertificatePinningButtonClicked,
             )
@@ -203,7 +191,7 @@ fun SettingsContent(
                 title = stringResource(R.string.settings_title_privacy),
             ) {
                 SettingsSelection(
-                    icon = Icons.Outlined.BugReport,
+                    icon = painterResource(R.drawable.outline_bug_report_24),
                     title = stringResource(R.string.settings_crash_reporting),
                     selectedKey = crashReportingEnabled,
                     items = listOf(

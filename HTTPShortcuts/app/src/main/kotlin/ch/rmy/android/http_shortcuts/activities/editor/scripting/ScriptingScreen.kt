@@ -1,11 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.editor.scripting
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
-import androidx.compose.material.icons.automirrored.filled.Undo
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.outlined.PostAdd
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -13,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
@@ -54,21 +50,21 @@ fun ScriptingScreen(
         title = stringResource(R.string.label_scripting),
         actions = { viewState ->
             ToolbarIcon(
-                Icons.AutoMirrored.Filled.Undo,
+                painterResource(R.drawable.outline_undo_24),
                 enabled = viewState.isUndoButtonEnabled,
                 contentDescription = stringResource(R.string.button_undo),
                 onClick = viewModel::onUndoButtonClicked,
             )
             if (viewState.isTestButtonVisible) {
                 ToolbarIcon(
-                    Icons.Filled.PlayArrow,
+                    painterResource(R.drawable.outline_play_arrow_24),
                     enabled = viewState.isTestButtonEnabled,
                     contentDescription = stringResource(R.string.test_button),
                     onClick = viewModel::onTestButtonClicked,
                 )
             }
             ToolbarIcon(
-                Icons.AutoMirrored.Filled.HelpOutline,
+                painterResource(R.drawable.outline_help_24),
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )
@@ -80,7 +76,7 @@ fun ScriptingScreen(
                 },
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.PostAdd,
+                    painter = painterResource(R.drawable.outline_post_add_24),
                     contentDescription = stringResource(R.string.button_add_code_snippet),
                 )
             }

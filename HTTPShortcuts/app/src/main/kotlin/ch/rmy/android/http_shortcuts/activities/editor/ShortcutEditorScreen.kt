@@ -1,11 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.editor
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -61,13 +59,13 @@ fun ShortcutEditorScreen(
         backButton = BackButton.CROSS,
         actions = { viewState ->
             ToolbarIcon(
-                Icons.Filled.PlayArrow,
+                painterResource(R.drawable.outline_play_arrow_24),
                 enabled = viewState.isExecuteButtonEnabled,
                 contentDescription = stringResource(R.string.test_button),
                 onClick = viewModel::onTestButtonClicked,
             )
             ToolbarIcon(
-                Icons.Filled.Check,
+                painterResource(R.drawable.outline_check_24),
                 enabled = viewState.isSaveButtonEnabled,
                 contentDescription = stringResource(R.string.save_button),
                 onClick = viewModel::onSaveButtonClicked,

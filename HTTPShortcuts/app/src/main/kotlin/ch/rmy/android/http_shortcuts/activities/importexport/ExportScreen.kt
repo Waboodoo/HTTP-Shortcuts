@@ -2,14 +2,9 @@ package ch.rmy.android.http_shortcuts.activities.importexport
 
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Deselect
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.LockOpen
-import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.showToast
@@ -50,28 +45,28 @@ fun ExportScreen(toFile: Boolean) {
         actions = { viewState ->
             ToolbarIcon(
                 if (viewState.password.isEmpty()) {
-                    Icons.Filled.LockOpen
+                    painterResource(R.drawable.outline_lock_open_24)
                 } else {
-                    Icons.Filled.Lock
+                    painterResource(R.drawable.outline_lock_24)
                 },
                 contentDescription = stringResource(R.string.accessibility_label_set_password_for_export),
                 onClick = viewModel::onPasswordButtonClicked,
             )
             if (viewState.isSelectAllEnabled) {
                 ToolbarIcon(
-                    Icons.Filled.SelectAll,
+                    painterResource(R.drawable.outline_select_all_24),
                     contentDescription = stringResource(R.string.accessibility_label_select_all_for_export),
                     onClick = viewModel::onSelectAllButtonClicked,
                 )
             } else {
                 ToolbarIcon(
-                    Icons.Filled.Deselect,
+                    painterResource(R.drawable.outline_deselect_24),
                     contentDescription = stringResource(R.string.accessibility_label_unselect_all_for_export),
                     onClick = viewModel::onDeselectAllButtonClicked,
                 )
             }
             ToolbarIcon(
-                Icons.Filled.Check,
+                painterResource(R.drawable.outline_check_24),
                 enabled = viewState.isExportEnabled,
                 contentDescription = stringResource(R.string.dialog_button_export),
                 onClick = viewModel::onExportButtonClicked,

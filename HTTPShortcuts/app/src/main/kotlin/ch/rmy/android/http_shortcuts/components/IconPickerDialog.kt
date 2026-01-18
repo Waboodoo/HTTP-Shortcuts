@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -36,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -317,7 +317,7 @@ private fun SearchBar(
                 Text(stringResource(R.string.menu_action_search))
             },
             leadingIcon = {
-                Icon(androidx.compose.material.icons.Icons.Outlined.Search, contentDescription = null)
+                Icon(painterResource(R.drawable.outline_search_24), contentDescription = null)
             },
             maxLines = 1,
             singleLine = true,

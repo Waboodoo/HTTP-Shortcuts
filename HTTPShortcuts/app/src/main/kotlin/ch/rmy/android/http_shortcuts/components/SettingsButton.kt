@@ -10,27 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-
-@Composable
-fun SettingsButton(
-    title: String,
-    subtitle: String? = null,
-    icon: ImageVector,
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-) {
-    SettingsButton(
-        title,
-        subtitle,
-        iconContent = { Icon(icon, contentDescription = null) },
-        enabled,
-        onClick,
-    )
-}
 
 @Composable
 fun SettingsButton(

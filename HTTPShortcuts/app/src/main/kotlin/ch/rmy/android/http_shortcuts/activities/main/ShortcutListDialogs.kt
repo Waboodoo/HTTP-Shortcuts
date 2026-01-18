@@ -4,18 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
-import androidx.compose.material.icons.filled.CopyAll
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.MoveDown
-import androidx.compose.material.icons.filled.Output
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -23,6 +11,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -315,18 +304,18 @@ private fun ContextMenuDialog(
     ) {
         SelectDialogEntry(
             label = stringResource(R.string.action_place),
-            icon = Icons.Filled.Home,
+            icon = painterResource(R.drawable.outline_menu_24),
             onClick = onPlaceOnHomeScreenOptionSelected,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_run),
-            icon = Icons.Filled.PlayArrow,
+            icon = painterResource(R.drawable.outline_play_arrow_24),
             onClick = onExecuteOptionSelected,
         )
         if (isPending) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_cancel_pending),
-                icon = Icons.Filled.Cancel,
+                icon = painterResource(R.drawable.outline_cancel_24),
                 onClick = onCancelPendingExecutionOptionSelected,
             )
         }
@@ -335,35 +324,35 @@ private fun ContextMenuDialog(
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
-            icon = Icons.Filled.Edit,
+            icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditOptionSelected,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_move),
-            icon = Icons.Filled.MoveDown,
+            icon = painterResource(R.drawable.outline_move_down_24),
             onClick = onMoveOptionSelected,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_duplicate),
-            icon = Icons.Filled.CopyAll,
+            icon = painterResource(R.drawable.outline_file_copy_24),
             onClick = onDuplicateOptionSelected,
         )
         if (isHidden) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_show_shortcut),
-                icon = Icons.Filled.Visibility,
+                icon = painterResource(R.drawable.outline_visibility_24),
                 onClick = onShowSelected,
             )
         } else {
             SelectDialogEntry(
                 label = stringResource(R.string.action_hide_shortcut),
-                icon = Icons.Filled.VisibilityOff,
+                icon = painterResource(R.drawable.outline_visibility_off_24),
                 onClick = onHideSelected,
             )
         }
         SelectDialogEntry(
             label = stringResource(R.string.action_delete),
-            icon = Icons.Filled.Delete,
+            icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteOptionSelected,
         )
         HorizontalDivider(
@@ -371,12 +360,12 @@ private fun ContextMenuDialog(
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_shortcut_information),
-            icon = Icons.Filled.Info,
+            icon = painterResource(R.drawable.outline_info_24),
             onClick = onShowInfoOptionSelected,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_export),
-            icon = Icons.Filled.Output,
+            icon = painterResource(R.drawable.outline_output_24),
             onClick = onExportOptionSelected,
         )
     }

@@ -7,10 +7,9 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
@@ -120,7 +119,7 @@ fun MainScreen(
         actions = { viewState ->
             if (viewState.isLocked) {
                 ToolbarIcon(
-                    Icons.Outlined.Lock,
+                    painterResource(R.drawable.outline_lock_24),
                     contentDescription = stringResource(R.string.menu_action_unlock_app),
                     onClick = viewModel::onUnlockButtonClicked,
                 )

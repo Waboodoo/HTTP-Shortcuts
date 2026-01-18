@@ -1,9 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.categories
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
@@ -41,7 +40,7 @@ fun CategoriesScreen(savedStateHandle: SavedStateHandle) {
         title = stringResource(R.string.title_categories),
         actions = {
             ToolbarIcon(
-                Icons.AutoMirrored.Filled.HelpOutline,
+                painterResource(R.drawable.outline_help_24),
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )

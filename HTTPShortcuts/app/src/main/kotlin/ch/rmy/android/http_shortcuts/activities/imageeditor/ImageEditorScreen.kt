@@ -9,9 +9,6 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Rotate90DegreesCw
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import ch.rmy.android.framework.utils.FileUtil
@@ -90,7 +88,7 @@ fun ImageEditorScreen(
         backButton = BackButton.CROSS,
         actions = {
             ToolbarIcon(
-                Icons.Filled.Rotate90DegreesCw,
+                painterResource(R.drawable.outline_rotate_90_degrees_cw_24),
                 enabled = !isLoading && !isExporting,
                 contentDescription = stringResource(R.string.accessibility_rotate_cw),
                 onClick = {
@@ -99,7 +97,7 @@ fun ImageEditorScreen(
                 },
             )
             ToolbarIcon(
-                Icons.Filled.Check,
+                painterResource(R.drawable.outline_check_24),
                 enabled = !isLoading && !isExporting,
                 contentDescription = stringResource(R.string.dialog_ok),
                 onClick = {

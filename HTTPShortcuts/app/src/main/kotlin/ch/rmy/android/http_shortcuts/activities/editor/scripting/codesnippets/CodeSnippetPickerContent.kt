@@ -15,10 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
-import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -48,6 +44,7 @@ import ch.rmy.android.http_shortcuts.activities.editor.scripting.codesnippets.mo
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
+import androidx.compose.ui.platform.LocalResources
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -141,7 +138,7 @@ private fun SearchBar(
                 Text(stringResource(R.string.menu_action_search))
             },
             leadingIcon = {
-                Icon(Icons.Outlined.Search, contentDescription = null)
+                Icon(painterResource(R.drawable.outline_search_24), contentDescription = null)
             },
             maxLines = 1,
             singleLine = true,
@@ -186,7 +183,7 @@ private fun Section(
             },
             trailingContent = {
                 Icon(
-                    imageVector = Icons.Filled.ChevronRight,
+                    painter = painterResource(R.drawable.outline_chevron_right_24),
                     contentDescription = null,
                     modifier = Modifier
                         .rotate(rotationDegrees),
@@ -204,7 +201,7 @@ private fun CodeSnippetItem(
     onDocumentationButtonClicked: (() -> Unit)?,
     onClicked: () -> Unit,
 ) {
-    val resources = LocalContext.current.resources
+    val resources = LocalResources.current
     ListItem(
         modifier = Modifier
             .semantics(mergeDescendants = true) {
@@ -235,7 +232,7 @@ private fun CodeSnippetItem(
         trailingContent = onDocumentationButtonClicked?.let {
             {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.HelpOutline,
+                    painter = painterResource(R.drawable.outline_help_24),
                     contentDescription = null,
                     modifier = Modifier
                         .clearAndSetSemantics { }

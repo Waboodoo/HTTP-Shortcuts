@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -29,7 +29,7 @@ fun SelectDialogEntry(
     enabled: Boolean = true,
     useRadios: Boolean = false,
     shortcutIcon: ShortcutIcon? = null,
-    icon: ImageVector? = null,
+    icon: Painter? = null,
     onClick: () -> Unit,
 ) {
     Row(
@@ -90,7 +90,7 @@ fun SelectDialogEntry(
             )
         } else if (icon != null) {
             Icon(
-                imageVector = icon,
+                painter = icon,
                 contentDescription = null,
                 modifier = Modifier
                     .padding(end = Spacing.SMALL + Spacing.TINY)

@@ -14,9 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
@@ -31,9 +28,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import ch.rmy.android.framework.extensions.move
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.categories.models.CategoryListItem
 import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
@@ -116,11 +115,11 @@ private fun CategoryItem(
                     horizontalAlignment = Alignment.End,
                 ) {
                     val typeIcon = when (category.layoutType) {
-                        CategoryLayoutType.LINEAR_LIST -> Icons.AutoMirrored.Filled.List
+                        CategoryLayoutType.LINEAR_LIST -> painterResource(R.drawable.outline_list_24)
                         CategoryLayoutType.DENSE_GRID,
                         CategoryLayoutType.MEDIUM_GRID,
                         CategoryLayoutType.WIDE_GRID,
-                        -> Icons.Filled.GridView
+                        -> painterResource(R.drawable.outline_grid_view_24)
 
                         null -> null
                     }

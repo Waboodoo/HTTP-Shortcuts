@@ -1,9 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.curl_import
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.http_shortcuts.R
@@ -24,7 +23,7 @@ fun CurlImportScreen() {
         backButton = BackButton.CROSS,
         actions = { viewState ->
             ToolbarIcon(
-                Icons.Filled.Check,
+                painterResource(R.drawable.outline_check_24),
                 contentDescription = stringResource(R.string.curl_import_button),
                 enabled = viewState.submitButtonEnabled,
                 onClick = viewModel::onSubmitButtonClicked,

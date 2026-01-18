@@ -9,9 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Circle
-import androidx.compose.material.icons.outlined.Square
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
@@ -19,7 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -77,14 +75,14 @@ private fun SelectShapeDialog(
         ) {
             ShapeButton(
                 text = stringResource(R.string.icon_shape_square),
-                icon = Icons.Outlined.Square,
+                icon = painterResource(R.drawable.outline_square_24),
                 onClick = {
                     onShapeSelected(IconShape.SQUARE)
                 },
             )
             ShapeButton(
                 text = stringResource(R.string.icon_shape_round),
-                icon = Icons.Outlined.Circle,
+                icon = painterResource(R.drawable.outline_circle_24),
                 onClick = {
                     onShapeSelected(IconShape.CIRCLE)
                 },
@@ -96,7 +94,7 @@ private fun SelectShapeDialog(
 @Composable
 private fun ShapeButton(
     text: String,
-    icon: ImageVector,
+    icon: Painter,
     onClick: () -> Unit,
 ) {
     Column(
@@ -112,7 +110,7 @@ private fun ShapeButton(
     ) {
         Icon(
             modifier = Modifier.size(60.dp),
-            imageVector = icon,
+            painter = icon,
             contentDescription = null,
         )
         Text(

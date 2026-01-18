@@ -1,13 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.DialogProperties
@@ -243,18 +240,18 @@ private fun CategoryMenuDialog(
     ) {
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
-            icon = Icons.Filled.Edit,
+            icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditClicked,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_manage_sections),
-            icon = Icons.Filled.Menu,
+            icon = painterResource(R.drawable.outline_menu_24),
             onClick = onManageSectionsClicked,
         )
         if (placeOnHomeScreenOptionVisible) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_place_category),
-                icon = Icons.Filled.Home,
+                icon = painterResource(R.drawable.outline_home_24),
                 onClick = onPlaceOnHomeScreenClicked,
             )
         }

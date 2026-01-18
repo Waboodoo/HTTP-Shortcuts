@@ -3,10 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.workingdirectories
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.showToast
@@ -51,7 +50,7 @@ fun WorkingDirectoriesScreen(
         title = stringResource(R.string.title_working_directories),
         actions = {
             ToolbarIcon(
-                Icons.AutoMirrored.Filled.HelpOutline,
+                painterResource(R.drawable.outline_help_24),
                 contentDescription = stringResource(R.string.button_show_help),
                 onClick = viewModel::onHelpButtonClicked,
             )

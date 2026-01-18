@@ -9,14 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ListAlt
-import androidx.compose.material.icons.filled.AddCircleOutline
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.MailOutline
-import androidx.compose.material.icons.filled.OpenInBrowser
-import androidx.compose.material.icons.filled.PowerSettingsNew
-import androidx.compose.material.icons.filled.Terminal
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,7 +16,8 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -56,7 +49,7 @@ fun TypePickerContent(
 
             Option(
                 label = stringResource(R.string.button_create_from_scratch),
-                icon = Icons.Filled.AddCircleOutline,
+                icon = painterResource(R.drawable.outline_add_circle_24),
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.HTTP)
                 },
@@ -66,7 +59,7 @@ fun TypePickerContent(
 
             Option(
                 label = stringResource(R.string.button_curl_import),
-                icon = Icons.Filled.Terminal,
+                icon = painterResource(R.drawable.outline_terminal_24),
                 onClick = onCurlImportSelected,
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = Spacing.MEDIUM + Spacing.SMALL))
@@ -76,7 +69,7 @@ fun TypePickerContent(
             Option(
                 label = stringResource(R.string.button_create_trigger_shortcut),
                 description = stringResource(R.string.button_description_create_trigger_shortcut),
-                icon = Icons.AutoMirrored.Filled.ListAlt,
+                icon = painterResource(R.drawable.outline_list_alt_24),
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.TRIGGER)
                 },
@@ -87,7 +80,7 @@ fun TypePickerContent(
             Option(
                 label = stringResource(R.string.button_create_browser_shortcut),
                 description = stringResource(R.string.button_description_create_browser_shortcut),
-                icon = Icons.Filled.OpenInBrowser,
+                icon = painterResource(R.drawable.outline_open_in_browser_24),
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.BROWSER)
                 },
@@ -98,7 +91,7 @@ fun TypePickerContent(
             Option(
                 label = stringResource(R.string.button_create_mqtt_shortcut),
                 description = stringResource(R.string.button_description_create_mqtt_shortcut),
-                icon = Icons.Filled.MailOutline,
+                icon = painterResource(R.drawable.outline_mail_24),
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.MQTT)
                 },
@@ -109,7 +102,7 @@ fun TypePickerContent(
             Option(
                 label = stringResource(R.string.button_create_wol_shortcut),
                 description = stringResource(R.string.button_description_create_wol_shortcut),
-                icon = Icons.Filled.PowerSettingsNew,
+                icon = painterResource(R.drawable.outline_power_settings_new_24),
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.WAKE_ON_LAN)
                 },
@@ -120,7 +113,7 @@ fun TypePickerContent(
             Option(
                 label = stringResource(R.string.button_create_scripting_shortcut),
                 description = stringResource(R.string.button_description_create_scripting_shortcut),
-                icon = Icons.Filled.Code,
+                icon = painterResource(R.drawable.outline_code_24),
                 onClick = {
                     onShortcutTypeSelected(ShortcutExecutionType.SCRIPTING)
                 },
@@ -148,7 +141,7 @@ private fun SectionTitle(text: String) {
 private fun Option(
     label: String,
     description: String? = null,
-    icon: ImageVector,
+    icon: Painter,
     onClick: () -> Unit,
 ) {
     Row(
@@ -160,7 +153,7 @@ private fun Option(
         horizontalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
     ) {
         Icon(
-            imageVector = icon,
+            painter = icon,
             contentDescription = null,
         )
 

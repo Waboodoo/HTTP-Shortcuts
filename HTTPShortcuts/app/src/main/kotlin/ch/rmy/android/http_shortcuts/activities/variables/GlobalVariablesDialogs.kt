@@ -1,12 +1,8 @@
 package ch.rmy.android.http_shortcuts.activities.variables
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.CopyAll
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
@@ -75,23 +71,23 @@ private fun ContextMenuDialog(
         if (showUse) {
             SelectDialogEntry(
                 label = stringResource(R.string.action_select),
-                icon = Icons.Filled.Check,
+                icon = painterResource(R.drawable.outline_check_24),
                 onClick = onUseClicked,
             )
         }
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
-            icon = Icons.Filled.Edit,
+            icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditClicked,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_duplicate),
-            icon = Icons.Filled.CopyAll,
+            icon = painterResource(R.drawable.outline_file_copy_24),
             onClick = onDuplicateClicked,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_delete),
-            icon = Icons.Filled.Delete,
+            icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteClicked,
         )
     }

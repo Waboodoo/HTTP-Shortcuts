@@ -4,14 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.LiveHelp
-import androidx.compose.material.icons.outlined.BatteryFull
-import androidx.compose.material.icons.outlined.Cookie
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Layers
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -43,25 +35,25 @@ fun TroubleShootingContent(
             .padding(bottom = Spacing.SMALL),
     ) {
         SettingsButton(
-            icon = Icons.Outlined.History,
+            icon = painterResource(R.drawable.outline_history_24),
             title = stringResource(R.string.title_event_history),
             onClick = onEventHistoryClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Cookie,
+            icon = painterResource(R.drawable.outline_cookie_24),
             title = stringResource(R.string.settings_clear_cookies),
             onClick = onClearCookiesButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Schedule,
+            icon = painterResource(R.drawable.outline_schedule_24),
             title = stringResource(R.string.settings_cancel_all_pending_executions),
             onClick = onCancelAllPendingExecutionsButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Layers,
+            icon = painterResource(R.drawable.outline_layers_24),
             title = stringResource(R.string.settings_allow_overlay),
             subtitle = stringResource(R.string.settings_allow_overlay_summary),
             onClick = onAllowOverlayButtonClicked,
@@ -69,7 +61,7 @@ fun TroubleShootingContent(
 
         if (allowXiaomiOverlayButtonVisible) {
             SettingsButton(
-                icon = Icons.Outlined.Layers,
+                icon = painterResource(R.drawable.outline_layers_24),
                 title = stringResource(R.string.settings_allow_overlay_xiaomi),
                 subtitle = stringResource(R.string.settings_allow_overlay_xiaomi_summary),
                 onClick = onAllowXiaomiOverlayButtonClicked,
@@ -78,7 +70,7 @@ fun TroubleShootingContent(
 
         if (batteryOptimizationButtonVisible) {
             SettingsButton(
-                icon = Icons.Outlined.BatteryFull,
+                icon = painterResource(R.drawable.outline_battery_android_frame_full_24),
                 title = stringResource(R.string.settings_ignore_battery_optimizations),
                 subtitle = stringResource(R.string.settings_ignore_battery_optimizations_summary),
                 onClick = onBatteryOptimizationButtonClicked,
@@ -99,14 +91,14 @@ fun TroubleShootingContent(
         HorizontalDivider()
 
         SettingsButton(
-            icon = Icons.AutoMirrored.Outlined.LiveHelp,
+            icon = painterResource(R.drawable.outline_live_help_24),
             title = stringResource(R.string.settings_documentation),
             subtitle = stringResource(R.string.settings_documentation_summary),
             onClick = onDocumentationButtonClicked,
         )
 
         SettingsButton(
-            icon = Icons.Outlined.Email,
+            icon = painterResource(R.drawable.outline_mail_24),
             title = stringResource(R.string.settings_mail),
             subtitle = stringResource(R.string.settings_mail_summary),
             onClick = onContactButtonClicked,

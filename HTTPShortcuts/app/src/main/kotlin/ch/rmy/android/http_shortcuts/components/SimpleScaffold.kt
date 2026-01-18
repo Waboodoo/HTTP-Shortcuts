@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.text
@@ -159,8 +157,8 @@ fun <T : Any> SimpleScaffold(
                     ) {
                         Icon(
                             when (backButton) {
-                                BackButton.ARROW -> Icons.AutoMirrored.Filled.ArrowBack
-                                BackButton.CROSS -> Icons.Filled.Close
+                                BackButton.ARROW -> painterResource(R.drawable.outline_arrow_back_24)
+                                BackButton.CROSS -> painterResource(R.drawable.outline_close_24)
                             },
                             contentDescription = when (backButton) {
                                 BackButton.ARROW -> stringResource(R.string.accessibility_label_go_back)

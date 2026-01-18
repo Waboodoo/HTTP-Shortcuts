@@ -2,12 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FileCopy
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
@@ -55,7 +51,7 @@ fun DisplayResponseScreen(
                 when (action) {
                     ResponseDisplayAction.RERUN -> {
                         ToolbarIcon(
-                            Icons.Filled.Refresh,
+                            painterResource(R.drawable.outline_refresh_24),
                             contentDescription = stringResource(R.string.action_rerun_shortcut),
                             onClick = viewModel::onRerunButtonClicked,
                         )
@@ -63,7 +59,7 @@ fun DisplayResponseScreen(
                     ResponseDisplayAction.SHARE -> {
                         if (viewState.canShare) {
                             ToolbarIcon(
-                                Icons.Filled.Share,
+                                painterResource(R.drawable.outline_share_24),
                                 contentDescription = stringResource(R.string.share_button),
                                 onClick = viewModel::onShareButtonClicked,
                             )
@@ -72,7 +68,7 @@ fun DisplayResponseScreen(
                     ResponseDisplayAction.COPY -> {
                         if (viewState.canCopy) {
                             ToolbarIcon(
-                                Icons.Filled.FileCopy,
+                                painterResource(R.drawable.outline_file_copy_24),
                                 contentDescription = stringResource(R.string.action_copy_response),
                                 onClick = viewModel::onCopyButtonClicked,
                             )
@@ -81,7 +77,7 @@ fun DisplayResponseScreen(
                     ResponseDisplayAction.SAVE -> {
                         if (viewState.canSave) {
                             ToolbarIcon(
-                                Icons.Filled.Save,
+                                painterResource(R.drawable.outline_save_24),
                                 contentDescription = stringResource(R.string.button_save_response_as_file),
                                 onClick = viewModel::onSaveButtonClicked,
                             )

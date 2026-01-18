@@ -1,7 +1,5 @@
 package ch.rmy.android.http_shortcuts.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -11,7 +9,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 
@@ -22,7 +21,7 @@ fun Menu(
     var expanded by remember { mutableStateOf(false) }
 
     ToolbarIcon(
-        Icons.Outlined.MoreVert,
+        painterResource(R.drawable.outline_more_vert_24),
         contentDescription = stringResource(R.string.accessibility_main_menu),
         onClick = { expanded = !expanded },
     )
@@ -30,11 +29,13 @@ fun Menu(
         expanded = expanded,
         onDismissRequest = { expanded = false },
     ) {
-        with(object : MenuScope {
-            override fun onItemSelected() {
-                expanded = false
-            }
-        }) {
+        with(
+            object : MenuScope {
+                override fun onItemSelected() {
+                    expanded = false
+                }
+            },
+        ) {
             content()
         }
     }
@@ -47,14 +48,14 @@ interface MenuScope {
 @Composable
 fun MenuScope.MenuItem(
     title: String,
-    icon: ImageVector,
+    icon: Painter,
     onClick: () -> Unit,
 ) {
     DropdownMenuItem(
         text = { Text(title) },
         leadingIcon = {
             Icon(
-                imageVector = icon,
+                painter = icon,
                 contentDescription = null,
             )
         },

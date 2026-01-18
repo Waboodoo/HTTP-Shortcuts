@@ -2,10 +2,9 @@ package ch.rmy.android.http_shortcuts.activities.icons
 
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.FilePickerUtil
@@ -62,7 +61,7 @@ fun IconPickerScreen() {
         title = stringResource(R.string.title_custom_icons),
         actions = { viewState ->
             ToolbarIcon(
-                Icons.Filled.Delete,
+                painterResource(R.drawable.outline_delete_24),
                 contentDescription = stringResource(R.string.button_delete_all_unused_icons),
                 enabled = viewState.isDeleteButtonEnabled,
                 onClick = viewModel::onDeleteButtonClicked,

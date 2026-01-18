@@ -29,7 +29,7 @@ constructor(
     operator fun invoke(initData: CodeSnippetPickerViewModel.InitData, callback: (Event) -> Unit): List<SectionItem> =
         createSectionList(context, callback) {
             if (initData.includeResponseOptions) {
-                section(R.string.dialog_code_snippet_handle_response, R.drawable.ic_handle_response) {
+                section(R.string.dialog_code_snippet_handle_response, R.drawable.outline_text_ad_24) {
                     item(
                         R.string.dialog_code_snippet_response_body,
                         docRef = "handle-response",
@@ -90,7 +90,7 @@ constructor(
                     }
                 }
             }
-            section(R.string.dialog_code_snippet_variables, R.drawable.ic_variables) {
+            section(R.string.dialog_code_snippet_variables, R.drawable.outline_data_object_24) {
                 item(
                     R.string.dialog_code_snippet_get_variable,
                     docRef = "get-variable",
@@ -106,7 +106,7 @@ constructor(
                     sendEvent(Event.PickVariableForWriting)
                 }
             }
-            section(R.string.dialog_code_snippet_shortcut_info, R.drawable.ic_info) {
+            section(R.string.dialog_code_snippet_shortcut_info, R.drawable.outline_info_24) {
                 item(
                     R.string.dialog_code_snippet_get_shortcut_id,
                     docRef = "shortcut-info",
@@ -129,7 +129,7 @@ constructor(
                     insertText("shortcut.description")
                 }
             }
-            section(R.string.dialog_code_snippet_files, R.drawable.ic_files) {
+            section(R.string.dialog_code_snippet_files, R.drawable.outline_file_copy_24) {
                 item(
                     R.string.dialog_code_snippet_read_from_file,
                     docRef = "read-write-files",
@@ -186,7 +186,7 @@ constructor(
                     insertText("selectedFiles[0].meta")
                 }
             }
-            section(R.string.dialog_code_snippet_user_interaction, R.drawable.ic_user_interaction) {
+            section(R.string.dialog_code_snippet_user_interaction, R.drawable.outline_user_attributes_24) {
                 item(
                     R.string.action_type_toast_title,
                     docRef = "show-toast",
@@ -312,7 +312,7 @@ constructor(
                     }
                 }
             }
-            section(R.string.dialog_code_snippet_modify_shortcuts, R.drawable.ic_modify_shortcuts) {
+            section(R.string.dialog_code_snippet_modify_shortcuts, R.drawable.outline_edit_24) {
                 item(
                     R.string.action_type_rename_shortcut_title,
                     docRef = "rename-shortcut",
@@ -357,7 +357,7 @@ constructor(
                     insertText("setCategoryHidden(\"category name", "\", true);\n")
                 }
             }
-            section(R.string.dialog_code_snippet_control_flow, R.drawable.ic_control_flow) {
+            section(R.string.dialog_code_snippet_control_flow, R.drawable.outline_contract_24) {
                 item(
                     "if { }".toLocalizable(),
                     keywords = setOf("condition", "if", "control", "check", "predicate"),
@@ -394,7 +394,7 @@ constructor(
                     }
                 }
             }
-            section(R.string.dialog_code_snippet_text_processing, R.drawable.ic_text_processing) {
+            section(R.string.dialog_code_snippet_text_processing, R.drawable.outline_edit_document_24) {
                 item(
                     R.string.action_type_parse_json,
                     keywords = setOf("parse", "json", "read"),
@@ -534,7 +534,7 @@ constructor(
                     insertText("", ".trim()")
                 }
             }
-            section(R.string.dialog_code_snippet_network, R.drawable.ic_network) {
+            section(R.string.dialog_code_snippet_network, R.drawable.outline_network_node_24) {
                 item(
                     R.string.action_type_get_wifi_ip_address,
                     docRef = "get-wifi-ip-address",
@@ -592,7 +592,7 @@ constructor(
                     insertText("sendUDPPacket(\"message", "\", \"host\", 1337);\n")
                 }
             }
-            section(R.string.dialog_code_snippet_misc, R.drawable.ic_misc) {
+            section(R.string.dialog_code_snippet_misc, R.drawable.outline_more_horiz_24) {
                 item(
                     R.string.action_type_log_event,
                     docRef = "log-event",

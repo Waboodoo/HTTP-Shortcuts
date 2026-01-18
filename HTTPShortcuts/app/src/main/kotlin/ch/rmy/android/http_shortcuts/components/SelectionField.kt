@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -26,12 +24,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.runIf
 
 @Composable
@@ -96,7 +96,7 @@ fun <T> SelectionField(
             readOnly = true,
             trailingIcon = {
                 Icon(
-                    Icons.Outlined.ArrowDropDown,
+                    painterResource(R.drawable.outline_arrow_drop_down_24),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(Spacing.SMALL)

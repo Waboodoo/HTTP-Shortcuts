@@ -1,10 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.shortcutwidget
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.BackButton
@@ -40,7 +39,7 @@ fun ShortcutWidgetSettingsScreen(
         backButton = BackButton.CROSS,
         actions = {
             ToolbarIcon(
-                Icons.Filled.Check,
+                painterResource(R.drawable.outline_check_24),
                 contentDescription = stringResource(R.string.action_create_widget),
                 onClick = viewModel::onCreateButtonClicked,
             )

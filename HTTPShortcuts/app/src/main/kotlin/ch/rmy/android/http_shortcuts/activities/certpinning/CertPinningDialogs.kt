@@ -3,9 +3,6 @@ package ch.rmy.android.http_shortcuts.activities.certpinning
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -22,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -76,12 +74,12 @@ private fun ContextMenuDialog(
     ) {
         SelectDialogEntry(
             label = stringResource(R.string.action_edit),
-            icon = Icons.Filled.Edit,
+            icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditOptionSelected,
         )
         SelectDialogEntry(
             label = stringResource(R.string.action_delete),
-            icon = Icons.Filled.Delete,
+            icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteOptionSelected,
         )
     }
