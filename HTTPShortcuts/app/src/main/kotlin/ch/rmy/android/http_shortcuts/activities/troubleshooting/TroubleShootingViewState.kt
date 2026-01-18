@@ -10,6 +10,7 @@ data class TroubleShootingViewState(
     val quickSettingsTileButtonVisible: Boolean,
     val batteryOptimizationButtonVisible: Boolean,
     val allowXiaomiOverlayButtonVisible: Boolean,
+    val performanceOptimizationsEnabled: Boolean,
     val selectedLanguage: String?,
     val selectedDarkModeOption: String,
     val selectedClickActionOption: ShortcutClickBehavior,

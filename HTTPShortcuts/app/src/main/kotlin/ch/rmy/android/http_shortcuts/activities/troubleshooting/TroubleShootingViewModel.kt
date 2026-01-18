@@ -38,6 +38,7 @@ constructor(
         colorTheme = userPreferences.colorTheme,
         batteryOptimizationButtonVisible = !restrictionsUtil.isIgnoringBatteryOptimizations(),
         allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor(),
+        performanceOptimizationsEnabled = !userPreferences.isHeadlessModeDisabled,
     )
 
     fun onClearCookiesButtonClicked() = runAction {
@@ -71,6 +72,13 @@ constructor(
 
     fun onBatteryOptimizationButtonClicked() = runAction {
         sendIntent(restrictionsUtil.getRequestIgnoreBatteryOptimizationIntent())
+    }
+
+    fun onPerformanceOptimizationsChanged(enabled: Boolean) = runAction {
+        updateViewState {
+            copy(performanceOptimizationsEnabled = enabled)
+        }
+        userPreferences.isHeadlessModeDisabled = !enabled
     }
 
     fun onDocumentationButtonClicked() = runAction {

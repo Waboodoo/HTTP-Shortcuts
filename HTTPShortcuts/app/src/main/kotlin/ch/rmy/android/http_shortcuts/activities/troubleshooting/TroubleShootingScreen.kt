@@ -17,12 +17,14 @@ fun TroubleShootingScreen() {
         TroubleShootingContent(
             batteryOptimizationButtonVisible = viewState.batteryOptimizationButtonVisible,
             allowXiaomiOverlayButtonVisible = viewState.allowXiaomiOverlayButtonVisible,
+            performanceOptimizationsEnabled = viewState.performanceOptimizationsEnabled,
             onEventHistoryClicked = viewModel::onEventHistoryClicked,
             onClearCookiesButtonClicked = viewModel::onClearCookiesButtonClicked,
             onCancelAllPendingExecutionsButtonClicked = viewModel::onCancelAllPendingExecutionsButtonClicked,
             onAllowOverlayButtonClicked = viewModel::onAllowOverlayButtonClicked,
             onAllowXiaomiOverlayButtonClicked = viewModel::onAllowXiaomiOverlayButtonClicked,
             onBatteryOptimizationButtonClicked = viewModel::onBatteryOptimizationButtonClicked,
+            onPerformanceOptimizationsChanged = viewModel::onPerformanceOptimizationsChanged,
             onDocumentationButtonClicked = viewModel::onDocumentationButtonClicked,
             onContactButtonClicked = viewModel::onContactButtonClicked,
         )

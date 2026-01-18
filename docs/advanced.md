@@ -5,7 +5,7 @@ This page is a collection of some less commonly used or more advanced use cases,
 <a id="headless-mode"></a>
 ## Run shortcuts in "headless mode"
 
-Normally, executing an HTTP shortcut consists of sending a request, waiting for the response, and then processing the response. However, in some cases, the response isn't all that important, e.g., if you already know that it will be empty. In these cases, you can configure your shortcut to run in a fire-and-forget manner, called "headless mode", meaning that the shortcut will not wait for the response and finish immediately after sending the HTTP request.
+Normally, executing an HTTP shortcut consists of sending a request, waiting for the response, and then processing the response. However, in some cases, the response isn't all that important, e.g., if you already know that it will be empty or consist of a generic success message. In these cases, you can configure your shortcut to run in a fire-and-forget manner, called "headless mode", meaning that the shortcut will not wait for the response and finish immediately after sending the HTTP request.
 
 Headless mode is automatically enabled for a shortcut if all of the following conditions are met:
 - In the "Response Handling" settings, both "On Success" and "On Failure" are set to "Show nothing (run silently)", or the "Display Type" is set to "Toast Popup" or "Notification", which requires the app to have the Notification permission
@@ -15,6 +15,8 @@ Headless mode is automatically enabled for a shortcut if all of the following co
 - The "Require specific Wi-Fi" checkbox is not ticket
 - Battery Saver and Data Saver modes are disabled, or the app is excluded from them
 - The shortcut does not use any variables with large values (i.e., multiple KB)
+
+On some devices, headless mode does not work reliably, which is why you also have the option to completely disable this feature. To do so, look for *Troubleshooting* in the app's main menu and then on that screen disable the *Performance Optimizations*.
 
 <a id="share-text"></a>
 ## Share text into a shortcut

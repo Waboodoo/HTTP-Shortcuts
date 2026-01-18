@@ -15,21 +15,25 @@ import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
+import ch.rmy.android.http_shortcuts.components.SettingsSelection
 import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
 fun TroubleShootingContent(
     batteryOptimizationButtonVisible: Boolean,
     allowXiaomiOverlayButtonVisible: Boolean,
+    performanceOptimizationsEnabled: Boolean,
     onEventHistoryClicked: () -> Unit,
     onClearCookiesButtonClicked: () -> Unit,
     onCancelAllPendingExecutionsButtonClicked: () -> Unit,
     onAllowOverlayButtonClicked: () -> Unit,
     onAllowXiaomiOverlayButtonClicked: () -> Unit,
     onBatteryOptimizationButtonClicked: () -> Unit,
+    onPerformanceOptimizationsChanged: (Boolean) -> Unit,
     onDocumentationButtonClicked: () -> Unit,
     onContactButtonClicked: () -> Unit,
 ) {
@@ -80,6 +84,17 @@ fun TroubleShootingContent(
                 onClick = onBatteryOptimizationButtonClicked,
             )
         }
+
+        SettingsSelection(
+            icon = painterResource(R.drawable.outline_speed_24),
+            title = stringResource(R.string.settings_performance_optimizations),
+            selectedKey = performanceOptimizationsEnabled,
+            items = listOf(
+                true to stringResource(R.string.settings_performance_optimizations_enabled),
+                false to stringResource(R.string.settings_performance_optimizations_disabled),
+            ),
+            onItemSelected = onPerformanceOptimizationsChanged,
+        )
 
         HorizontalDivider()
 

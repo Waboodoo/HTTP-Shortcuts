@@ -1920,4 +1920,10 @@
     <string name="message_data_restored">Data successfully restored.</string>
     <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
     <string name="label_variable_widget_title">Widget Title</string>
+    <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->
+    <string name="settings_performance_optimizations">Performance Optimizations</string>
+    <!-- Option in "Performance Optimizations" setting, to enable them (for simple shortcuts) -->
+    <string name="settings_performance_optimizations_enabled">Enabled</string>
+    <!-- Option in "Performance Optimizations" setting, to disable them -->
+    <string name="settings_performance_optimizations_disabled">Disabled</string>
 </resources>

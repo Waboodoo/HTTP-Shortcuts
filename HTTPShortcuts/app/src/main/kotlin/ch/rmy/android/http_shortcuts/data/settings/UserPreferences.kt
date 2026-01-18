@@ -68,6 +68,10 @@ constructor(
         get() = getBoolean(KEY_HISTORY_USE_RELATIVE_TIMES)
         set(value) = putBoolean(KEY_HISTORY_USE_RELATIVE_TIMES, value)
 
+    var isHeadlessModeDisabled: Boolean
+        get() = getBoolean(KEY_HEADLESS_MODE_DISABLED)
+        set(value) = putBoolean(KEY_HEADLESS_MODE_DISABLED, value)
+
     private val _colorThemeFlow = MutableStateFlow(colorTheme)
     val colorThemeFlow = _colorThemeFlow.asStateFlow()
 
@@ -88,5 +92,6 @@ constructor(
         private const val KEY_USER_AGENT = "user_agent"
         private const val KEY_COLOR_THEME = "color_theme"
         private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
+        private const val KEY_HEADLESS_MODE_DISABLED = "headless_mode_disabled"
     }
 }
