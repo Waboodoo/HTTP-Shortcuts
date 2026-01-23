@@ -16,12 +16,12 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.get
 import androidx.core.graphics.scale
+import ch.rmy.android.http_shortcuts.icons.CustomIconName
+import ch.rmy.android.http_shortcuts.icons.CustomIconName.Companion.CUSTOM_ICON_NAME_PREFIX
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.io.File
 import java.io.InputStream
-import java.time.Instant
 import java.util.regex.Pattern
-import java.util.regex.Pattern.quote
 import kotlin.math.max
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -29,17 +29,8 @@ import kotlinx.coroutines.withContext
 object IconUtil {
 
     private const val ICON_SCALING_FACTOR = 4
-
-    private const val CUSTOM_ICON_NAME_PREFIX = "custom-icon_"
-    const val CUSTOM_ICON_NAME_SUFFIX = ".png"
-    const val CUSTOM_CIRCULAR_ICON_NAME_SUFFIX = "_circle"
-    const val CUSTOM_HAS_TRANSPARENCY_NAME_SUFFIX = "_tr"
-    private const val CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX = ".jpg"
-
     private const val CUSTOM_ICON_MAX_FILE_SIZE = 8 * 1024 * 1024
-
-    private val CUSTOM_ICON_NAME_REGEX = "${quote(CUSTOM_ICON_NAME_PREFIX)}([A-Za-z0-9_-]{1,36})" +
-        "(${quote(CUSTOM_ICON_NAME_SUFFIX)}|${quote(CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX)})"
+    private const val CUSTOM_ICON_NAME_REGEX = "custom-icon_([A-Za-z0-9_-]{1,36})\\.(png|jpg)"
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
     fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean = false): Icon? = try {
@@ -205,8 +196,11 @@ object IconUtil {
             ?: return null
         val iconSize = getIconSize(context)
         val scaledBitmap = bitmap.scale(iconSize, iconSize)
-        val iconName = generateCustomIconName(circular = false, hasTransparency = scaledBitmap.hasSignificantTransparency())
-        context.openFileOutput(iconName, 0).use {
+        val iconName = CustomIconName.generate(
+            isCircular = false,
+            hasTransparency = scaledBitmap.hasSignificantTransparency(),
+        )
+        context.openFileOutput(iconName.toString(), 0).use {
             scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
             it.flush()
         }
@@ -249,14 +243,7 @@ object IconUtil {
     private var iconSizeCached: Int? = null
 
     fun isCustomIconName(string: String) =
-        string.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
-
-    fun generateCustomIconName(circular: Boolean, hasTransparency: Boolean): String =
-        "${CUSTOM_ICON_NAME_PREFIX}x" +
-            "${Instant.now().toEpochMilli()}" +
-            (if (circular) CUSTOM_CIRCULAR_ICON_NAME_SUFFIX else "") +
-            (if (hasTransparency) CUSTOM_HAS_TRANSPARENCY_NAME_SUFFIX else "") +
-            CUSTOM_ICON_NAME_SUFFIX
+        CustomIconName.parse(string) != null
 
     fun extractCustomIconNames(string: String): Set<String> =
         buildSet {
@@ -266,13 +253,14 @@ object IconUtil {
             }
         }
 
-    suspend fun getCustomIconNamesInApp(context: Context): List<String> =
+    suspend fun getCustomIconsInApp(context: Context): List<ShortcutIcon.CustomIcon> =
         withContext(Dispatchers.IO) {
             context.filesDir
                 .listFiles { file ->
-                    file.name.matches(CUSTOM_ICON_NAME_REGEX.toRegex()) && file.length() < CUSTOM_ICON_MAX_FILE_SIZE
+                    file.name.startsWith(CUSTOM_ICON_NAME_PREFIX) && file.length() < CUSTOM_ICON_MAX_FILE_SIZE
                 }
-                ?.map { it.name }
+                ?.mapNotNull { CustomIconName.parse(it.name) }
+                ?.map { ShortcutIcon.CustomIcon(it) }
                 ?: emptyList()
         }
 }

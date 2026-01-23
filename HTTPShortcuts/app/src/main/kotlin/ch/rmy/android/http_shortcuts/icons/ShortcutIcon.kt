@@ -192,7 +192,7 @@ sealed interface ShortcutIcon {
     }
 
     @Stable
-    data class CustomIcon(val fileName: String) : ShortcutIcon {
+    data class CustomIcon(val name: CustomIconName) : ShortcutIcon {
         override fun getIconURI(context: Context, external: Boolean): Uri =
             getFile(context)?.let(Uri::fromFile)
                 ?: NoIcon.getIconURI(context, external)
@@ -204,11 +204,14 @@ sealed interface ShortcutIcon {
                 null
             }
 
+        val fileName: String
+            get() = name.toString()
+
         override val isCircular: Boolean
-            get() = fileName.contains(IconUtil.CUSTOM_CIRCULAR_ICON_NAME_SUFFIX)
+            get() = name.isCircular
 
         override val isUsableAsSilhouette: Boolean
-            get() = fileName.endsWith(IconUtil.CUSTOM_HAS_TRANSPARENCY_NAME_SUFFIX + IconUtil.CUSTOM_ICON_NAME_SUFFIX)
+            get() = name.hasTransparency
 
         override fun toString() = fileName
 
@@ -245,13 +248,17 @@ sealed interface ShortcutIcon {
         get() = false
 
     companion object {
-        fun fromName(iconName: String?): ShortcutIcon =
-            when {
-                iconName.isNullOrEmpty() -> NoIcon
-                iconName.startsWith("android.resource://") -> ExternalResourceIcon(iconName.toUri())
-                iconName.endsWith(".png", ignoreCase = true) || iconName.endsWith(".jpg", ignoreCase = true) -> CustomIcon(iconName)
-                else -> BuiltInIcon(iconName)
+        fun fromName(iconName: String?): ShortcutIcon {
+            if (iconName.isNullOrEmpty()) {
+                return NoIcon
             }
+            if (iconName.startsWith("android.resource://")) {
+                return ExternalResourceIcon(iconName.toUri())
+            }
+            return CustomIconName.parse(iconName)
+                ?.let(::CustomIcon)
+                ?: BuiltInIcon(iconName)
+        }
 
         internal fun getDrawableUri(context: Context, @DrawableRes identifier: Int): Uri =
             "android.resource://${context.packageName}/$identifier".toUri()

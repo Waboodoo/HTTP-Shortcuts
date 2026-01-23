@@ -10,9 +10,9 @@ import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
+import ch.rmy.android.http_shortcuts.icons.CustomIconName
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
-import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.utils.IconUtil.hasSignificantTransparency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
@@ -94,8 +94,11 @@ constructor(
                 bitmap?.recycle()
             }
         }
-        val iconName = IconUtil.generateCustomIconName(circular = selectedShape == IconShape.CIRCLE, hasTransparency = hasTransparency)
-        val targetFile = File(context.filesDir, iconName)
+        val iconName = CustomIconName.generate(
+            isCircular = selectedShape == IconShape.CIRCLE,
+            hasTransparency = hasTransparency,
+        )
+        val targetFile = File(context.filesDir, iconName.toString())
         withContext(Dispatchers.IO) {
             context.contentResolver.openInputStream(iconUri)!!.use { inputStream ->
                 targetFile.outputStream().use { outputStream ->

@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.icons.CustomIconName
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import javax.inject.Inject
@@ -62,8 +63,11 @@ constructor(
             .filterIsInstance(ShortcutIcon.CustomIcon::class.java)
             .plus(
                 getReferencedIconNames(shortcuts, globalCode, temporaryShortcut)
-                    .map { fileName ->
-                        ShortcutIcon.CustomIcon(fileName)
+                    .mapNotNull { fileName ->
+                        CustomIconName.parse(fileName)
+                    }
+                    .map { customIconName ->
+                        ShortcutIcon.CustomIcon(customIconName)
                     },
             )
             .distinct()
