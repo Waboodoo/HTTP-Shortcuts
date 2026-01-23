@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
+import ch.rmy.android.http_shortcuts.components.SettingsSwitch
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_AUTO
@@ -139,15 +140,16 @@ fun SettingsContent(
                 )
             }
 
-            SettingsSelection(
+            SettingsSwitch(
                 icon = painterResource(R.drawable.outline_hide_source_24),
                 title = stringResource(R.string.settings_title_show_hidden_shortcuts),
-                selectedKey = showHiddenShortcuts,
-                items = listOf(
-                    false to stringResource(R.string.settings_option_hide_hidden_shortcuts),
-                    true to stringResource(R.string.settings_option_show_hidden_shortcuts),
-                ),
-                onItemSelected = onShowHiddenShortcutsChanged,
+                subtitle = if (showHiddenShortcuts) {
+                    stringResource(R.string.settings_option_show_hidden_shortcuts)
+                } else {
+                    stringResource(R.string.settings_option_hide_hidden_shortcuts)
+                },
+                checked = showHiddenShortcuts,
+                onCheckedChanged = onShowHiddenShortcutsChanged,
             )
         }
 
@@ -190,15 +192,16 @@ fun SettingsContent(
             SettingsGroup(
                 title = stringResource(R.string.settings_title_privacy),
             ) {
-                SettingsSelection(
+                SettingsSwitch(
                     icon = painterResource(R.drawable.outline_bug_report_24),
                     title = stringResource(R.string.settings_crash_reporting),
-                    selectedKey = crashReportingEnabled,
-                    items = listOf(
-                        true to stringResource(R.string.settings_crash_reporting_allow),
-                        false to stringResource(R.string.settings_crash_reporting_disallow),
-                    ),
-                    onItemSelected = onCrashReportingChanged,
+                    subtitle = if (crashReportingEnabled) {
+                        stringResource(R.string.settings_crash_reporting_allow)
+                    } else {
+                        stringResource(R.string.settings_crash_reporting_disallow)
+                    },
+                    checked = crashReportingEnabled,
+                    onCheckedChanged = onCrashReportingChanged,
                 )
             }
         }
