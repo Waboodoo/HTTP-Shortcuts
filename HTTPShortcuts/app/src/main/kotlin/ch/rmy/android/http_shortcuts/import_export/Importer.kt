@@ -121,6 +121,12 @@ constructor(
             }
             logInfo("Import validation complete")
             settings.isAwareOfResponseHandling = true
+            if (!importBase.variables.isNullOrEmpty()) {
+                settings.isAwareOfVariablePlaceholders = true
+            }
+            if (importBase.categories?.any { category -> category.shortcuts?.any { it.section != null } == true } == true) {
+                settings.isAwareOfSectionPopulation = true
+            }
             ImportStatus(
                 importedShortcuts = importBase.categories?.sumOf { it.shortcuts?.size ?: 0 } ?: 0,
             )
