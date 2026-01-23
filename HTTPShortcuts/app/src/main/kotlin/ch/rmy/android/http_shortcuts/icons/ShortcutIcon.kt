@@ -50,7 +50,7 @@ sealed interface ShortcutIcon {
             get() = iconName.startsWith("flat_") ||
                 iconName in ICONS_WITH_BACKGROUND
 
-        val isUsableAsSilhouette
+        override val isUsableAsSilhouette
             get() = iconName.run {
                 startsWith("bitsies_") ||
                     startsWith("black_") ||
@@ -200,12 +200,15 @@ sealed interface ShortcutIcon {
         fun getFile(context: Context): File? =
             try {
                 context.getFileStreamPath(fileName)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 null
             }
 
         override val isCircular: Boolean
             get() = fileName.contains(IconUtil.CUSTOM_CIRCULAR_ICON_NAME_SUFFIX)
+
+        override val isUsableAsSilhouette: Boolean
+            get() = fileName.endsWith(IconUtil.CUSTOM_HAS_TRANSPARENCY_NAME_SUFFIX + IconUtil.CUSTOM_ICON_NAME_SUFFIX)
 
         override fun toString() = fileName
 
@@ -236,6 +239,9 @@ sealed interface ShortcutIcon {
     fun getIconURI(context: Context, external: Boolean = false): Uri
 
     val isCircular: Boolean
+        get() = false
+
+    val isUsableAsSilhouette: Boolean
         get() = false
 
     companion object {

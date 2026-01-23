@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.icons
 
 import android.app.Application
+import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
@@ -12,6 +13,7 @@ import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsU
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.IconUtil
+import ch.rmy.android.http_shortcuts.utils.IconUtil.hasSignificantTransparency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
 import javax.inject.Inject
@@ -82,7 +84,17 @@ constructor(
     }
 
     fun onIconCreated(iconUri: Uri) = runAction {
-        val iconName = IconUtil.generateCustomIconName(circular = selectedShape == IconShape.CIRCLE)
+        val hasTransparency = withContext(Dispatchers.IO) {
+            val bitmap = context.contentResolver.openInputStream(iconUri)?.use { stream ->
+                BitmapFactory.decodeStream(stream)
+            }
+            try {
+                bitmap?.hasSignificantTransparency() == true
+            } finally {
+                bitmap?.recycle()
+            }
+        }
+        val iconName = IconUtil.generateCustomIconName(circular = selectedShape == IconShape.CIRCLE, hasTransparency = hasTransparency)
         val targetFile = File(context.filesDir, iconName)
         withContext(Dispatchers.IO) {
             context.contentResolver.openInputStream(iconUri)!!.use { inputStream ->

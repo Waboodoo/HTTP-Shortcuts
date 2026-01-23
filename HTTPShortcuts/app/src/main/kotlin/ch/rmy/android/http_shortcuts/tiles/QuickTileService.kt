@@ -26,7 +26,6 @@ import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.ids
-import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
 import dagger.hilt.android.AndroidEntryPoint
@@ -208,8 +207,8 @@ class QuickTileService : TileService() {
             val shortcut = shortcuts.singleOrNull()
             if (shortcut != null) {
                 qsTile?.label = shortcut.name
-                qsTile?.icon = (shortcut.icon as? ShortcutIcon.BuiltInIcon)
-                    ?.takeIf { it.isUsableAsSilhouette }
+                qsTile?.icon = shortcut.icon
+                    .takeIf { it.isUsableAsSilhouette }
                     ?.let {
                         IconUtil.getIcon(context, it, adaptive = false)
                     }

@@ -31,8 +31,9 @@ object IconUtil {
     private const val ICON_SCALING_FACTOR = 4
 
     private const val CUSTOM_ICON_NAME_PREFIX = "custom-icon_"
-    private const val CUSTOM_ICON_NAME_SUFFIX = ".png"
+    const val CUSTOM_ICON_NAME_SUFFIX = ".png"
     const val CUSTOM_CIRCULAR_ICON_NAME_SUFFIX = "_circle"
+    const val CUSTOM_HAS_TRANSPARENCY_NAME_SUFFIX = "_tr"
     private const val CUSTOM_ICON_NAME_ALTERNATIVE_SUFFIX = ".jpg"
 
     private const val CUSTOM_ICON_MAX_FILE_SIZE = 8 * 1024 * 1024
@@ -204,7 +205,7 @@ object IconUtil {
             ?: return null
         val iconSize = getIconSize(context)
         val scaledBitmap = bitmap.scale(iconSize, iconSize)
-        val iconName = generateCustomIconName(circular = false)
+        val iconName = generateCustomIconName(circular = false, hasTransparency = scaledBitmap.hasSignificantTransparency())
         context.openFileOutput(iconName, 0).use {
             scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
             it.flush()
@@ -212,6 +213,23 @@ object IconUtil {
         scaledBitmap.recycle()
         bitmap.recycle()
         return ShortcutIcon.CustomIcon(iconName)
+    }
+
+    fun Bitmap.hasSignificantTransparency(): Boolean {
+        val factor = 2
+        var transparentPixels = 0
+        val threshold = ((width * height) * 0.1f / factor).toInt()
+        for (x in 0 until width step factor) {
+            for (y in 0 until height step factor) {
+                if (this[x, y] == Color.TRANSPARENT) {
+                    transparentPixels++
+                    if (transparentPixels > threshold) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
     }
 
     fun getIconSize(context: Context, scaled: Boolean = true): Int {
@@ -233,10 +251,11 @@ object IconUtil {
     fun isCustomIconName(string: String) =
         string.matches(CUSTOM_ICON_NAME_REGEX.toRegex())
 
-    fun generateCustomIconName(circular: Boolean): String =
+    fun generateCustomIconName(circular: Boolean, hasTransparency: Boolean): String =
         "${CUSTOM_ICON_NAME_PREFIX}x" +
             "${Instant.now().toEpochMilli()}" +
             (if (circular) CUSTOM_CIRCULAR_ICON_NAME_SUFFIX else "") +
+            (if (hasTransparency) CUSTOM_HAS_TRANSPARENCY_NAME_SUFFIX else "") +
             CUSTOM_ICON_NAME_SUFFIX
 
     fun extractCustomIconNames(string: String): Set<String> =
