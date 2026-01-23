@@ -24,18 +24,6 @@ constructor(
     private val shortcutWidgetsRepository: ShortcutWidgetsRepository,
     private val shortcutRepository: ShortcutRepository,
 ) {
-
-    suspend fun createOrUpdateWidget(
-        widgetId: Int,
-        shortcutId: ShortcutId,
-        showLabel: Boolean,
-        showIcon: Boolean,
-        labelColor: String?,
-        iconScale: Float,
-    ) {
-        shortcutWidgetsRepository.createOrUpdateShortcutWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
-    }
-
     suspend fun updateAllWidgets(context: Context) {
         updateWidgets(context, shortcutWidgetsRepository.getShortcutWidgets())
     }

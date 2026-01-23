@@ -14,4 +14,5 @@
     <item name="warning" type="color">#BF360C</item>
     <item name="variable_widget_foreground" type="color">#262626</item>
     <item name="variable_widget_background" type="color">#87EBEBEB</item>
+    <item name="highlighted_shortcut" type="color">#66ffefc2</item>
 </resources>

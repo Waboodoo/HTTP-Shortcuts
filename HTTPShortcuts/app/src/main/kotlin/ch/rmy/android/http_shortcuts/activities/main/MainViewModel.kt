@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
+import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -84,6 +85,7 @@ constructor(
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val secondaryLauncherManager: SecondaryLauncherManager,
     private val shortcutWidgetManager: ShortcutWidgetManager,
+    private val shortcutWidgetsRepository: ShortcutWidgetsRepository,
     private val variableWidgetManager: VariableWidgetManager,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val appOverlayUtil: AppOverlayUtil,
@@ -161,6 +163,19 @@ constructor(
             variableWidgetManager.updateAllWidgets(context)
         }
 
+        val widgetShortcutForEditing = initData.widgetId
+            ?.takeIf { selectionMode == SelectionMode.SHORTCUT_WIDGET_PLACEMENT }
+            ?.let { widgetId ->
+                shortcutWidgetsRepository.getShortcutWidgetById(widgetId)
+            }
+            ?.let { widget ->
+                try {
+                    shortcutRepository.getShortcutById(widget.shortcutId)
+                } catch (_: NoSuchElementException) {
+                    null
+                }
+            }
+
         viewModelScope.launch {
             if (data.importUrl != null && appLock == null) {
                 navigate(NavigationDestination.ImportExport.buildRequest(data.importUrl))
@@ -188,10 +203,12 @@ constructor(
             selectionMode = selectionMode,
             categoryItems = getCategoryTabItems(),
             activeCategoryId = initData.initialCategoryId
-                ?: settings.lastActiveCategoryId?.takeIf { categoryId -> categories.any { it.id == categoryId && !it.hidden } }
+                ?: (widgetShortcutForEditing?.categoryId ?: settings.lastActiveCategoryId)
+                    ?.takeIf { categoryId -> categories.find { it.id == categoryId }?.hidden == false }
                 ?: categories.first { !it.hidden }.id,
             hasMultipleCategories = categories.size > 1,
             isLocked = appLock != null,
+            highlightedShortcutId = widgetShortcutForEditing?.id,
         )
     }
 
@@ -456,7 +473,12 @@ constructor(
     private suspend fun selectShortcut(shortcutId: ShortcutId) {
         when (selectionMode) {
             SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> returnForHomeScreenShortcutPlacement(shortcutId)
-            SelectionMode.SHORTCUT_WIDGET_PLACEMENT -> openShortcutWidgetSettings(shortcutId, initData.widgetId)
+            SelectionMode.SHORTCUT_WIDGET_PLACEMENT -> {
+                updateViewState {
+                    copy(highlightedShortcutId = shortcutId)
+                }
+                openShortcutWidgetSettings(shortcutId, initData.widgetId)
+            }
             SelectionMode.PLUGIN -> returnForPlugin(shortcutId)
             SelectionMode.VARIABLE_WIDGET_PLACEMENT,
             SelectionMode.NORMAL,
@@ -550,7 +572,7 @@ constructor(
     ) = runAction {
         logInfo("Shortcut widget settings submitted")
         val widgetId = initData.widgetId ?: skipAction()
-        shortcutWidgetManager.createOrUpdateWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
+        shortcutWidgetsRepository.createOrUpdateShortcutWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
         shortcutWidgetManager.updateWidgets(context, shortcutId)
         finish(
             intent = WidgetsUtil.getIntent(widgetId),

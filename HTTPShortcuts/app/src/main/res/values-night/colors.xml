@@ -8,4 +8,5 @@
     <item name="splash_background" type="color">#1F1F1F</item>
     <item name="variable_widget_foreground" type="color">#DEDEDE</item>
     <item name="variable_widget_background" type="color">#872F2F2F</item>
+    <item name="highlighted_shortcut" type="color">#33ffefc2</item>
 </resources>

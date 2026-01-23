@@ -123,7 +123,7 @@ fun MainScreen(
                     contentDescription = stringResource(R.string.menu_action_unlock_app),
                     onClick = viewModel::onUnlockButtonClicked,
                 )
-            } else {
+            } else if (viewState.selectionMode == SelectionMode.NORMAL) {
                 MainMenu(
                     onCategoriesButtonClicked = viewModel::onCategoriesButtonClicked,
                     onVariablesButtonClicked = viewModel::onVariablesButtonClicked,
@@ -158,6 +158,7 @@ fun MainScreen(
             hasMultipleCategories = viewState.hasMultipleCategories,
             activeCategoryId = viewState.activeCategoryId,
             selectionMode = viewState.selectionMode,
+            highlightedShortcutId = viewState.highlightedShortcutId,
             onActiveCategoryIdChanged = viewModel::onActiveCategoryChanged,
             onPlaceShortcutOnHomeScreen = viewModel::onPlaceShortcutOnHomeScreen,
             onRemoveShortcutFromHomeScreen = viewModel::onRemoveShortcutFromHomeScreen,

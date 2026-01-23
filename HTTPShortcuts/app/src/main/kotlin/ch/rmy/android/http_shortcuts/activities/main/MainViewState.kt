@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 
 @Stable
@@ -14,6 +15,7 @@ data class MainViewState(
     val hasMultipleCategories: Boolean,
     val selectionMode: SelectionMode,
     val activeCategoryId: CategoryId,
+    val highlightedShortcutId: ShortcutId?,
 ) {
     val isCreateButtonVisible
         get() = !isLocked

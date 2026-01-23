@@ -38,6 +38,7 @@ fun ShortcutListContent(
     hasMultipleCategories: Boolean,
     selectionMode: SelectionMode,
     isActive: Boolean,
+    highlightedShortcutId: ShortcutId?,
     onPlaceShortcutOnHomeScreen: (ShortcutPlaceholder) -> Unit,
     onRemoveShortcutFromHomeScreen: (ShortcutPlaceholder) -> Unit,
     onSelectShortcut: (ShortcutId) -> Unit,
@@ -105,6 +106,7 @@ fun ShortcutListContent(
     ) {
         ShortcutList(
             hasMultipleCategories = hasMultipleCategories,
+            highlightedShortcutId = highlightedShortcutId,
             shortcutListItems = state.shortcutListItems,
             layoutType = category.layoutType,
             textColor = category.background.textColor(),

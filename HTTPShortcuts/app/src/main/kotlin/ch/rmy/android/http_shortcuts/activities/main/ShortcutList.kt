@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
@@ -62,6 +64,7 @@ private const val HIDDEN_ALPHA = 0.4f
 @Composable
 fun ShortcutList(
     hasMultipleCategories: Boolean,
+    highlightedShortcutId: ShortcutId?,
     shortcutListItems: List<ShortcutListItemModel>,
     layoutType: CategoryLayoutType,
     textColor: Color?,
@@ -110,6 +113,7 @@ fun ShortcutList(
     if (layoutType == CategoryLayoutType.LINEAR_LIST) {
         ShortcutLinearList(
             shortcutListItems = shortcutListItems,
+            highlightedShortcutId = highlightedShortcutId,
             textColor = textColor,
             textStyle = textStyle,
             scale = scale,
@@ -122,6 +126,7 @@ fun ShortcutList(
     } else {
         ShortcutGrid(
             shortcutListItems = shortcutListItems,
+            highlightedShortcutId = highlightedShortcutId,
             minColumnWidth = when (layoutType) {
                 CategoryLayoutType.DENSE_GRID -> 78.dp
                 CategoryLayoutType.MEDIUM_GRID -> 120.dp
@@ -145,6 +150,7 @@ fun ShortcutList(
 @Composable
 private fun ShortcutLinearList(
     shortcutListItems: List<ShortcutListItemModel>,
+    highlightedShortcutId: ShortcutId?,
     textColor: Color?,
     textStyle: TextStyle,
     scale: Float,
@@ -192,6 +198,7 @@ private fun ShortcutLinearList(
                 ) {
                     ShortcutListItem(
                         shortcut = item,
+                        highlighted = item.id == highlightedShortcutId,
                         textColor = textColor,
                         textStyle = textStyle,
                         scale = scale,
@@ -273,6 +280,7 @@ private fun EmptySection(
 @Composable
 private fun ShortcutListItem(
     shortcut: ShortcutListItemModel.ShortcutItem,
+    highlighted: Boolean,
     modifier: Modifier = Modifier,
     textColor: Color?,
     textStyle: TextStyle,
@@ -286,6 +294,9 @@ private fun ShortcutListItem(
                 .fillMaxWidth()
                 .runIf(shortcut.isHidden) {
                     alpha(HIDDEN_ALPHA)
+                }
+                .runIf(highlighted) {
+                    background(colorResource(R.color.highlighted_shortcut), shape = RoundedCornerShape(percent = 20))
                 },
             colors = ListItemDefaults.colors(
                 containerColor = Color.Transparent,
@@ -334,6 +345,7 @@ private fun ShortcutListItem(
 @Composable
 private fun ShortcutGrid(
     shortcutListItems: List<ShortcutListItemModel>,
+    highlightedShortcutId: ShortcutId?,
     minColumnWidth: Dp,
     textColor: Color?,
     textStyle: TextStyle,
@@ -388,6 +400,7 @@ private fun ShortcutGrid(
                 ) {
                     ShortcutGridItem(
                         shortcut = item,
+                        highlighted = item.id == highlightedShortcutId,
                         textColor = textColor,
                         textStyle = textStyle,
                         scale = scale,
@@ -429,6 +442,7 @@ private fun ShortcutGrid(
 @Composable
 private fun ShortcutGridItem(
     shortcut: ShortcutListItemModel.ShortcutItem,
+    highlighted: Boolean,
     modifier: Modifier,
     textColor: Color?,
     textStyle: TextStyle,
@@ -439,6 +453,9 @@ private fun ShortcutGridItem(
         modifier = modifier
             .runIf(shortcut.isHidden) {
                 alpha(HIDDEN_ALPHA)
+            }
+            .runIf(highlighted) {
+                background(colorResource(R.color.highlighted_shortcut), shape = RoundedCornerShape(percent = 20))
             },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL, Alignment.CenterVertically),
