@@ -38,7 +38,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.AndroidViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -168,12 +168,12 @@ class ColorPickerViewModel
 @Inject
 constructor(
     application: Application,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : AndroidViewModel(application) {
 
     var previousIconColor: Int?
-        get() = settings.previousIconColor
+        get() = deviceLocalPreferences.previousIconColor
         set(value) {
-            settings.previousIconColor = value
+            deviceLocalPreferences.previousIconColor = value
         }
 }

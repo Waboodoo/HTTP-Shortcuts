@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.import_export
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.import_export.models.ImportBase
 import ch.rmy.android.http_shortcuts.import_export.models.ImportCategory
 import ch.rmy.android.http_shortcuts.import_export.models.ImportCertificatePin
@@ -42,7 +42,7 @@ class ImporterTest {
     private val importExportDefaultsProvider = ImportExportDefaultsProvider()
 
     @RelaxedMockK
-    private lateinit var settings: Settings
+    private lateinit var deviceLocalPreferences: DeviceLocalPreferences
 
     @InjectMockKs
     private lateinit var importer: Importer
@@ -218,6 +218,6 @@ class ImporterTest {
             ),
             importBase,
         )
-        verify { settings.isAwareOfResponseHandling = true }
+        verify { deviceLocalPreferences.isAwareOfResponseHandling = true }
     }
 }

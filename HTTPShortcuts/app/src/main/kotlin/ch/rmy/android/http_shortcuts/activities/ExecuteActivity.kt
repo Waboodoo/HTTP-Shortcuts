@@ -33,7 +33,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import javax.inject.Inject
@@ -54,7 +54,7 @@ class ExecuteActivity : BaseComposeActivity() {
     lateinit var pendingExecutionsRepository: PendingExecutionsRepository
 
     @Inject
-    lateinit var settings: Settings
+    lateinit var deviceLocalPreferences: DeviceLocalPreferences
 
     private val viewModel: ExecuteViewModel by viewModels()
 

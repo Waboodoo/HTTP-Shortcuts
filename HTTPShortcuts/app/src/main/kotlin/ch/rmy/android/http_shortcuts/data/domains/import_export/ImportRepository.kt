@@ -39,7 +39,7 @@ import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
@@ -59,7 +59,7 @@ class ImportRepository
 @Inject
 constructor(
     database: Database,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : BaseRepository(database) {
     suspend fun import(base: ImportBase, mode: ImportMode) = commitTransaction {
         val existingVariables = globalVariableDao().getVariables()
@@ -77,7 +77,7 @@ constructor(
         importCategories(base.categories ?: emptyList(), mode)
         importVariables(base.variables ?: emptyList(), mode, existingVariables)
         importCertificatePins(base.certificatePins ?: emptyList())
-        importWorkingDirectories(base.workingDirectories ?: emptyList(), fromSameDevice = base.originDeviceId == settings.deviceId)
+        importWorkingDirectories(base.workingDirectories ?: emptyList(), fromSameDevice = base.originDeviceId == deviceLocalPreferences.deviceId)
         validate()
     }
 

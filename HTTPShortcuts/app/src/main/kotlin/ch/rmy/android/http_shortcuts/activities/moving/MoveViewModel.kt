@@ -17,7 +17,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
@@ -43,7 +43,7 @@ constructor(
     private val categoryRepository: CategoryRepository,
     private val sectionRepository: SectionRepository,
     private val shortcutRepository: ShortcutRepository,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : BaseViewModel<Unit, Unit>(application) {
 
     private val _categorySections = MutableStateFlow<List<CategorySectionItem>>(emptyList())
@@ -75,7 +75,7 @@ constructor(
                 .distinctUntilChanged()
                 .drop(1)
                 .first()
-            settings.isAwareOfSectionPopulation = true
+            deviceLocalPreferences.isAwareOfSectionPopulation = true
         }
     }
 

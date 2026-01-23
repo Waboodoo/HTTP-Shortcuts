@@ -43,7 +43,7 @@ import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.PendingExecution
 import ch.rmy.android.http_shortcuts.data.models.Section
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
@@ -87,7 +87,7 @@ constructor(
     private val curlExporter: CurlExporter,
     private val executionScheduler: ExecutionScheduler,
     private val userPreferences: UserPreferences,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
     private val exporter: Exporter,
     private val getUsedGlobalVariableIds: GetUsedGlobalVariableIdsUseCase,
     private val launcherShortcutManager: LauncherShortcutManager,
@@ -159,7 +159,7 @@ constructor(
             isAppLocked = isAppLocked,
             shortcutListItems = mapShortcuts(),
             background = category.background,
-            showEmptySectionText = !settings.isAwareOfSectionPopulation,
+            showEmptySectionText = !deviceLocalPreferences.isAwareOfSectionPopulation,
         )
     }
 
@@ -350,10 +350,10 @@ constructor(
     }
 
     fun onHideSelected() = runAction {
-        if (settings.isAwareOfShortcutUnhiding) {
+        if (deviceLocalPreferences.isAwareOfShortcutUnhiding) {
             updateDialogState(null)
         } else {
-            settings.isAwareOfShortcutUnhiding = true
+            deviceLocalPreferences.isAwareOfShortcutUnhiding = true
             updateDialogState(ShortcutListDialogState.ShortcutUnhideInstructions)
         }
         val shortcutId = activeShortcutId ?: skipAction()

@@ -10,7 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
@@ -42,7 +42,7 @@ constructor(
     private val restrictionsUtil: RestrictionsUtil,
     private val createQuickSettingsTile: CreateQuickSettingsTileUseCase,
     private val biometricUtil: BiometricUtil,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit) = SettingsViewState(
@@ -186,7 +186,7 @@ constructor(
     fun onRememberActiveCategoryChanged(remember: Boolean) = runAction {
         userPreferences.isRememberActiveCategory = remember
         if (!remember) {
-            settings.lastActiveCategoryId = null
+            deviceLocalPreferences.lastActiveCategoryId = null
         }
         updateViewState {
             copy(rememberActiveCategory = remember)

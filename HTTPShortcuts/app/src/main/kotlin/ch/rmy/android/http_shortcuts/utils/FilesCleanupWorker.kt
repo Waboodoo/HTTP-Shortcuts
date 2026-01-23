@@ -16,7 +16,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.context
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import dagger.assisted.Assisted
@@ -38,7 +38,7 @@ constructor(
     @Assisted params: WorkerParameters,
     private val shortcutRepository: ShortcutRepository,
     private val categoryRepository: CategoryRepository,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result =
@@ -46,11 +46,11 @@ constructor(
             withContext(Dispatchers.IO) {
                 FileUtil.deleteOldCacheFiles(context, maxCacheFileAge = MAX_CACHE_FILE_AGE)
 
-                if (settings.lastFilesCleanupTime + FILE_CLEANUP_TIMEOUT < now()) {
+                if (deviceLocalPreferences.lastFilesCleanupTime + FILE_CLEANUP_TIMEOUT < now()) {
                     val shortcuts = shortcutRepository.getShortcuts()
                     deleteObsoleteRasterizedBuiltInIconFiles(context, shortcuts)
                     deleteObsoleteCertFiles(context, shortcuts)
-                    settings.lastFilesCleanupTime = now()
+                    deviceLocalPreferences.lastFilesCleanupTime = now()
                 }
             }
             Result.success()

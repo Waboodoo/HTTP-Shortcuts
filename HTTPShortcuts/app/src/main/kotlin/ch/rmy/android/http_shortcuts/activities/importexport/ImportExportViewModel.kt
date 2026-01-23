@@ -14,7 +14,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
 import ch.rmy.android.http_shortcuts.import_export.ImportPasswordException
@@ -36,7 +36,7 @@ class ImportExportViewModel
 @Inject
 constructor(
     application: Application,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
     private val shortcutRepository: ShortcutRepository,
     private val importer: Importer,
 ) : BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
@@ -77,7 +77,7 @@ constructor(
     }
 
     fun onImportFromURLButtonClicked() = runAction {
-        openImportUrlDialog(prefill = settings.importUrl?.toString() ?: "")
+        openImportUrlDialog(prefill = deviceLocalPreferences.importUrl?.toString() ?: "")
     }
 
     private suspend fun openImportUrlDialog(prefill: String) {
@@ -114,7 +114,7 @@ constructor(
     }
 
     private fun persistImportUrl(url: Uri) {
-        settings.importUrl = url
+        deviceLocalPreferences.importUrl = url
     }
 
     private suspend fun onImportFailedDueToInvalidUrl() {

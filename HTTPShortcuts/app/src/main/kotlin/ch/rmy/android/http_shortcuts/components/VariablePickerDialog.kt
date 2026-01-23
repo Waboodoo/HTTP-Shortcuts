@@ -24,7 +24,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variables.VariableTypeMappings.getTypeName
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.dtos.GlobalVariablePlaceholder
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -43,13 +43,13 @@ fun VariablePickerDialog(
 ) {
     val context = LocalContext.current
     var showFirstTimeDialog by rememberSaveable {
-        mutableStateOf(!skipFirstTimeDialog && !Settings(context).isAwareOfVariablePlaceholders)
+        mutableStateOf(!skipFirstTimeDialog && !DeviceLocalPreferences(context).isAwareOfVariablePlaceholders)
     }
 
     if (showFirstTimeDialog) {
         AlertDialog(
             onDismissRequest = {
-                Settings(context).isAwareOfVariablePlaceholders = true
+                DeviceLocalPreferences(context).isAwareOfVariablePlaceholders = true
                 onDismissRequested()
             },
             text = {
@@ -66,7 +66,7 @@ fun VariablePickerDialog(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        Settings(context).isAwareOfVariablePlaceholders = true
+                        DeviceLocalPreferences(context).isAwareOfVariablePlaceholders = true
                         showFirstTimeDialog = false
                     },
                 ) {

@@ -14,7 +14,7 @@ import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
@@ -29,7 +29,7 @@ class ContactViewModel
 @Inject
 constructor(
     application: Application,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
     private val versionUtil: VersionUtil,
     private val activityProvider: ActivityProvider,
 ) : BaseViewModel<Unit, Unit>(application) {
@@ -90,7 +90,7 @@ constructor(
             appVersionCode = versionUtil.getVersionCode(),
             device = "${Build.MANUFACTURER} ${Build.MODEL}",
             language = Locale.getDefault().language,
-            deviceId = settings.deviceId,
+            deviceId = deviceLocalPreferences.deviceId,
             buildType = BuildConfig.BUILD_TYPE,
         )
 

@@ -5,7 +5,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.http.RequestData
 import ch.rmy.android.http_shortcuts.utils.GsonUtil
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ValidateRequestDataUseCase
 @Inject
 constructor(
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) {
     suspend operator fun invoke(dialogHandle: DialogHandle, shortcut: Shortcut, requestData: RequestData) {
         if (!shortcut.usesCustomBody()) {
@@ -24,7 +24,7 @@ constructor(
         if (requestData.contentType?.startsWith("application/json", ignoreCase = true) != true) {
             return
         }
-        if (settings.isMalformedJsonWarningPermanentlyHidden) {
+        if (deviceLocalPreferences.isMalformedJsonWarningPermanentlyHidden) {
             return
         }
         try {
@@ -38,7 +38,7 @@ constructor(
                                 title = StringResLocalizable(R.string.warning_dialog_title),
                                 message = StringResLocalizable(R.string.warning_message_malformed_json, errorMessage),
                                 onHidden = {
-                                    settings.isMalformedJsonWarningPermanentlyHidden = it
+                                    deviceLocalPreferences.isMalformedJsonWarningPermanentlyHidden = it
                                 },
                             ),
                         )

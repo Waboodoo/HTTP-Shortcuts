@@ -34,8 +34,8 @@ import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.SessionInfoStore
-import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.extensions.usesResponse
 import ch.rmy.android.http_shortcuts.extensions.usesTriggerShortcuts
 import ch.rmy.android.http_shortcuts.icons.Icons
@@ -77,7 +77,7 @@ constructor(
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val executionStarter: ExecutionStarter,
     private val navigationArgStore: NavigationArgStore,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
     private val isSaving = MutableStateFlow(false)
@@ -409,8 +409,8 @@ constructor(
         if (!viewState.hasChanges) {
             skipAction()
         }
-        if (executionType.usesResponse && shortcutId == null && !settings.isAwareOfResponseHandling) {
-            settings.isAwareOfResponseHandling = true
+        if (executionType.usesResponse && shortcutId == null && !deviceLocalPreferences.isAwareOfResponseHandling) {
+            deviceLocalPreferences.isAwareOfResponseHandling = true
             updateDialogState(ShortcutEditorDialogState.ResponseHandlingWarning)
             skipAction()
         }
@@ -544,7 +544,7 @@ constructor(
     fun onResponseHandlingButtonClicked() = runAction {
         skipIfBusy()
         logInfo("Response handling button clicked")
-        settings.isAwareOfResponseHandling = true
+        deviceLocalPreferences.isAwareOfResponseHandling = true
         navigate(NavigationDestination.ShortcutEditorResponse)
     }
 

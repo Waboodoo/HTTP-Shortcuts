@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRep
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.canUseFiles
 import ch.rmy.android.http_shortcuts.extensions.canWaitForConnection
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
@@ -32,7 +32,7 @@ constructor(
     private val restrictionsUtil: RestrictionsUtil,
     private val appOverlayUtil: AppOverlayUtil,
     private val biometricUtil: BiometricUtil,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : BaseViewModel<Unit, ExecutionSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
@@ -81,8 +81,8 @@ constructor(
     }
 
     fun onRunInBackgroundChanged(runInBackground: Boolean) = runAction {
-        if (runInBackground && !settings.isAwareOfRunningInBackgroundLimitations) {
-            settings.isAwareOfRunningInBackgroundLimitations = true
+        if (runInBackground && !deviceLocalPreferences.isAwareOfRunningInBackgroundLimitations) {
+            deviceLocalPreferences.isAwareOfRunningInBackgroundLimitations = true
             updateDialogState(ExecutionSettingsDialogState.RunInBackgroundInfo)
         }
         updateViewState {

@@ -33,7 +33,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -91,7 +91,7 @@ constructor(
     private val appOverlayUtil: AppOverlayUtil,
     private val globalVariableRepository: GlobalVariableRepository,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
     private val userPreferences: UserPreferences,
     private val versionUtil: VersionUtil,
     private val unlockApp: UnlockAppUseCase,
@@ -117,8 +117,8 @@ constructor(
         }
 
         viewModelScope.launch(Dispatchers.Default) {
-            if (settings.firstSeenVersionCode == null) {
-                settings.firstSeenVersionCode = versionUtil.getVersionCode()
+            if (deviceLocalPreferences.firstSeenVersionCode == null) {
+                deviceLocalPreferences.firstSeenVersionCode = versionUtil.getVersionCode()
             }
         }
 
@@ -203,7 +203,7 @@ constructor(
             selectionMode = selectionMode,
             categoryItems = getCategoryTabItems(),
             activeCategoryId = initData.initialCategoryId
-                ?: (widgetShortcutForEditing?.categoryId ?: settings.lastActiveCategoryId)
+                ?: (widgetShortcutForEditing?.categoryId ?: deviceLocalPreferences.lastActiveCategoryId)
                     ?.takeIf { categoryId -> categories.find { it.id == categoryId }?.hidden == false }
                 ?: categories.first { !it.hidden }.id,
             hasMultipleCategories = categories.size > 1,
@@ -253,11 +253,11 @@ constructor(
     }
 
     fun onChangelogPermanentlyHiddenChanged(hidden: Boolean) {
-        settings.isChangeLogPermanentlyHidden = hidden
+        deviceLocalPreferences.isChangeLogPermanentlyHidden = hidden
     }
 
     fun onNetworkRestrictionsWarningHidden(hidden: Boolean) {
-        settings.isNetworkRestrictionWarningPermanentlyHidden = hidden
+        deviceLocalPreferences.isNetworkRestrictionWarningPermanentlyHidden = hidden
     }
 
     fun onRecoveryConfirmed() = runAction {
@@ -410,7 +410,7 @@ constructor(
         if (categoryId != initData.initialCategoryId || switchedAwayFromInitialCategory) {
             switchedAwayFromInitialCategory = true
             if (userPreferences.isRememberActiveCategory) {
-                settings.lastActiveCategoryId = categoryId
+                deviceLocalPreferences.lastActiveCategoryId = categoryId
             }
         }
     }

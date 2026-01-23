@@ -7,7 +7,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ImportExportBase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil.gson
@@ -38,7 +38,7 @@ constructor(
     private val importMigrator: ImportMigrator,
     private val importRepository: ImportRepository,
     private val importExportDefaultsProvider: ImportExportDefaultsProvider,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) {
     suspend fun importFromUri(uri: Uri, importMode: ImportMode, password: String? = null): ImportStatus =
         withContext(Dispatchers.IO) {
@@ -120,12 +120,12 @@ constructor(
                 throw ImportException(e.message!!)
             }
             logInfo("Import validation complete")
-            settings.isAwareOfResponseHandling = true
+            deviceLocalPreferences.isAwareOfResponseHandling = true
             if (!importBase.variables.isNullOrEmpty()) {
-                settings.isAwareOfVariablePlaceholders = true
+                deviceLocalPreferences.isAwareOfVariablePlaceholders = true
             }
             if (importBase.categories?.any { category -> category.shortcuts?.any { it.section != null } == true } == true) {
-                settings.isAwareOfSectionPopulation = true
+                deviceLocalPreferences.isAwareOfSectionPopulation = true
             }
             ImportStatus(
                 importedShortcuts = importBase.categories?.sumOf { it.shortcuts?.size ?: 0 } ?: 0,

@@ -22,27 +22,19 @@ constructor(
 
     var clickBehavior: ShortcutClickBehavior
         get() = getString(KEY_CLICK_BEHAVIOR)?.let { ShortcutClickBehavior.parse(it) } ?: ShortcutClickBehavior.RUN
-        set(value) {
-            putString(KEY_CLICK_BEHAVIOR, value.type)
-        }
+        set(value) = putString(KEY_CLICK_BEHAVIOR, value.type)
 
     var showHiddenShortcuts: Boolean
         get() = getBoolean(KEY_SHOW_HIDDEN_SHORTCUTS)
-        set(value) {
-            putBoolean(KEY_SHOW_HIDDEN_SHORTCUTS, value)
-        }
+        set(value) = putBoolean(KEY_SHOW_HIDDEN_SHORTCUTS, value)
 
     var isCrashReportingAllowed: Boolean
         get() = (getString(KEY_CRASH_REPORTING) ?: "true") != "false"
-        set(value) {
-            putString(KEY_CRASH_REPORTING, value.toString())
-        }
+        set(value) = putString(KEY_CRASH_REPORTING, value.toString())
 
     var darkThemeSetting: String
         get() = getString(KEY_DARK_THEME) ?: DARK_THEME_AUTO
-        set(value) {
-            putString(KEY_DARK_THEME, value)
-        }
+        set(value) = putString(KEY_DARK_THEME, value)
 
     var remoteEditServerUrl: String?
         get() = getString(KEY_REMOTE_EDIT_SERVER)?.takeUnlessEmpty()

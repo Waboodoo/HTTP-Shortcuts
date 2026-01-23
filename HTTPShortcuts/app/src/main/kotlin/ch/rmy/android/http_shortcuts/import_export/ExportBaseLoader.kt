@@ -32,7 +32,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.BROWSER
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.HTTP
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.MQTT
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.COMPATIBILITY_VERSION
@@ -67,7 +67,7 @@ constructor(
     private val certificatePinRepository: CertificatePinRepository,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val getUsedWorkingDirectoryIds: GetUsedWorkingDirectoryIdsUseCase,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) {
     suspend fun getBase(
         shortcutIds: Collection<ShortcutId>?,
@@ -103,7 +103,7 @@ constructor(
         return ExportBase(
             version = VERSION,
             compatibilityVersion = COMPATIBILITY_VERSION,
-            originDeviceId = settings.deviceId,
+            originDeviceId = deviceLocalPreferences.deviceId,
             createdAt = Instant.now().toString(),
             categories = categories.map { category ->
                 ExportCategory(

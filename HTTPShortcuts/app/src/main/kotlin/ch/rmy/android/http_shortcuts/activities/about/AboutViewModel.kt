@@ -5,7 +5,7 @@ import ch.rmy.android.framework.utils.ClipboardUtil
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
@@ -20,7 +20,7 @@ class AboutViewModel
 constructor(
     application: Application,
     private val userPreferences: UserPreferences,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
     private val versionUtil: VersionUtil,
     private val installUtil: InstallUtil,
     private val clipboardUtil: ClipboardUtil,
@@ -30,8 +30,8 @@ constructor(
         AboutViewState(
             versionNumber = getFormattedVersionNumber(),
             fDroidVisible = !installUtil.isAppInstalledFromPlayStore(),
-            changeLogDialogPermanentlyHidden = settings.isChangeLogPermanentlyHidden,
-            deviceId = settings.deviceId,
+            changeLogDialogPermanentlyHidden = deviceLocalPreferences.isChangeLogPermanentlyHidden,
+            deviceId = deviceLocalPreferences.deviceId,
             crashReportingAllowed = Logging.supportsCrashReporting && userPreferences.isCrashReportingAllowed,
         )
 
@@ -42,14 +42,14 @@ constructor(
         updateViewState {
             copy(changeLogDialogPermanentlyHidden = hidden)
         }
-        settings.isChangeLogPermanentlyHidden = hidden
+        deviceLocalPreferences.isChangeLogPermanentlyHidden = hidden
     }
 
     fun onChangeLogButtonClicked() = runAction {
         updateViewState {
             copy(changeLogDialogVisible = true)
         }
-        settings.changeLogLastVersion = versionUtil.getVersionName()
+        deviceLocalPreferences.changeLogLastVersion = versionUtil.getVersionName()
     }
 
     fun onDocumentationButtonClicked() = runAction {
@@ -89,7 +89,7 @@ constructor(
     }
 
     fun onDeviceIdButtonClicked() = runAction {
-        clipboardUtil.copyToClipboard(settings.deviceId)
+        clipboardUtil.copyToClipboard(deviceLocalPreferences.deviceId)
         showSnackbar(R.string.message_device_id_copied)
     }
 

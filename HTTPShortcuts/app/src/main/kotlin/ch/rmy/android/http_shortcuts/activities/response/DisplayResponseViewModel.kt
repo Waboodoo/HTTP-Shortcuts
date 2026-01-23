@@ -17,7 +17,7 @@ import ch.rmy.android.http_shortcuts.activities.response.models.DetailInfo
 import ch.rmy.android.http_shortcuts.activities.response.models.ResponseData
 import ch.rmy.android.http_shortcuts.activities.response.usecases.GetTableDataUseCase
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.readIntoString
 import ch.rmy.android.http_shortcuts.http.HttpStatus
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
@@ -47,7 +47,7 @@ constructor(
     private val activityProvider: ActivityProvider,
     private val shareUtil: ShareUtil,
     private val executionStarter: ExecutionStarter,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
     private val getTableData: GetTableDataUseCase,
 ) : BaseViewModel<DisplayResponseViewModel.InitData, DisplayResponseViewState>(application) {
 
@@ -135,7 +135,7 @@ constructor(
             canShare = responseData.fileUri != null,
             canCopy = responseText.isNotEmpty() && responseText.length < MAX_COPY_LENGTH,
             canSave = responseData.fileUri != null,
-            showExternalUrlWarning = !settings.isExternalUrlWarningPermanentlyHidden,
+            showExternalUrlWarning = !deviceLocalPreferences.isExternalUrlWarningPermanentlyHidden,
             javaScriptEnabled = responseData.javaScriptEnabled,
             processing = processing,
         )
@@ -223,7 +223,7 @@ constructor(
         updateViewState {
             copy(showExternalUrlWarning = !hidden)
         }
-        settings.isExternalUrlWarningPermanentlyHidden = hidden
+        deviceLocalPreferences.isExternalUrlWarningPermanentlyHidden = hidden
     }
 
     @Stable

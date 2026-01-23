@@ -9,7 +9,7 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.import_export.Exporter
@@ -34,7 +34,7 @@ class RemoteEditViewModel
 constructor(
     application: Application,
     private val userPreferences: UserPreferences,
-    private val settings: Settings,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
     private val exporter: Exporter,
     private val importer: Importer,
     private val httpClientFactory: HttpClientFactory,
@@ -57,7 +57,7 @@ constructor(
         get() = getRemoteBaseUrl().toString().replace("https://", "")
 
     private val deviceId: String
-        get() = settings.deviceId
+        get() = deviceLocalPreferences.deviceId
 
     private var password: String
         get() = userPreferences.remoteEditPassword ?: ""
