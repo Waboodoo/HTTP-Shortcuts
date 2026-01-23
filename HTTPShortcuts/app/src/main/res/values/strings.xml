@@ -723,6 +723,10 @@
     <string name="settings_add_quick_settings_tile_title">Quick Settings Tile</string>
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_summary">Add a tile to quickly trigger shortcuts from the notification shade</string>
+    <!-- Title of checkbox option on settings screen, that allows the user to enable the feature to remember and restore the last active category -->
+    <string name="settings_remember_category">Remember Category</string>
+    <!-- Subtitle of checkbox option on settings screen, for when the "Remember (last) category" option is enabled -->
+    <string name="settings_remember_category_subtitle">Restore the most recently used category when opening the app</string>
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">App Title</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->

@@ -17,8 +17,8 @@ abstract class PreferencesStore(context: Context, preferencesName: String? = nul
     protected fun getString(key: String): String? =
         preferences.getString(key, null)
 
-    protected fun getBoolean(key: String): Boolean =
-        preferences.getBoolean(key, false)
+    protected fun getBoolean(key: String, defaultValue: Boolean = false): Boolean =
+        preferences.getBoolean(key, defaultValue)
 
     protected fun getInt(key: String): Int? =
         preferences.getInt(key, Int.MIN_VALUE).takeUnless { it == Int.MIN_VALUE }

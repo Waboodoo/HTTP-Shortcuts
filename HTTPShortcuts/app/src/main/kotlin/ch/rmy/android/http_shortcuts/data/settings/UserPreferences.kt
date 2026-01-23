@@ -21,7 +21,7 @@ constructor(
         set(value) = putString(KEY_LANGUAGE, value ?: LANGUAGE_DEFAULT)
 
     var clickBehavior: ShortcutClickBehavior
-        get() = getString(KEY_CLICK_BEHAVIOR)?.let { ShortcutClickBehavior.Companion.parse(it) } ?: ShortcutClickBehavior.RUN
+        get() = getString(KEY_CLICK_BEHAVIOR)?.let { ShortcutClickBehavior.parse(it) } ?: ShortcutClickBehavior.RUN
         set(value) {
             putString(KEY_CLICK_BEHAVIOR, value.type)
         }
@@ -72,6 +72,10 @@ constructor(
         get() = getBoolean(KEY_HEADLESS_MODE_DISABLED)
         set(value) = putBoolean(KEY_HEADLESS_MODE_DISABLED, value)
 
+    var isRememberActiveCategory: Boolean
+        get() = getBoolean(KEY_REMEMBER_ACTIVE_CATEGORY, true)
+        set(value) = putBoolean(KEY_REMEMBER_ACTIVE_CATEGORY, value)
+
     private val _colorThemeFlow = MutableStateFlow(colorTheme)
     val colorThemeFlow = _colorThemeFlow.asStateFlow()
 
@@ -93,5 +97,6 @@ constructor(
         private const val KEY_COLOR_THEME = "color_theme"
         private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
         private const val KEY_HEADLESS_MODE_DISABLED = "headless_mode_disabled"
+        private const val KEY_REMEMBER_ACTIVE_CATEGORY = "remember_active_category"
     }
 }

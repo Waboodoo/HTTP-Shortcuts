@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
+import ch.rmy.android.http_shortcuts.components.SettingsCheckbox
 import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
 import ch.rmy.android.http_shortcuts.components.SettingsSwitch
@@ -30,9 +31,12 @@ fun SettingsContent(
     crashReportingEnabled: Boolean,
     colorTheme: String,
     showHiddenShortcuts: Boolean,
+    rememberActiveCategory: Boolean,
+    rememberActiveCategoryEnabled: Boolean,
     selectedClickActionOption: ShortcutClickBehavior,
     onLanguageSelected: (String?) -> Unit,
     onDarkModeOptionSelected: (String) -> Unit,
+    onRememberActiveCategoryChanged: (Boolean) -> Unit,
     onClickActionOptionSelected: (ShortcutClickBehavior) -> Unit,
     onChangeTitleButtonClicked: () -> Unit,
     onUserAgentButtonClicked: () -> Unit,
@@ -103,6 +107,15 @@ fun SettingsContent(
                     onClick = onQuickSettingsTileButtonClicked,
                 )
             }
+
+            SettingsCheckbox(
+                icon = painterResource(R.drawable.outline_view_week_24),
+                title = stringResource(R.string.settings_remember_category),
+                subtitle = stringResource(R.string.settings_remember_category_subtitle),
+                checked = rememberActiveCategory,
+                enabled = rememberActiveCategoryEnabled,
+                onCheckedChanged = onRememberActiveCategoryChanged,
+            )
         }
 
         SettingsGroup(

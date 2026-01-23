@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import java.time.Instant
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -80,6 +81,10 @@ constructor(
         get() = getBoolean(KEY_AWARE_OF_SECTION_POPULATION)
         set(value) = putBoolean(KEY_AWARE_OF_SECTION_POPULATION, value)
 
+    var lastActiveCategoryId: CategoryId?
+        get() = getString(KEY_LAST_ACTIVE_CATEGORY_ID)
+        set(value) = putString(KEY_LAST_ACTIVE_CATEGORY_ID, value)
+
     companion object {
         private const val KEY_DEVICE_ID = "device_id_v2"
         private const val KEY_FIRST_SEEN_VERSION_CODE = "first_version_code"
@@ -96,6 +101,7 @@ constructor(
         private const val KEY_AWARE_OF_SHORTCUT_UNHIDING = "aware_of_shortcut_unhiding"
         private const val KEY_AWARE_OF_VARIABLE_PLACEHOLDERS = "aware_of_variable_placeholders"
         private const val KEY_AWARE_OF_SECTION_POPULATION = "aware_of_section_population"
+        private const val KEY_LAST_ACTIVE_CATEGORY_ID = "last_active_category_id"
 
         // Intentionally excluding I and O to avoid mixing them up with 1 and 0
         private const val DEVICE_ID_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789"

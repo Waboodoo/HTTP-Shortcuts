@@ -33,6 +33,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
@@ -89,6 +90,7 @@ constructor(
     private val globalVariableRepository: GlobalVariableRepository,
     private val variablePlaceholderProvider: VariablePlaceholderProvider,
     private val settings: Settings,
+    private val userPreferences: UserPreferences,
     private val versionUtil: VersionUtil,
     private val unlockApp: UnlockAppUseCase,
     private val navigationArgStore: NavigationArgStore,
@@ -101,6 +103,7 @@ constructor(
 
     private var activeShortcutId: ShortcutId? = null
     private var settingsRequestHandled: Boolean = false
+    private var switchedAwayFromInitialCategory = false
 
     override suspend fun initialize(data: InitData): MainViewState {
         logInfo("Init with mode=${data.selectionMode}")
@@ -153,7 +156,7 @@ constructor(
             } else {
                 scheduleExecutions()
             }
-            updateLauncherSettings(categories)
+            updateLauncherSettings()
             shortcutWidgetManager.updateAllWidgets(context)
             variableWidgetManager.updateAllWidgets(context)
         }
@@ -184,7 +187,9 @@ constructor(
         return MainViewState(
             selectionMode = selectionMode,
             categoryItems = getCategoryTabItems(),
-            activeCategoryId = initData.initialCategoryId ?: categories.first { !it.hidden }.id,
+            activeCategoryId = initData.initialCategoryId
+                ?: settings.lastActiveCategoryId?.takeIf { categoryId -> categories.any { it.id == categoryId && !it.hidden } }
+                ?: categories.first { !it.hidden }.id,
             hasMultipleCategories = categories.size > 1,
             isLocked = appLock != null,
         )
@@ -282,7 +287,7 @@ constructor(
         sendIntent(appOverlayUtil.getSettingsIntent())
     }
 
-    private suspend fun updateLauncherSettings(categories: List<Category>) {
+    private suspend fun updateLauncherSettings() {
         withContext(Dispatchers.Default) {
             launcherShortcutUpdater.updateAppShortcuts()
             secondaryLauncherManager.setSecondaryLauncherVisibility(shortcutRepository.hasSecondaryLauncherShortcuts())
@@ -385,6 +390,12 @@ constructor(
         updateViewState {
             copy(activeCategoryId = categoryId)
         }
+        if (categoryId != initData.initialCategoryId || switchedAwayFromInitialCategory) {
+            switchedAwayFromInitialCategory = true
+            if (userPreferences.isRememberActiveCategory) {
+                settings.lastActiveCategoryId = categoryId
+            }
+        }
     }
 
     fun onUnlockButtonClicked() = runAction {
@@ -438,9 +449,7 @@ constructor(
 
     fun onShortcutCreated(shortcutId: ShortcutId) = runAction {
         logInfo("Shortcut created")
-        val categories = categoryRepository.getCategories()
-        this@MainViewModel.categories = categories
-        updateLauncherSettings(categories)
+        updateLauncherSettings()
         selectShortcut(shortcutId)
     }
 
@@ -573,9 +582,7 @@ constructor(
 
     fun onShortcutEdited() = runAction {
         logInfo("Shortcut edited")
-        val categories = categoryRepository.getCategories()
-        this@MainViewModel.categories = categories
-        updateLauncherSettings(categories)
+        updateLauncherSettings()
     }
 
     fun onChangesDiscarded() = runAction {
@@ -588,9 +595,7 @@ constructor(
 
     fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         removeShortcutFromHomeScreen(shortcut)
-        val categories = categoryRepository.getCategories()
-        this@MainViewModel.categories = categories
-        updateLauncherSettings(categories)
+        updateLauncherSettings()
     }
 
     fun onSelectShortcut(shortcutId: ShortcutId) = runAction {

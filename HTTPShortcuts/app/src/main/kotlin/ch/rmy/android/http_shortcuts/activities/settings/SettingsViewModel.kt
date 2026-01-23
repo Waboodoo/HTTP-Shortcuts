@@ -8,7 +8,9 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import ch.rmy.android.http_shortcuts.data.settings.Settings
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
@@ -32,6 +34,7 @@ class SettingsViewModel
 constructor(
     application: Application,
     private val userPreferences: UserPreferences,
+    private val categoryRepository: CategoryRepository,
     private val appConfigRepository: AppConfigRepository,
     private val appLockRepository: AppLockRepository,
     private val localeHelper: LocaleHelper,
@@ -39,6 +42,7 @@ constructor(
     private val restrictionsUtil: RestrictionsUtil,
     private val createQuickSettingsTile: CreateQuickSettingsTileUseCase,
     private val biometricUtil: BiometricUtil,
+    private val settings: Settings,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit) = SettingsViewState(
@@ -50,6 +54,8 @@ constructor(
         crashReportingAllowed = userPreferences.isCrashReportingAllowed,
         colorTheme = userPreferences.colorTheme,
         showHiddenShortcuts = userPreferences.showHiddenShortcuts,
+        rememberActiveCategory = userPreferences.isRememberActiveCategory,
+        rememberActiveCategoryEnabled = categoryRepository.getCategories().count { !it.hidden } > 1,
     )
 
     fun onLockButtonClicked() = runAction {
@@ -174,6 +180,16 @@ constructor(
         userPreferences.showHiddenShortcuts = show
         updateViewState {
             copy(showHiddenShortcuts = show)
+        }
+    }
+
+    fun onRememberActiveCategoryChanged(remember: Boolean) = runAction {
+        userPreferences.isRememberActiveCategory = remember
+        if (!remember) {
+            settings.lastActiveCategoryId = null
+        }
+        updateViewState {
+            copy(rememberActiveCategory = remember)
         }
     }
 }
