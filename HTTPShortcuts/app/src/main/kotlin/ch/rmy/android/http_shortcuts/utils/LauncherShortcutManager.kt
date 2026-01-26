@@ -131,8 +131,8 @@ constructor(
         val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
         try {
             shortcutManager.requestPinShortcut(shortcutInfo, null)
-        } catch (e: IllegalArgumentException) {
-            logException(e)
+        } catch (_: IllegalArgumentException) {
+            // If the shortcut already exists but is disabled, we'll land here, so we'll just try to enable the shortcut
             tryOrLog {
                 shortcutManager.enableShortcuts(listOf(shortcutInfo.id))
             }
