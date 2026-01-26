@@ -28,7 +28,8 @@ sealed interface ShortcutIcon {
                 getDrawableUri(context, identifier)
             }
 
-        val tint: Int? = run {
+        @ColorInt
+        override val tint: Int? = run {
             COLOR_SUFFIX_REGEX.matchEntire(iconName)
                 ?.let { matchResult ->
                     matchResult.groupValues[2]
@@ -213,6 +214,9 @@ sealed interface ShortcutIcon {
         override val isUsableAsSilhouette: Boolean
             get() = name.hasTransparency
 
+        override val tint: Int?
+            get() = name.singleColor
+
         override fun toString() = fileName
 
         override fun equals(other: Any?) =
@@ -246,6 +250,10 @@ sealed interface ShortcutIcon {
 
     val isUsableAsSilhouette: Boolean
         get() = false
+
+    @get:ColorInt
+    val tint: Int?
+        get() = null
 
     companion object {
         fun fromName(iconName: String?): ShortcutIcon {

@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.R
 import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.Icon
+import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.getSystemService
 import androidx.core.graphics.createBitmap
@@ -53,13 +55,27 @@ object IconUtil {
 
                     if (adaptive) {
                         val outerSize = (108 * density).toInt()
-                        val innerSize = (76 * density).toInt()
+
+                        // Icons with transparency are well suited to be used in adaptive icons, so we can go with 66dp as recommended by the
+                        // guidelines. Icons without transparency will look weird, so we scale them up a little so the cropping is less obvious.
+                        val innerSize = ((if (icon.isUsableAsSilhouette) 66 else 76) * density).toInt()
                         val offset = (outerSize - innerSize) / 2f
                         val scaledBitmap = originalBitmap.scale(innerSize, innerSize, false)
                         val paddedBitmap = createBitmap(outerSize, outerSize)
                         try {
                             val canvas = Canvas(paddedBitmap)
-                            canvas.drawARGB(0, 0, 0, 0)
+
+                            val singleColor = icon.tint
+                            if (singleColor != null) {
+                                val luminance = Color.valueOf(singleColor).luminance()
+                                if (luminance < 0.4f) {
+                                    canvas.drawARGB(255, 250, 250, 250)
+                                } else {
+                                    canvas.drawARGB(255, 5, 5, 5)
+                                }
+                            } else {
+                                canvas.drawARGB(255, 5, 5, 5)
+                            }
 
                             val paint = Paint(Paint.FILTER_BITMAP_FLAG)
                             paint.isAntiAlias = true
@@ -196,9 +212,11 @@ object IconUtil {
             ?: return null
         val iconSize = getIconSize(context)
         val scaledBitmap = bitmap.scale(iconSize, iconSize)
+        val colorAnalysis = scaledBitmap.analyzeColors()
         val iconName = CustomIconName.generate(
             isCircular = false,
-            hasTransparency = scaledBitmap.hasSignificantTransparency(),
+            hasTransparency = colorAnalysis.hasSignificantTransparency,
+            singleColor = colorAnalysis.singleColor,
         )
         context.openFileOutput(iconName.toString(), 0).use {
             scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
@@ -209,27 +227,48 @@ object IconUtil {
         return ShortcutIcon.CustomIcon(iconName)
     }
 
-    fun Bitmap.hasSignificantTransparency(): Boolean {
-        val factor = 2
+    fun Bitmap.analyzeColors(): BitmapColorAnalysis {
+        val totalPixels = width * height
+        val factor = if (totalPixels > 64 * 64) 2 else 1
         var transparentPixels = 0
-        val threshold = ((width * height) * 0.1f / factor).toInt()
+        val transparencyThreshold = (totalPixels * 0.1f / factor).toInt()
+        val colors = mutableMapOf<Int, Int>()
         for (x in 0 until width step factor) {
             for (y in 0 until height step factor) {
-                if (this[x, y] == Color.TRANSPARENT) {
+                val color = this[x, y]
+                if (color == Color.TRANSPARENT) {
                     transparentPixels++
-                    if (transparentPixels > threshold) {
-                        return true
-                    }
+                } else {
+                    val colorWithoutAlpha = color and 0xFFFFFF
+                    colors[colorWithoutAlpha] = (colors[colorWithoutAlpha] ?: 0) + 1
                 }
             }
         }
-        return false
+
+        val singleColorThreshold = ((totalPixels - transparentPixels) * 0.1f / factor).toInt()
+        val mostPopularEntries = colors.entries.sortedByDescending { it.value }
+        val mostPopularEntry = mostPopularEntries.getOrNull(0)
+        val secondPopularEntry = mostPopularEntries.getOrNull(1)
+        return BitmapColorAnalysis(
+            hasSignificantTransparency = transparentPixels >= transparencyThreshold,
+            singleColor = if (mostPopularEntry != null && (secondPopularEntry?.value ?: 0) < singleColorThreshold) {
+                mostPopularEntry.key
+            } else {
+                null
+            },
+        )
     }
+
+    data class BitmapColorAnalysis(
+        val hasSignificantTransparency: Boolean,
+        @ColorInt
+        val singleColor: Int?,
+    )
 
     fun getIconSize(context: Context, scaled: Boolean = true): Int {
         if (iconSizeCached == null) {
             iconSizeCached = max(
-                context.resources.getDimensionPixelSize(android.R.dimen.app_icon_size),
+                context.resources.getDimensionPixelSize(R.dimen.app_icon_size),
                 context.getSystemService<ActivityManager>()!!.launcherLargeIconSize,
             )
         }
