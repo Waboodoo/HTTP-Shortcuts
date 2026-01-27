@@ -33,7 +33,7 @@ fun ShortcutIcon(
         shortcutIcon.getIconURI(context).toString()
     }
     val tint = remember(shortcutIcon) {
-        (shortcutIcon as? ShortcutIcon.BuiltInIcon)?.tint?.let(::Color)
+        shortcutIcon.tint?.let(::Color)
     }
     val model = remember(uri) {
         ImageRequest.Builder(context)
