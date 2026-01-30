@@ -27,6 +27,7 @@ fun SettingsContent(
     privacySectionVisible: Boolean,
     quickSettingsTileButtonVisible: Boolean,
     selectedLanguage: String?,
+    hasLock: Boolean,
     selectedDarkModeOption: String,
     crashReportingEnabled: Boolean,
     colorTheme: String,
@@ -95,7 +96,11 @@ fun SettingsContent(
             SettingsButton(
                 icon = painterResource(R.drawable.outline_lock_24),
                 title = stringResource(R.string.settings_lock_app_title),
-                subtitle = stringResource(R.string.settings_lock_app_summary),
+                subtitle = if (hasLock) {
+                    stringResource(R.string.settings_lock_app_with_lock_summary)
+                } else {
+                    stringResource(R.string.settings_lock_app_summary)
+                },
                 onClick = onLockButtonClicked,
             )
 

@@ -241,8 +241,6 @@ sealed interface NavigationDestination {
 
     object Settings : NoArgNavigationDestination {
         override val path = "settings"
-
-        const val RESULT_APP_LOCKED = "app-locked"
     }
 
     object TypePicker : NavigationDestination {

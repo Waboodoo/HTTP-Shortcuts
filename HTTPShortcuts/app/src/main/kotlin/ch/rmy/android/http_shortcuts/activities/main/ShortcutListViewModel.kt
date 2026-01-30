@@ -23,7 +23,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.models.ShortcutListItem
 import ch.rmy.android.http_shortcuts.activities.variables.usecases.GetUsedGlobalVariableIdsUseCase
-import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
+import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -77,7 +77,7 @@ class ShortcutListViewModel
 @Inject
 constructor(
     application: Application,
-    private val appLockRepository: AppLockRepository,
+    private val appLockController: AppLockController,
     private val shortcutRepository: ShortcutRepository,
     private val categoryRepository: CategoryRepository,
     private val sectionRepository: SectionRepository,
@@ -146,12 +146,15 @@ constructor(
                 }
         }
 
-        val appLockFlow = appLockRepository.observeLock()
-        val isAppLocked = appLockFlow.first() != null
+        val appLockedFlow = appLockController.observeLocked()
+        val isAppLocked = appLockedFlow.first()
         viewModelScope.launch {
-            appLockFlow.collect { appLock ->
+            appLockedFlow.collect { isAppLocked ->
                 updateViewState {
-                    copy(isAppLocked = appLock != null)
+                    copy(
+                        isAppLocked = isAppLocked,
+                        dialogState = if (isAppLocked) null else dialogState,
+                    )
                 }
             }
         }

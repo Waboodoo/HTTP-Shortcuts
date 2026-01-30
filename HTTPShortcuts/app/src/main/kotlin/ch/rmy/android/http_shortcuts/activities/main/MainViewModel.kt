@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
 import ch.rmy.android.framework.extensions.logInfo
@@ -18,8 +17,8 @@ import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLo
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
+import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
-import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -56,16 +55,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.mindrot.jbcrypt.BCrypt
 
 @HiltViewModel
 class MainViewModel
@@ -75,7 +74,7 @@ constructor(
     private val categoryRepository: CategoryRepository,
     private val shortcutRepository: ShortcutRepository,
     private val appConfigRepository: AppConfigRepository,
-    private val appLockRepository: AppLockRepository,
+    private val appLockController: AppLockController,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
     private val shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase,
     private val shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase,
@@ -139,16 +138,38 @@ constructor(
             }
         }
 
-        val appLockObservable = appLockRepository.observeLock()
-        val appLock = appLockObservable.firstOrNull()
-
+        val isAppLockedFlow = appLockController.observeLocked()
+        val isAppLocked = isAppLockedFlow.first()
         observeToolbarTitle()
         viewModelScope.launch {
-            appLockObservable.collect { appLock ->
-                updateViewState {
-                    copy(isLocked = appLock != null)
+            isAppLockedFlow
+                .distinctUntilChanged()
+                .drop(1)
+                .collect { isLocked ->
+                    updateViewState {
+                        copy(
+                            isLocked = isLocked,
+                            dialogState = if (isLocked) null else dialogState,
+                        )
+                    }
+                    if (isLocked) {
+                        showSnackbar(R.string.message_app_locked)
+                    } else {
+                        showSnackbar(R.string.message_app_unlocked)
+                    }
                 }
-            }
+        }
+
+        val appHasLockFlow = appLockController.observeLock()
+            .map { it != null }
+        val appHasLock = appHasLockFlow.first()
+        viewModelScope.launch {
+            appHasLockFlow
+                .collect { hasLock ->
+                    updateViewState {
+                        copy(hasLock = hasLock)
+                    }
+                }
         }
 
         viewModelScope.launch(Dispatchers.Default) {
@@ -177,11 +198,11 @@ constructor(
             }
 
         viewModelScope.launch {
-            if (data.importUrl != null && appLock == null) {
+            if (data.importUrl != null && !isAppLocked) {
                 navigate(NavigationDestination.ImportExport.buildRequest(data.importUrl))
             } else {
                 when (selectionMode) {
-                    SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded()
+                    SelectionMode.NORMAL -> showNormalStartupDialogsIfNeeded(isAppLockedFlow)
                     SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT -> Unit
                     SelectionMode.SHORTCUT_WIDGET_PLACEMENT -> {
                         initData.widgetId?.let { widgetId ->
@@ -207,7 +228,8 @@ constructor(
                     ?.takeIf { categoryId -> categories.find { it.id == categoryId }?.hidden == false }
                 ?: categories.first { !it.hidden }.id,
             hasMultipleCategories = categories.size > 1,
-            isLocked = appLock != null,
+            isLocked = isAppLocked,
+            hasLock = appHasLock,
             highlightedShortcutId = widgetShortcutForEditing?.id,
         )
     }
@@ -232,11 +254,12 @@ constructor(
         executionScheduler.schedule()
     }
 
-    private fun showNormalStartupDialogsIfNeeded() {
+    private fun showNormalStartupDialogsIfNeeded(isAppLockedFlow: Flow<Boolean>) {
         runAction {
+            isAppLockedFlow.first { !it }
             delay(500.milliseconds)
             val recoveryInfo = shouldShowRecoveryDialog()
-            if (recoveryInfo != null && !viewState.isLocked) {
+            if (recoveryInfo != null) {
                 updateDialogState(
                     MainDialogState.RecoverShortcut(
                         recoveryInfo = recoveryInfo,
@@ -429,8 +452,7 @@ constructor(
                 onSuccess = {
                     runAction {
                         withProgressTracking {
-                            appLockRepository.removeLock()
-                            showSnackbar(R.string.message_app_unlocked)
+                            appLockController.unlock()
                         }
                     }
                 },
@@ -438,27 +460,19 @@ constructor(
         }
     }
 
-    fun onAppLocked() = runAction {
-        showSnackbar(R.string.message_app_locked)
+    fun onLockButtonClicked() = runAction {
+        logInfo("Lock button clicked")
+        appLockController.lock()
     }
 
     fun onUnlockDialogSubmitted(password: String) = runAction {
         withProgressTracking {
-            val lock = appLockRepository.getLock()
-            val passwordHash = lock?.passwordHash
-            val isUnlocked = if (passwordHash != null && BCrypt.checkpw(password, passwordHash)) {
-                consume {
-                    appLockRepository.removeLock()
-                }
-            } else {
-                passwordHash == null
-            }
-            if (isUnlocked) {
+            if (appLockController.isPasswordCorrect(password)) {
                 updateDialogState(null)
-                showSnackbar(R.string.message_app_unlocked)
+                appLockController.unlock()
             } else {
                 updateDialogState(MainDialogState.Progress)
-                delay(Random.nextInt(from = 1, until = 4).seconds)
+                delay(Random.nextInt(from = 1000, until = 5000).milliseconds)
                 updateDialogState(MainDialogState.Unlock(tryAgain = true))
             }
         }
@@ -660,7 +674,7 @@ constructor(
     }
 
     fun onApplicationSettingsRequested() = runAction {
-        if (appLockRepository.getLock() != null || settingsRequestHandled) {
+        if (viewState.isLocked || settingsRequestHandled) {
             skipAction()
         }
         settingsRequestHandled = true

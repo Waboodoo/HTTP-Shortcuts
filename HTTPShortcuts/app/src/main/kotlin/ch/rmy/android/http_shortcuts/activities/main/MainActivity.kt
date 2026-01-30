@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.layout.Box
@@ -28,7 +29,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.compose.rememberNavController
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.logException
@@ -42,6 +46,7 @@ import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.RealmMigrator
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
+import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
@@ -51,6 +56,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.IntegrationUtil
@@ -70,8 +76,35 @@ class MainActivity : BaseComposeActivity() {
     @Inject
     lateinit var integrationUtil: IntegrationUtil
 
+    @Inject
+    lateinit var appLockController: AppLockController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                appLockController.monitor()
+            }
+        }
+    }
+
     @Composable
     override fun Content() {
+        val navHostController = rememberNavController()
+
+        LaunchedEffect(Unit) {
+            appLockController.observeLocked()
+                .collect { isLocked ->
+                    if (isLocked && navHostController.currentDestination?.route != NavigationDestination.Main.routePattern) {
+                        navHostController.navigate(NavigationDestination.Main.routePattern) {
+                            popUpTo(navHostController.graph.startDestinationId) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                }
+        }
+
         if (Application.unmigratedRealmFound) {
             var showDeletionWarning by remember { mutableStateOf(false) }
 
@@ -183,7 +216,7 @@ class MainActivity : BaseComposeActivity() {
                 .navigationBarsPadding()
                 .fillMaxSize(),
         ) {
-            NavigationRoot()
+            NavigationRoot(navHostController)
         }
     }
 

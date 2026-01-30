@@ -1,18 +1,19 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.os.SystemClock
+import ch.rmy.android.framework.utils.ElapsedTime
+import ch.rmy.android.framework.utils.ElapsedTimeProvider
 
 object ActivityCloser {
 
-    private var mainActivityLastClosed: Long? = null
-    private var displayActivityLastClosed: Long? = null
+    private var mainActivityLastClosed: ElapsedTime? = null
+    private var displayActivityLastClosed: ElapsedTime? = null
 
     fun onMainActivityClosed() {
-        mainActivityLastClosed = SystemClock.elapsedRealtime()
+        mainActivityLastClosed = ElapsedTimeProvider.default.get()
     }
 
     fun onDisplayResponseActivityClosed() {
-        displayActivityLastClosed = SystemClock.elapsedRealtime()
+        displayActivityLastClosed = ElapsedTimeProvider.default.get()
     }
 
     fun onMainActivityDestroyed() {

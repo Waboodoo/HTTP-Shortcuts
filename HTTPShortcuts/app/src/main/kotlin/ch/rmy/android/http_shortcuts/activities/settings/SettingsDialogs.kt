@@ -12,13 +12,17 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
+import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
+import ch.rmy.android.http_shortcuts.components.UnlockAppDialog
 import ch.rmy.android.http_shortcuts.utils.Validation
 
 @Composable
 fun SettingsDialogs(
     dialogState: SettingsDialogState?,
     onLockConfirmed: (String, Boolean) -> Unit,
+    onLockRemoved: () -> Unit,
+    onUnlockDialogSubmitted: (String) -> Unit,
     onTitleChangeConfirmed: (String) -> Unit,
     onUserAgentChangeConfirmed: (String) -> Unit,
     onClearCookiesConfirmed: () -> Unit,
@@ -43,14 +47,29 @@ fun SettingsDialogs(
         is SettingsDialogState.LockApp -> {
             LockAppDialog(
                 canUseBiometrics = dialogState.canUseBiometrics,
+                hasLock = dialogState.hasLock,
+                usesBiometrics = dialogState.usesBiometrics,
                 onConfirm = onLockConfirmed,
+                onRemove = onLockRemoved,
                 onDismissalRequested = onDismissalRequested,
+            )
+        }
+        is SettingsDialogState.Unlock -> {
+            UnlockAppDialog(
+                tryAgain = dialogState.tryAgain,
+                onSubmitted = onUnlockDialogSubmitted,
+                onDismissed = onDismissalRequested,
             )
         }
         is SettingsDialogState.ClearCookies -> {
             ClearCookiesDialog(
                 onConfirm = onClearCookiesConfirmed,
                 onDismissalRequested = onDismissalRequested,
+            )
+        }
+        is SettingsDialogState.Progress -> {
+            ProgressDialog(
+                onDismissRequest = {},
             )
         }
         null -> Unit
@@ -85,11 +104,14 @@ private fun ChangeUserAgentDialog(
 @Composable
 private fun LockAppDialog(
     canUseBiometrics: Boolean,
+    hasLock: Boolean,
+    usesBiometrics: Boolean,
     onConfirm: (password: String, useBiometrics: Boolean) -> Unit,
+    onRemove: () -> Unit,
     onDismissalRequested: () -> Unit,
 ) {
     var useBiometrics by remember {
-        mutableStateOf(canUseBiometrics)
+        mutableStateOf(canUseBiometrics && usesBiometrics)
     }
 
     TextInputDialog(
@@ -113,12 +135,16 @@ private fun LockAppDialog(
                 )
             }
         },
-        dismissButton = {
-            TextButton(
-                onClick = onDismissalRequested,
-            ) {
-                Text(stringResource(R.string.dialog_cancel))
+        dismissButton = if (hasLock) {
+            {
+                TextButton(
+                    onClick = onRemove,
+                ) {
+                    Text(stringResource(R.string.dialog_remove))
+                }
             }
+        } else {
+            null
         },
         onDismissRequest = { text ->
             if (text != null) {

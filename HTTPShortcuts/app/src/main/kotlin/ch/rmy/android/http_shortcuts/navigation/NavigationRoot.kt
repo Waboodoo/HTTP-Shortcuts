@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.navigation
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.http_shortcuts.activities.about.AboutScreen
 import ch.rmy.android.http_shortcuts.activities.acknowledgment.AcknowledgmentScreen
@@ -47,8 +47,7 @@ import ch.rmy.android.http_shortcuts.activities.workingdirectories.WorkingDirect
 import ch.rmy.android.http_shortcuts.widget.WidgetsUtil
 
 @Composable
-fun NavigationRoot() {
-    val navController = rememberNavController()
+fun NavigationRoot(navController: NavHostController) {
     NavigationEventHandler(navController)
 
     NavHost(

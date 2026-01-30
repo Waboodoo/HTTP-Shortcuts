@@ -16,4 +16,5 @@ data class SettingsViewState(
     val showHiddenShortcuts: Boolean,
     val rememberActiveCategory: Boolean,
     val rememberActiveCategoryEnabled: Boolean,
+    val hasLock: Boolean,
 )

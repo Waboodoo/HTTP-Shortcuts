@@ -29,7 +29,7 @@ constructor(
                     BiometricUtil.Result.SUCCESS -> onSuccess()
                     BiometricUtil.Result.NEGATIVE_BUTTON -> showPasswordDialog()
                 }
-            } catch (e: BiometricUtil.BiometricException) {
+            } catch (_: BiometricUtil.BiometricException) {
                 showPasswordDialog()
             }
         } else {

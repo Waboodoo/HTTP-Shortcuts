@@ -1,9 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.app.Application
-import android.os.SystemClock
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.utils.ElapsedTime
+import ch.rmy.android.framework.utils.ElapsedTimeProvider
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
@@ -23,6 +24,7 @@ constructor(
     private val executionFactory: ExecutionFactory,
     private val dialogHandler: ExecuteDialogHandler,
     private val shortcutRepository: ShortcutRepository,
+    private val elapsedTimeProvider: ElapsedTimeProvider,
 ) : BaseViewModel<ExecutionParams, ExecuteViewState>(application) {
 
     private lateinit var execution: Execution
@@ -32,7 +34,7 @@ constructor(
             terminateInitialization()
         }
 
-        lastExecutionTime = SystemClock.elapsedRealtime()
+        lastExecutionTime = elapsedTimeProvider.get()
         lastExecutionData = data
 
         execution = executionFactory.createExecution(data, dialogHandler)
@@ -63,7 +65,7 @@ constructor(
             initData.executionId == null &&
             data.shortcutId == initData.shortcutId &&
             data.variableValues == initData.variableValues &&
-            SystemClock.elapsedRealtime() - time < ACCIDENTAL_REPETITION_DEBOUNCE_TIME.inWholeMilliseconds
+            elapsedTimeProvider.get() - time < ACCIDENTAL_REPETITION_DEBOUNCE_TIME
     }
 
     private suspend fun ViewModelScope<ExecuteViewState>.execute() {
@@ -100,7 +102,7 @@ constructor(
     companion object {
         private val ACCIDENTAL_REPETITION_DEBOUNCE_TIME = 500.milliseconds
 
-        private var lastExecutionTime: Long? = null
+        private var lastExecutionTime: ElapsedTime? = null
         private var lastExecutionData: ExecutionParams? = null
     }
 }

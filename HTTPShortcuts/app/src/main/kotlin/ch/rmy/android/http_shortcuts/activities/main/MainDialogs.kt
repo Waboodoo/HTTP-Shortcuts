@@ -6,7 +6,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
@@ -18,7 +17,7 @@ import ch.rmy.android.http_shortcuts.components.IconPickerDialog
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
-import ch.rmy.android.http_shortcuts.components.TextInputDialog
+import ch.rmy.android.http_shortcuts.components.UnlockAppDialog
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
@@ -84,7 +83,7 @@ fun MainDialogs(
             )
         }
         is MainDialogState.Unlock -> {
-            UnlockDialog(
+            UnlockAppDialog(
                 tryAgain = dialogState.tryAgain,
                 onSubmitted = onUnlockDialogSubmitted,
                 onDismissed = onDismissed,
@@ -200,28 +199,6 @@ private fun ShortcutPlacementDialog(
                 Text(stringResource(R.string.label_placement_method_legacy))
             }
         },
-    )
-}
-
-@Composable
-private fun UnlockDialog(
-    tryAgain: Boolean,
-    onSubmitted: (String) -> Unit,
-    onDismissed: () -> Unit,
-) {
-    TextInputDialog(
-        title = stringResource(R.string.dialog_title_unlock_app),
-        message = stringResource(if (tryAgain) R.string.dialog_text_unlock_app_retry else R.string.dialog_text_unlock_app),
-        confirmButton = stringResource(R.string.button_unlock_app),
-        allowEmpty = false,
-        onDismissRequest = {
-            if (it != null) {
-                onSubmitted(it)
-            } else {
-                onDismissed()
-            }
-        },
-        keyboardType = KeyboardType.Password,
     )
 }
 

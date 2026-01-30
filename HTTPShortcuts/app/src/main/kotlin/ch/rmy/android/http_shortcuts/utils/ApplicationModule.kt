@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.app.Application
 import android.content.Context
+import ch.rmy.android.framework.utils.ElapsedTimeProvider
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.DatabaseProvider
 import ch.rmy.android.scripting.ScriptingEngineFactory
@@ -35,4 +36,8 @@ object ApplicationModule {
     @Provides
     fun provideNow(): () -> Instant =
         Instant::now
+
+    @Provides
+    fun provideElapsedTimeProvider(): ElapsedTimeProvider =
+        ElapsedTimeProvider.default
 }

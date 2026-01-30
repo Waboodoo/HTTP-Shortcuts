@@ -24,7 +24,6 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
-import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Settings.RESULT_APP_LOCKED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ShortcutWidget.RESULT_SHORTCUT_WIDGET_SETTINGS_CANCELLED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.VariableWidget.RESULT_VARIABLE_WIDGET_SETTINGS_CANCELLED
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
@@ -67,9 +66,6 @@ fun MainScreen(
             RESULT_SHORTCUTS_MOVED,
             -> {
                 viewModel.onShortcutsOrCategoriesChanged()
-            }
-            RESULT_APP_LOCKED -> {
-                viewModel.onAppLocked()
             }
             is CurlCommand -> {
                 viewModel.onCurlCommandSubmitted(result)
@@ -117,22 +113,31 @@ fun MainScreen(
         title = state?.run { toolbarTitle.ifEmpty { stringResource(R.string.app_name) } } ?: "",
         backButton = null,
         actions = { viewState ->
-            if (viewState.isLocked) {
-                ToolbarIcon(
-                    painterResource(R.drawable.outline_lock_24),
-                    contentDescription = stringResource(R.string.menu_action_unlock_app),
-                    onClick = viewModel::onUnlockButtonClicked,
-                )
-            } else if (viewState.selectionMode == SelectionMode.NORMAL) {
-                MainMenu(
-                    onCategoriesButtonClicked = viewModel::onCategoriesButtonClicked,
-                    onVariablesButtonClicked = viewModel::onVariablesButtonClicked,
-                    onWorkingDirectoriesClicked = viewModel::onWorkingDirectoriesClicked,
-                    onImportExportButtonClicked = viewModel::onImportExportButtonClicked,
-                    onTroubleShootingButtonClicked = viewModel::onTroubleShootingButtonClicked,
-                    onSettingsButtonClicked = viewModel::onSettingsButtonClicked,
-                    onAboutButtonClicked = viewModel::onAboutButtonClicked,
-                )
+            if (viewState.selectionMode == SelectionMode.NORMAL) {
+                if (viewState.isLocked) {
+                    ToolbarIcon(
+                        painterResource(R.drawable.outline_lock_open_24),
+                        contentDescription = stringResource(R.string.menu_action_unlock_app),
+                        onClick = viewModel::onUnlockButtonClicked,
+                    )
+                } else {
+                    if (viewState.hasLock) {
+                        ToolbarIcon(
+                            painterResource(R.drawable.outline_lock_24),
+                            contentDescription = stringResource(R.string.menu_action_lock_app),
+                            onClick = viewModel::onLockButtonClicked,
+                        )
+                    }
+                    MainMenu(
+                        onCategoriesButtonClicked = viewModel::onCategoriesButtonClicked,
+                        onVariablesButtonClicked = viewModel::onVariablesButtonClicked,
+                        onWorkingDirectoriesClicked = viewModel::onWorkingDirectoriesClicked,
+                        onImportExportButtonClicked = viewModel::onImportExportButtonClicked,
+                        onTroubleShootingButtonClicked = viewModel::onTroubleShootingButtonClicked,
+                        onSettingsButtonClicked = viewModel::onSettingsButtonClicked,
+                        onAboutButtonClicked = viewModel::onAboutButtonClicked,
+                    )
+                }
             }
         },
         onTitleClicked = if (state?.isLocked == false) {
