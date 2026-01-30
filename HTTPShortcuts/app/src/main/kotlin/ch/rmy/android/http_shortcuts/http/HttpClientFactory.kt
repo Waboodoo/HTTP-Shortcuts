@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import ch.rmy.android.http_shortcuts.exceptions.NoIpAddressException
+import ch.rmy.android.http_shortcuts.utils.SSLUtil.getTrustManager
 import com.burgstaller.okhttp.digest.Credentials
 import java.net.Authenticator
 import java.net.Inet4Address
@@ -38,7 +39,6 @@ import okhttp3.ConnectionSpec
 import okhttp3.CookieJar
 import okhttp3.Dns
 import okhttp3.OkHttpClient
-import org.conscrypt.Conscrypt
 
 @Singleton
 class HttpClientFactory
@@ -180,11 +180,7 @@ constructor() {
         clientCertParams: ClientCertParams?,
     ): OkHttpClient.Builder =
         run {
-            val trustManager = when (hostVerificationConfig) {
-                HostVerificationConfig.Default -> Conscrypt.getDefaultX509TrustManager()
-                is HostVerificationConfig.SelfSigned -> UnsafeTrustManager(expectedFingerprint = hostVerificationConfig.expectedFingerprint)
-                HostVerificationConfig.TrustAll -> UnsafeTrustManager()
-            }
+            val trustManager = hostVerificationConfig.getTrustManager()
             val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
 
             val keyManagers = when (clientCertParams) {

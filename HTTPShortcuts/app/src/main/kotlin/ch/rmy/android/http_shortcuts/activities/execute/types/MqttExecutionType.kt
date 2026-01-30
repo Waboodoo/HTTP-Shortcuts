@@ -42,6 +42,7 @@ constructor(
                     serverUri = injectVariables(shortcut.url, variableManager),
                     username = username.takeIf { useAuthentication },
                     password = password.takeIf { useAuthentication },
+                    hostVerificationConfig = shortcut.getSSLConfig(),
                     messages = MqttUtil.getMessagesFromBody(injectVariables(shortcut.bodyContent, variableManager)),
                 )
             } catch (e: MqttUtil.MqttUtilException) {

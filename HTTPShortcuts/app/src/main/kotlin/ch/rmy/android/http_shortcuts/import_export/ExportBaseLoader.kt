@@ -27,10 +27,10 @@ import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType.BASIC
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType.BEARER
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType.DIGEST
-import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.BROWSER
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.HTTP
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.MQTT
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType.WAKE_ON_LAN
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.getRequestHeadersForShortcuts
@@ -158,7 +158,10 @@ constructor(
                                     ?.bodyContent,
                                 timeout = shortcut.takeIf { type == HTTP }?.timeout?.takeIf { it != 10_000 },
                                 waitForInternet = shortcut.takeIf { type == HTTP }?.isWaitForNetwork?.trueOrNull(),
-                                acceptAllCertificates = (shortcut.takeIf { type == HTTP }?.securityPolicy == SecurityPolicy.AcceptAll).trueOrNull(),
+                                acceptAllCertificates = (
+                                    shortcut.takeIf { type == HTTP || type == MQTT }
+                                        ?.securityPolicy == SecurityPolicy.AcceptAll
+                                    ).trueOrNull(),
                                 certificateFingerprint = (shortcut.securityPolicy as? SecurityPolicy.FingerprintOnly)?.certificateFingerprint,
                                 authentication = shortcut.authenticationType?.type,
                                 launcherShortcut = shortcut.launcherShortcut.falseOrNull(),
@@ -260,18 +263,18 @@ constructor(
                                 codeOnSuccess = shortcut.codeOnSuccess.takeUnlessEmpty(),
                                 codeOnFailure = shortcut.codeOnFailure.takeUnlessEmpty(),
                                 browserPackageName = shortcut
-                                    .takeIf { type == ShortcutExecutionType.BROWSER }
+                                    .takeIf { type == BROWSER }
                                     ?.targetBrowser
                                     ?.serialize(),
                                 excludeFromHistory = shortcut.excludeFromHistory.trueOrNull(),
                                 excludeFromFileSharing = shortcut.excludeFromFileSharing.trueOrNull(),
                                 runInForegroundService = shortcut.runInForegroundService.trueOrNull(),
-                                wolMacAddress = shortcut.takeIf { type == ShortcutExecutionType.WAKE_ON_LAN }
+                                wolMacAddress = shortcut.takeIf { type == WAKE_ON_LAN }
                                     ?.wolMacAddress,
-                                wolPort = shortcut.takeIf { type == ShortcutExecutionType.WAKE_ON_LAN }
+                                wolPort = shortcut.takeIf { type == WAKE_ON_LAN }
                                     ?.wolPort
                                     ?.takeIf { it != 9 },
-                                wolBroadcastAddress = shortcut.takeIf { type == ShortcutExecutionType.WAKE_ON_LAN }
+                                wolBroadcastAddress = shortcut.takeIf { type == WAKE_ON_LAN }
                                     ?.wolBroadcastAddress
                                     ?.takeIf { it != "255.255.255.255" },
                                 headers = requestHeadersByShortcutId[shortcut.id]

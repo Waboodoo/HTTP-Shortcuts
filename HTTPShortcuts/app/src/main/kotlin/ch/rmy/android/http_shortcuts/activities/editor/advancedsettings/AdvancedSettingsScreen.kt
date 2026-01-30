@@ -26,6 +26,7 @@ fun AdvancedSettingsScreen(
         AdvancedSettingsContent(
             savedStateHandle = savedStateHandle,
             followRedirects = viewState.followRedirects,
+            shortcutExecutionType = viewState.shortcutExecutionType,
             storeCookies = viewState.acceptCookies,
             keepConnectionOpen = viewState.keepConnectionOpen,
             requireSpecificWifi = viewState.requireSpecificWifi,

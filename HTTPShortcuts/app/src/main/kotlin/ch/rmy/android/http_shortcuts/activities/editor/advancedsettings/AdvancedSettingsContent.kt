@@ -27,10 +27,12 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 
 @Composable
 fun AdvancedSettingsContent(
     savedStateHandle: SavedStateHandle,
+    shortcutExecutionType: ShortcutExecutionType,
     followRedirects: Boolean,
     storeCookies: Boolean,
     keepConnectionOpen: Boolean,
@@ -64,135 +66,137 @@ fun AdvancedSettingsContent(
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
-        Checkbox(
-            label = stringResource(R.string.label_follow_redirects),
-            checked = followRedirects,
-            onCheckedChange = onFollowRedirectsChanged,
-        )
-
-        Checkbox(
-            label = stringResource(R.string.label_accept_cookies),
-            checked = storeCookies,
-            onCheckedChange = onStoreCookiesChanged,
-        )
-
-        Checkbox(
-            label = stringResource(R.string.label_keep_connection_open),
-            checked = keepConnectionOpen,
-            onCheckedChange = onKeepConnectionOpenChanged,
-        )
-
-        HorizontalDivider()
-
-        Column {
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
             Checkbox(
-                label = stringResource(R.string.label_require_specific_wifi_ssid),
-                checked = requireSpecificWifi,
-                onCheckedChange = onRequireSpecificWifiChanged,
+                label = stringResource(R.string.label_follow_redirects),
+                checked = followRedirects,
+                onCheckedChange = onFollowRedirectsChanged,
             )
-            AnimatedVisibility(visible = requireSpecificWifi) {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = Spacing.MEDIUM)
-                        .padding(bottom = Spacing.MEDIUM),
-                    label = {
-                        Text(stringResource(R.string.label_ssid))
-                    },
-                    supportingText = {
-                        Text(stringResource(R.string.message_permission_rational))
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.None,
-                        autoCorrectEnabled = false,
+
+            Checkbox(
+                label = stringResource(R.string.label_accept_cookies),
+                checked = storeCookies,
+                onCheckedChange = onStoreCookiesChanged,
+            )
+
+            Checkbox(
+                label = stringResource(R.string.label_keep_connection_open),
+                checked = keepConnectionOpen,
+                onCheckedChange = onKeepConnectionOpenChanged,
+            )
+
+            HorizontalDivider()
+
+            Column {
+                Checkbox(
+                    label = stringResource(R.string.label_require_specific_wifi_ssid),
+                    checked = requireSpecificWifi,
+                    onCheckedChange = onRequireSpecificWifiChanged,
+                )
+                AnimatedVisibility(visible = requireSpecificWifi) {
+                    TextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = Spacing.MEDIUM)
+                            .padding(bottom = Spacing.MEDIUM),
+                        label = {
+                            Text(stringResource(R.string.label_ssid))
+                        },
+                        supportingText = {
+                            Text(stringResource(R.string.message_permission_rational))
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrectEnabled = false,
+                        ),
+                        value = wifiSsid,
+                        onValueChange = onWifiSsidChanged,
+                        singleLine = true,
+                    )
+                }
+            }
+
+            HorizontalDivider()
+
+            SettingsButton(
+                title = stringResource(R.string.label_timeout),
+                subtitle = timeoutSubtitle,
+                onClick = onTimeoutButtonClicked,
+            )
+
+            HorizontalDivider()
+
+            Column(
+                modifier = Modifier.padding(Spacing.MEDIUM),
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+            ) {
+                SelectionField(
+                    title = stringResource(R.string.label_ip_version),
+                    selectedKey = ipVersion,
+                    items = listOf(
+                        null to stringResource(R.string.option_ip_version_auto),
+                        IpVersion.V4 to "IPv4",
+                        IpVersion.V6 to "IPv6",
                     ),
-                    value = wifiSsid,
-                    onValueChange = onWifiSsidChanged,
-                    singleLine = true,
+                    onItemSelected = onIpVersionChanged,
                 )
             }
-        }
 
-        HorizontalDivider()
+            HorizontalDivider()
 
-        SettingsButton(
-            title = stringResource(R.string.label_timeout),
-            subtitle = timeoutSubtitle,
-            onClick = onTimeoutButtonClicked,
-        )
+            Column(
+                modifier = Modifier.padding(Spacing.MEDIUM),
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+            ) {
+                SelectionField(
+                    title = stringResource(R.string.label_proxy_type),
+                    selectedKey = proxyType,
+                    items = listOf(
+                        null to stringResource(R.string.option_no_proxy),
+                        ProxyType.HTTP to "HTTP",
+                        ProxyType.SOCKS to "SOCKS",
+                    ),
+                    onItemSelected = onProxyTypeChanged,
+                )
+                AnimatedVisibility(visible = proxyType != null) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+                    ) {
+                        ProxyHostField(
+                            savedStateHandle = savedStateHandle,
+                            host = proxyHost,
+                            onHostChanged = onProxyHostChanged,
+                        )
 
-        HorizontalDivider()
+                        ProxyPortField(
+                            modifier = Modifier.fillMaxWidth(),
+                            port = proxyPort,
+                            onPortChanged = onProxyPortChanged,
+                        )
+                    }
+                }
 
-        Column(
-            modifier = Modifier.padding(Spacing.MEDIUM),
-            verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
-        ) {
-            SelectionField(
-                title = stringResource(R.string.label_ip_version),
-                selectedKey = ipVersion,
-                items = listOf(
-                    null to stringResource(R.string.option_ip_version_auto),
-                    IpVersion.V4 to "IPv4",
-                    IpVersion.V6 to "IPv6",
-                ),
-                onItemSelected = onIpVersionChanged,
-            )
-        }
+                AnimatedVisibility(visible = proxyType?.supportsAuthentication == true) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+                    ) {
+                        ProxyUsernameField(
+                            savedStateHandle = savedStateHandle,
+                            username = proxyUsername,
+                            onUsernameChanged = onProxyUsernameChanged,
+                        )
 
-        HorizontalDivider()
-
-        Column(
-            modifier = Modifier.padding(Spacing.MEDIUM),
-            verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
-        ) {
-            SelectionField(
-                title = stringResource(R.string.label_proxy_type),
-                selectedKey = proxyType,
-                items = listOf(
-                    null to stringResource(R.string.option_no_proxy),
-                    ProxyType.HTTP to "HTTP",
-                    ProxyType.SOCKS to "SOCKS",
-                ),
-                onItemSelected = onProxyTypeChanged,
-            )
-            AnimatedVisibility(visible = proxyType != null) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
-                ) {
-                    ProxyHostField(
-                        savedStateHandle = savedStateHandle,
-                        host = proxyHost,
-                        onHostChanged = onProxyHostChanged,
-                    )
-
-                    ProxyPortField(
-                        modifier = Modifier.fillMaxWidth(),
-                        port = proxyPort,
-                        onPortChanged = onProxyPortChanged,
-                    )
+                        ProxyPasswordField(
+                            savedStateHandle = savedStateHandle,
+                            password = proxyPassword,
+                            onPasswordChanged = onProxyPasswordChanged,
+                        )
+                    }
                 }
             }
 
-            AnimatedVisibility(visible = proxyType?.supportsAuthentication == true) {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
-                ) {
-                    ProxyUsernameField(
-                        savedStateHandle = savedStateHandle,
-                        username = proxyUsername,
-                        onUsernameChanged = onProxyUsernameChanged,
-                    )
-
-                    ProxyPasswordField(
-                        savedStateHandle = savedStateHandle,
-                        password = proxyPassword,
-                        onPasswordChanged = onProxyPasswordChanged,
-                    )
-                }
-            }
+            HorizontalDivider()
         }
-
-        HorizontalDivider()
 
         Column(
             modifier = Modifier.padding(Spacing.MEDIUM),

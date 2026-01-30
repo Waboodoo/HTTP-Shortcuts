@@ -1,5 +1,8 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.framework.extensions.fromHexString
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
 import ch.rmy.android.scripting.JsFunctionArgs
@@ -40,9 +43,24 @@ constructor(
                 serverUri = args.getString(0) ?: "",
                 username = options?.get("username") as? String,
                 password = options?.get("password") as? String,
+                hostVerificationConfig = options?.getHostVerificationConfig() ?: HostVerificationConfig.Default,
                 messages = messages,
             ),
         )
+    }
+
+    private fun Map<String, Any?>.getHostVerificationConfig(): HostVerificationConfig? {
+        val fingerprint = get("fingerprint")?.toString()?.takeUnlessEmpty()
+            ?.replace("[^A-Fa-f0-9]".toRegex(), "")
+            ?.fromHexString()
+        if (fingerprint != null) {
+            return HostVerificationConfig.SelfSigned(fingerprint)
+        }
+        val verifyHostName = get("verifyHostname")?.toString()?.toBoolean()
+        if (verifyHostName == false) {
+            return HostVerificationConfig.TrustAll
+        }
+        return null
     }
 
     override fun getAlias() = ActionAlias(

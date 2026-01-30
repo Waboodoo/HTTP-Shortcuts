@@ -6,11 +6,13 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import kotlin.time.Duration
 
 @Stable
 data class AdvancedSettingsViewState(
     val dialogState: AdvancedSettingsDialogState? = null,
+    val shortcutExecutionType: ShortcutExecutionType,
     val followRedirects: Boolean,
     val hostVerificationEnabled: Boolean,
     val hostVerificationType: HostVerificationType,

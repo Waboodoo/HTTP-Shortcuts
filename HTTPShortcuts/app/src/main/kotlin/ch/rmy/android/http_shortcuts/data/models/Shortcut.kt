@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
@@ -12,6 +13,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
+import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
@@ -194,6 +196,13 @@ data class Shortcut(
 
     val responseDisplayActions: List<ResponseDisplayAction>
         get() = responseActions.takeUnlessEmpty()?.split(",")?.mapNotNull(ResponseDisplayAction::parse) ?: emptyList()
+
+    fun getSSLConfig(): HostVerificationConfig =
+        when (securityPolicy) {
+            SecurityPolicy.AcceptAll -> HostVerificationConfig.TrustAll
+            is SecurityPolicy.FingerprintOnly -> HostVerificationConfig.SelfSigned(securityPolicy.certificateFingerprint.fromHexString())
+            null -> HostVerificationConfig.Default
+        }
 
     companion object {
         const val TEMPORARY_ID: ShortcutId = "0"

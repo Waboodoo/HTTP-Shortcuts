@@ -197,7 +197,7 @@ fun ShortcutEditorContent(
             onClick = onExecutionSettingsButtonClicked,
         )
 
-        if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP || shortcutExecutionType == ShortcutExecutionType.MQTT) {
             SettingsButton(
                 title = stringResource(R.string.label_advanced_technical_settings),
                 subtitle = stringResource(R.string.label_advanced_technical_settings_subtitle),

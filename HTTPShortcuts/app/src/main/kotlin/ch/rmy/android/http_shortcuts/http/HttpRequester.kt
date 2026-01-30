@@ -7,16 +7,13 @@ import android.net.Uri
 import android.text.format.Formatter
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
-import ch.rmy.android.framework.extensions.fromHexString
 import ch.rmy.android.framework.extensions.isSuccessfulOrRedirect
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
-import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
-import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
@@ -189,7 +186,7 @@ constructor(
                 cookieJar = cookieJar,
                 certificatePins = certificatePins.map(CertificatePin::toCertificatePin),
                 clientCertParams = shortcut.clientCertParams,
-                hostVerificationConfig = getSSLConfig(shortcut),
+                hostVerificationConfig = shortcut.getSSLConfig(),
             )
 
             val request = buildRequest(shortcut.method.method, requestData.url) {
@@ -306,13 +303,6 @@ constructor(
                 }
                 throw e
             }
-        }
-
-    private fun getSSLConfig(shortcut: Shortcut): HostVerificationConfig =
-        when (val securityPolicy = shortcut.securityPolicy) {
-            SecurityPolicy.AcceptAll -> HostVerificationConfig.TrustAll
-            is SecurityPolicy.FingerprintOnly -> HostVerificationConfig.SelfSigned(securityPolicy.certificateFingerprint.fromHexString())
-            null -> HostVerificationConfig.Default
         }
 
     private fun RequestBuilder.attachParameters(

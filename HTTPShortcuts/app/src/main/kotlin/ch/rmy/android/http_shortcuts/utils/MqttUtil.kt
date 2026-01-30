@@ -1,8 +1,13 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
+import ch.rmy.android.http_shortcuts.http.TLSEnabledSSLSocketFactory
+import ch.rmy.android.http_shortcuts.utils.SSLUtil.getTrustManager
+import java.net.SocketException
 import java.net.UnknownHostException
 import javax.inject.Inject
+import javax.net.ssl.SSLContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.eclipse.paho.client.mqttv3.MqttClient
@@ -14,7 +19,13 @@ import org.eclipse.paho.client.mqttv3.MqttSecurityException
 class MqttUtil
 @Inject
 constructor() {
-    suspend fun sendMessages(serverUri: String, username: String?, password: String?, messages: List<Message>) {
+    suspend fun sendMessages(
+        serverUri: String,
+        username: String?,
+        password: String?,
+        hostVerificationConfig: HostVerificationConfig,
+        messages: List<Message>,
+    ) {
         withContext(Dispatchers.IO) {
             try {
                 val client = MqttClient(serverUri, MqttClient.generateClientId(), null)
@@ -26,6 +37,22 @@ constructor() {
                     if (password != null) {
                         this.password = password.toCharArray()
                     }
+
+                    if (serverUri.startsWith("ssl:", ignoreCase = true)) {
+                        when (hostVerificationConfig) {
+                            HostVerificationConfig.Default -> Unit
+                            is HostVerificationConfig.SelfSigned,
+                            HostVerificationConfig.TrustAll,
+                            -> {
+                                val trustManager = hostVerificationConfig.getTrustManager()
+                                val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
+
+                                sslContext.init(null, arrayOf(trustManager), null)
+                                socketFactory = TLSEnabledSSLSocketFactory(sslContext.socketFactory)
+                                sslHostnameVerifier = { _, _ -> true }
+                            }
+                        }
+                    }
                 }
                 client.connect(options)
                 messages.forEach { message ->
@@ -36,6 +63,8 @@ constructor() {
             } catch (e: MqttException) {
                 val message = if (e.cause is UnknownHostException) {
                     "Could not find host at $serverUri"
+                } else if (e.cause is SocketException) {
+                    e.cause!!.message
                 } else {
                     if (e !is MqttSecurityException) {
                         logException(e)

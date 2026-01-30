@@ -25,9 +25,11 @@ constructor(
     override suspend fun initialize(data: Unit): AdvancedSettingsViewState {
         val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
         return AdvancedSettingsViewState(
+            shortcutExecutionType = shortcut.executionType,
             followRedirects = shortcut.followRedirects,
             certificateFingerprint = (shortcut.securityPolicy as? SecurityPolicy.FingerprintOnly)?.certificateFingerprint.orEmpty(),
-            hostVerificationEnabled = !shortcut.url.startsWith("http:", ignoreCase = true),
+            hostVerificationEnabled = !shortcut.url.startsWith("http:", ignoreCase = true) &&
+                !shortcut.url.startsWith("tcp:", ignoreCase = true),
             hostVerificationType = shortcut.getHostVerificationType(),
             acceptCookies = shortcut.acceptCookies,
             keepConnectionOpen = shortcut.keepConnectionOpen,
