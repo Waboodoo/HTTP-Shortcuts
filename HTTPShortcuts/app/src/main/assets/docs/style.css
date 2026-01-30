@@ -27,7 +27,7 @@ ul {
 ul > li > a {
   font-size: 1.15em;
   line-height: 1.2em;
-  display: block;
+  display: inline-block;
   padding: 0.14em 0;
 }
 a {
