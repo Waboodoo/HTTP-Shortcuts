@@ -5,7 +5,7 @@ import android.view.InflateException
 import ch.rmy.android.framework.extensions.minus
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.BuildConfig
-import ch.rmy.android.http_shortcuts.data.settings.Settings
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import com.bugsnag.android.Bugsnag
 import com.bugsnag.android.Configuration
@@ -20,9 +20,9 @@ import kotlinx.coroutines.CancellationException
 object Logging : ch.rmy.android.framework.extensions.Logging {
 
     /**
-     * Disable crash logging after 3 months to prevent old bugs from spamming
+     * Disable crash logging after 4 months to prevent old bugs from spamming
      */
-    private val MAX_APP_AGE = 3 * 30.days
+    private val MAX_APP_AGE = 4 * 30.days
 
     private var initialized = false
 
@@ -36,12 +36,12 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             error("Bugsnag API key not set")
         }
 
-        val settings = Settings(context)
+        val deviceLocalPreferences = DeviceLocalPreferences(context)
         Bugsnag.start(context, createBugsnagConfig())
-        Bugsnag.setUser(settings.deviceId, null, null)
+        Bugsnag.setUser(deviceLocalPreferences.deviceId, null, null)
         Bugsnag.addOnError { event ->
             event.addMetadata("app", "installedFromStore", InstallUtil(context).isAppInstalledFromPlayStore())
-            event.addMetadata("app", "firstSeenVersion", settings.firstSeenVersionCode)
+            event.addMetadata("app", "firstSeenVersion", deviceLocalPreferences.firstSeenVersionCode)
             event.originalError?.let { !shouldIgnore(it) } != false
         }
         initialized = true
