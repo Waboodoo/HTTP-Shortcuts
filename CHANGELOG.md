@@ -1,3 +1,23 @@
+## Version 4.2.0
+
+### Improvements
+- When reopening the app, it will now show the most recently viewed category instead of the first one. You can disable this in the settings.
+- When unlocking the app, the lock will now no longer be removed but only kept temporarily unlocked. It will automatically lock again after the app was in the background for 10 minutes. You can remove the lock in the settings.
+- It is now possible (again) to have multiple options in a Multiple Choice Variable that share the same value
+- For Variable widgets you can now choose which shortcut should be triggered when the widget is clicked
+- When editing a shortcut widget, the previously selected shortcut is highlighted to make it easier to verify or re-select
+- The app can now detect whether a custom icon has transparency and consists of a single color. This allows it to pick a better icon background color when placing shortcuts on the home screen, and it allows using the icon's outline in the quick settings tile. This only works with newly added icons, not with existing ones.
+- On the Troubleshooting screen you now have the option to disable some of the performance optimizations that the app will try to apply to very simple shortcuts, as these might break functionality in rare situations
+- You can now configure host name verification also for MQTT-Shortcuts
+
+### Bugfixes
+- The option to exclude the values of specific variables from exports is now also honored when using the web editor
+- When completing an import, shortcuts on the home screen and in the launcher menu are now updated to reflect the changes from the import
+
+### Miscellaneous
+- All icons in the app were switched from Material Icons to Material Symbols
+- Some of the settings on the Settings screen now use toggleable switch UI elements
+
 ## Version 4.1.0
 
 ### Potentially Breaking Change
