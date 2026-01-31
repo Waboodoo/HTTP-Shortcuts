@@ -421,6 +421,9 @@ constructor(
     fun onToolbarTitleChangeSubmitted(newTitle: String) = runAction {
         updateDialogState(null)
         withProgressTracking {
+            if (newTitle == appConfigRepository.getToolbarTitle()) {
+                skipAction()
+            }
             appConfigRepository.setToolbarTitle(newTitle)
         }
         showSnackbar(R.string.message_title_changed)
