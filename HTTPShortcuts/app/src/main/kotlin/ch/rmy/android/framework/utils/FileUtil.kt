@@ -60,6 +60,7 @@ object FileUtil {
         context.cacheDir
             .listFiles()
             ?.filter { now - Instant.ofEpochMilli(it.lastModified()) > maxCacheFileAge }
+            ?.filter { !it.name.endsWith(".lck") }
             ?.forEach {
                 it.delete()
             }
