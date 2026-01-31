@@ -45,7 +45,10 @@ android {
     compileSdk = 36
 
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
+    }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
     }
 
     lint {
@@ -201,12 +204,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true
-    }
-
     sourceSets.getByName("main") {
         java.setSrcDirs(listOf("src/main/kotlin"))
     }
@@ -345,10 +342,10 @@ dependencies {
     /* Biometric confirmation */
     implementation(libs.androidx.biometric)
 
-    /* MQTT (for Scripting) */
+    /* MQTT */
     implementation(libs.paho.mqtt)
 
-    /* Password hashing */
+    /* Password hashing (for password lock) */
     implementation(libs.jbcrypt)
 
     /* Crash Reporting */
