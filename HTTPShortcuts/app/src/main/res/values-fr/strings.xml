@@ -202,8 +202,9 @@ Cliquer sur + pour ajouter une variable.</string>
     <string name="title_settings">Réglages</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
     <string name="title_about">À propos</string>
-    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Débloquer réglages</string>
+    <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Paramètres de base</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
@@ -610,8 +611,6 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="error_not_enough_toggle_values">Veuillez ajouter au moins deux valeurs.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Veuillez ajouter au moins une option sélectionnable.</string>
-    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
-    <string name="error_select_value_already_in_use">Cette valeur est déjà utilisée par un une autre option.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Le format de date n\'est pas valide.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -730,10 +729,13 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="settings_lock_app_title">Verrouiller les paramètres</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">Empêcher la modification des raccourcis et des paramètres</string>
+    <!-- Summary/subtitle of section in settings that allows user to change or remove the app lock that prevents changes to settings -->
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_title">Tuile des réglages rapides</string>
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_summary">Ajouter une tuile pour déclencher rapidement des raccourcis depuis l\'écran de notification</string>
+    <!-- Title of checkbox option on settings screen, that allows the user to enable the feature to remember and restore the last active category -->
+    <!-- Subtitle of checkbox option on settings screen, for when the "Remember (last) category" option is enabled -->
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">Titre de l\'application</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
@@ -949,6 +951,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="message_app_locked">Application verrouillée.</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">Application déverrouillée.</string>
+    <!-- Snackbar message: App lock was fully removed -->
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <string name="warning_data_saver_battery_saver_enabled">Les modes économie de bande passante et/ou économie de batterie sont activés sur votre appareil. Si vous rencontrez des problèmes avec les raccourcis, essayez de les désactiver.</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
@@ -1910,13 +1913,21 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <string name="accessibility_rotate_cw">Rotation dans le sens horaire</string>
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
+    <string name="button_restore_data">Restaurer les données</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
+    <string name="button_export_data">Exporter les données</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
+    <string name="button_import_data">Importer les données</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
+    <string name="button_delete_data">Supprimer les données</string>
     <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
+    <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->
+    <!-- Option in "Performance Optimizations" setting, to enable them (for simple shortcuts) -->
+    <!-- Option in "Performance Optimizations" setting, to disable them -->
 </resources>

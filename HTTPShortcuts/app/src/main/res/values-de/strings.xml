@@ -198,8 +198,10 @@
     <string name="title_settings">Einstellungen</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
     <string name="title_about">Information</string>
-    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Einstellungen entsperren</string>
+    <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
+    <string name="menu_action_lock_app">Sperren</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Allgemeine Einstellungen</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
@@ -605,8 +607,6 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="error_not_enough_toggle_values">Bitte mindestens zwei Toggle-Werte hinzufügen.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Bitte mindestens eine Auswahloption hinzufügen.</string>
-    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
-    <string name="error_select_value_already_in_use">Dieser Wert wird bereits von einer anderen Option verwendet.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Das Datumsformat ist ungültig.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -725,10 +725,16 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="settings_lock_app_title">Einstellungen sperren</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">Änderungen an Shortcuts und Einstellungen verhindern</string>
+    <!-- Summary/subtitle of section in settings that allows user to change or remove the app lock that prevents changes to settings -->
+    <string name="settings_lock_app_with_lock_summary">Klicke hier, um dein Passwort zu ändern oder die Sperre zu entfernen</string>
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_title">Quick Settings Tile</string>
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_summary">Führe Shortcuts mit einem Klick in der Benachrichtigungsleiste aus</string>
+    <!-- Title of checkbox option on settings screen, that allows the user to enable the feature to remember and restore the last active category -->
+    <string name="settings_remember_category">Kategorie merken</string>
+    <!-- Subtitle of checkbox option on settings screen, for when the "Remember (last) category" option is enabled -->
+    <string name="settings_remember_category_subtitle">Die zuletzt verwendete Kategorie beim Öffnen der App wiederherstellen</string>
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">App-Titel</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
@@ -949,6 +955,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="message_app_locked">App gesperrt.</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">App entsperrt.</string>
+    <!-- Snackbar message: App lock was fully removed -->
+    <string name="message_app_lock_removed">App-Sperre entfernt.</string>
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <string name="warning_data_saver_battery_saver_enabled">Data Saver und/oder Battery Saver Modi sind aktiv. Das Ausführen von Shortcuts ist eventuell beeinträchtigt. Solltest du Probleme feststellen versuche bitte zuerst diese Modi auszuschalten.</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
@@ -1907,6 +1915,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="error_termux_not_running">Fehler beim Ausführen des Befehls, Termux-App ist nicht aktiv.</string>
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <string name="label_variable_widget_select_variable">Globale Variable</string>
+    <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
+    <string name="label_variable_widget_select_shortcut">Beim Anklicken Shortcut ausführen</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">Mit diesem Widget kannst du den Wert einer globalen Variable des Typs \“%s\” auf deinem Startbildschirm anzeigen.\n\nDu hast noch keine solchen Variablen. Du kannst sie aus dem Hauptmenü der App erstellen.</string>
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
@@ -1925,4 +1935,10 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="message_data_restored">Daten erfolgreich wiederhergestellt.</string>
     <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
     <string name="label_variable_widget_title">Widget-Titel</string>
+    <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->
+    <string name="settings_performance_optimizations">Leistungsoptimierungen</string>
+    <!-- Option in "Performance Optimizations" setting, to enable them (for simple shortcuts) -->
+    <string name="settings_performance_optimizations_enabled">Aktiviert</string>
+    <!-- Option in "Performance Optimizations" setting, to disable them -->
+    <string name="settings_performance_optimizations_disabled">Deaktiviert</string>
 </resources>

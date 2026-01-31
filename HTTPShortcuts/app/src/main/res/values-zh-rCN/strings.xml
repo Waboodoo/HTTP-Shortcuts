@@ -198,8 +198,10 @@
     <string name="title_settings">设置</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
     <string name="title_about">关于</string>
-    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">解锁设置</string>
+    <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
+    <string name="menu_action_lock_app">解锁</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">基本设置</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
@@ -252,7 +254,7 @@
     <string name="settings_remote_edit">在电脑上编辑</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
-        <item quantity="other">已导出一个快捷方式</item>
+        <item quantity="other">已导出 %d 个快捷方式。</item>
     </plurals>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
     <string name="export_in_progress">正在导出快捷方式…</string>
@@ -268,7 +270,7 @@
     <string name="import_failure_invalid_file">导入失败。文件似乎格式不正确或已损坏。</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
-        <item quantity="other">已导入一个快捷方式</item>
+        <item quantity="other">已导入 %d 个快捷方式。</item>
     </plurals>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
     <string name="import_in_progress">正在导出快捷方式…</string>
@@ -594,8 +596,6 @@
     <string name="error_not_enough_toggle_values">请至少添加两个值</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">请至少选择一个选项</string>
-    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
-    <string name="error_select_value_already_in_use">此值已被另一个选项使用。</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">日期格式不正确</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -714,10 +714,16 @@
     <string name="settings_lock_app_title">锁定设置</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">防止更改快捷方式和设置</string>
+    <!-- Summary/subtitle of section in settings that allows user to change or remove the app lock that prevents changes to settings -->
+    <string name="settings_lock_app_with_lock_summary">单击此处更改您的锁定密码或删除锁定</string>
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_title">快速设置磁贴</string>
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_summary">添加磁贴从通知阴影快速切换快捷方式</string>
+    <!-- Title of checkbox option on settings screen, that allows the user to enable the feature to remember and restore the last active category -->
+    <string name="settings_remember_category">记住类别</string>
+    <!-- Subtitle of checkbox option on settings screen, for when the "Remember (last) category" option is enabled -->
+    <string name="settings_remember_category_subtitle">打开应用时恢复最近使用的类别</string>
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">应用标题</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
@@ -937,6 +943,8 @@
     <string name="message_app_locked">应用已锁定</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">应用已解锁</string>
+    <!-- Snackbar message: App lock was fully removed -->
+    <string name="message_app_lock_removed">应用锁已删除。</string>
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <string name="warning_data_saver_battery_saver_enabled">你的设备已启用数据保护或节能模式。如果遇到快捷方式不能运行的问题，请尝试关闭这些模式。</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
@@ -1893,6 +1901,8 @@
     <string name="error_termux_not_running">运行命令失败，Termux 应用程序不活跃。</string>
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <string name="label_variable_widget_select_variable">全局变量</string>
+    <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
+    <string name="label_variable_widget_select_shortcut">单击时运行快捷方式</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">这个小部件可以在主屏幕上展示 \“%s\” 类型的全局变量的值。\n\n你还没有任何这样的变量。你可以从应用的主菜单创建它们。</string>
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
@@ -1911,4 +1921,10 @@
     <string name="message_data_restored">数据恢复成功。</string>
     <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
     <string name="label_variable_widget_title">小部件标题</string>
+    <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->
+    <string name="settings_performance_optimizations">性能优化</string>
+    <!-- Option in "Performance Optimizations" setting, to enable them (for simple shortcuts) -->
+    <string name="settings_performance_optimizations_enabled">已启用</string>
+    <!-- Option in "Performance Optimizations" setting, to disable them -->
+    <string name="settings_performance_optimizations_disabled">已禁用</string>
 </resources>

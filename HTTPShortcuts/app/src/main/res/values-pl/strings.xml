@@ -191,8 +191,9 @@
     <string name="title_settings">Ustawienia</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
     <string name="title_about">O aplikacji</string>
-    <!-- Name of toolbar action: Unlock all settings (will prompt user to enter passcode) -->
+    <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Odblokuj ustawienia</string>
+    <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Ustawienia podstawowe</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
@@ -606,7 +607,6 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <string name="error_not_enough_toggle_values">Dodaj co najmniej dwie wartości.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
     <string name="error_not_enough_select_values">Dodaj co najmniej jedną opcję do wyboru.</string>
-    <!-- Error message, shown in variable editor when a select option uses the same value as another -->
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
     <string name="error_invalid_date_format">Format daty jest nieprawidłowy.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
@@ -723,10 +723,13 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <string name="settings_lock_app_title">Zablokuj ustawienia</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">Zablokuj możliwość zmian skrótów i ustawień</string>
+    <!-- Summary/subtitle of section in settings that allows user to change or remove the app lock that prevents changes to settings -->
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_title">Kafelek szybkich ustawień</string>
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_summary">Dodaj kafelek, aby szybko uruchamiać skróty z cienia powiadomień</string>
+    <!-- Title of checkbox option on settings screen, that allows the user to enable the feature to remember and restore the last active category -->
+    <!-- Subtitle of checkbox option on settings screen, for when the "Remember (last) category" option is enabled -->
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">Tytuł aplikacji</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
@@ -944,6 +947,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <string name="message_app_locked">Aplikacja zablokowana</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">Aplikacja odblokowana</string>
+    <!-- Snackbar message: App lock was fully removed -->
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <string name="warning_data_saver_battery_saver_enabled">W urządzeniu włączone są tryby oszczędzania danych i / lub oszczędzania baterii.  Jeśli napotkasz problemy z niedziałającymi skrótami, spróbuj je wyłączyć.</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
@@ -1880,6 +1884,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
@@ -1889,4 +1894,7 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
+    <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->
+    <!-- Option in "Performance Optimizations" setting, to enable them (for simple shortcuts) -->
+    <!-- Option in "Performance Optimizations" setting, to disable them -->
 </resources>
