@@ -8,11 +8,12 @@
 - When editing a shortcut widget, the previously selected shortcut is highlighted to make it easier to verify or re-select
 - The app can now detect whether a custom icon has transparency and consists of a single color. This allows it to pick a better icon background color when placing shortcuts on the home screen, and it allows using the icon's outline in the quick settings tile. This only works with newly added icons, not with existing ones.
 - On the Troubleshooting screen you now have the option to disable some of the performance optimizations that the app will try to apply to very simple shortcuts, as these might break functionality in rare situations
-- You can now configure host name verification also for MQTT-Shortcuts
+- You can now configure host name verification and use client certificates also for MQTT-Shortcuts
 
 ### Bugfixes
 - The option to exclude the values of specific variables from exports is now also honored when using the web editor
 - When completing an import, shortcuts on the home screen and in the launcher menu are now updated to reflect the changes from the import
+- When editing the main screen title, the "Title changed" snackbar only shows if the title was actually changed
 
 ### Miscellaneous
 - All icons in the app were switched from Material Icons to Material Symbols
