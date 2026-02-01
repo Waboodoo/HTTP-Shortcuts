@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -300,6 +301,7 @@ fun VariablePlaceholderTextField(
 
     if (dialogVisible) {
         val context = LocalContext.current
+        val resources = LocalResources.current
         val keyboard = LocalSoftwareKeyboardController.current
         VariablePickerDialog(
             savedStateHandle = savedStateHandle,
@@ -308,7 +310,7 @@ fun VariablePlaceholderTextField(
             onVariableSelected = {
                 val newTextFieldValue = textFieldValue.insertAtCursor("{{$it}}", "")
                 if (newTextFieldValue.text.length > maxLength) {
-                    context.showToast(context.getString(R.string.error_text_too_long_for_variable, maxLength), long = true)
+                    context.showToast(resources.getString(R.string.error_text_too_long_for_variable, maxLength), long = true)
                     return@VariablePickerDialog
                 }
                 textFieldValue = newTextFieldValue

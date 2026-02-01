@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.R
 import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Bitmap
@@ -268,7 +267,7 @@ object IconUtil {
     fun getIconSize(context: Context, scaled: Boolean = true): Int {
         if (iconSizeCached == null) {
             iconSizeCached = max(
-                context.resources.getDimensionPixelSize(R.dimen.app_icon_size),
+                context.resources.getDimensionPixelSize(android.R.dimen.app_icon_size),
                 context.getSystemService<ActivityManager>()!!.launcherLargeIconSize,
             )
         }

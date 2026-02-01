@@ -278,14 +278,9 @@
         <!-- TODO(???): This alias can probably be removed now -->
         <activity-alias
             android:name=".ExecuteActivity"
-            android:configChanges="orientation|screenSize"
             android:exported="true"
             android:label="@string/title_activity_execute"
-            android:launchMode="singleInstance"
-            android:noHistory="true"
-            android:showWhenLocked="true"
-            android:targetActivity=".activities.ExecuteActivity"
-            android:theme="@style/Theme.Transparent">
+            android:targetActivity=".activities.ExecuteActivity">
             <intent-filter>
                 <action android:name="ch.rmy.android.http_shortcuts.execute" />
             </intent-filter>

@@ -9,13 +9,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import ch.rmy.android.http_shortcuts.R
@@ -74,14 +76,15 @@ private fun EditSectionDialog(
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    var hasFocus by remember {
-                        mutableStateOf(false)
+                    val focusRequester = remember {
+                        FocusRequester()
+                    }
+                    LaunchedEffect(focusRequester) {
+                        focusRequester.requestFocus()
                     }
                     TextField(
                         modifier = Modifier
-                            .onFocusChanged {
-                                hasFocus = it.isFocused
-                            }
+                            .focusRequester(focusRequester)
                             .fillMaxWidth(),
                         value = name,
                         label = {

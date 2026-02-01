@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
+import androidx.compose.ui.platform.LocalResources
 
 @Composable
 fun HttpSettingsContent(
@@ -178,7 +179,7 @@ private fun TargetBrowserSelection(
     browserPackageNameOptions: List<InstalledBrowser>,
     onTargetBrowserChanged: (TargetBrowser) -> Unit,
 ) {
-    val resources = LocalContext.current.resources
+    val resources = LocalResources.current
     SelectionField(
         title = stringResource(R.string.label_browser_package_name),
         selectedKey = targetBrowser,
