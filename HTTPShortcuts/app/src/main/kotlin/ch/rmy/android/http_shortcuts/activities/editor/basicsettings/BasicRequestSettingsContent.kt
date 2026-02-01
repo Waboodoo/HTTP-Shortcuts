@@ -19,6 +19,7 @@ import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
+import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
@@ -86,6 +87,10 @@ fun MqttSettingsContent(
             savedStateHandle = savedStateHandle,
             url = url,
             onUrlChanged = onUrlChanged,
+        )
+
+        HelpText(
+            text = stringResource(R.string.instructions_mqtt_url),
         )
     }
 }

@@ -1,9 +1,13 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.content.Context
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.http.TLSEnabledSSLSocketFactory
+import ch.rmy.android.http_shortcuts.utils.SSLUtil.getKeyManagers
 import ch.rmy.android.http_shortcuts.utils.SSLUtil.getTrustManager
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.net.SocketException
 import java.net.UnknownHostException
 import javax.inject.Inject
@@ -18,12 +22,16 @@ import org.eclipse.paho.client.mqttv3.MqttSecurityException
 
 class MqttUtil
 @Inject
-constructor() {
+constructor(
+    @ApplicationContext
+    private val context: Context,
+) {
     suspend fun sendMessages(
         serverUri: String,
         username: String?,
         password: String?,
         hostVerificationConfig: HostVerificationConfig,
+        clientCertParams: ClientCertParams? = null,
         messages: List<Message>,
     ) {
         withContext(Dispatchers.IO) {
@@ -47,7 +55,8 @@ constructor() {
                                 val trustManager = hostVerificationConfig.getTrustManager()
                                 val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
 
-                                sslContext.init(null, arrayOf(trustManager), null)
+                                val keyManagers = clientCertParams?.getKeyManagers(context)
+                                sslContext.init(keyManagers, arrayOf(trustManager), null)
                                 socketFactory = TLSEnabledSSLSocketFactory(sslContext.socketFactory)
                                 sslHostnameVerifier = { _, _ -> true }
                             }

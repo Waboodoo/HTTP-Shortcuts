@@ -256,7 +256,7 @@ constructor(
                                     ?.wifiSsid
                                     ?.takeUnlessEmpty(),
                                 clientCert = shortcut
-                                    .takeIf { type == HTTP }
+                                    .takeIf { type == HTTP || type == MQTT }
                                     ?.clientCertParams
                                     ?.toString(),
                                 codeOnPrepare = shortcut.codeOnPrepare.takeUnlessEmpty(),

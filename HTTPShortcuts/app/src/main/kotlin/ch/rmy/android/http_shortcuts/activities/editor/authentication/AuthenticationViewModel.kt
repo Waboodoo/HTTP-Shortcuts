@@ -35,7 +35,8 @@ constructor(
             password = shortcut.authPassword,
             token = shortcut.authToken,
             clientCertParams = shortcut.clientCertParams,
-            isClientCertButtonEnabled = !shortcut.url.startsWith("http://", ignoreCase = true),
+            isClientCertButtonEnabled = !shortcut.url.startsWith("http://", ignoreCase = true) &&
+                !shortcut.url.startsWith("tcp://", ignoreCase = true),
         )
     }
 

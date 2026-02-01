@@ -108,7 +108,7 @@ fun AuthenticationContent(
             }
         }
 
-        if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
+        if (shortcutExecutionType == ShortcutExecutionType.HTTP || shortcutExecutionType == ShortcutExecutionType.MQTT) {
             VerticalSpacer(Spacing.SMALL)
 
             Column(
@@ -117,6 +117,7 @@ fun AuthenticationContent(
                 HorizontalDivider()
 
                 ClientCertButton(
+                    shortcutExecutionType = shortcutExecutionType,
                     clientCertParams = clientCertParams,
                     enabled = isClientCertButtonEnabled,
                     onClientCertButtonClicked = onClientCertButtonClicked,
@@ -217,6 +218,7 @@ private fun TokenField(
 
 @Composable
 private fun ClientCertButton(
+    shortcutExecutionType: ShortcutExecutionType,
     clientCertParams: ClientCertParams?,
     enabled: Boolean,
     onClientCertButtonClicked: () -> Unit,
@@ -231,7 +233,11 @@ private fun ClientCertButton(
                 else -> stringResource(R.string.label_subtitle_no_client_cert)
             }
         } else {
-            stringResource(R.string.label_subtitle_not_applicable_for_http)
+            if (shortcutExecutionType == ShortcutExecutionType.HTTP) {
+                stringResource(R.string.label_subtitle_not_applicable_for_http)
+            } else {
+                stringResource(R.string.label_subtitle_not_applicable_for_ssl)
+            }
         },
         onClick = onClientCertButtonClicked,
     )

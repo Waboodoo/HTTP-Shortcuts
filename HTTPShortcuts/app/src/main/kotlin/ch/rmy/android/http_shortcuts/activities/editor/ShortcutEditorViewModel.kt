@@ -310,7 +310,9 @@ constructor(
     private fun getAuthenticationSubtitle(): Localizable =
         if (shortcut.executionType == ShortcutExecutionType.MQTT) {
             StringResLocalizable(
-                if (shortcut.authUsername.isEmpty() && shortcut.authPassword.isEmpty()) {
+                if (shortcut.clientCertParams != null && shortcut.securityPolicy != SecurityPolicy.AcceptAll) {
+                    R.string.subtitle_authentication_client_cert
+                } else if (shortcut.authUsername.isEmpty() && shortcut.authPassword.isEmpty()) {
                     R.string.subtitle_authentication_none
                 } else {
                     R.string.subtitle_authentication_username_and_password_set

@@ -3,7 +3,6 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.Context
 import android.util.Base64
 import androidx.collection.LruCache
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runFor
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -11,9 +10,9 @@ import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
-import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidProxyException
 import ch.rmy.android.http_shortcuts.exceptions.NoIpAddressException
+import ch.rmy.android.http_shortcuts.utils.SSLUtil.getKeyManagers
 import ch.rmy.android.http_shortcuts.utils.SSLUtil.getTrustManager
 import com.burgstaller.okhttp.digest.Credentials
 import java.net.Authenticator
@@ -22,11 +21,9 @@ import java.net.Inet6Address
 import java.net.InetSocketAddress
 import java.net.PasswordAuthentication
 import java.net.Proxy
-import java.security.KeyStore
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.SSLContext
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CoroutineScope
@@ -183,29 +180,7 @@ constructor() {
             val trustManager = hostVerificationConfig.getTrustManager()
             val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
 
-            val keyManagers = when (clientCertParams) {
-                is ClientCertParams.Alias -> {
-                    try {
-                        arrayOf(ClientCertKeyManager.getClientCertKeyManager(context, clientCertParams.alias))
-                    } catch (e: Throwable) {
-                        logException(e)
-                        throw ClientCertException()
-                    }
-                }
-                is ClientCertParams.File -> {
-                    val keyStore = KeyStore.getInstance("PKCS12")
-                    context.openFileInput(clientCertParams.fileName).use {
-                        keyStore.load(it, clientCertParams.password.toCharArray())
-                    }
-                    KeyManagerFactory.getInstance("X509")
-                        .apply {
-                            init(keyStore, clientCertParams.password.toCharArray())
-                        }
-                        .keyManagers
-                }
-                else -> null
-            }
-
+            val keyManagers = clientCertParams?.getKeyManagers(context)
             sslContext.init(keyManagers, arrayOf(trustManager), null)
             sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
         }
