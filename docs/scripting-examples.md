@@ -40,6 +40,29 @@ if (response.body == 'OK') {
 }
 ```
 
+### Use different address when away or at home
+
+This example shows how you can set up a shortcut to use a different address depending on whether you are currently connected to your home wifi network.
+
+The example assumes that you have set up a static global variable named "base_url", which is used in your shortcut's URL field, and that your home wifi is called "Home Sweet Home".
+
+The following code snippet can then be used in your "Run before Execution" block of the Scripting screen:
+
+```js
+const baseUrlHome = "http://192.168.1.123";
+const baseUrlAway = "https://my-service.example.com";
+const old = getVariable("base_url");
+if (getWifiSSID() == "Home Sweet Home") {
+  if (old !== baseUrlHome) {
+    setVariable("base_url", baseUrlHome);
+  }
+} else {
+  if (old !== baseUrlAway) {
+    setVariable("base_url", baseUrlAway);
+  }
+}
+```
+
 ### Ask for confirmation before execution shortcut
 
 This example shows how you can show a custom confirmation message before the shortcut executes and only execute it if the user confirms by clicking 'OK'.
