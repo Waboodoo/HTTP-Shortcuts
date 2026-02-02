@@ -194,6 +194,7 @@
     <string name="title_mqtt_message_edit">編輯訊息</string>
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
     <string name="title_mqtt_message_add">新增訊息</string>
+    <!-- Instruction text for MQTT shortcut URL field -->
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">設定</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -298,6 +299,7 @@
     <string name="label_subtitle_client_cert_file_in_use">目前使用憑證檔案。按一下則移除。</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
     <string name="label_subtitle_not_applicable_for_http">僅限使用 HTTPS 時適用</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the (MQTT) shortcut uses plain TCP instead of SSL -->
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">用戶端憑證</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->

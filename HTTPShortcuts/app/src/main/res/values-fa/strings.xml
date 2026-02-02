@@ -186,6 +186,7 @@
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <!-- Instruction text for MQTT shortcut URL field -->
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">تنظیمات</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -292,6 +293,7 @@
     <string name="label_subtitle_client_cert_file_in_use">از فایل گواهی استفاده می‌کند. برای حذف کلیک کنید.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
     <string name="label_subtitle_not_applicable_for_http">تنها زمانی تاثیر گذار هست که از HTTPS استفاده میکنید</string>
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the (MQTT) shortcut uses plain TCP instead of SSL -->
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">گواهی مشتری</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->

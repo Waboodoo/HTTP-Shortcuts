@@ -173,6 +173,7 @@
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <!-- Instruction text for MQTT shortcut URL field -->
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Ρυθμίσεις</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -265,6 +266,7 @@
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
     <string name="label_subtitle_client_cert_file_in_use">Χρήση αρχείου πιστοποιητικού. Κάντε κλικ για να καταργήσετε.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <!-- Subtitle for button to select a client certificate, when it is disabled because the (MQTT) shortcut uses plain TCP instead of SSL -->
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Πιστοποιητικό πελάτη</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
