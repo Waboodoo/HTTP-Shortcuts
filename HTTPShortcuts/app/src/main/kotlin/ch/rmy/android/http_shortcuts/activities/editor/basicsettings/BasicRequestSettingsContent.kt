@@ -11,7 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -25,7 +25,6 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
-import androidx.compose.ui.platform.LocalResources
 
 @Composable
 fun HttpSettingsContent(
