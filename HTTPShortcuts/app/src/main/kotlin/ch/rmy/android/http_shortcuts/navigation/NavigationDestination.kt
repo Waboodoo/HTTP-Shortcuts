@@ -274,8 +274,8 @@ sealed interface NavigationDestination {
 
         override val arguments =
             listOf(
-                stringArg(ARG_EXECUTION_TYPE),
                 stringArg(ARG_CATEGORY_ID),
+                optionalStringArg(ARG_EXECUTION_TYPE),
                 optionalStringArg(ARG_SHORTCUT_ID),
                 optionalStringArg(ARG_CURL_COMMAND_ID),
                 optionalBooleanArg(ARG_RECOVERY_MODE),
@@ -284,12 +284,12 @@ sealed interface NavigationDestination {
         fun buildRequest(
             shortcutId: ShortcutId? = null,
             categoryId: CategoryId,
-            executionType: ShortcutExecutionType = ShortcutExecutionType.HTTP,
+            executionType: ShortcutExecutionType? = null,
             curlCommandId: NavigationArgStore.ArgStoreId? = null,
             recoveryMode: Boolean = false,
         ) = buildNavigationRequest {
-            pathPart(executionType.type)
             pathPart(categoryId)
+            parameter(ARG_EXECUTION_TYPE, executionType?.type)
             parameter(ARG_SHORTCUT_ID, shortcutId)
             parameter(ARG_CURL_COMMAND_ID, curlCommandId)
             parameter(ARG_RECOVERY_MODE, recoveryMode)
@@ -301,10 +301,9 @@ sealed interface NavigationDestination {
         fun extractShortcutId(bundle: Bundle): ShortcutId? =
             bundle.getEncodedString(ARG_SHORTCUT_ID)
 
-        fun extractExecutionType(bundle: Bundle): ShortcutExecutionType =
+        fun extractExecutionType(bundle: Bundle): ShortcutExecutionType? =
             bundle.getEncodedString(ARG_EXECUTION_TYPE)
                 ?.let(ShortcutExecutionType.Companion::parse)
-                ?: ShortcutExecutionType.HTTP
 
         fun extractCurlCommandId(bundle: Bundle): NavigationArgStore.ArgStoreId? =
             bundle.getEncodedString(ARG_CURL_COMMAND_ID)

@@ -27,7 +27,7 @@ fun ShortcutEditorScreen(
     categoryId: CategoryId,
     shortcutId: ShortcutId?,
     curlCommandId: NavigationArgStore.ArgStoreId?,
-    executionType: ShortcutExecutionType,
+    executionType: ShortcutExecutionType?,
     recoveryMode: Boolean,
 ) {
     val (viewModel, state) = bindViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState, ShortcutEditorViewModel>(

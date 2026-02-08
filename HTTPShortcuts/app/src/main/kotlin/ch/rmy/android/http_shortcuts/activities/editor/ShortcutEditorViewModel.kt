@@ -91,11 +91,8 @@ constructor(
     private lateinit var oldHeaders: List<RequestHeader>
     private lateinit var oldParameters: List<RequestParameter>
 
-    private val shortcutId
+    private val shortcutId: ShortcutId?
         get() = initData.shortcutId
-
-    private val executionType
-        get() = initData.executionType
 
     override suspend fun initialize(data: InitData): ShortcutEditorViewState {
         logInfo("Shortcut editor opened (${data.shortcutId})")
@@ -107,7 +104,7 @@ constructor(
             data.shortcutId == null -> {
                 temporaryShortcutRepository.createNewTemporaryShortcut(
                     initialIcon = Icons.getRandomInitialIcon(context),
-                    executionType = executionType,
+                    executionType = initData.executionType ?: ShortcutExecutionType.HTTP,
                     categoryId = data.categoryId,
                 )
             }
@@ -173,7 +170,7 @@ constructor(
                 .collect()
         }
         return ShortcutEditorViewState(
-            shortcutExecutionType = executionType,
+            shortcutExecutionType = shortcut.executionType,
             toolbarSubtitle = getToolbarSubtitle(),
             shortcutIcon = shortcut.icon,
             shortcutName = shortcut.name,
@@ -411,7 +408,7 @@ constructor(
         if (!viewState.hasChanges) {
             skipAction()
         }
-        if (executionType.usesResponse && shortcutId == null && !deviceLocalPreferences.isAwareOfResponseHandling) {
+        if (shortcut.executionType.usesResponse && shortcutId == null && !deviceLocalPreferences.isAwareOfResponseHandling) {
             deviceLocalPreferences.isAwareOfResponseHandling = true
             updateDialogState(ShortcutEditorDialogState.ResponseHandlingWarning)
             skipAction()
@@ -651,7 +648,7 @@ constructor(
         val categoryId: CategoryId,
         val shortcutId: ShortcutId?,
         val curlCommandId: NavigationArgStore.ArgStoreId?,
-        val executionType: ShortcutExecutionType,
+        val executionType: ShortcutExecutionType?,
         val recoveryMode: Boolean,
     )
 }
