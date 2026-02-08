@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.Icon
@@ -17,6 +18,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.get
 import androidx.core.graphics.scale
+import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.CustomIconName
 import ch.rmy.android.http_shortcuts.icons.CustomIconName.Companion.CUSTOM_ICON_NAME_PREFIX
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -24,6 +26,7 @@ import java.io.File
 import java.io.InputStream
 import java.util.regex.Pattern
 import kotlin.math.max
+import kotlin.math.min
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -60,6 +63,13 @@ object IconUtil {
                         val innerSize = ((if (icon.isUsableAsSilhouette) 66 else 76) * density).toInt()
                         val offset = (outerSize - innerSize) / 2f
                         val scaledBitmap = originalBitmap.scale(innerSize, innerSize, false)
+                            .runIf(icon.isCircular) {
+                                try {
+                                    croppedToCircle()
+                                } finally {
+                                    recycle()
+                                }
+                            }
                         val paddedBitmap = createBitmap(outerSize, outerSize)
                         try {
                             val canvas = Canvas(paddedBitmap)
@@ -78,10 +88,6 @@ object IconUtil {
 
                             val paint = Paint(Paint.FILTER_BITMAP_FLAG)
                             paint.isAntiAlias = true
-                            if (icon.isCircular) {
-                                canvas.drawCircle(outerSize / 2f, outerSize / 2f, innerSize / 2f, paint)
-                                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                            }
                             canvas.drawBitmap(scaledBitmap, offset, offset, paint)
 
                             Icon.createWithAdaptiveBitmap(paddedBitmap)
@@ -125,6 +131,21 @@ object IconUtil {
         }
     } catch (_: Exception) {
         null
+    }
+
+    private fun Bitmap.croppedToCircle(): Bitmap {
+        val outputBitmap = createBitmap(width, height)
+        val path = Path()
+        path.addCircle(
+            (width / 2).toFloat(),
+            (height / 2).toFloat(),
+            min(width, (height / 2)).toFloat(),
+            Path.Direction.CCW,
+        )
+        val canvas = Canvas(outputBitmap)
+        canvas.clipPath(path)
+        canvas.drawBitmap(this, 0f, 0f, null)
+        return outputBitmap
     }
 
     fun getRasterizedIconFileName(icon: ShortcutIcon.BuiltInIcon, adaptive: Boolean): String =
