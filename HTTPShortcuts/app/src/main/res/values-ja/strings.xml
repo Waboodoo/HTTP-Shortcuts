@@ -13,7 +13,7 @@
     <!-- Content description of icon image, accessibility information -->
     <string name="icon_description">アイコン</string>
     <!-- Label above input field in editor, for shortcut name -->
-    <string name="label_name">ショートカットの名前</string>
+    <string name="label_name">ショートカート名</string>
     <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">説明</string>
     <!-- Label above input field in editor, for shortcut URL -->
@@ -201,7 +201,7 @@
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
     <string name="title_about">このアプリについて</string>
     <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
-    <string name="menu_action_unlock_app">設定を解除</string>
+    <string name="menu_action_unlock_app">ロック解除</string>
     <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
     <string name="menu_action_lock_app">ロック</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
@@ -715,7 +715,7 @@
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy_summary">いいえ、データーを盗むことはしません</string>
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_title">ロック設定</string>
+    <string name="settings_lock_app_title">アプリをロック</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">ショートカットと設定の変更を禁止する</string>
     <!-- Summary/subtitle of section in settings that allows user to change or remove the app lock that prevents changes to settings -->
@@ -1199,7 +1199,7 @@
     <string name="error_invalid_character">無効な文字：%s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <plurals name="warning_variable_still_in_use_in_shortcuts">
-        <item quantity="other">この変数は %2$dつのショートカットで使用中です：%1$s</item>
+        <item quantity="other">このグローバル変数は %2$d ショートカットで使用中です: %1$s</item>
     </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <string name="error_tts_failed">テキスト読み上げに失敗</string>
@@ -1238,7 +1238,7 @@
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
     <string name="option_response_handling_success_output_response">レスポンスを表示</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
-    <string name="option_response_handling_success_output_message">メッセージを表示</string>
+    <string name="option_response_handling_success_output_message">カスタムメッセージを表示</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
     <string name="option_response_handling_success_output_none">何も表示しない(静かに実行)</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
@@ -1262,7 +1262,7 @@
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
     <string name="instructions_remote_edit_step_1">上記の項目にパスワードを入力</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
-    <string name="instructions_remote_edit_step_2">「サーバーへ送る」ボタンをクリック</string>
+    <string name="instructions_remote_edit_step_2">「<pre>サーバーへ送る</pre>」ボタンをクリック</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
     <string name="instructions_remote_edit_step_3">コンピューターのブラウザで %s を開き、デバイスIDとパスワードを入力して、編集を開始します。</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
@@ -1740,7 +1740,7 @@
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <string name="message_device_id_copied">デバイスIDをクリップボードにコピーしました</string>
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
-    <string name="instructions_export">エクスポートするショートカットを選択してください。必要な変数は、全て自動的にエクスポートされます。</string>
+    <string name="instructions_export">エクスポートするショートカットを選択してください。必要なグローバル変数は、全て自動的にエクスポートされます。</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
     <string name="title_response_meta_information">メタ情報</string>
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
@@ -1800,7 +1800,7 @@
     <!-- Title for the dialog window that lets the user rename a directory -->
     <string name="title_rename_working_directory">ディレクトリ名を変更</string>
     <!-- Error message, informing user that the entered directory name already exists -->
-    <string name="validation_directory_name_already_exists">同じ名前のディレクトリが既に存在しています。</string>
+    <string name="validation_directory_name_already_exists">この名前のディレクトリが既に存在しています。</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
     <string name="action_hide_shortcut">非表示</string>
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
