@@ -55,6 +55,7 @@ constructor() {
                         parameters = shortcut.parameters?.map { parameter ->
                             parameter.copy(
                                 type = parameter.type ?: ParameterType.STRING.type,
+                                value = parameter.value ?: "",
                             )
                         }
                             ?: emptyList(),
