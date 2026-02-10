@@ -1,15 +1,19 @@
 package ch.rmy.android.http_shortcuts.activities.icons
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -38,7 +42,7 @@ fun IconPickerContent(
     }
 
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 44.dp),
+        columns = GridCells.Adaptive(minSize = 64.dp),
         contentPadding = PaddingValues(Spacing.MEDIUM),
         verticalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
         horizontalArrangement = Arrangement.spacedBy(Spacing.MEDIUM),
@@ -74,8 +78,17 @@ private fun IconItem(
     ShortcutIcon(
         icon,
         contentDescription = stringResource(R.string.icon_description),
+        size = 64.dp,
         modifier = Modifier
-            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.05f),
+                shape = if (icon.isCircular) {
+                    CircleShape
+                } else {
+                    RoundedCornerShape(percent = 15)
+                },
+            )
+            .padding(4.dp)
             .aspectRatio(1f)
             .combinedClickable(
                 interactionSource = remember { MutableInteractionSource() },
