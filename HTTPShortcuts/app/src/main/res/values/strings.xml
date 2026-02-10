@@ -1940,4 +1940,8 @@
     <string name="settings_performance_optimizations_enabled">Enabled</string>
     <!-- Option in "Performance Optimizations" setting, to disable them -->
     <string name="settings_performance_optimizations_disabled">Disabled</string>
+    <!-- Accessibility description for the "Show password" button that is displayed next to password input fields -->
+    <string name="button_show_password">Show password</string>
+    <!-- Accessibility description for the "Hide password" button that is displayed next to password input fields -->
+    <string name="button_hide_password">Hide password</string>
 </resources>

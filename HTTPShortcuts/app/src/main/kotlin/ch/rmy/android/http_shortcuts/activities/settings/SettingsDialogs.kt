@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.Checkbox
@@ -121,6 +122,7 @@ private fun LockAppDialog(
         allowEmpty = false,
         monospace = true,
         singleLine = true,
+        keyboardType = KeyboardType.Password,
         transformValue = {
             it.take(50)
         },

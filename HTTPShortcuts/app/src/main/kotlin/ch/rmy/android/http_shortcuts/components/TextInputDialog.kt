@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -18,12 +20,15 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -33,6 +38,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
@@ -59,6 +65,9 @@ fun TextInputDialog(
         mutableStateOf(
             TextFieldValue(initialValue, selection = TextRange(initialValue.length)),
         )
+    }
+    var showPassword by rememberSaveable {
+        mutableStateOf(false)
     }
     LaunchedEffect(initialValue) {
         value = TextFieldValue(initialValue, selection = TextRange(initialValue.length))
@@ -115,10 +124,36 @@ fun TextInputDialog(
                         fontSize = FontSize.SMALL,
                         fontFamily = if (monospace) FontFamily.Monospace else null,
                     ),
-                    visualTransformation = if (keyboardType == KeyboardType.Password) {
+                    visualTransformation = if (keyboardType == KeyboardType.Password && !showPassword) {
                         remember { PasswordVisualTransformation() }
                     } else {
                         VisualTransformation.None
+                    },
+                    suffix = if (keyboardType == KeyboardType.Password) {
+                        {
+                            Icon(
+                                modifier = Modifier
+                                    .clickable(
+                                        role = Role.Button,
+                                        onClick = {
+                                            showPassword = !showPassword
+                                        },
+                                    )
+                                    .padding(2.dp),
+                                painter = if (showPassword) {
+                                    painterResource(R.drawable.outline_visibility_off_24)
+                                } else {
+                                    painterResource(R.drawable.outline_visibility_24)
+                                },
+                                contentDescription = if (showPassword) {
+                                    stringResource(R.string.button_hide_password)
+                                } else {
+                                    stringResource(R.string.button_show_password)
+                                },
+                            )
+                        }
+                    } else {
+                        null
                     },
                     singleLine = singleLine,
                     maxLines = 20,
@@ -156,6 +191,17 @@ private fun TextInputDialog_Preview() {
         title = "My Dialog",
         message = "My Message",
         confirmButton = "Yeah!",
+        onDismissRequest = {},
+    )
+}
+
+@Preview
+@Composable
+private fun TextInputDialog_Password_Preview() {
+    TextInputDialog(
+        title = "My Dialog",
+        keyboardType = KeyboardType.Password,
+        confirmButton = "OK",
         onDismissRequest = {},
     )
 }
