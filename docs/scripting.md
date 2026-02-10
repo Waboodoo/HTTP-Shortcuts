@@ -467,9 +467,9 @@ With this function you can cause the device to vibrate (if supported). As an opt
 
 Vibration patterns:
 
-- 1 means *"1 short vibration"*
-- 2 means *"1 long vibration"*
-- 3 means *"3 short vibrations"*
+- 0 means *"1 short vibration"*
+- 1 means *"1 long vibration"*
+- 2 means *"3 short vibrations"*
 
 ```js
 vibrate(2, true);
