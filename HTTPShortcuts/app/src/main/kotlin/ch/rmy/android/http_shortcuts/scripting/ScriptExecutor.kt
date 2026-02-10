@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.exceptions.UserAbortException
 import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionFactory
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.scripting.JsFunction
@@ -125,6 +126,13 @@ constructor(
                 property("name", shortcut.name)
                 property("description", shortcut.description)
                 property("hidden", shortcut.hidden)
+                property("icon", shortcut.icon.toString())
+                property("canonicalIcon", shortcut.icon.let { icon ->
+                    when (icon) {
+                        is ShortcutIcon.BuiltInIcon -> icon.normalizedIconName
+                        else -> icon.toString()
+                    }
+                })
                 property(
                     "category",
                     scriptingEngine.buildJsObject {

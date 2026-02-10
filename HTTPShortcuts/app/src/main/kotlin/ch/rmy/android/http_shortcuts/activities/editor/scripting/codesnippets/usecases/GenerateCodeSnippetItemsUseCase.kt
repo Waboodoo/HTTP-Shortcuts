@@ -128,6 +128,13 @@ constructor(
                 ) {
                     insertText("shortcut.description")
                 }
+                item(
+                    R.string.dialog_code_snippet_get_shortcut_icon,
+                    docRef = "shortcut-info",
+                    keywords = setOf("shortcut", "icon"),
+                ) {
+                    insertText("shortcut.icon")
+                }
             }
             section(R.string.dialog_code_snippet_files, R.drawable.outline_file_copy_24) {
                 item(
