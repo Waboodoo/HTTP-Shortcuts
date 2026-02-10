@@ -56,6 +56,7 @@ fun SettingsCheckbox(
         modifier = Modifier
             .toggleable(
                 role = Role.Checkbox,
+                enabled = enabled,
                 value = checked,
                 onValueChange = onCheckedChanged,
             )
@@ -63,6 +64,7 @@ fun SettingsCheckbox(
             .padding(vertical = 4.dp),
         trailingContent = {
             Checkbox(
+                enabled = enabled,
                 checked = checked,
                 onCheckedChange = null,
             )
