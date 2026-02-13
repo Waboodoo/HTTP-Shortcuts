@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.data.domains.import_export
 
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.isSubSequenceOf
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.framework.extensions.truncate
@@ -335,29 +336,29 @@ constructor(
         when (mode) {
             ImportMode.MERGE -> {
                 val existingShortcuts = shortcutDao.getShortcutsByCategoryId(categoryId)
-                val newShortcutsById = shortcuts.associateBy { it.id }
+                val existingShortcutIdsList = existingShortcuts.ids()
+                val importedShortcutIdsList = shortcuts.ids()
+                val desiredOrder = determineSortingOrder(existingShortcutIdsList, importedShortcutIdsList)
 
-                existingShortcuts.forEach { shortcut ->
-                    newShortcutsById[shortcut.id]?.let { newShortcut ->
-                        shortcutDao.insertOrUpdateShortcut(
-                            newShortcut.copy(
-                                sortingOrder = shortcut.sortingOrder,
-                            ),
-                        )
-                    }
+                // Store new shortcuts and updates to existing shortcuts
+                shortcuts.forEach { shortcut ->
+                    shortcutDao.insertOrUpdateShortcut(
+                        shortcut.copy(
+                            sortingOrder = desiredOrder[shortcut.id]!!,
+                        ),
+                    )
                 }
 
-                var sortingOrder = existingShortcuts.size
-                val existingShortcutsIds = existingShortcuts.ids().toSet()
-                shortcuts
-                    .filter { it.id !in existingShortcutsIds }
+                // Update sorting order of shortcuts that have otherwise not been changed by the import
+                val importedShortcutIdsSet = importedShortcutIdsList.toSet()
+                existingShortcuts
+                    .filter { it.id !in importedShortcutIdsSet }
                     .forEach { shortcut ->
                         shortcutDao.insertOrUpdateShortcut(
                             shortcut.copy(
-                                sortingOrder = sortingOrder,
+                                sortingOrder = desiredOrder[shortcut.id]!!,
                             ),
                         )
-                        sortingOrder++
                     }
             }
             ImportMode.REPLACE -> {
@@ -379,6 +380,34 @@ constructor(
             }
         }
     }
+
+    private fun determineSortingOrder(
+        existingShortcutIdsList: List<ShortcutId>,
+        importedShortcutIdsList: List<ShortcutId>,
+    ): Map<ShortcutId, Int> =
+        when {
+            importedShortcutIdsList.isSubSequenceOf(existingShortcutIdsList) -> {
+                existingShortcutIdsList
+            }
+            existingShortcutIdsList.isSubSequenceOf(importedShortcutIdsList) -> {
+                importedShortcutIdsList
+            }
+            existingShortcutIdsList.toSet() == importedShortcutIdsList.toSet() -> {
+                importedShortcutIdsList
+            }
+            else -> {
+                buildList {
+                    // Keep the existing shortcuts at the beginning
+                    addAll(existingShortcutIdsList)
+
+                    // Append new shortcuts at the end
+                    val existingShortcutIdsSet = existingShortcutIdsList.toSet()
+                    addAll(importedShortcutIdsList.filter { it !in existingShortcutIdsSet })
+                }
+            }
+        }
+            .mapIndexed { index, shortcutId -> shortcutId to index }
+            .toMap()
 
     private suspend fun Database.importRequestHeaders(shortcutId: ShortcutId, importHeaders: List<ImportHeader>) {
         val requestHeaderDao = requestHeaderDao()
