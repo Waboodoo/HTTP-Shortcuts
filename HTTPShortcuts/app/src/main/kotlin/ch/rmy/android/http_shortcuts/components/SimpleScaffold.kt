@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.components
 
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -64,7 +65,7 @@ fun <T : Any> SimpleScaffold(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val activity = LocalActivity.current
+    val activity = LocalActivity.current as? ComponentActivity
 
     val showSnackbar = remember(snackbarHostState, scope) {
         { message: String, long: Boolean ->
@@ -152,7 +153,7 @@ fun <T : Any> SimpleScaffold(
                     }
                     IconButton(
                         onClick = {
-                            activity?.onBackPressed()
+                            activity?.onBackPressedDispatcher?.onBackPressed()
                         },
                     ) {
                         Icon(

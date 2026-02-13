@@ -127,12 +127,15 @@ constructor(
                 property("description", shortcut.description)
                 property("hidden", shortcut.hidden)
                 property("icon", shortcut.icon.toString())
-                property("canonicalIcon", shortcut.icon.let { icon ->
-                    when (icon) {
-                        is ShortcutIcon.BuiltInIcon -> icon.normalizedIconName
-                        else -> icon.toString()
-                    }
-                })
+                property(
+                    "canonicalIcon",
+                    shortcut.icon.let { icon ->
+                        when (icon) {
+                            is ShortcutIcon.BuiltInIcon -> icon.normalizedIconName
+                            else -> icon.toString()
+                        }
+                    },
+                )
                 property(
                     "category",
                     scriptingEngine.buildJsObject {
