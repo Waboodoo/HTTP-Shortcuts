@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 9,
-    "identityHash": "f8bcc3c1c932a1f6cfc841f3b974b2fe",
+    "identityHash": "9da57d818c1047620193748e53ab3175",
     "entities": [
       {
         "tableName": "app_config",
@@ -178,7 +178,7 @@
       },
       {
         "tableName": "variable",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `key` TEXT NOT NULL, `variable_type` TEXT NOT NULL, `value` TEXT, `data` TEXT, `remember_value` INTEGER NOT NULL, `url_encode` INTEGER NOT NULL, `json_encode` INTEGER NOT NULL, `title` TEXT NOT NULL, `message` TEXT NOT NULL, `share_text` INTEGER NOT NULL, `share_title` INTEGER NOT NULL, `multiline` INTEGER NOT NULL, `exclude_from_export` INTEGER NOT NULL, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `key` TEXT NOT NULL, `variable_type` TEXT NOT NULL, `value` TEXT, `data` TEXT, `remember_value` INTEGER NOT NULL, `url_encode` INTEGER NOT NULL, `json_encode` INTEGER NOT NULL, `title` TEXT NOT NULL, `message` TEXT NOT NULL, `share_text` INTEGER NOT NULL, `share_title` INTEGER NOT NULL, `multiline` INTEGER NOT NULL, `exclude_from_export` INTEGER NOT NULL, `secret` INTEGER NOT NULL DEFAULT false, `sorting_order` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -261,6 +261,13 @@
             "columnName": "exclude_from_export",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "isSecret",
+            "columnName": "secret",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "false"
           },
           {
             "fieldPath": "sortingOrder",
@@ -1293,7 +1300,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f8bcc3c1c932a1f6cfc841f3b974b2fe')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9da57d818c1047620193748e53ab3175')"
     ]
   }
 }

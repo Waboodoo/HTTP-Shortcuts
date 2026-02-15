@@ -40,6 +40,8 @@ data class GlobalVariable(
     val isMultiline: Boolean,
     @ColumnInfo(name = "exclude_from_export")
     val isExcludeValueFromExport: Boolean,
+    @ColumnInfo(name = "secret", defaultValue = "false")
+    val isSecret: Boolean = false,
     @ColumnInfo(name = "sorting_order", index = true)
     val sortingOrder: Int = 0,
 ) {

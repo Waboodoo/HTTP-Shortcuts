@@ -342,6 +342,7 @@ constructor(
                         isShareTitle = variable.isShareTitle.trueOrNull(),
                         isMultiline = variable.isMultiline.trueOrNull(),
                         isExcludeValueFromExport = variable.isExcludeValueFromExport.trueOrNull(),
+                        isSecret = variable.isSecret.trueOrNull(),
                     )
                 },
             certificatePins = certificatePinRepository.getCertificatePins()

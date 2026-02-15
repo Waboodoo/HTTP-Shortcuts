@@ -22,6 +22,7 @@ data class ImportExportVariable(
     val isShareTitle: Boolean? = null,
     val isMultiline: Boolean? = null,
     val isExcludeValueFromExport: Boolean? = null,
+    val isSecret: Boolean? = null,
 ) {
     fun validate() {
         require((id == null || id.isUUID() || id.isInt()) && id != GlobalVariable.TEMPORARY_ID) {

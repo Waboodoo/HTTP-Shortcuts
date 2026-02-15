@@ -108,6 +108,12 @@ constructor(
         }
     }
 
+    suspend fun setSecret(value: Boolean) {
+        update {
+            it.copy(isSecret = value)
+        }
+    }
+
     suspend fun setData(value: Map<String, Any?>) {
         update {
             it.copy(data = JSONObject(value).toString())

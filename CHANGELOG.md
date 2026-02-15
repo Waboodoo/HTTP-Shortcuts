@@ -2,6 +2,7 @@
 
 ### Improvements
 - You can now configure the app to periodically export all shortcuts to a file or URL, or to import from a file or URL. This can be found on the "Import / Export" screen.
+- Static variables can be marked as 'secret', which ensures that their value will not be displayed when editing the variable
 - Password input fields now hide the password by default, but can be toggled to reveal it
 - The custom icons screen now shows larger icons and displays a background behind each icon to make it easier to see them when they are of the same color as the screen's background
 - In Scripting, you can now use `shortcut.icon` and `shortcut.canonicalIcon` to look up the current shortcut's current icon

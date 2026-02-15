@@ -480,6 +480,7 @@ constructor(
                 isShareTitle = variable.isShareTitle == true,
                 isMultiline = variable.isMultiline == true,
                 isExcludeValueFromExport = variable.isExcludeValueFromExport == true,
+                isSecret = variable.isSecret == true,
                 sortingOrder = index,
             )
         }

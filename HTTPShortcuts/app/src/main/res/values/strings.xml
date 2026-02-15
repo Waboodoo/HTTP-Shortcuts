@@ -631,6 +631,10 @@
     <string name="button_save_response_as_file">Save as file</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Remember value</string>
+    <!-- Checkbox value, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="label_secret_variable_value">Treat value as secret</string>
+    <!-- Checkbox subtitle, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="subtitle_secret_variable_value">If enabled, the value will never be displayed here again after saving.</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">Allow selecting multiple options</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->

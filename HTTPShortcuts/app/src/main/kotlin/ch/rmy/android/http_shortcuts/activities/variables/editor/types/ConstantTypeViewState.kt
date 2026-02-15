@@ -5,4 +5,5 @@ import androidx.compose.runtime.Stable
 @Stable
 data class ConstantTypeViewState(
     val value: String,
+    val isSecret: Boolean,
 ) : VariableTypeViewState
