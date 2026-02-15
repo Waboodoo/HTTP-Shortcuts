@@ -255,9 +255,13 @@
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">パソコンで編集</string>
     <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <string name="title_import_export_advanced_settings">上級者向け</string>
     <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <string name="settings_automatic_import_export">自動インポート／エクスポート</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <string name="fab_automatic_import_now">今すぐインポート</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
+    <string name="fab_automatic_export_now">今すぐエクスポート</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="other">%d 個のショートカットをエクスポート完了</item>
@@ -1098,6 +1102,7 @@
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_description">ショートカットの説明を取得</string>
     <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_icon">ショートカット アイコンを取得</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">文字列としてレスポンスBodyを取得する</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
@@ -1507,9 +1512,13 @@
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_execution_error">実行エラー: %s</string>
     <!-- Title of event history entry, which states that the automatic periodic import ran successfully -->
+    <string name="event_history_title_sync_import_succeeded">自動インポートに成功</string>
     <!-- Title of event history entry, which states that the automatic periodic import failed -->
+    <string name="event_history_title_sync_import_failed">自動インポートに失敗</string>
     <!-- Title of event history entry, which states that the automatic periodic export ran successfully -->
+    <string name="event_history_title_sync_export_succeeded">自動エクスポートに成功</string>
     <!-- Title of event history entry, which states that the automatic periodic export failed -->
+    <string name="event_history_title_sync_export_failed">自動エクスポートに失敗</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <string name="label_prefix_event_history_trigger_origin">トリガー元: %s</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1939,39 +1948,75 @@
     <!-- Option in "Performance Optimizations" setting, to disable them -->
     <string name="settings_performance_optimizations_disabled">無効</string>
     <!-- Accessibility description for the "Show password" button that is displayed next to password input fields -->
+    <string name="button_show_password">パスワードを表示</string>
     <!-- Accessibility description for the "Hide password" button that is displayed next to password input fields -->
+    <string name="button_hide_password">パスワードを非表示</string>
     <!-- Label for setting on "Automatic Import / Export" screen, for when the feature is disabled -->
+    <string name="sync_type_disabled">無効</string>
     <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import">自動インポート</string>
     <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export">自動エクスポート</string>
     <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import_description">ショートカットや変数などを定期的にインポートして、他のデバイスと同期します。</string>
     <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export_description">ショートカットや変数などを定期的にエクスポートして、バックアップや他のデバイスと同期します。</string>
     <!-- Label on button to configure the automatic import or export -->
+    <string name="button_sync_configure">設定</string>
     <!-- Label above dropdown menu which lets the user select how the automatic import feature should behave -->
+    <string name="label_sync_import_mode">インポート機能</string>
     <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_merge">既存データと統合</string>
     <!-- Warning message displayed when the user selects the "Replace" strategy for the automatic import feature. %s is a placeholder for the name of the strategy -->
+    <string name="warning_sync_import_mode_replace">\"%s\" 機能がアクティブな間、ショートカットの作成と編集、変数などは無効になります。 すべてのローカルデータは削除され、インポートされたデータに置き換えられます。この動作について問題がなく理解していますか？</string>
     <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_replace">既存データを置き換え</string>
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
+    <string name="label_export_schedule">スケジュール</string>
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
+    <string name="label_import_schedule">スケジュール</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <string name="sync_schedule_every_day">1日に1回</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
+    <string name="sync_schedule_every_week">1週間に1回</string>
     <!-- Label above input field in automatic export, to protect the file with a password -->
+    <string name="label_export_protect_with_password">パスワードで保護する</string>
     <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->
+    <string name="label_import_protected_with_password">パスワード保護が有効</string>
     <!-- Label above dropdown menu, to select where to the automatic export should be made -->
+    <string name="label_sync_export_target">エクスポート先</string>
     <!-- Label above dropdown menu, to select where from the automatic import should be made -->
+    <string name="label_sync_import_target">インポート元</string>
     <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a locally stored file -->
+    <string name="option_sync_target_file">ローカルファイル</string>
     <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a web server -->
+    <string name="option_sync_target_url">Webサーバー</string>
     <!-- Button label to select the local directory in which the file for automatic import/export resides -->
+    <string name="label_sync_directory">ディレクトリ</string>
     <!-- Label for input field, where the user can specify the name of the file that is used for automatic import/export to/from the local file system -->
+    <string name="label_sync_file_name">ファイル名</string>
     <!-- Instruction text for automatic export to a web server -->
+    <string name="instructions_sync_export_web">HTTP PUTリクエストは指定されたURL (例：WebDAVサーバなど) に対して送信されます。 ユーザ名とパスワードが指定されている場合は、Basic 認証を使用します。</string>
     <!-- Instruction text for automatic export to a local file -->
+    <string name="instructions_sync_export_file">指定されたディレクトリに指定されたファイル名で、ファイルが作成されます。 指定された名前のファイルがすでに存在する場合は、置き換えられます。</string>
     <!-- Instruction text for automatic import from a web server -->
+    <string name="instructions_sync_import_web">HTTP GETリクエストは指定されたURL に送信されます。 ユーザ名とパスワードが指定されている場合は、Basic 認証を使用します。</string>
     <!-- Instruction text for automatic import from a local file -->
+    <string name="instructions_sync_import_file">選択したディレクトリ内から指定された名前のファイルを検索し、そこからインポートします。 ファイル名の指定がない場合は、そのディレクトリ内の最新の ZIP ファイルが使用されます。</string>
     <!-- Snackbar message, which states that the automatic periodic import ran successfully -->
+    <string name="message_sync_import_succeeded">インポート成功</string>
     <!-- Snackbar message, which states that the automatic periodic import failed -->
+    <string name="message_sync_import_failed">インポート失敗</string>
     <!-- Snackbar message, which states that the automatic periodic export ran successfully -->
+    <string name="message_sync_export_succeeded">エクスポート成功</string>
     <!-- Snackbar message, which states that the automatic periodic export failed -->
+    <string name="message_sync_export_failed">エクスポート失敗</string>
     <!-- Label used to display the time at which the automatic import/export feature has last run successfully. %s is a placeholder for the time. -->
+    <string name="label_sync_last_success_pattern">最終の成功： %s</string>
     <!-- Label used to display the time at which the automatic import/export feature has last failed. %s is a placeholder for the time. -->
+    <string name="label_sync_last_failure_pattern">最終の失敗: %s</string>
     <!-- Error message shown when automatic import fails due to an incorrect (or missing) password -->
+    <string name="error_sync_import_wrong_password">ZIPファイルはパスワードで保護されていますが、パスワードが間違っています。</string>
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
+    <string name="description_sync_failed_too_many_times">自動インポートまたはエクスポートが複数回、実行失敗が発生したため、自動が無効になりました。 設定を見直して、正しく設定されていることを確認してください。</string>
 </resources>
