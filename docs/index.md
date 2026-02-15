@@ -43,7 +43,9 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 ### Quality of Life
 - Dark Mode support
 - Keep everything organized by categorizing into different [tabs and grouping into sections](categories.md)
-- Import & Export all data as a file, optionally password protected
+- Import & Export all data as a ZIP file
+  - Optionally password protected
+  - Manually or automatically to a local file or web server
 - Configure it from your browser using the [Web Editor](https://http-shortcuts.rmy.ch/editor) 
 
 ### And More

@@ -1,3 +1,20 @@
+## Version 4.3.0
+
+### Improvements
+- You can now configure the app to periodically export all shortcuts to a file or URL, or to import from a file or URL. This can be found on the "Import / Export" screen.
+- Password input fields now hide the password by default, but can be toggled to reveal it
+- The custom icons screen now shows larger icons and displays a background behind each icon to make it easier to see them when they are of the same color as the screen's background
+- In Scripting, you can now use `shortcut.icon` and `shortcut.canonicalIcon` to look up the current shortcut's current icon
+- Additional heuristics were added to try and preserve the order of shortcuts when importing
+
+### Bugfixes
+- Fixed a bug that caused the web editor to fail when shortcuts with file parameters were used
+- Fixed the disabled state for checkboxes on the Settings screen
+
+### Miscellaneous
+- The Event History now shows events for up to 7 days instead of only 12 hours
+- The documentation for the `vibrate()` function now correctly lists the available patterns
+
 ## Version 4.2.0
 
 ### Improvements

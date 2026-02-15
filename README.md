@@ -37,7 +37,7 @@ Find more information and documentation on the [official website](https://http-s
 - Display response as HTML-formatted text, as image or as web page
 - [Grouping into tabs and section](https://http-shortcuts.rmy.ch/categories)
 - Value injection through variables (e.g., text, numbers, passwords, selections, colors, dates, …)
-- [Import & Export](https://http-shortcuts.rmy.ch/import-export) in JSON or cURL format
+- [Import & Export](https://http-shortcuts.rmy.ch/import-export) of data in JSON or cURL format, including automatic periodic importing or exporting
 - Integration with 3rd party apps (e.g. Tasker, MacroDroid, Termux, Wireguard, or BinaryEye)
 - Invoke from home screen widgets, quick settings tiles, or quick access device controls
 - Dark Mode support
