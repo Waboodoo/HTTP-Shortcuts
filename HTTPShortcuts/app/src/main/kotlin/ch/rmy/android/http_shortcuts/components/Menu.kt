@@ -47,11 +47,13 @@ interface MenuScope {
 
 @Composable
 fun MenuScope.MenuItem(
+    enabled: Boolean = true,
     title: String,
     icon: Painter,
     onClick: () -> Unit,
 ) {
     DropdownMenuItem(
+        enabled = enabled,
         text = { Text(title) },
         leadingIcon = {
             Icon(

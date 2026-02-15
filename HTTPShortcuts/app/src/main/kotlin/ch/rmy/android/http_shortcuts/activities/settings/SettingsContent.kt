@@ -24,6 +24,7 @@ import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DAR
 
 @Composable
 fun SettingsContent(
+    isInSyncReplaceMode: Boolean,
     privacySectionVisible: Boolean,
     quickSettingsTileButtonVisible: Boolean,
     selectedLanguage: String?,
@@ -127,6 +128,7 @@ fun SettingsContent(
             title = stringResource(R.string.settings_appearance),
         ) {
             SettingsButton(
+                enabled = !isInSyncReplaceMode,
                 icon = painterResource(R.drawable.outline_title_24),
                 title = stringResource(R.string.settings_app_title_title),
                 subtitle = stringResource(R.string.settings_app_title_summary),
@@ -193,6 +195,7 @@ fun SettingsContent(
             )
 
             SettingsButton(
+                enabled = !isInSyncReplaceMode,
                 icon = painterResource(R.drawable.outline_javascript_24),
                 title = stringResource(R.string.settings_global_scripting),
                 subtitle = stringResource(R.string.settings_global_scripting_summary),
@@ -200,6 +203,7 @@ fun SettingsContent(
             )
 
             SettingsButton(
+                enabled = !isInSyncReplaceMode,
                 icon = painterResource(R.drawable.outline_pinboard_24),
                 title = stringResource(R.string.settings_certificate_pinning),
                 onClick = onCertificatePinningButtonClicked,

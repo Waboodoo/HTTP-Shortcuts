@@ -12,6 +12,7 @@ data class MainViewState(
     val toolbarTitle: String = "",
     val isLocked: Boolean,
     val hasLock: Boolean,
+    val isInSyncReplaceMode: Boolean,
     val categoryItems: List<CategoryItem>,
     val hasMultipleCategories: Boolean,
     val selectionMode: SelectionMode,
@@ -19,5 +20,5 @@ data class MainViewState(
     val highlightedShortcutId: ShortcutId?,
 ) {
     val isCreateButtonVisible
-        get() = !isLocked
+        get() = !isLocked && !isInSyncReplaceMode
 }

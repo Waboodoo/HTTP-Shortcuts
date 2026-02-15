@@ -5,6 +5,7 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.toLocalizable
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.localization.Localizable
+import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.history.HistoryListItem
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
@@ -43,6 +44,10 @@ constructor() {
             HistoryEventType.NETWORK_ERROR -> getEventData<HistoryEvent.NetworkError>()
             HistoryEventType.ERROR -> getEventData<HistoryEvent.Error>()
             HistoryEventType.CUSTOM_EVENT -> getEventData<HistoryEvent.CustomEvent>()
+            HistoryEventType.SYNC_IMPORT_SUCCESS -> getEventData<HistoryEvent.SyncImportSucceed>()
+            HistoryEventType.SYNC_IMPORT_FAILED -> getEventData<HistoryEvent.SyncImportFailed>()
+            HistoryEventType.SYNC_EXPORT_SUCCESS -> getEventData<HistoryEvent.SyncExportSucceed>()
+            HistoryEventType.SYNC_EXPORT_FAILED -> getEventData<HistoryEvent.SyncExportFailed>()
         }
 
     private fun HistoryEvent.getTitle(): Localizable =
@@ -72,6 +77,18 @@ constructor() {
             is HistoryEvent.CustomEvent -> Localizable.create {
                 title
             }
+            is HistoryEvent.SyncImportSucceed -> Localizable.create {
+                it.getString(R.string.event_history_title_sync_import_succeeded)
+            }
+            is HistoryEvent.SyncImportFailed -> Localizable.create {
+                it.getString(R.string.event_history_title_sync_import_failed)
+            }
+            is HistoryEvent.SyncExportSucceed -> Localizable.create {
+                it.getString(R.string.event_history_title_sync_export_succeeded)
+            }
+            is HistoryEvent.SyncExportFailed -> Localizable.create {
+                it.getString(R.string.event_history_title_sync_export_failed)
+            }
         }
 
     private fun HistoryEvent.getDetail(): Localizable? =
@@ -88,6 +105,18 @@ constructor() {
                 is HistoryEvent.NetworkError -> error.toLocalizable()
                 is HistoryEvent.Error -> error.toLocalizable()
                 is HistoryEvent.CustomEvent -> message?.takeUnlessEmpty()?.toLocalizable()
+                is HistoryEvent.SyncImportSucceed -> QuantityStringLocalizable(
+                    R.plurals.shortcut_import_success,
+                    importedShortcuts,
+                    importedShortcuts,
+                )
+                is HistoryEvent.SyncImportFailed -> details?.takeUnlessEmpty()?.toLocalizable()
+                is HistoryEvent.SyncExportSucceed -> QuantityStringLocalizable(
+                    R.plurals.shortcut_export_success,
+                    exportedShortcuts,
+                    exportedShortcuts,
+                )
+                is HistoryEvent.SyncExportFailed -> details?.takeUnlessEmpty()?.toLocalizable()
             }
         }
 
@@ -119,8 +148,14 @@ constructor() {
             } else {
                 HistoryListItem.DisplayType.FAILURE
             }
-            is HistoryEvent.NetworkError -> HistoryListItem.DisplayType.FAILURE
-            is HistoryEvent.Error -> HistoryListItem.DisplayType.FAILURE
+            is HistoryEvent.NetworkError,
+            is HistoryEvent.Error,
+            is HistoryEvent.SyncExportFailed,
+            is HistoryEvent.SyncImportFailed,
+            -> HistoryListItem.DisplayType.FAILURE
+            is HistoryEvent.SyncExportSucceed,
+            is HistoryEvent.SyncImportSucceed,
+            -> HistoryListItem.DisplayType.SUCCESS
             else -> null
         }
 

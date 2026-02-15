@@ -4,8 +4,10 @@ import android.content.Context
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
+import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -68,6 +70,13 @@ constructor(
         get() = getBoolean(KEY_REMEMBER_ACTIVE_CATEGORY, true)
         set(value) = putBoolean(KEY_REMEMBER_ACTIVE_CATEGORY, value)
 
+    var syncType: SyncType?
+        get() = getString(KEY_SYNC_TYPE)?.let { SyncType.parse(it) }
+        set(value) = putString(KEY_SYNC_TYPE, value?.value)
+
+    fun observeSyncType(): Flow<SyncType?> =
+        observe { syncType }
+
     private val _colorThemeFlow = MutableStateFlow(colorTheme)
     val colorThemeFlow = _colorThemeFlow.asStateFlow()
 
@@ -90,5 +99,6 @@ constructor(
         private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
         private const val KEY_HEADLESS_MODE_DISABLED = "headless_mode_disabled"
         private const val KEY_REMEMBER_ACTIVE_CATEGORY = "remember_active_category"
+        private const val KEY_SYNC_TYPE = "sync_type"
     }
 }

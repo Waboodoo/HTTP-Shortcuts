@@ -85,6 +85,14 @@ constructor(
         get() = getString(KEY_LAST_ACTIVE_CATEGORY_ID)
         set(value) = putString(KEY_LAST_ACTIVE_CATEGORY_ID, value)
 
+    var syncErrorCount: Int
+        get() = getInt(KEY_SYNC_ERROR_COUNT) ?: 0
+        set(value) = putInt(KEY_SYNC_ERROR_COUNT, value)
+
+    var syncTooManyErrors: Boolean
+        get() = getBoolean(KEY_SYNC_TOO_MANY_ERRORS)
+        set(value) = putBoolean(KEY_SYNC_TOO_MANY_ERRORS, value)
+
     companion object {
         private const val KEY_DEVICE_ID = "device_id_v2"
         private const val KEY_FIRST_SEEN_VERSION_CODE = "first_version_code"
@@ -102,6 +110,8 @@ constructor(
         private const val KEY_AWARE_OF_VARIABLE_PLACEHOLDERS = "aware_of_variable_placeholders"
         private const val KEY_AWARE_OF_SECTION_POPULATION = "aware_of_section_population"
         private const val KEY_LAST_ACTIVE_CATEGORY_ID = "last_active_category_id"
+        private const val KEY_SYNC_ERROR_COUNT = "sync_error_count"
+        private const val KEY_SYNC_TOO_MANY_ERRORS = "sync_too_many_errors"
 
         // Intentionally excluding I and O to avoid mixing them up with 1 and 0
         private const val DEVICE_ID_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789"

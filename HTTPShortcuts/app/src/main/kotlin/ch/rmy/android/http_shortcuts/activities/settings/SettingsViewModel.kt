@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
@@ -50,6 +51,7 @@ constructor(
     private val biometricUtil: BiometricUtil,
     private val deviceLocalPreferences: DeviceLocalPreferences,
     private val unlockApp: UnlockAppUseCase,
+    private val observeSyncReplace: ObserveSyncReplaceUseCase,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): SettingsViewState {
@@ -69,6 +71,14 @@ constructor(
                 }
         }
 
+        val isInSyncReplaceMode = monitorFlow(observeSyncReplace()) { isInSyncReplaceMode ->
+            updateViewState {
+                copy(
+                    isInSyncReplaceMode = isInSyncReplaceMode,
+                )
+            }
+        }
+
         return SettingsViewState(
             privacySectionVisible = Logging.supportsCrashReporting,
             quickSettingsTileButtonVisible = restrictionsUtil.canCreateQuickSettingsTiles(),
@@ -81,6 +91,7 @@ constructor(
             showHiddenShortcuts = userPreferences.showHiddenShortcuts,
             rememberActiveCategory = userPreferences.isRememberActiveCategory,
             rememberActiveCategoryEnabled = categoryRepository.getCategories().count { !it.hidden } > 1,
+            isInSyncReplaceMode = isInSyncReplaceMode,
         )
     }
 

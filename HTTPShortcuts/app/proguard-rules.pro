@@ -13,6 +13,10 @@
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$NetworkError { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$Error { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$CustomEvent { *; }
+-keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncImportSucceed { *; }
+-keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncImportFailed { *; }
+-keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncExportSucceed { *; }
+-keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncExportFailed { *; }
 -keep class com.joaomgcd.taskerpluginlibrary.** { *; }
 -keep class net.dinglisch.android.tasker.** { *; }
 -dontwarn org.apache.harmony.xnet.provider.jsse.SSLParametersImpl

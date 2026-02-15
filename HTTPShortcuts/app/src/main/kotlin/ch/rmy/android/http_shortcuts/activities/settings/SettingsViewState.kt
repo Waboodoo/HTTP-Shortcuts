@@ -17,4 +17,5 @@ data class SettingsViewState(
     val rememberActiveCategory: Boolean,
     val rememberActiveCategoryEnabled: Boolean,
     val hasLock: Boolean,
+    val isInSyncReplaceMode: Boolean,
 )

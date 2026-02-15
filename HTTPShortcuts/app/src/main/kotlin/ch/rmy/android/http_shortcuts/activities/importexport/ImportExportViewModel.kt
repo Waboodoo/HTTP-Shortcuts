@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.import_export.ImportPasswordException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
+import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -39,6 +40,8 @@ constructor(
     private val deviceLocalPreferences: DeviceLocalPreferences,
     private val shortcutRepository: ShortcutRepository,
     private val importer: Importer,
+    private val observeSyncReplace: ObserveSyncReplaceUseCase,
+
 ) : BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
 
     private var currentJob: Job? = null
@@ -51,24 +54,31 @@ constructor(
     private var categoriesChanged = false
 
     override suspend fun initialize(data: InitData): ImportExportViewState {
-        hasShortcuts = shortcutRepository.hasShortcuts()
+        hasShortcuts = monitorFlow(shortcutRepository.observeShortcuts()) { shortcuts ->
+            updateViewState {
+                copy(exportEnabled = shortcuts.isNotEmpty())
+            }
+        }
+            .isNotEmpty()
 
-        if (initData.importUrl != null) {
+        val syncReplaceFlow = observeSyncReplace()
+        val isInSyncReplaceMode = monitorFlow(syncReplaceFlow) { isInSyncReplaceMode ->
+            updateViewState {
+                copy(
+                    isInSyncReplaceMode = isInSyncReplaceMode,
+                )
+            }
+        }
+
+        if (initData.importUrl != null && !isInSyncReplaceMode) {
             viewModelScope.launch {
                 openImportUrlDialog(initData.importUrl!!.toString())
             }
         }
 
-        viewModelScope.launch {
-            shortcutRepository.observeShortcuts().collect {
-                updateViewState {
-                    copy(exportEnabled = it.isNotEmpty())
-                }
-            }
-        }
-
         return ImportExportViewState(
             exportEnabled = hasShortcuts,
+            isInSyncReplaceMode = isInSyncReplaceMode,
         )
     }
 
@@ -90,6 +100,10 @@ constructor(
 
     fun onExportViaShareButtonClicked() = runAction {
         navigate(NavigationDestination.Export.buildRequest(toFile = false))
+    }
+
+    fun onSyncButtonClicked() = runAction {
+        navigate(NavigationDestination.SyncOverview)
     }
 
     fun onRemoteEditorChangesImported() = runAction {

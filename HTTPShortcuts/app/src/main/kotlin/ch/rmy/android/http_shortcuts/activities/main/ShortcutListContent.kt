@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.logging.Logging.logException
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShortcutListContent(
+    isInSyncReplaceMode: Boolean,
     category: CategoryItem,
     hasMultipleCategories: Boolean,
     selectionMode: SelectionMode,
@@ -94,6 +95,7 @@ fun ShortcutListContent(
             }
             .focusProperties { canFocus = false }
             .combinedClickable(
+                enabled = !isInSyncReplaceMode,
                 interactionSource = null,
                 indication = null,
                 onLongClick = onLongPress,
@@ -122,6 +124,7 @@ fun ShortcutListContent(
 
     ShortcutListDialogs(
         dialogState = state.dialogState,
+        isInSyncReplaceMode = isInSyncReplaceMode,
         onPlaceOnHomeScreenOptionSelected = viewModel::onPlaceOnHomeScreenOptionSelected,
         onExecuteOptionSelected = viewModel::onExecuteOptionSelected,
         onCancelPendingExecutionOptionSelected = viewModel::onCancelPendingExecutionOptionSelected,

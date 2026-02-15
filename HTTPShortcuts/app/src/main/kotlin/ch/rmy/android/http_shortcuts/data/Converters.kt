@@ -23,6 +23,9 @@ import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
+import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
+import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.nio.charset.Charset
@@ -228,4 +231,28 @@ class Converters {
     @TypeConverter
     fun serializeCharset(charset: Charset): String =
         charset.name()
+
+    @TypeConverter
+    fun deserializeSyncType(value: String?): SyncType? =
+        value?.let { SyncType.parse(it) }
+
+    @TypeConverter
+    fun serializeSyncType(syncType: SyncType) =
+        syncType.value
+
+    @TypeConverter
+    fun deserializeSyncTargetType(value: String?): SyncTargetType? =
+        value?.let { SyncTargetType.parse(it) }
+
+    @TypeConverter
+    fun serializeSyncTargetType(syncType: SyncTargetType) =
+        syncType.value
+
+    @TypeConverter
+    fun deserializeSyncSchedule(value: String?): SyncSchedule? =
+        value?.let { SyncSchedule.parse(it) }
+
+    @TypeConverter
+    fun serializeSyncSchedule(syncSchedule: SyncSchedule) =
+        syncSchedule.value
 }

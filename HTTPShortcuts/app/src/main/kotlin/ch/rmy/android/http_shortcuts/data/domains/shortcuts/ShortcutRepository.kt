@@ -49,10 +49,6 @@ constructor(
         shortcutDao().observeShortcutsByCategoryId(categoryId)
     }
 
-    suspend fun hasShortcuts(): Boolean = query {
-        shortcutDao().getShortcutCount() != 0
-    }
-
     suspend fun getShortcuts(): List<Shortcut> = query {
         val categories = categoryDao().getCategories()
         val shortcuts = shortcutDao().getShortcuts()

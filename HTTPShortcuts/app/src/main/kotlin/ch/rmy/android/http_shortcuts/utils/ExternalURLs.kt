@@ -9,6 +9,7 @@ object ExternalURLs {
     const val SCRIPTING_DOCUMENTATION = "$BASE_URL/scripting#scripting"
     const val WORKING_DIRECTORIES_DOCUMENTATION = "$BASE_URL/directories"
     const val IMPORT_EXPORT_DOCUMENTATION = "$BASE_URL/import-export"
+    const val SYNC_DOCUMENTATION = "$BASE_URL/import-export#sync"
     const val CERTIFICATE_PINNING_DOCUMENTATION = "$BASE_URL/advanced#certificate-pinning"
 
     const val PRIVACY_POLICY = "$BASE_URL/privacy-policy"

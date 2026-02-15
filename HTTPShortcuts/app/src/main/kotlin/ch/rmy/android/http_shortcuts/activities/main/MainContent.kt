@@ -31,6 +31,7 @@ import kotlinx.coroutines.CancellationException
 
 @Composable
 fun MainContent(
+    isInSyncReplaceMode: Boolean,
     categoryItems: List<CategoryItem>,
     hasMultipleCategories: Boolean,
     selectionMode: SelectionMode,
@@ -95,6 +96,7 @@ fun MainContent(
                 .fillMaxHeight(),
         ) { index ->
             ShortcutListContent(
+                isInSyncReplaceMode = isInSyncReplaceMode,
                 category = categoryItems[index],
                 hasMultipleCategories = hasMultipleCategories,
                 selectionMode = selectionMode,

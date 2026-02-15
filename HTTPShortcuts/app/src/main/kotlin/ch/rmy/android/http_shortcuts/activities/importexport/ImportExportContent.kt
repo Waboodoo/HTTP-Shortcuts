@@ -15,10 +15,12 @@ import ch.rmy.android.http_shortcuts.components.SettingsGroup
 @Composable
 fun ImportExportContent(
     exportEnabled: Boolean,
+    isInSyncReplaceMode: Boolean,
     onImportFromFileClicked: () -> Unit,
     onImportFromUrlClicked: () -> Unit,
     onExportToFileClicked: () -> Unit,
     onExportViaShareClicked: () -> Unit,
+    onSyncButtonClicked: () -> Unit,
     onRemoteEditButtonClicked: () -> Unit,
 ) {
     Column(
@@ -32,12 +34,14 @@ fun ImportExportContent(
             SettingsButton(
                 icon = painterResource(R.drawable.outline_input_24),
                 title = stringResource(R.string.settings_import_from_file),
+                enabled = !isInSyncReplaceMode,
                 onClick = onImportFromFileClicked,
             )
 
             SettingsButton(
                 icon = painterResource(R.drawable.outline_cloud_download_24),
                 title = stringResource(R.string.settings_import_from_url),
+                enabled = !isInSyncReplaceMode,
                 onClick = onImportFromUrlClicked,
             )
         }
@@ -60,11 +64,17 @@ fun ImportExportContent(
         }
 
         SettingsGroup(
-            title = stringResource(R.string.settings_title_remote_edit),
+            title = stringResource(R.string.title_import_export_advanced_settings),
         ) {
+            SettingsButton(
+                icon = painterResource(R.drawable.outline_sync_24),
+                title = stringResource(R.string.settings_automatic_import_export),
+                onClick = onSyncButtonClicked,
+            )
             SettingsButton(
                 icon = painterResource(R.drawable.outline_devices_24),
                 title = stringResource(R.string.settings_remote_edit),
+                enabled = !isInSyncReplaceMode,
                 onClick = onRemoteEditButtonClicked,
             )
         }

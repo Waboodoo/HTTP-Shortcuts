@@ -17,6 +17,7 @@ import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,6 +56,19 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         mutableViewState.update { it!!.mutation() }
     }
 
+    protected suspend fun <T> monitorFlow(flow: Flow<T>, onValue: suspend (T) -> Unit): T {
+        val firstValue = CompletableDeferred<T>()
+        viewModelScope.launch {
+            flow.collect { value ->
+                if (!firstValue.isCompleted) {
+                    firstValue.complete(value)
+                }
+                onValue(value)
+            }
+        }
+        return firstValue.await()
+    }
+
     private var isInitializationStarted = false
 
     fun init(data: InitData) {
@@ -77,7 +91,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         viewModelScope.launch {
             try {
                 mutableViewState.value = initialize(data)
-            } catch (e: ViewModelCancellationException) {
+            } catch (_: ViewModelCancellationException) {
                 closeScreen()
             } catch (e: CancellationException) {
                 throw e

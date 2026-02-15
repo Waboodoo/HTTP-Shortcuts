@@ -39,6 +39,9 @@ import ch.rmy.android.http_shortcuts.activities.moving.MoveScreen
 import ch.rmy.android.http_shortcuts.activities.remote_edit.RemoteEditScreen
 import ch.rmy.android.http_shortcuts.activities.settings.SettingsScreen
 import ch.rmy.android.http_shortcuts.activities.shortcutwidget.ShortcutWidgetSettingsScreen
+import ch.rmy.android.http_shortcuts.activities.sync.SyncExportScreen
+import ch.rmy.android.http_shortcuts.activities.sync.SyncImportScreen
+import ch.rmy.android.http_shortcuts.activities.sync.SyncOverviewScreen
 import ch.rmy.android.http_shortcuts.activities.troubleshooting.TroubleShootingScreen
 import ch.rmy.android.http_shortcuts.activities.variables.GlobalVariablesScreen
 import ch.rmy.android.http_shortcuts.activities.variables.editor.GlobalVariableEditorScreen
@@ -150,6 +153,20 @@ fun NavigationRoot(navController: NavHostController) {
             MoveScreen(
                 initialShortcut = NavigationDestination.MoveShortcuts.extractShortcutId(backStackEntry.arguments!!),
             )
+        }
+
+        composable(NavigationDestination.SyncOverview) { backStackEntry ->
+            SyncOverviewScreen(
+                backStackEntry.savedStateHandle,
+            )
+        }
+
+        composable(NavigationDestination.SyncImport) {
+            SyncImportScreen()
+        }
+
+        composable(NavigationDestination.SyncExport) {
+            SyncExportScreen()
         }
 
         composable(NavigationDestination.RemoteEdit) {

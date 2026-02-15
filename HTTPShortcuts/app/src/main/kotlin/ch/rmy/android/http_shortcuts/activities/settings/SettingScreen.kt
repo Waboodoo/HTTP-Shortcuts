@@ -15,6 +15,7 @@ fun SettingsScreen() {
         title = stringResource(R.string.title_settings),
     ) { viewState ->
         SettingsContent(
+            isInSyncReplaceMode = viewState.isInSyncReplaceMode,
             privacySectionVisible = viewState.privacySectionVisible,
             quickSettingsTileButtonVisible = viewState.quickSettingsTileButtonVisible,
             selectedLanguage = viewState.selectedLanguage,
