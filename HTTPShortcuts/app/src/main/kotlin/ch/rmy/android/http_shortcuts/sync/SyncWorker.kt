@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.sync
 
 import android.content.Context
+import android.net.Uri
 import androidx.hilt.work.HiltWorker
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -17,6 +18,8 @@ import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.sync.SyncRepository
 import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
@@ -65,6 +68,8 @@ constructor(
     private val userPreferences: UserPreferences,
     private val deviceLocalPreferences: DeviceLocalPreferences,
     private val syncRepository: SyncRepository,
+    private val categoryRepository: CategoryRepository,
+    private val shortcutRepository: ShortcutRepository,
     private val importer: Importer,
     private val exporter: Exporter,
     private val historyEventLogger: HistoryEventLogger,
@@ -150,12 +155,7 @@ constructor(
                 .maxByOrNull { file -> file.lastModified() }
                 ?: error("No ZIP file found in directory")
         }
-
-        return importer.importFromUri(
-            uri = file.uri,
-            importMode = config.getImportMode(),
-            password = config.filePassword.takeUnlessEmpty(),
-        )
+        return import(config, targetUri = file.uri)
     }
 
     private fun SyncConfig.getImportMode() =
@@ -189,15 +189,18 @@ constructor(
                     }
                 }
 
-            return importer.importFromUri(
-                uri = FileUtil.getUriFromFile(context, tempFile),
-                importMode = config.getImportMode(),
-                password = config.filePassword.takeUnlessEmpty(),
-            )
+            return import(config, targetUri = FileUtil.getUriFromFile(context, tempFile))
         } finally {
             tempFile.delete()
         }
     }
+
+    private suspend fun import(config: SyncConfig, targetUri: Uri): Importer.ImportStatus =
+        importer.importFromUri(
+            uri = targetUri,
+            importMode = config.getImportMode(),
+            password = config.filePassword.takeUnlessEmpty(),
+        )
 
     private suspend fun runExport(config: SyncConfig) {
         try {
@@ -231,22 +234,14 @@ constructor(
         directory.findFile(fileName)?.delete()
         val documentFile = directory.createFile(MIME_TYPE, fileName)
             ?: error("Failed to create file, directory might not exist or no permission granted")
-        return exporter.exportToUri(
-            uri = documentFile.uri,
-            password = config.filePassword.takeUnlessEmpty(),
-            excludeDefaults = true,
-        )
+        return export(config, targetUri = documentFile.uri)
     }
 
     private suspend fun exportToWeb(config: SyncConfig): Exporter.ExportStatus {
         val tempFile = File(context.cacheDir, "sync-export.zip")
         try {
             tempFile.delete()
-            val result = exporter.exportToUri(
-                uri = FileUtil.getUriFromFile(context, tempFile),
-                password = config.filePassword.takeUnlessEmpty(),
-                excludeDefaults = true,
-            )
+            val result = export(config, targetUri = FileUtil.getUriFromFile(context, tempFile))
             val client = httpClientFactory.getClient(context)
             val url = config.targetUrl
                 ?.replacePlaceholders()
@@ -273,6 +268,26 @@ constructor(
         } finally {
             tempFile.delete()
         }
+    }
+
+    private suspend fun export(config: SyncConfig, targetUri: Uri): Exporter.ExportStatus {
+        val shortcutIds = config.categoryIds
+            ?.let { categoryIds ->
+                val allCategoryIds = categoryRepository.getCategoryIds().toSet()
+                categoryIds.filter { it in allCategoryIds }
+            }
+            ?.let { categoryIds ->
+                shortcutRepository.getShortcuts()
+                    .mapNotNull { shortcut ->
+                        if (shortcut.categoryId in categoryIds) shortcut.id else null
+                    }
+            }
+        return exporter.exportToUri(
+            uri = targetUri,
+            shortcutIds = shortcutIds,
+            password = config.filePassword.takeUnlessEmpty(),
+            excludeDefaults = true,
+        )
     }
 
     private fun String.replacePlaceholders(): String {

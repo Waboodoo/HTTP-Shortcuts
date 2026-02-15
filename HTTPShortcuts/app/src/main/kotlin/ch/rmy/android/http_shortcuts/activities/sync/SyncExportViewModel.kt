@@ -5,6 +5,9 @@ import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
+import ch.rmy.android.http_shortcuts.activities.sync.models.SyncCategory
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.sync.SyncRepository
 import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
 import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
@@ -34,10 +37,13 @@ constructor(
     application: Application,
     private val userPreferences: UserPreferences,
     private val syncRepository: SyncRepository,
+    private val categoryRepository: CategoryRepository,
     private val workingDirectoryUtil: WorkingDirectoryUtil,
     private val syncConfigMonitor: SyncConfigMonitor,
 ) : BaseViewModel<Unit, SyncExportViewState>(application) {
     private lateinit var configFlow: MutableStateFlow<SyncConfig>
+
+    private var categoryCount = 0
 
     @OptIn(FlowPreview::class)
     override suspend fun initialize(data: Unit): SyncExportViewState {
@@ -57,7 +63,17 @@ constructor(
                     syncRepository.updateConfig(config)
                 }
         }
+        val categoryIds = config.categoryIds
+        val allCategories = categoryRepository.getCategories()
+        categoryCount = allCategories.size
         return SyncExportViewState(
+            categories = allCategories.map { category ->
+                SyncCategory(
+                    id = category.id,
+                    name = category.name,
+                    checked = categoryIds == null || category.id in categoryIds,
+                )
+            },
             schedule = config.schedule,
             targetType = config.targetType,
             filePassword = config.filePassword,
@@ -72,6 +88,34 @@ constructor(
 
     private fun updateConfig(update: SyncConfig.() -> SyncConfig) {
         configFlow.update { update(it) }
+    }
+
+    fun onSyncCategoryChecked(categoryId: CategoryId, checked: Boolean) = runAction {
+        updateViewState {
+            copy(
+                categories = categories.map { category ->
+                    if (category.id == categoryId) {
+                        category.copy(checked = checked)
+                    } else {
+                        category
+                    }
+                },
+            )
+        }
+        val selectedCategoryIds = getCurrentViewState().categories.mapNotNull { category ->
+            if (category.checked) {
+                category.id
+            } else {
+                null
+            }
+        }
+            .toSet()
+            .takeUnless { it.size == categoryCount }
+        updateConfig {
+            copy(
+                categoryIdsString = selectedCategoryIds?.joinToString(",") ?: "",
+            )
+        }
     }
 
     fun onScheduleChanged(schedule: SyncSchedule) = runAction {

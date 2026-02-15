@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 9,
-    "identityHash": "9da57d818c1047620193748e53ab3175",
+    "identityHash": "1769f105bc322f5901e638b49c24edd5",
     "entities": [
       {
         "tableName": "app_config",
@@ -1127,7 +1127,7 @@
       },
       {
         "tableName": "sync_config",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `sync_type` TEXT NOT NULL, `target_type` TEXT NOT NULL, `target_directory_uri` TEXT, `target_file_name` TEXT, `target_url` TEXT, `target_auth_username` TEXT, `target_auth_password` TEXT, `schedule` TEXT NOT NULL, `file_password` TEXT NOT NULL, `replace_local` INTEGER NOT NULL, `last_succeeded` INTEGER, `last_failed` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `sync_type` TEXT NOT NULL, `target_type` TEXT NOT NULL, `target_directory_uri` TEXT, `target_file_name` TEXT, `target_url` TEXT, `target_auth_username` TEXT, `target_auth_password` TEXT, `schedule` TEXT NOT NULL, `file_password` TEXT NOT NULL, `replace_local` INTEGER NOT NULL, `last_succeeded` INTEGER, `last_failed` INTEGER, `category_ids` TEXT NOT NULL DEFAULT '', PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -1199,6 +1199,13 @@
             "fieldPath": "lastFailed",
             "columnName": "last_failed",
             "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "categoryIds",
+            "columnName": "category_ids",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
           }
         ],
         "primaryKey": {
@@ -1300,7 +1307,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9da57d818c1047620193748e53ab3175')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1769f105bc322f5901e638b49c24edd5')"
     ]
   }
 }

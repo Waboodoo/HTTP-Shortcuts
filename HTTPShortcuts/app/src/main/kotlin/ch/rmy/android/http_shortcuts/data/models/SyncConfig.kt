@@ -4,6 +4,8 @@ import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
 import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
@@ -38,12 +40,17 @@ data class SyncConfig(
     val lastSucceeded: Instant? = null,
     @ColumnInfo(name = "last_failed")
     val lastFailed: Instant? = null,
+    @ColumnInfo(name = "category_ids", defaultValue = "")
+    val categoryIdsString: String = "",
 ) {
     val isValid: Boolean
         get() = when (targetType) {
             SyncTargetType.FILE -> targetDirectoryUri != null
             SyncTargetType.URL -> !targetUrl.isNullOrEmpty()
         }
+
+    val categoryIds: Set<CategoryId>?
+        get() = categoryIdsString.takeUnlessEmpty()?.split(',')?.toSet()
 
     companion object {
         const val DEFAULT_FILE_NAME = "shortcuts-%Y-%M-%D.zip"

@@ -38,6 +38,7 @@ fun SyncExportScreen() {
     ) { viewState ->
         SyncExportContent(
             viewState = viewState,
+            onSyncCategoryChecked = viewModel::onSyncCategoryChecked,
             onScheduleChanged = viewModel::onScheduleChanged,
             onFilePasswordChanged = viewModel::onFilePasswordChanged,
             onTargetTypeChanged = viewModel::onTargetTypeChanged,
