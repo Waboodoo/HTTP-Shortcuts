@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.sync
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -122,39 +123,46 @@ private fun LastSuccessOrFailure(
     lastFailed: LocalDateTime?,
     onInfoClicked: () -> Unit,
 ) {
-    if (lastSucceeded != null && (lastFailed == null || lastSucceeded > lastFailed)) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .heightIn(min = 24.dp),
-            text = stringResource(R.string.label_sync_last_success_pattern, lastSucceeded.formatMediumDateTime()),
-            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
-        )
-    } else if (lastFailed != null && (lastSucceeded == null || lastFailed > lastSucceeded)) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable(
-                    enabled = enabled,
-                    onClick = onInfoClicked,
-                ),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Spacing.TINY),
-        ) {
-            val color = if (enabled) {
-                MaterialTheme.colorScheme.error
-            } else {
-                MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
-            }
-            Icon(
-                painter = painterResource(R.drawable.outline_info_24),
-                contentDescription = stringResource(R.string.settings_troubleshooting),
-                tint = color,
-            )
+    AnimatedVisibility(
+        lastSucceeded != null || lastFailed != null,
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 24.dp),
+    ) {
+        if (lastSucceeded != null && (lastFailed == null || lastSucceeded > lastFailed)) {
             Text(
-                text = stringResource(R.string.label_sync_last_failure_pattern, lastFailed.formatMediumDateTime()),
-                color = color,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 24.dp),
+                text = stringResource(R.string.label_sync_last_success_pattern, lastSucceeded.formatMediumDateTime()),
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f),
             )
+        } else if (lastFailed != null) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        enabled = enabled,
+                        onClick = onInfoClicked,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(Spacing.TINY),
+            ) {
+                val color = if (enabled) {
+                    MaterialTheme.colorScheme.error
+                } else {
+                    MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
+                }
+                Icon(
+                    painter = painterResource(R.drawable.outline_info_24),
+                    contentDescription = stringResource(R.string.settings_troubleshooting),
+                    tint = color,
+                )
+                Text(
+                    text = stringResource(R.string.label_sync_last_failure_pattern, lastFailed.formatMediumDateTime()),
+                    color = color,
+                )
+            }
         }
     }
 }
