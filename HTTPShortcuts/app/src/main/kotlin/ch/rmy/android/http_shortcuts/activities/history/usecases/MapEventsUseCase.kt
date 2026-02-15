@@ -22,7 +22,7 @@ class MapEventsUseCase
 @Inject
 constructor() {
 
-    operator fun invoke(events: List<HistoryEventModel>): List<HistoryListItem> =
+    operator fun invoke(events: List<HistoryEventModel>, secretValues: Set<String>): List<HistoryListItem> =
         events.mapNotNull { eventModel ->
             val event = eventModel.getEvent() ?: return@mapNotNull null
             HistoryListItem(
@@ -30,7 +30,7 @@ constructor() {
                 time = LocalDateTime.ofInstant(eventModel.time, ZoneId.systemDefault()),
                 epochMillis = eventModel.time.toEpochMilli(),
                 title = event.getTitle(),
-                detail = event.getDetail(),
+                detail = event.getDetail(secretValues),
                 displayType = event.getDisplayType(),
             )
         }
@@ -91,7 +91,7 @@ constructor() {
             }
         }
 
-    private fun HistoryEvent.getDetail(): Localizable? =
+    private fun HistoryEvent.getDetail(secretValues: Set<String>): Localizable? =
         tryOrLog {
             when (this) {
                 is HistoryEvent.ShortcutTriggered -> trigger?.let {
@@ -100,25 +100,37 @@ constructor() {
                     }
                 }
                 is HistoryEvent.ShortcutCancelled -> null
-                is HistoryEvent.HttpRequestSent -> "$method $url\n\n${formatHeaders(headers)}".toLocalizable()
-                is HistoryEvent.HttpResponseReceived -> formatHeaders(headers).toLocalizable()
-                is HistoryEvent.NetworkError -> error.toLocalizable()
-                is HistoryEvent.Error -> error.toLocalizable()
-                is HistoryEvent.CustomEvent -> message?.takeUnlessEmpty()?.toLocalizable()
+                is HistoryEvent.HttpRequestSent -> "$method $url\n\n${formatHeaders(headers)}".toLocalizable(secretValues)
+                is HistoryEvent.HttpResponseReceived -> formatHeaders(headers).toLocalizable(secretValues)
+                is HistoryEvent.NetworkError -> error.toLocalizable(secretValues)
+                is HistoryEvent.Error -> error.toLocalizable(secretValues)
+                is HistoryEvent.CustomEvent -> message?.takeUnlessEmpty()?.toLocalizable(secretValues)
                 is HistoryEvent.SyncImportSucceed -> QuantityStringLocalizable(
                     R.plurals.shortcut_import_success,
                     importedShortcuts,
                     importedShortcuts,
                 )
-                is HistoryEvent.SyncImportFailed -> details?.takeUnlessEmpty()?.toLocalizable()
+                is HistoryEvent.SyncImportFailed -> details?.takeUnlessEmpty()?.toLocalizable(secretValues)
                 is HistoryEvent.SyncExportSucceed -> QuantityStringLocalizable(
                     R.plurals.shortcut_export_success,
                     exportedShortcuts,
                     exportedShortcuts,
                 )
-                is HistoryEvent.SyncExportFailed -> details?.takeUnlessEmpty()?.toLocalizable()
+                is HistoryEvent.SyncExportFailed -> details?.takeUnlessEmpty()?.toLocalizable(secretValues)
             }
         }
+
+    private fun String.toLocalizable(secretValues: Set<String>): Localizable {
+        var string = this
+        secretValues.forEach { secretValue ->
+            val substitute = secretValue.redactAfter(1)
+            string = string.replace(secretValue, substitute)
+            if (' ' in secretValue) {
+                string = string.replace(secretValue.replace(" ", "%20"), substitute)
+            }
+        }
+        return string.toLocalizable()
+    }
 
     private fun formatHeaders(headers: Map<String, List<String>>): String =
         headers.entries.flatMap { headerList ->

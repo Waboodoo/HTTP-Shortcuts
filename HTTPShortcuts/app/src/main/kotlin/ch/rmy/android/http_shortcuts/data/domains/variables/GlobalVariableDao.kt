@@ -109,4 +109,7 @@ abstract class GlobalVariableDao {
 
     @Query("SELECT MAX(sorting_order) AS max_sorting_order FROM variable")
     protected abstract suspend fun getMaxSortingOrder(): Int
+
+    @Query("SELECT value FROM variable WHERE secret = 1")
+    abstract suspend fun getSecretValues(): List<String?>
 }

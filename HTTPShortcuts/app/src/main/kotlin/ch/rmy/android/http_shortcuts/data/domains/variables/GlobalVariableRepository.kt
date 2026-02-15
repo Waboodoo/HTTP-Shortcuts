@@ -61,4 +61,8 @@ constructor(
     suspend fun sortVariablesAlphabetically() = query {
         globalVariableDao().sortAlphabetically()
     }
+
+    suspend fun getSecretVariableValues() = query {
+        globalVariableDao().getSecretValues().filterNotNull().filter { it.isNotEmpty() }.toSet()
+    }
 }

@@ -39,7 +39,7 @@ It is also possible to change the value of a static variable programmatically be
 
 > The value of a static variable can be at most 40'000 characters long.
 
-If the value of the variable is sensitive, e.g. because it is a password or API token, you can check the "Treat value as secret" checkbox. This will ensure that the value will not be displayed when editing the variable. Keep in mind though that this will not fully protect the variable, as it would still be possible to access the value from a shortcut or via the export feature. The latter can be mitigated by checking the "Exclude stored value from exports" checkbox at the bottom of the variable editing screen. If you want to fully protect the value, it is recommended to set up a lock in the app's Settings.
+If the value of the variable is sensitive, e.g. because it is a password or API token, you can check the "Treat value as secret" checkbox. This will ensure that the value will not be displayed when editing the variable and prevents it from being exposed in the Event History. Keep in mind though that this will not fully protect the variable, as it would still be possible to access the value from a shortcut or via the export feature. The latter can be mitigated by checking the "Exclude stored value from exports" checkbox at the bottom of the variable editing screen. If you want to fully protect the value, it is recommended to set up a lock in the app's Settings.
 
 <a id="multiple-choice"></a>
 ### Multiple Choice Selection

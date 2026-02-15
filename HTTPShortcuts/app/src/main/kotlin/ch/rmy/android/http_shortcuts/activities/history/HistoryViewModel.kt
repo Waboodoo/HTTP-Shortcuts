@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.history.usecases.CopyHistoryItemUseCase
 import ch.rmy.android.http_shortcuts.activities.history.usecases.MapEventsUseCase
 import ch.rmy.android.http_shortcuts.data.domains.history.HistoryRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ constructor(
     application: Application,
     private val historyRepository: HistoryRepository,
     private val mapEvents: MapEventsUseCase,
+    private val globalVariableRepository: GlobalVariableRepository,
     private val historyCleanUpStarter: HistoryCleanUpWorker.Starter,
     private val copyHistoryItemUseCase: CopyHistoryItemUseCase,
     private val userPreferences: UserPreferences,
@@ -28,9 +30,10 @@ constructor(
 
     override suspend fun initialize(data: Unit): HistoryViewState {
         viewModelScope.launch {
+            val secretValues = globalVariableRepository.getSecretVariableValues()
             historyRepository.observeHistory(MAX_AGE).collect { events ->
                 updateViewState {
-                    copy(historyItems = mapEvents(events))
+                    copy(historyItems = mapEvents(events, secretValues))
                 }
             }
         }
