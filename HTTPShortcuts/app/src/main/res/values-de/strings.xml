@@ -254,6 +254,14 @@
     <string name="settings_export_via_share">Export über Teilen-Dialog</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Am Computer bearbeiten</string>
+    <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <string name="title_import_export_advanced_settings">Fortgeschrittenes</string>
+    <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <string name="settings_automatic_import_export">Automatischer Import / Export</string>
+    <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <string name="fab_automatic_import_now">Jetzt importieren</string>
+    <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
+    <string name="fab_automatic_export_now">Jetzt exportieren</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="one">%d Shortcut exportiert.</item>
@@ -627,6 +635,10 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="button_save_response_as_file">Als Datei speichern</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Wert merken</string>
+    <!-- Checkbox value, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="label_secret_variable_value">Wert als geheim behandeln</string>
+    <!-- Checkbox subtitle, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="subtitle_secret_variable_value">Wenn aktiviert, wird der Wert nach dem Speichern hier nie wieder angezeigt.</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">Mehrere Optionen auswählbar</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
@@ -1104,6 +1116,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="dialog_code_snippet_get_shortcut_name">Shortcut-Name abrufen</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_description">Shortcut-Beschreibung abrufen</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_icon">Shortcut-Symbol abrufen</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">Response-Body auslesen</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
@@ -1513,6 +1527,14 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="event_history_title_network_error">Netzwerkfehler für ”%s”</string>
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_execution_error">Ausführungsfehler für ”%s”</string>
+    <!-- Title of event history entry, which states that the automatic periodic import ran successfully -->
+    <string name="event_history_title_sync_import_succeeded">Automatischer Import erfolgreich</string>
+    <!-- Title of event history entry, which states that the automatic periodic import failed -->
+    <string name="event_history_title_sync_import_failed">Automatischer Import fehlgeschlagen</string>
+    <!-- Title of event history entry, which states that the automatic periodic export ran successfully -->
+    <string name="event_history_title_sync_export_succeeded">Automatischer Export erfolgreich</string>
+    <!-- Title of event history entry, which states that the automatic periodic export failed -->
+    <string name="event_history_title_sync_export_failed">Automatischer Export fehlgeschlagen</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <string name="label_prefix_event_history_trigger_origin">Ausgelöst durch: %s</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1945,4 +1967,76 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="settings_performance_optimizations_enabled">Aktiviert</string>
     <!-- Option in "Performance Optimizations" setting, to disable them -->
     <string name="settings_performance_optimizations_disabled">Deaktiviert</string>
+    <!-- Accessibility description for the "Show password" button that is displayed next to password input fields -->
+    <string name="button_show_password">Passwort anzeigen</string>
+    <!-- Accessibility description for the "Hide password" button that is displayed next to password input fields -->
+    <string name="button_hide_password">Passwort verbergen</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the feature is disabled -->
+    <string name="sync_type_disabled">Deaktiviert</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import">Automatischer Import</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export">Automatischer Export</string>
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import_description">Importiere regelmäßig Shortcuts, Variablen, etc., um mit anderen Geräten zu synchronisieren.</string>
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export_description">Exportiere regelmäßig Shortcuts, Variablen usw. um sie zu sichern oder mit anderen Geräten zu synchronisieren.</string>
+    <!-- Label on button to configure the automatic import or export -->
+    <string name="button_sync_configure">Konfigurieren</string>
+    <!-- Label above dropdown menu which lets the user select how the automatic import feature should behave -->
+    <string name="label_sync_import_mode">Import-Strategie</string>
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_merge">Mit vorhandenen Daten zusammenführen</string>
+    <!-- Warning message displayed when the user selects the "Replace" strategy for the automatic import feature. %s is a placeholder for the name of the strategy -->
+    <string name="warning_sync_import_mode_replace">Während die \"%s\" Strategie aktiv ist, ist das Erstellen und Bearbeiten von Shortcuts, Variablen usw. deaktiviert. Alle lokalen Daten werden gelöscht und durch die importierten Daten ersetzt. Bitte stelle sicher, dass dies das ist, was du willst.</string>
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_replace">Vorhandene Daten ersetzen</string>
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
+    <string name="label_export_schedule">Zeitplan</string>
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
+    <string name="label_import_schedule">Zeitplan</string>
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <string name="sync_schedule_every_day">Täglich</string>
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
+    <string name="sync_schedule_every_week">Wöchentlich</string>
+    <!-- Label above input field in automatic export, to protect the file with a password -->
+    <string name="label_export_protect_with_password">Mit Passwort schützen</string>
+    <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->
+    <string name="label_import_protected_with_password">Mit Passwort geschützt</string>
+    <!-- Label above dropdown menu, to select where to the automatic export should be made -->
+    <string name="label_sync_export_target">Exportieren nach</string>
+    <!-- Label above dropdown menu, to select where from the automatic import should be made -->
+    <string name="label_sync_import_target">Importieren aus</string>
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a locally stored file -->
+    <string name="option_sync_target_file">Lokale Datei</string>
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a web server -->
+    <string name="option_sync_target_url">Web-Server</string>
+    <!-- Button label to select the local directory in which the file for automatic import/export resides -->
+    <string name="label_sync_directory">Verzeichnis</string>
+    <!-- Label for input field, where the user can specify the name of the file that is used for automatic import/export to/from the local file system -->
+    <string name="label_sync_file_name">Dateiname</string>
+    <!-- Instruction text for automatic export to a web server -->
+    <string name="instructions_sync_export_web">Ein HTTP-PUT-Request wird an die angegebene URL (z. B. WebDAV-Server) geschickt, mit Basic Auth wenn ein Benutzername und ein Passwort angegeben werden.</string>
+    <!-- Instruction text for automatic export to a local file -->
+    <string name="instructions_sync_export_file">Eine Datei wird im ausgewählten Verzeichnis mit dem angegebenen Namen erstellt. Wenn bereits eine Datei mit dem angegebenen Namen existiert, wird sie ersetzt.</string>
+    <!-- Instruction text for automatic import from a web server -->
+    <string name="instructions_sync_import_web">Ein HTTP-GET-Request wird an die angegebene URL geschickt, mit Basic Auth wenn ein Benutzername und ein Passwort angegeben werden.</string>
+    <!-- Instruction text for automatic import from a local file -->
+    <string name="instructions_sync_import_file">Die App wird nach einer Datei mit dem angegebenen Namen im ausgewählten Verzeichnis suchen und daraus importieren. Wenn kein Name angegeben wird, wird die neueste ZIP-Datei im Verzeichnis verwendet.</string>
+    <!-- Snackbar message, which states that the automatic periodic import ran successfully -->
+    <string name="message_sync_import_succeeded">Import erfolgreich.</string>
+    <!-- Snackbar message, which states that the automatic periodic import failed -->
+    <string name="message_sync_import_failed">Import fehlgeschlagen.</string>
+    <!-- Snackbar message, which states that the automatic periodic export ran successfully -->
+    <string name="message_sync_export_succeeded">Export erfolgreich.</string>
+    <!-- Snackbar message, which states that the automatic periodic export failed -->
+    <string name="message_sync_export_failed">Export fehlgeschlagen.</string>
+    <!-- Label used to display the time at which the automatic import/export feature has last run successfully. %s is a placeholder for the time. -->
+    <string name="label_sync_last_success_pattern">Letzter Erfolg: %s</string>
+    <!-- Label used to display the time at which the automatic import/export feature has last failed. %s is a placeholder for the time. -->
+    <string name="label_sync_last_failure_pattern">Letzter Fehler: %s</string>
+    <!-- Error message shown when automatic import fails due to an incorrect (or missing) password -->
+    <string name="error_sync_import_wrong_password">ZIP-Datei ist passwortgeschützt, aber falsches Passwort wurde angegeben</string>
+    <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
+    <string name="description_sync_failed_too_many_times">Der automatische Import oder Export ist mehrmals fehlgeschlagen und wurde daher deaktiviert. Bitte überprüfe die Konfiguration und stelle sicher, dass sie gültig ist.</string>
 </resources>

@@ -254,6 +254,14 @@
     <string name="settings_export_via_share">通过共享对话框导出</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">在电脑上编辑</string>
+    <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <string name="title_import_export_advanced_settings">高级</string>
+    <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <string name="settings_automatic_import_export">自动导入/导出</string>
+    <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <string name="fab_automatic_import_now">立即导入</string>
+    <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
+    <string name="fab_automatic_export_now">立即导出</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="other">已导出 %d 个快捷方式。</item>
@@ -616,6 +624,10 @@
     <string name="button_save_response_as_file">保存为文件</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">保存值</string>
+    <!-- Checkbox value, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="label_secret_variable_value">将值视为密文</string>
+    <!-- Checkbox subtitle, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="subtitle_secret_variable_value">如果启用，保存值后永远不会再在此处显示该值。</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">允许选择多个选项</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
@@ -1089,6 +1101,8 @@
     <string name="dialog_code_snippet_get_shortcut_name">获取快捷方式名称</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_description">获取快捷方式描述</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_icon">获取快捷方式图标</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">获取响应体</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
@@ -1497,6 +1511,14 @@
     <string name="event_history_title_network_error">\"%s\" 网络错误</string>
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_execution_error">\"%s\" 执行错误</string>
+    <!-- Title of event history entry, which states that the automatic periodic import ran successfully -->
+    <string name="event_history_title_sync_import_succeeded">自动导入成功</string>
+    <!-- Title of event history entry, which states that the automatic periodic import failed -->
+    <string name="event_history_title_sync_import_failed">自动导入失败</string>
+    <!-- Title of event history entry, which states that the automatic periodic export ran successfully -->
+    <string name="event_history_title_sync_export_succeeded">自动导出成功</string>
+    <!-- Title of event history entry, which states that the automatic periodic export failed -->
+    <string name="event_history_title_sync_export_failed">自动导出失败</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <string name="label_prefix_event_history_trigger_origin">触发方式：%s</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1931,4 +1953,76 @@
     <string name="settings_performance_optimizations_enabled">已启用</string>
     <!-- Option in "Performance Optimizations" setting, to disable them -->
     <string name="settings_performance_optimizations_disabled">已禁用</string>
+    <!-- Accessibility description for the "Show password" button that is displayed next to password input fields -->
+    <string name="button_show_password">显示密码</string>
+    <!-- Accessibility description for the "Hide password" button that is displayed next to password input fields -->
+    <string name="button_hide_password">隐藏密码</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the feature is disabled -->
+    <string name="sync_type_disabled">已禁用</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import">自动导入</string>
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export">自动导出</string>
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import_description">定期导入快捷方式、变量等，以便与其他设备同步。</string>
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export_description">定期导出快捷方式、变量等以备份或与其他设备同步。</string>
+    <!-- Label on button to configure the automatic import or export -->
+    <string name="button_sync_configure">配置</string>
+    <!-- Label above dropdown menu which lets the user select how the automatic import feature should behave -->
+    <string name="label_sync_import_mode">导入策略</string>
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_merge">与现有数据合并</string>
+    <!-- Warning message displayed when the user selects the "Replace" strategy for the automatic import feature. %s is a placeholder for the name of the strategy -->
+    <string name="warning_sync_import_mode_replace">当\"%s\"策略处于活动状态时，快捷方式、变量等的创建和编辑被禁用。 所有本地数据将被删除并替换为导入数据。请确保这是您想要的。</string>
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_replace">替换现有数据</string>
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
+    <string name="label_export_schedule">计划</string>
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
+    <string name="label_import_schedule">计划</string>
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <string name="sync_schedule_every_day">每天一次</string>
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
+    <string name="sync_schedule_every_week">每周一次</string>
+    <!-- Label above input field in automatic export, to protect the file with a password -->
+    <string name="label_export_protect_with_password">使用密码保护</string>
+    <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->
+    <string name="label_import_protected_with_password">受密码保护</string>
+    <!-- Label above dropdown menu, to select where to the automatic export should be made -->
+    <string name="label_sync_export_target">导出到</string>
+    <!-- Label above dropdown menu, to select where from the automatic import should be made -->
+    <string name="label_sync_import_target">导入自</string>
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a locally stored file -->
+    <string name="option_sync_target_file">本地文件</string>
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a web server -->
+    <string name="option_sync_target_url">Web服务器</string>
+    <!-- Button label to select the local directory in which the file for automatic import/export resides -->
+    <string name="label_sync_directory">目录</string>
+    <!-- Label for input field, where the user can specify the name of the file that is used for automatic import/export to/from the local file system -->
+    <string name="label_sync_file_name">文件名</string>
+    <!-- Instruction text for automatic export to a web server -->
+    <string name="instructions_sync_export_web">如果提供了用户名和密码，将使用基本身份认证发送 HTTP PUT 请求提供的 URL (例如 WebDAV 服务器)。</string>
+    <!-- Instruction text for automatic export to a local file -->
+    <string name="instructions_sync_export_file">将使用提供的名称在选定的目录中创建一个文件。 如果已经存在给定名称的文件，它将被替换。</string>
+    <!-- Instruction text for automatic import from a web server -->
+    <string name="instructions_sync_import_web">如果提供了用户名和密码，将使用基本身份认证发送 HTTP GET 请求到提供的 URL。</string>
+    <!-- Instruction text for automatic import from a local file -->
+    <string name="instructions_sync_import_file">应用将在选定的目录中寻找所提供名称的文件并从它导入。 如果未提供名称，将使用目录中最新的 ZIP 文件。</string>
+    <!-- Snackbar message, which states that the automatic periodic import ran successfully -->
+    <string name="message_sync_import_succeeded">导入成功。</string>
+    <!-- Snackbar message, which states that the automatic periodic import failed -->
+    <string name="message_sync_import_failed">导入失败。</string>
+    <!-- Snackbar message, which states that the automatic periodic export ran successfully -->
+    <string name="message_sync_export_succeeded">导出成功。</string>
+    <!-- Snackbar message, which states that the automatic periodic export failed -->
+    <string name="message_sync_export_failed">导出失败。</string>
+    <!-- Label used to display the time at which the automatic import/export feature has last run successfully. %s is a placeholder for the time. -->
+    <string name="label_sync_last_success_pattern">上次成功: %s</string>
+    <!-- Label used to display the time at which the automatic import/export feature has last failed. %s is a placeholder for the time. -->
+    <string name="label_sync_last_failure_pattern">上次失败： %s</string>
+    <!-- Error message shown when automatic import fails due to an incorrect (or missing) password -->
+    <string name="error_sync_import_wrong_password">ZIP文件受密码保护，但提供的密码错误</string>
+    <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
+    <string name="description_sync_failed_too_many_times">自动导入或导出运行失败多次，因此已被禁用。 请检查其配置并确保它有效。</string>
 </resources>

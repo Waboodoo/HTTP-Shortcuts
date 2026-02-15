@@ -221,6 +221,10 @@
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Ubah di Komputer</string>
+    <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="other">%d pintasan diekspor.</item>
@@ -560,6 +564,8 @@ Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <string name="button_save_response_as_file">Simpan sebagai file</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Ingat Nilai</string>
+    <!-- Checkbox value, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <!-- Checkbox subtitle, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">Izinkan memilih banyak opsi</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
@@ -982,6 +988,7 @@ Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <string name="dialog_code_snippet_get_shortcut_name">Dapatkan Nama Pintasan</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_description">Dapatkan Deskripsi Pintasan</string>
+    <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">Dapatkah Tubuh Respon sebagai String</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
@@ -1353,6 +1360,10 @@ Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <!-- Title of event history entry, which states that an HTTP response was received. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the status code (e.g. "404 Not Found") -->
     <!-- Title of event history entry, which states that a network error has occurred. %s is a placeholder for the shortcut's name -->
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
+    <!-- Title of event history entry, which states that the automatic periodic import ran successfully -->
+    <!-- Title of event history entry, which states that the automatic periodic import failed -->
+    <!-- Title of event history entry, which states that the automatic periodic export ran successfully -->
+    <!-- Title of event history entry, which states that the automatic periodic export failed -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1563,4 +1574,40 @@ Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->
     <!-- Option in "Performance Optimizations" setting, to enable them (for simple shortcuts) -->
     <!-- Option in "Performance Optimizations" setting, to disable them -->
+    <!-- Accessibility description for the "Show password" button that is displayed next to password input fields -->
+    <!-- Accessibility description for the "Hide password" button that is displayed next to password input fields -->
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the feature is disabled -->
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <!-- Label on button to configure the automatic import or export -->
+    <!-- Label above dropdown menu which lets the user select how the automatic import feature should behave -->
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <!-- Warning message displayed when the user selects the "Replace" strategy for the automatic import feature. %s is a placeholder for the name of the strategy -->
+    <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
+    <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
+    <!-- Label above input field in automatic export, to protect the file with a password -->
+    <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->
+    <!-- Label above dropdown menu, to select where to the automatic export should be made -->
+    <!-- Label above dropdown menu, to select where from the automatic import should be made -->
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a locally stored file -->
+    <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a web server -->
+    <!-- Button label to select the local directory in which the file for automatic import/export resides -->
+    <!-- Label for input field, where the user can specify the name of the file that is used for automatic import/export to/from the local file system -->
+    <!-- Instruction text for automatic export to a web server -->
+    <!-- Instruction text for automatic export to a local file -->
+    <!-- Instruction text for automatic import from a web server -->
+    <!-- Instruction text for automatic import from a local file -->
+    <!-- Snackbar message, which states that the automatic periodic import ran successfully -->
+    <!-- Snackbar message, which states that the automatic periodic import failed -->
+    <!-- Snackbar message, which states that the automatic periodic export ran successfully -->
+    <!-- Snackbar message, which states that the automatic periodic export failed -->
+    <!-- Label used to display the time at which the automatic import/export feature has last run successfully. %s is a placeholder for the time. -->
+    <!-- Label used to display the time at which the automatic import/export feature has last failed. %s is a placeholder for the time. -->
+    <!-- Error message shown when automatic import fails due to an incorrect (or missing) password -->
+    <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
 </resources>
