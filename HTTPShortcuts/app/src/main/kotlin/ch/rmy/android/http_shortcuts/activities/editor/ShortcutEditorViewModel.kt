@@ -475,6 +475,7 @@ constructor(
         logInfo("Shortcut saved successfully ($shortcutId)")
         isFinishing = true
         tryOrLog {
+            // TODO: Update pinned shortcut and widget from a worker, no need to make the user wait for that, and also it seems to fail sometimes
             launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
             withProgressTracking {
                 shortcutWidgetManager.updateWidgets(context, shortcutId)

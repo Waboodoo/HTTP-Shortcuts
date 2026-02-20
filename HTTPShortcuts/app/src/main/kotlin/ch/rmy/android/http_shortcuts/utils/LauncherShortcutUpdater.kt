@@ -83,7 +83,12 @@ constructor(
         } catch (_: NoSuchElementException) {
             // Sometimes, the shortcut is not (yet?) available at this time, so we try again after a short delay
             delay(300.milliseconds)
-            shortcutRepository.getShortcutById(shortcutId)
+            try {
+                shortcutRepository.getShortcutById(shortcutId)
+            } catch (e: NoSuchElementException) {
+                logInfo("Shortcut was still not available after 300 ms")
+                throw e
+            }
         }
         val variables = globalVariableRepository.getGlobalVariables()
         return getLauncherShortcut(
