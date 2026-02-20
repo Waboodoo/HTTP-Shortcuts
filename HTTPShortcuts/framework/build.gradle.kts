@@ -43,7 +43,6 @@ dependencies {
     implementation(libs.androidx.preference)
     implementation(libs.androidx.annotation)
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.jdk9)
 
     testImplementation(libs.kotlin.test.junit5)
 }
