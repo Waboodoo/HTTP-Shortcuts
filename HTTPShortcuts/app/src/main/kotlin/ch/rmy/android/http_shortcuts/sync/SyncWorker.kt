@@ -102,7 +102,7 @@ constructor(
             return Result.success()
         } catch (e: Exception) {
             syncRepository.setLastFailed(syncType, Instant.now())
-            if (e !is IOException && e !is ImportException) {
+            if (e !is IOException && e !is ImportException && e !is IllegalStateException) {
                 logException(e)
             }
             return if (isSingleRun) {
