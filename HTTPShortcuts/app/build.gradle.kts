@@ -184,10 +184,6 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
-        viewBinding = false
-        dataBinding = false
-        aidl = false
-        renderScript = false
         resValues = false
         shaders = false
     }
@@ -204,12 +200,6 @@ android {
         }
     }
 
-    sourceSets.getByName("main") {
-        java.setSrcDirs(listOf("src/main/kotlin"))
-    }
-    sourceSets.getByName("test") {
-        java.setSrcDirs(listOf("src/test/kotlin"))
-    }
     sourceSets.getByName("debug") {
         java.setSrcDirs(listOf("src/withoutCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
     }
