@@ -2,13 +2,13 @@ package ch.rmy.android.http_shortcuts.activities.execute
 
 import android.app.Notification
 import android.app.PendingIntent
-import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
-import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.core.app.ServiceCompat
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
@@ -27,16 +27,11 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ExecutionService : Service() {
-    private val coroutineScope = CoroutineScope(Job())
-
+class ExecutionService : LifecycleService() {
     @Inject
     lateinit var executionFactory: ExecutionFactory
 
@@ -49,15 +44,14 @@ class ExecutionService : Service() {
     @Inject
     lateinit var notificationChannelManager: NotificationChannelManager
 
-    override fun onBind(intent: Intent?): IBinder? = null
-
     private val activeExecutions = AtomicInteger()
     private val activeShortcuts = ConcurrentHashMap<String, Shortcut>()
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val params = intent.toExecutionParams()
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        val params = intent!!.toExecutionParams()
         val invocationId = UUIDUtils.newUUID()
-        coroutineScope.launch {
+        lifecycleScope.launch {
             activeExecutions.incrementAndGet()
             val foregroundJob = launch {
                 try {
@@ -105,11 +99,6 @@ class ExecutionService : Service() {
             }
         }
         return START_NOT_STICKY
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        coroutineScope.coroutineContext.cancelChildren()
     }
 
     private fun startOrUpdateForegroundService() {
