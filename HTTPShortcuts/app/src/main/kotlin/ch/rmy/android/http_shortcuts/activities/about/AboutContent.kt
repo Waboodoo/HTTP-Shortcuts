@@ -29,6 +29,7 @@ fun AboutContent(
     onAcknowledgementButtonClicked: () -> Unit,
     onPrivacyPolicyButtonClicked: () -> Unit,
     onDeviceIdButtonClicked: () -> Unit,
+    onWebsiteButtonClicked: () -> Unit,
     onRedditButtonClicked: () -> Unit,
 ) {
     Column(
@@ -66,6 +67,13 @@ fun AboutContent(
                 deviceId
             },
             onClick = onDeviceIdButtonClicked,
+        )
+
+        SettingsButton(
+            icon = painterResource(R.drawable.outline_open_in_browser_24),
+            title = stringResource(R.string.settings_go_to_website),
+            subtitle = stringResource(R.string.settings_go_to_website_summary),
+            onClick = onWebsiteButtonClicked,
         )
 
         SettingsButton(

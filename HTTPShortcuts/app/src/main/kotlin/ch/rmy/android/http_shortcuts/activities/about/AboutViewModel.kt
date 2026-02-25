@@ -93,6 +93,10 @@ constructor(
         showSnackbar(R.string.message_device_id_copied)
     }
 
+    fun onWebsiteButtonClicked() = runAction {
+        openURL(ExternalURLs.BASE_URL)
+    }
+
     fun onRedditButtonClicked() = runAction {
         openURL(ExternalURLs.REDDIT)
     }

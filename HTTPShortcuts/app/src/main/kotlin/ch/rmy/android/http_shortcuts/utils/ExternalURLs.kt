@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.utils
 
 object ExternalURLs {
 
-    private const val BASE_URL = "https://http-shortcuts.rmy.ch"
+    const val BASE_URL = "https://http-shortcuts.rmy.ch"
     const val SHORTCUTS_DOCUMENTATION = "$BASE_URL/shortcuts"
     const val CATEGORIES_DOCUMENTATION = "$BASE_URL/categories"
     const val VARIABLES_DOCUMENTATION = "$BASE_URL/variables"

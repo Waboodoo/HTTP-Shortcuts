@@ -355,6 +355,10 @@
     <string name="settings_reddit">Reddit Community</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
     <string name="settings_reddit_summary">The app\'s official subreddit, for discussions and idea exchanges</string>
+    <!-- Button title, for option to go to the app's official website -->
+    <string name="settings_go_to_website">Visit Website</string>
+    <!-- Button subtitle, for option to go to the app's official website -->
+    <string name="settings_go_to_website_summary">Find more information on the app\'s official website</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Questions, feature requests, feedback, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
