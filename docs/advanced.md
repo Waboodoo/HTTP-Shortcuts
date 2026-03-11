@@ -12,7 +12,7 @@ Headless mode is automatically enabled for a shortcut if all of the following co
 - In the "Scripting" settings, the "Run on Success" and "Run on Failure" fields are empty
 - The shortcut does not make use of file parameters of file request bodies
 - The "Wait for connection when offline" checkbox is not ticked
-- The "Require specific Wi-Fi" checkbox is not ticket
+- The "Require specific Wi-Fi" checkbox is not ticked
 - Battery Saver and Data Saver modes are disabled, or the app is excluded from them
 - The shortcut does not use any variables with large values (i.e., multiple KB)
 

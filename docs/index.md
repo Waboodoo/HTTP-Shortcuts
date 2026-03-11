@@ -1,4 +1,4 @@
-A simple but powerful Android app that allows you to create shortcuts and widgets that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility of processing and displaying the response in various ways. Ideal for home automation projects.
+A simple but powerful Android app that lets you to create shortcuts and widgets that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility of processing and displaying the response in various ways. Ideal for home automation projects.
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"><img alt="Get it on Google Play" src="../assets/play_store.svg" height="80" style="margin-right: 20px"></a><a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"><img alt="Get it on F-Droid" src="../assets/f_droid.svg" height="80" style="margin-right: 20px"></a><a href="https://github.com/Waboodoo/HTTP-Shortcuts/releases"><img alt="Get it on GitHub" src="../assets/github.svg" height="80" style="margin-right: 20px"></a><a href="https://http-request-shortcuts.updatestar.com/"><img alt="&quot;HTTP Request Shortcuts is an outstanding product and was given the 'Excellent' award by its users.&quot; - Michael Ganss, UpdateStar.com" src="../assets/documentation/updatestar_rating.png" height="80"></a>
 
@@ -14,6 +14,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - 100% free
 - Open-source
 - No ads
+- No AI features
 - [(Almost) no tracking](privacy-policy.md)
 - Runs on Android 8 (Oreo) or newer. See below for older versions.
 

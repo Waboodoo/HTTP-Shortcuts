@@ -9,7 +9,7 @@
 ![Ratings](https://PlayBadges.pavi2410.me/badge/ratings?id=ch.rmy.android.http_shortcuts)
 [![Crowdin](https://badges.crowdin.net/http-shortcuts/localized.svg)](https://crowdin.com/project/http-shortcuts)
 
-A simple Android app that allows you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility to process and display the response in various ways.
+An Android app that lets you to create shortcuts that can be placed on your home screen. Each shortcut, when clicked, triggers an HTTP request, with the possibility to process and display the response in various ways. Plus a whole lot of other (non-HTTP) stuff.
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"><img alt="Get it on Google Play" src="/assets/play_store.svg" height="80" /></a>
 <a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"><img alt="Get it on F-Droid" src="/assets/f_droid.svg" height="80" /></a>
@@ -22,7 +22,7 @@ Find more information and documentation on the [official website](https://http-s
 [Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://crowdin.com/project/http-shortcuts) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
 
 ## Features
-- No ads and completely free and open-source
+- No ads, no AI features and completely free and open-source
 - Supports HTTP and HTTPS, and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
