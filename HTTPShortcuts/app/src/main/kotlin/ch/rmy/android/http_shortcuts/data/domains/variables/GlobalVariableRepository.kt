@@ -63,6 +63,6 @@ constructor(
     }
 
     suspend fun getSecretVariableValues() = query {
-        globalVariableDao().getSecretValues().filterNotNull().filter { it.isNotEmpty() }.toSet()
+        globalVariableDao().getSecretValues().filter { it.isNotEmpty() }.toSet()
     }
 }

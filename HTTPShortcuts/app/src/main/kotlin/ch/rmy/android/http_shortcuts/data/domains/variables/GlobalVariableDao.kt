@@ -111,5 +111,5 @@ abstract class GlobalVariableDao {
     protected abstract suspend fun getMaxSortingOrder(): Int
 
     @Query("SELECT value FROM variable WHERE secret = 1")
-    abstract suspend fun getSecretValues(): List<String?>
+    abstract suspend fun getSecretValues(): List<String>
 }
