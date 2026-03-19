@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import ch.rmy.android.http_shortcuts.data.models.SyncConfig
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
+import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
@@ -102,7 +103,7 @@ constructor(
             return Result.success()
         } catch (e: Exception) {
             syncRepository.setLastFailed(syncType, Instant.now())
-            if (e !is IOException && e !is ImportException && e !is IllegalStateException) {
+            if (e !is IOException && e !is ImportException && e !is IllegalStateException && e !is UserException) {
                 logException(e)
             }
             return if (isSingleRun) {
@@ -128,10 +129,7 @@ constructor(
             incrementAndCheckErrorCount(e)
             historyEventLogger.logEvent(
                 HistoryEvent.SyncImportFailed(
-                    details = when (e) {
-                        is ImportPasswordException -> context.getString(R.string.error_sync_import_wrong_password)
-                        else -> e.message
-                    },
+                    details = getErrorMessage(e),
                 ),
             )
             throw e
@@ -216,7 +214,7 @@ constructor(
         } catch (e: Exception) {
             incrementAndCheckErrorCount(e)
             historyEventLogger.logEvent(
-                HistoryEvent.SyncExportFailed(details = e.message),
+                HistoryEvent.SyncExportFailed(details = getErrorMessage(e)),
             )
             throw e
         }
@@ -380,6 +378,13 @@ constructor(
                 }
                 .distinctUntilChanged()
     }
+
+    private fun getErrorMessage(e: Exception): String? =
+        when (e) {
+            is ImportPasswordException -> context.getString(R.string.error_sync_import_wrong_password)
+            is UserException -> e.getLocalizedMessage(context)
+            else -> e.message
+        }
 
     companion object {
         private const val TAG = "sync_worker"
