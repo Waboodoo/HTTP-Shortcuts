@@ -186,8 +186,8 @@ constructor(
                 scheduleExecutions()
             }
             updateLauncherSettings()
-            shortcutWidgetManager.updateAllWidgets(context)
-            variableWidgetManager.updateAllWidgets(context)
+            shortcutWidgetManager.updateAllWidgets()
+            variableWidgetManager.updateAllWidgets()
         }
 
         val widgetShortcutForEditing = initData.widgetId
@@ -602,7 +602,7 @@ constructor(
         logInfo("Shortcut widget settings submitted")
         val widgetId = initData.widgetId ?: skipAction()
         shortcutWidgetsRepository.createOrUpdateShortcutWidget(widgetId, shortcutId, showLabel, showIcon, labelColor, iconScale)
-        shortcutWidgetManager.updateWidgets(context, shortcutId)
+        shortcutWidgetManager.updateWidgets(shortcutId)
         finish(
             intent = WidgetsUtil.getIntent(widgetId),
             okResultCode = true,
@@ -624,7 +624,7 @@ constructor(
             title = title,
             shortcutId = shortcutId,
         )
-        variableWidgetManager.updateWidgets(context, variableId)
+        variableWidgetManager.updateWidgets(variableId)
         finish(
             intent = WidgetsUtil.getIntent(widgetId),
             okResultCode = true,

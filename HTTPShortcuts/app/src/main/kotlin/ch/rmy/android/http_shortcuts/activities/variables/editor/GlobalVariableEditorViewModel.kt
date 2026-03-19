@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
@@ -164,7 +163,7 @@ constructor(
             val id = globalVariableId ?: newUUID()
             globalVariableRepository.copyTemporaryVariableToVariable(id)
             globalVariableId?.let {
-                variableWidgetManager.updateWidgets(context, it)
+                variableWidgetManager.updateWidgets(it)
             }
             closeScreen(
                 result = if (globalVariableId == null) {

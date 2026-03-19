@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
@@ -14,7 +13,6 @@ import javax.inject.Inject
 class ChangeIconAction
 @Inject
 constructor(
-    private val context: Context,
     private val shortcutRepository: ShortcutRepository,
     private val shortcutWidgetManager: ShortcutWidgetManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
@@ -26,7 +24,7 @@ constructor(
         val newIcon = ShortcutIcon.fromName(iconName)
         val shortcut = try {
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             throw ActionException {
                 getString(R.string.error_shortcut_not_found_for_changing_icon, shortcutNameOrId)
             }
@@ -35,7 +33,7 @@ constructor(
         shortcutRepository.setIcon(shortcut.id, newIcon)
 
         launcherShortcutUpdater.updatePinnedShortcut(shortcut.id)
-        shortcutWidgetManager.updateWidgets(context, shortcut.id)
+        shortcutWidgetManager.updateWidgets(shortcut.id)
     }
 
     data class Params(

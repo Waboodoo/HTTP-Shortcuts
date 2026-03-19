@@ -5,27 +5,18 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class VariableWidgetProvider : AppWidgetProvider() {
 
     @Inject
-    lateinit var variableWidgetManager: VariableWidgetManager
+    lateinit var widgetUpdateWorkerStarter: WidgetUpdateWorker.Starter
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, widgetIds: IntArray) {
-        // TODO(???): Use more appropriate scope, maybe a worker?
-        CoroutineScope(Dispatchers.Default).launch {
-            variableWidgetManager.updateWidgets(context, widgetIds.toList())
-        }
+        widgetUpdateWorkerStarter.updateVariableWidgets(widgetIds)
     }
 
     override fun onDeleted(context: Context, widgetIds: IntArray) {
-        // TODO(???): Use more appropriate scope, maybe a worker?
-        CoroutineScope(Dispatchers.Default).launch {
-            variableWidgetManager.deleteWidgets(widgetIds.toList())
-        }
+        widgetUpdateWorkerStarter.deleteVariableWidgets(widgetIds)
     }
 }

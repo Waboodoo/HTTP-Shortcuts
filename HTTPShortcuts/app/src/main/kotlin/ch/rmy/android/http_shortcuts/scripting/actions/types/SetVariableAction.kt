@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.R
@@ -10,14 +9,11 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class SetVariableAction
 @Inject
 constructor(
-    @ApplicationContext
-    private val context: Context,
     private val globalVariableRepository: GlobalVariableRepository,
     private val variableWidgetManager: VariableWidgetManager,
 ) : Action<SetVariableAction.Params> {
@@ -28,7 +24,7 @@ constructor(
             val variable = globalVariableRepository.getVariableByKeyOrId(variableKeyOrId)
             globalVariableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
             if (variable.type == VariableType.CONSTANT) {
-                variableWidgetManager.updateWidgets(context, variable.id)
+                variableWidgetManager.updateWidgets(variable.id)
             }
         } catch (_: NoSuchElementException) {
             if (variableKeyOrId.globalVariableId != null) {

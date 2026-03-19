@@ -21,27 +21,27 @@ import javax.inject.Inject
 class ShortcutWidgetManager
 @Inject
 constructor(
+    private val context: Context,
     private val shortcutWidgetsRepository: ShortcutWidgetsRepository,
     private val shortcutRepository: ShortcutRepository,
 ) {
-    suspend fun updateAllWidgets(context: Context) {
-        updateWidgets(context, shortcutWidgetsRepository.getShortcutWidgets())
+    suspend fun updateAllWidgets() {
+        updateWidgets(shortcutWidgetsRepository.getShortcutWidgets())
     }
 
-    suspend fun updateWidgets(context: Context, widgetIds: List<Int>) {
-        updateWidgets(context, shortcutWidgetsRepository.getShortcutWidgetsByIds(widgetIds))
+    suspend fun updateWidgets(widgetIds: List<Int>) {
+        updateWidgets(shortcutWidgetsRepository.getShortcutWidgetsByIds(widgetIds))
     }
 
-    suspend fun updateWidgets(context: Context, shortcutId: ShortcutId) {
-        updateWidgets(context, shortcutWidgetsRepository.getShortcutWidgetsByShortcutId(shortcutId))
+    suspend fun updateWidgets(shortcutId: ShortcutId) {
+        updateWidgets(shortcutWidgetsRepository.getShortcutWidgetsByShortcutId(shortcutId))
     }
 
     @JvmName(name = "_updateWidgets")
-    private suspend fun updateWidgets(context: Context, shortcutWidgets: List<ShortcutWidget>) {
+    private suspend fun updateWidgets(shortcutWidgets: List<ShortcutWidget>) {
         shortcutWidgets.forEach { widget ->
             try {
                 updateWidget(
-                    context,
                     widget,
                     shortcut = shortcutRepository.getShortcutById(widget.shortcutId),
                 )
@@ -51,7 +51,7 @@ constructor(
         }
     }
 
-    private fun updateWidget(context: Context, shortcutWidget: ShortcutWidget, shortcut: Shortcut) {
+    private fun updateWidget(shortcutWidget: ShortcutWidget, shortcut: Shortcut) {
         RemoteViews(context.packageName, R.layout.shortcut_widget).also { views ->
             views.setOnClickPendingIntent(
                 R.id.widget_base,

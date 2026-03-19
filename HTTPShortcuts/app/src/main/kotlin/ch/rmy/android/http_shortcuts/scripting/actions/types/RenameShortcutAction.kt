@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
-import android.content.Context
 import ch.rmy.android.framework.extensions.truncate
 import ch.rmy.android.http_shortcuts.Constants
 import ch.rmy.android.http_shortcuts.R
@@ -17,7 +16,6 @@ import javax.inject.Inject
 class RenameShortcutAction
 @Inject
 constructor(
-    private val context: Context,
     private val shortcutRepository: ShortcutRepository,
     private val shortcutWidgetManager: ShortcutWidgetManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
@@ -47,7 +45,7 @@ constructor(
         shortcutRepository.setName(shortcut.id, newName)
 
         launcherShortcutUpdater.updatePinnedShortcut(shortcut.id)
-        shortcutWidgetManager.updateWidgets(context, shortcut.id)
+        shortcutWidgetManager.updateWidgets(shortcut.id)
     }
 
     data class Params(

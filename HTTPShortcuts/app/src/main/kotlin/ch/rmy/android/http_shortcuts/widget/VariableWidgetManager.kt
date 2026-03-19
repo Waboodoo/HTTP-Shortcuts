@@ -22,6 +22,7 @@ import javax.inject.Inject
 class VariableWidgetManager
 @Inject
 constructor(
+    private val context: Context,
     private val variableWidgetsRepository: VariableWidgetsRepository,
     private val globalVariableRepository: GlobalVariableRepository,
 ) {
@@ -35,20 +36,20 @@ constructor(
         variableWidgetsRepository.createOrUpdateVariableWidget(widgetId, globalVariableId, fontSize, title, shortcutId)
     }
 
-    suspend fun updateAllWidgets(context: Context) {
-        updateWidgets(context, variableWidgetsRepository.getVariableWidgets())
+    suspend fun updateAllWidgets() {
+        updateWidgets(variableWidgetsRepository.getVariableWidgets())
     }
 
-    suspend fun updateWidgets(context: Context, widgetIds: List<Int>) {
-        updateWidgets(context, variableWidgetsRepository.getVariableWidgetsByIds(widgetIds))
+    suspend fun updateWidgets(widgetIds: List<Int>) {
+        updateWidgets(variableWidgetsRepository.getVariableWidgetsByIds(widgetIds))
     }
 
-    suspend fun updateWidgets(context: Context, variableId: GlobalVariableId) {
-        updateWidgets(context, variableWidgetsRepository.getVariableWidgetsByVariableId(variableId))
+    suspend fun updateWidgets(variableId: GlobalVariableId) {
+        updateWidgets(variableWidgetsRepository.getVariableWidgetsByVariableId(variableId))
     }
 
     @JvmName(name = "_updateWidgets")
-    private suspend fun updateWidgets(context: Context, variableWidgets: List<VariableWidget>) {
+    private suspend fun updateWidgets(variableWidgets: List<VariableWidget>) {
         variableWidgets.forEach { widget ->
             val variable = try {
                 globalVariableRepository.getVariableByKeyOrId(VariableKeyOrId(widget.variableId))
@@ -56,14 +57,13 @@ constructor(
                 null
             }
             updateWidget(
-                context,
                 widget,
                 globalVariable = variable,
             )
         }
     }
 
-    private fun updateWidget(context: Context, variableWidget: VariableWidget, globalVariable: GlobalVariable?) {
+    private fun updateWidget(variableWidget: VariableWidget, globalVariable: GlobalVariable?) {
         RemoteViews(context.packageName, R.layout.variable_widget).also { views ->
             val shortcutId = variableWidget.shortcutId
             if (shortcutId != null) {
