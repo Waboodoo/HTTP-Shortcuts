@@ -58,6 +58,8 @@ object Icons {
         R.drawable.flat_color_brightness_7,
         R.drawable.flat_color_lightbulb_7,
         R.drawable.flat_color_arrow_down,
+        R.drawable.flat_color_arrow_down2,
+        R.drawable.flat_color_arrow_up2,
         R.drawable.flat_color_arrow_up,
         R.drawable.flat_color_pie_chart,
         R.drawable.flat_color_barchart,
