@@ -111,7 +111,7 @@ fun SelectDialogEntry(
                 maxLines = 5,
                 overflow = TextOverflow.Ellipsis,
             )
-            if (description != null) {
+            if (!description.isNullOrEmpty()) {
                 Text(
                     description,
                     fontSize = FontSize.SMALL,
