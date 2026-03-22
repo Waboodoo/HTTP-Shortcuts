@@ -1,11 +1,13 @@
 package ch.rmy.android.http_shortcuts.activities.sync
 
+import android.content.ActivityNotFoundException
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
@@ -42,7 +44,13 @@ fun SyncExportScreen() {
             onScheduleChanged = viewModel::onScheduleChanged,
             onFilePasswordChanged = viewModel::onFilePasswordChanged,
             onTargetTypeChanged = viewModel::onTargetTypeChanged,
-            onDirectoryClicked = { pickDirectory.launch(null) },
+            onDirectoryClicked = {
+                try {
+                    pickDirectory.launch(null)
+                } catch (_: ActivityNotFoundException) {
+                    context.showToast(R.string.error_not_supported)
+                }
+            },
             onFileNameChanged = viewModel::onFileNameChanged,
             onWebUrlChanged = viewModel::onWebUrlChanged,
             onWebAuthUsernameChanged = viewModel::onWebAuthUsernameChanged,
