@@ -4,7 +4,7 @@
 # Keywords must only consist of lowercase latin characters.
 # An underscore in a keyword means that the keyword represents multiple keywords, e.g. a_b_c corresponds to the keywords a, b, c and abc
 # The first word represents the lookup key. One or more icons may map to it.
-# If this file is updated, follow these steps to apply the changes to the code:
+# If this file is updated, run `gradlew app:syncIconsKeywords` or follow these steps to apply the changes to the code:
 # 1. Make a copy of the file
 # 2. Remove this header comment, including all empty lines
 # 3. gzip the file
@@ -142,8 +142,8 @@ electric_car vehicle garage
 electronics energy house
 email mail post letter
 energy_saving_bulb light lamp
-enter arrow
-exit arrow
+enter arrow right next forward
+exit arrow left previous backward
 experiment science
 eye visible
 eyedropper tool
@@ -265,7 +265,7 @@ music notes audio sound
 mute audio sound
 new sun star sparkle
 news paper
-next arrow forward
+next arrow forward right
 office building
 origami paper
 outlet_plug power energy
@@ -375,8 +375,8 @@ suitcase briefcase
 sun weather
 support help
 swap_down arrow
-swap_left arrow
-swap_right arrow
+swap_left arrow previous backward
+swap_right arrow next forward
 swap_up arrow
 swatches colors paints shades
 sword weapon

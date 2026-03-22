@@ -6,6 +6,7 @@ import com.opencsv.CSVReader
 import `in`.wilsonl.minifyhtml.Configuration
 import `in`.wilsonl.minifyhtml.MinifyHtml
 import java.io.FileReader
+import java.util.zip.GZIPOutputStream
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
@@ -535,6 +536,21 @@ tasks.register("syncDocumentation") {
                     replace("src=\"../assets/documentation/", "src=\"file:///android_asset/docs/assets/")
                 },
             )
+        }
+    }
+}
+
+tasks.register("syncIconsKeywords") {
+    description = "copies and compresses the icon index file into the app"
+
+    val processedFileContents = File("../assets/icons_keywords.txt").readLines()
+        .filter { line ->
+            !line.isEmpty() && !line.startsWith("#")
+        }
+        .joinToString("\n")
+    GZIPOutputStream(File("app/src/main/assets/icons_keywords").outputStream()).use { outputStream ->
+        processedFileContents.byteInputStream().use { inputStream ->
+            inputStream.copyTo(outputStream)
         }
     }
 }
