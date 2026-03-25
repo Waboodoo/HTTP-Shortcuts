@@ -77,6 +77,7 @@ constructor(
             is UserException -> error.getLocalizedMessage(context)
             is ConnectException,
             is UnknownHostException,
+            is IllegalArgumentException,
             -> error.message!!
             is SSLPeerUnverifiedException -> formatSSLPeerUnverifiedException(error)
             else -> getUnknownErrorMessage(error)
@@ -89,7 +90,7 @@ constructor(
                 val formattedHash = Base64.decode(base64hash, Base64.DEFAULT)
                     .toChunkedHexString()
                 "${algorithm.uppercase()}/$formattedHash"
-            } catch (e: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 match.value
             }
         }
@@ -122,10 +123,7 @@ constructor(
             }
 
     private fun getSingleErrorMessage(error: Throwable): String =
-        when {
-            error.message != null -> error.message!!
-            else -> context.getString(R.string.error_generic)
-        }
+        error.message ?: context.getString(R.string.error_generic)
 
     private fun getString(@StringRes stringRes: Int): String = context.getString(stringRes)
 

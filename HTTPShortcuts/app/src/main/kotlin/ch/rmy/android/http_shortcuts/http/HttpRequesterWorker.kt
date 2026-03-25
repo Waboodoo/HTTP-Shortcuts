@@ -10,6 +10,7 @@ import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
@@ -77,6 +78,7 @@ constructor(
 
         val variableValues = getVariableValues(params.variableValues)
 
+        logInfo("Making request from HttpRequesterWorker")
         val response = try {
             httpRequester
                 .executeShortcut(
