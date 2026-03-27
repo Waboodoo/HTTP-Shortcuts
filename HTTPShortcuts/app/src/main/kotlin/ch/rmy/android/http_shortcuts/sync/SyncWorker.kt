@@ -181,7 +181,9 @@ constructor(
             }
                 .use { response ->
                     if (!response.isSuccessful) {
-                        userError("Server returned ${response.code}")
+                        userError {
+                            getString(R.string.error_sync_server_error, "${response.code} ${response.message}")
+                        }
                     }
                     tempFile.outputStream().use { outputStream ->
                         response.body.byteStream().copyTo(outputStream)
@@ -260,7 +262,9 @@ constructor(
             }
                 .use { response ->
                     if (!response.isSuccessful) {
-                        userError("Server returned ${response.code}")
+                        userError {
+                            getString(R.string.error_sync_server_error, "${response.code} ${response.message}")
+                        }
                     }
                 }
             return result

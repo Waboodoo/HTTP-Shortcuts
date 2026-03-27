@@ -2038,4 +2038,6 @@
     <string name="error_sync_import_wrong_password">ZIP file is password protected, but wrong password was provided</string>
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
     <string name="description_sync_failed_too_many_times">The automatic import or export has failed to run multiple times and has therefore been disabled. Please check its configuration and ensure that it is valid.</string>
+    <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
+    <string name="error_sync_server_error">Server responded with error code: %s</string>
 </resources>
