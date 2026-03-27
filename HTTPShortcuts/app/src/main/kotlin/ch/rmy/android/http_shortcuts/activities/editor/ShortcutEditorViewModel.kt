@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.toLocalizable
-import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.framework.utils.localization.QuantityStringLocalizable
@@ -43,11 +42,10 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.MqttUtil
+import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableUrl
-import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -70,11 +68,10 @@ constructor(
     private val requestHeaderRepository: RequestHeaderRepository,
     private val requestParameterRepository: RequestParameterRepository,
     private val globalVariableRepository: GlobalVariableRepository,
-    private val shortcutWidgetManager: ShortcutWidgetManager,
+    private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
     private val fetchFavicon: FetchFaviconUseCase,
     private val sessionInfoStore: SessionInfoStore,
     private val dialogHandler: ExecuteDialogHandler,
-    private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val executionStarter: ExecutionStarter,
     private val navigationArgStore: NavigationArgStore,
     private val deviceLocalPreferences: DeviceLocalPreferences,
@@ -474,15 +471,15 @@ constructor(
     private suspend fun ViewModelScope<*>.onSaveSuccessful(shortcutId: ShortcutId) {
         logInfo("Shortcut saved successfully ($shortcutId)")
         isFinishing = true
-        tryOrLog {
-            // TODO: Update pinned shortcut and widget from a worker, no need to make the user wait for that, and also it seems to fail sometimes
-            launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
-            withProgressTracking {
-                shortcutWidgetManager.updateWidgets(shortcutId)
-            }
-        }
         waitForOperationsToFinish()
-        closeScreen(result = NavigationDestination.ShortcutEditor.ShortcutCreatedResult(shortcutId))
+        shortcutUpdateWorkerStarter.invoke(shortcutId)
+        closeScreen(
+            result = if (this@ShortcutEditorViewModel.shortcutId == null) {
+                NavigationDestination.ShortcutEditor.ShortcutCreatedResult(shortcutId)
+            } else {
+                NavigationDestination.ShortcutEditor.ShortcutEditedResult(shortcutId)
+            },
+        )
     }
 
     fun onBackPressed() = runAction {
