@@ -4,7 +4,7 @@ import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -31,8 +31,8 @@ constructor() : Action<PromptTimeAction.Params> {
             try {
                 SimpleDateFormat(pattern, Locale.US)
                     .format(Date.from(LocalDate.now().atTime(selectedTime).atZone(ZoneOffset.systemDefault()).toInstant()))
-            } catch (e: IllegalArgumentException) {
-                throw UserException.create {
+            } catch (_: IllegalArgumentException) {
+                userError {
                     getString(R.string.error_invalid_time_format)
                 }
             }

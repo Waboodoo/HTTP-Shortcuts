@@ -3,7 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.graphics.Bitmap.CompressFormat
 import android.net.Uri
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
@@ -17,7 +17,7 @@ constructor(
     suspend fun scanBarcode(): String? =
         when (val result = getResult(ExternalRequest.ScanBarcode)) {
             is ExternalResult.BarcodeScanned -> result.content
-            is ExternalResult.AppNotAvailable -> throw UserException.create {
+            is ExternalResult.AppNotAvailable -> userError {
                 getString(R.string.error_barcode_scanner_not_installed)
             }
             is ExternalResult.Cancelled -> null
@@ -27,7 +27,7 @@ constructor(
     suspend fun openCamera(): List<Uri> =
         when (val result = getResult(ExternalRequest.OpenCamera)) {
             is ExternalResult.Files -> result.fileUris
-            is ExternalResult.AppNotAvailable -> throw UserException.create {
+            is ExternalResult.AppNotAvailable -> userError {
                 getString(R.string.error_not_supported)
             }
             else -> error("Unexpected result")
@@ -43,7 +43,7 @@ constructor(
     suspend fun openFilePicker(multiple: Boolean): List<Uri> =
         when (val result = getResult(ExternalRequest.PickFiles(multiple))) {
             is ExternalResult.Files -> result.fileUris
-            is ExternalResult.AppNotAvailable -> throw UserException.create {
+            is ExternalResult.AppNotAvailable -> userError {
                 getString(R.string.error_not_supported)
             }
             else -> error("Unexpected result")

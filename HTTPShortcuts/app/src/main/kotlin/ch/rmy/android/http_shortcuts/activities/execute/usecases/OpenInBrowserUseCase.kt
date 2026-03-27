@@ -12,7 +12,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.Validation
 import javax.inject.Inject
@@ -30,7 +30,7 @@ constructor(
                 throw InvalidUrlException(url)
             }
             if (uri.scheme?.equals("file", ignoreCase = true) == true) {
-                throw UserException.create {
+                userError {
                     getString(R.string.error_unsupported_file_url)
                 }
             }
@@ -61,11 +61,11 @@ constructor(
             targetBrowser.packageName?.let {
                 throw BrowserNotFoundException(it)
             }
-            throw UserException.create {
+            userError {
                 getString(R.string.error_no_app_found_for_url, url)
             }
         } catch (_: SecurityException) {
-            throw UserException.create {
+            userError {
                 getString(R.string.error_permission_required_for_url, url)
             }
         }

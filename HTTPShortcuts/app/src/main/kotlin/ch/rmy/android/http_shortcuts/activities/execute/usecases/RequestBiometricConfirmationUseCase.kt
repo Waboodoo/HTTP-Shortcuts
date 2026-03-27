@@ -2,7 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
@@ -21,7 +21,7 @@ constructor(
                 negativeButtonText = context.getString(R.string.dialog_cancel),
             )
         } catch (e: BiometricUtil.BiometricException) {
-            throw UserException.create {
+            userError {
                 getString(R.string.error_biometric_confirmation_failed, e.message)
             }
         }

@@ -8,7 +8,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import java.io.IOException
 
 class FileUploadManager internal constructor(
@@ -76,14 +76,10 @@ class FileUploadManager internal constructor(
             )
         } catch (e: SecurityException) {
             logException(e)
-            throw UserException.create {
-                e.message?.let { "Security Error: $it" } ?: e.toString()
-            }
+            userError(e.message?.let { "Security Error: $it" } ?: e.toString())
         } catch (e: IllegalArgumentException) {
             logException(e)
-            throw UserException.create {
-                e.message?.let { "Failed to access file: $it" } ?: e.toString()
-            }
+            userError(e.message?.let { "Failed to access file: $it" } ?: e.toString())
         }
     }
 

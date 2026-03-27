@@ -10,7 +10,7 @@ import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import javax.inject.Inject
@@ -58,7 +58,7 @@ constructor(
                     getString(R.string.error_no_app_found_for_url, url)
                 }
             } catch (_: SecurityException) {
-                throw UserException.create {
+                userError {
                     getString(R.string.error_permission_required_for_url, url)
                 }
             }

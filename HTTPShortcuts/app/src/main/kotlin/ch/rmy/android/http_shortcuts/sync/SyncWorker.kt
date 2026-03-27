@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.data.models.SyncConfig
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.history.HistoryEventLogger
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
@@ -103,7 +104,7 @@ constructor(
             return Result.success()
         } catch (e: Exception) {
             syncRepository.setLastFailed(syncType, Instant.now())
-            if (e !is IOException && e !is ImportException && e !is IllegalStateException && e !is UserException) {
+            if (e !is IOException && e !is ImportException && e !is UserException) {
                 logException(e)
             }
             return if (isSingleRun) {
@@ -141,17 +142,17 @@ constructor(
             ?.let { directoryUri ->
                 workingDirectoryUtil.getDocumentFile(directoryUri)
             }
-            ?: error("No directory set")
+            ?: userError("No directory set")
 
         val fileName = config.targetFileName?.replacePlaceholders()
         val file = if (fileName != null) {
             directory.findFile(fileName)
-                ?: error("No file named '$fileName' found in directory")
+                ?: userError("No file named '$fileName' found in directory")
         } else {
             directory.listFiles()
                 .filter { file -> file.isFile && file.name?.endsWith(".zip", ignoreCase = true) == true }
                 .maxByOrNull { file -> file.lastModified() }
-                ?: error("No ZIP file found in directory")
+                ?: userError("No ZIP file found in directory")
         }
         return import(config, targetUri = file.uri)
     }
@@ -166,7 +167,7 @@ constructor(
             val client = httpClientFactory.getClient(context)
             val url = config.targetUrl
                 ?.replacePlaceholders()
-                ?: error("No URL set")
+                ?: userError("No URL set")
             val call = client.newCall(
                 buildRequest("GET", url) {
                     userAgent(UserAgentProvider.getUserAgent(context))
@@ -180,7 +181,7 @@ constructor(
             }
                 .use { response ->
                     if (!response.isSuccessful) {
-                        error("Server returned ${response.code}")
+                        userError("Server returned ${response.code}")
                     }
                     tempFile.outputStream().use { outputStream ->
                         response.body.byteStream().copyTo(outputStream)
@@ -228,10 +229,10 @@ constructor(
             ?.let { directoryUri ->
                 workingDirectoryUtil.getDocumentFile(directoryUri)
             }
-            ?: error("No directory set")
+            ?: userError("No directory set")
         directory.findFile(fileName)?.delete()
         val documentFile = directory.createFile(MIME_TYPE, fileName)
-            ?: error("Failed to create file, directory might not exist or no permission granted")
+            ?: userError("Failed to create file, directory might not exist or no permission granted")
         return export(config, targetUri = documentFile.uri)
     }
 
@@ -243,7 +244,7 @@ constructor(
             val client = httpClientFactory.getClient(context)
             val url = config.targetUrl
                 ?.replacePlaceholders()
-                ?: error("No URL set")
+                ?: userError("No URL set")
             val call = client.newCall(
                 buildRequest("PUT", url) {
                     userAgent(UserAgentProvider.getUserAgent(context))
@@ -259,7 +260,7 @@ constructor(
             }
                 .use { response ->
                     if (!response.isSuccessful) {
-                        error("Server returned ${response.code}")
+                        userError("Server returned ${response.code}")
                     }
                 }
             return result

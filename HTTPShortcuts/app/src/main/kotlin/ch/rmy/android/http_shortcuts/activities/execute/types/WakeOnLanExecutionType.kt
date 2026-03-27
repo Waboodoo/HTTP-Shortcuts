@@ -9,7 +9,7 @@ import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
@@ -47,12 +47,12 @@ constructor(
             } catch (e: CancellationException) {
                 throw e
             } catch (_: WakeOnLanUtil.InvalidMACAddressException) {
-                throw UserException.create {
+                userError {
                     getString(R.string.error_action_type_send_wol_invalid_mac_address, macAddress)
                 }
             } catch (e: Exception) {
                 logException(e)
-                throw UserException.create {
+                userError {
                     getString(R.string.error_action_type_send_wol_failed, e.message)
                 }
             }

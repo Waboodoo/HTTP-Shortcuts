@@ -8,7 +8,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
-import ch.rmy.android.http_shortcuts.exceptions.UserException
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
@@ -54,7 +54,7 @@ constructor(
                 activity.startService(intent)
             } catch (e: Exception) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is BackgroundServiceStartNotAllowedException) {
-                    throw UserException.create {
+                    userError {
                         getString(R.string.error_termux_not_running)
                     }
                 } else {
