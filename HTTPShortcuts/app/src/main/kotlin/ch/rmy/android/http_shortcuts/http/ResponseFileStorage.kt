@@ -38,7 +38,9 @@ class ResponseFileStorage(
         try {
             getStream(response).use { inStream ->
                 context.contentResolver.openOutputStream(documentFile.uri, "w")!!.use { outStream ->
-                    inStream.copyTo(outStream)
+                    if (response.body.contentLength() != 0L) {
+                        inStream.copyTo(outStream)
+                    }
                 }
             }
         } catch (e: SocketTimeoutException) {
