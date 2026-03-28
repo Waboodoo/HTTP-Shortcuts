@@ -28,6 +28,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
@@ -56,7 +57,8 @@ import ch.rmy.android.http_shortcuts.components.TextInputDialog
 import ch.rmy.android.http_shortcuts.components.models.MenuEntry
 import ch.rmy.android.http_shortcuts.data.enums.ResponseDisplayAction
 import ch.rmy.android.http_shortcuts.extensions.localize
-import coil.compose.AsyncImage
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
 import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
@@ -480,7 +482,12 @@ private fun ShowResultDialog(
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 when (content) {
                     is ExecuteDialogState.ShowResult.Content.Image -> {
-                        AsyncImage(model = content.imageUri, contentDescription = null)
+                        val context = LocalContext.current
+                        AsyncImage(
+                            model = content.imageUri,
+                            contentDescription = null,
+                            imageLoader = ImageLoader(context),
+                        )
                     }
                     is ExecuteDialogState.ShowResult.Content.Text -> {
                         if (content.allowHtml) {

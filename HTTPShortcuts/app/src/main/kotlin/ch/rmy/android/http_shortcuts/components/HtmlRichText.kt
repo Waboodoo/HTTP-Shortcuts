@@ -49,12 +49,10 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import ch.rmy.android.http_shortcuts.extensions.openURL
-import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.utils.HTMLUtil
-import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
-import coil.ImageLoader
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -108,6 +106,7 @@ fun HtmlRichText(
                 children = {
                     AsyncImage(
                         model = image.data,
+                        imageLoader = ImageLoader(context),
                         modifier = Modifier.fillMaxSize(),
                         contentDescription = null,
                     )
@@ -254,15 +253,14 @@ private suspend fun loadImage(context: Context, source: String): Image? {
     val imageResult = ImageLoader(context)
         .execute(
             ImageRequest.Builder(context)
-                .addHeader(HttpHeaders.USER_AGENT, UserAgentProvider.getUserAgent(context))
                 .data(transformedSource)
                 .build(),
         )
     return Image(
         source,
         transformedSource,
-        width = imageResult.drawable?.intrinsicWidth?.toFloat() ?: return null,
-        height = imageResult.drawable?.intrinsicHeight?.toFloat() ?: return null,
+        width = imageResult.image?.width?.toFloat() ?: return null,
+        height = imageResult.image?.height?.toFloat() ?: return null,
     )
 }
 
@@ -276,7 +274,7 @@ private fun String.getBase64ImageData(): ByteArray? =
             .let {
                 Base64.decode(it, Base64.DEFAULT)
             }
-    } catch (e: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
         null
     }
 

@@ -18,8 +18,12 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.request.error
+import coil3.request.fallback
 
 @Composable
 fun ShortcutIcon(
@@ -63,6 +67,7 @@ fun ShortcutIcon(
     AsyncImage(
         model = model,
         contentDescription = contentDescription,
+        imageLoader = ImageLoader(context),
         colorFilter = tint?.let { ColorFilter.tint(tint) },
         modifier = modifier,
     )

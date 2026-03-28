@@ -69,13 +69,12 @@ import ch.rmy.android.http_shortcuts.components.LoadingIndicator
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.openURL
 import ch.rmy.android.http_shortcuts.extensions.runIf
-import ch.rmy.android.http_shortcuts.http.HttpHeaders
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
-import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
-import coil.compose.AsyncImage
-import coil.request.CachePolicy
-import coil.request.ImageRequest
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
 import com.sunnychung.lib.android.composabletable.ux.Table
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -279,12 +278,12 @@ private fun ResponseDisplay(
     if (FileTypeUtil.isImage(mimeType)) {
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .addHeader(HttpHeaders.USER_AGENT, UserAgentProvider.getUserAgent(context))
                 .data(fileUri)
                 .diskCachePolicy(CachePolicy.DISABLED)
                 .memoryCachePolicy(CachePolicy.DISABLED)
                 .build(),
             contentDescription = null,
+            imageLoader = ImageLoader(context),
             modifier = Modifier
                 .fillMaxWidth()
                 .zoomable(rememberZoomState()),

@@ -174,7 +174,7 @@ constructor(
             is IllegalArgumentException,
             is IllegalStateException,
             is IOException,
-                -> {
+            -> {
                 e.message
             }
             else ->
