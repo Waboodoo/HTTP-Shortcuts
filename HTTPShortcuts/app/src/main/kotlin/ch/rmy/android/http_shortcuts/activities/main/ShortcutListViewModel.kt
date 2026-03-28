@@ -56,9 +56,8 @@ import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
-import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
+import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import ch.rmy.curlcommand.CurlConstructor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -91,14 +90,13 @@ constructor(
     private val exporter: Exporter,
     private val getUsedGlobalVariableIds: GetUsedGlobalVariableIdsUseCase,
     private val launcherShortcutManager: LauncherShortcutManager,
-    private val launcherShortcutUpdater: LauncherShortcutUpdater,
-    private val secondaryLauncherManager: SecondaryLauncherManager,
     private val alarmScheduler: AlarmScheduler,
     private val activityProvider: ActivityProvider,
     private val clipboardUtil: ClipboardUtil,
     private val dialogHandler: ExecuteDialogHandler,
     private val shareUtil: ShareUtil,
     private val executionStarter: ExecutionStarter,
+    private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
 ) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
 
     private lateinit var category: Category
@@ -220,15 +218,6 @@ constructor(
                     )
                 }
             }
-        }
-    }
-
-    private suspend fun updateLauncherSettings() {
-        withContext(Dispatchers.Default) {
-            launcherShortcutUpdater.updateAppShortcuts()
-            secondaryLauncherManager.setSecondaryLauncherVisibility(
-                shortcutRepository.hasSecondaryLauncherShortcuts(),
-            )
         }
     }
 
@@ -371,9 +360,9 @@ constructor(
 
         withProgressTracking {
             shortcutRepository.duplicateShortcut(shortcutId, newName)
-            updateLauncherSettings()
             showSnackbar(StringResLocalizable(R.string.shortcut_duplicated, name))
         }
+        shortcutUpdateWorkerStarter.invoke()
     }
 
     fun onDeleteOptionSelected() = runAction {

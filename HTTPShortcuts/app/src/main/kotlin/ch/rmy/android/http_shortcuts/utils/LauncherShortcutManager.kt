@@ -145,9 +145,16 @@ constructor(
     }
 
     fun updatePinnedShortcut(shortcut: LauncherShortcut) {
-        logInfo("Updating pinned shortcut")
-        val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
-        shortcutManager.updateShortcuts(listOf(shortcutInfo))
+        updatePinnedShortcuts(listOf(shortcut))
+    }
+
+    fun updatePinnedShortcuts(shortcuts: List<LauncherShortcut>) {
+        logInfo("Updating pinned shortcut(s): ${shortcuts.size}")
+        shortcutManager.updateShortcuts(
+            shortcuts.map { shortcut ->
+                createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
+            },
+        )
     }
 
     fun pinCategory(categoryId: CategoryId, categoryName: String, shortcutIcon: ShortcutIcon) {

@@ -45,7 +45,7 @@ import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
-import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
+import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import ch.rmy.android.http_shortcuts.utils.VersionUtil
 import ch.rmy.android.http_shortcuts.variables.VariablePlaceholderProvider
 import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
@@ -83,7 +83,6 @@ constructor(
     private val executionScheduler: ExecutionScheduler,
     private val launcherShortcutManager: LauncherShortcutManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
-    private val secondaryLauncherManager: SecondaryLauncherManager,
     private val shortcutWidgetManager: ShortcutWidgetManager,
     private val shortcutWidgetsRepository: ShortcutWidgetsRepository,
     private val variableWidgetManager: VariableWidgetManager,
@@ -97,6 +96,7 @@ constructor(
     private val unlockApp: UnlockAppUseCase,
     private val navigationArgStore: NavigationArgStore,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
+    private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
 ) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -185,9 +185,7 @@ constructor(
             } else {
                 scheduleExecutions()
             }
-            updateLauncherSettings()
-            shortcutWidgetManager.updateAllWidgets()
-            variableWidgetManager.updateAllWidgets()
+            shortcutUpdateWorkerStarter.invoke()
         }
 
         val widgetShortcutForEditing = initData.widgetId
@@ -339,13 +337,6 @@ constructor(
         sendIntent(appOverlayUtil.getSettingsIntent())
     }
 
-    private suspend fun updateLauncherSettings() {
-        withContext(Dispatchers.Default) {
-            launcherShortcutUpdater.updateAppShortcuts()
-            secondaryLauncherManager.setSecondaryLauncherVisibility(shortcutRepository.hasSecondaryLauncherShortcuts())
-        }
-    }
-
     private suspend fun placeShortcutOnHomeScreen(shortcutPlaceholder: ShortcutPlaceholder) {
         if (launcherShortcutManager.supportsPinning()) {
             withContext(Dispatchers.Default) {
@@ -495,7 +486,6 @@ constructor(
 
     fun onShortcutCreated(shortcutId: ShortcutId) = runAction {
         logInfo("Shortcut created")
-        updateLauncherSettings()
         selectShortcut(shortcutId)
     }
 
@@ -633,7 +623,6 @@ constructor(
 
     fun onShortcutEdited() = runAction {
         logInfo("Shortcut edited")
-        updateLauncherSettings()
     }
 
     fun onChangesDiscarded() = runAction {
@@ -646,7 +635,7 @@ constructor(
 
     fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         removeShortcutFromHomeScreen(shortcut)
-        updateLauncherSettings()
+        shortcutUpdateWorkerStarter.invoke()
     }
 
     fun onSelectShortcut(shortcutId: ShortcutId) = runAction {
@@ -676,7 +665,7 @@ constructor(
     }
 
     fun onShortcutsOrCategoriesChanged() = runAction {
-        launcherShortcutUpdater.updateAppShortcuts()
+        shortcutUpdateWorkerStarter.invoke()
         emitEvent(MainEvent.Restart(viewState.activeCategoryId))
     }
 

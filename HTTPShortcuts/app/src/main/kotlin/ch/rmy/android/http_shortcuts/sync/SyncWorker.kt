@@ -37,6 +37,7 @@ import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
 import ch.rmy.android.http_shortcuts.import_export.ImportPasswordException
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import dagger.assisted.Assisted
@@ -78,6 +79,7 @@ constructor(
     private val httpClientFactory: HttpClientFactory,
     private val workingDirectoryUtil: WorkingDirectoryUtil,
     private val syncConfigMonitor: SyncConfigMonitor,
+    private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
 ) : CoroutineWorker(context, params) {
     private val isSingleRun
         get() = SINGLE_TAG in tags
@@ -126,6 +128,7 @@ constructor(
                     importedShortcuts = importStatus.importedShortcuts,
                 ),
             )
+            shortcutUpdateWorkerStarter.invoke()
         } catch (e: Exception) {
             incrementAndCheckErrorCount(e)
             historyEventLogger.logEvent(

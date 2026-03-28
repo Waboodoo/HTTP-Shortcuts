@@ -9,12 +9,12 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
+import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toJavaDuration
 
 @HiltWorker
 class ShortcutUpdateWorker
@@ -25,15 +25,34 @@ constructor(
     @Assisted params: WorkerParameters,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
     private val shortcutWidgetManager: ShortcutWidgetManager,
+    private val variableWidgetManager: VariableWidgetManager,
+    private val shortcutRepository: ShortcutRepository,
+    private val secondaryLauncherManager: SecondaryLauncherManager,
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
-        val shortcutId = inputData.getString(DATA_SHORTCUT_ID) ?: return Result.failure()
-        tryOrLog {
-            launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
+        val shortcutId = inputData.getString(DATA_SHORTCUT_ID)
+        if (shortcutId != null) {
+            tryOrLog {
+                launcherShortcutUpdater.updatePinnedShortcut(shortcutId)
+            }
+            tryOrLog {
+                shortcutWidgetManager.updateWidgets(shortcutId)
+            }
+        } else {
+            tryOrLog {
+                launcherShortcutUpdater.updateAllPinnedShortcuts()
+            }
+            tryOrLog {
+                launcherShortcutUpdater.updateAllAppShortcuts()
+            }
+            tryOrLog {
+                shortcutWidgetManager.updateAllWidgets()
+            }
+            tryOrLog {
+                variableWidgetManager.updateAllWidgets()
+            }
         }
-        tryOrLog {
-            shortcutWidgetManager.updateWidgets(shortcutId)
-        }
+        secondaryLauncherManager.setSecondaryLauncherVisibility(shortcutRepository.hasSecondaryLauncherShortcuts())
         return Result.success()
     }
 
@@ -42,7 +61,7 @@ constructor(
     constructor(
         private val context: Context,
     ) {
-        operator fun invoke(shortcutId: ShortcutId) {
+        operator fun invoke(shortcutId: ShortcutId? = null) {
             with(WorkManager.getInstance(context)) {
                 enqueue(
                     OneTimeWorkRequestBuilder<ShortcutUpdateWorker>()
@@ -51,7 +70,6 @@ constructor(
                                 .putString(DATA_SHORTCUT_ID, shortcutId)
                                 .build(),
                         )
-                        .setInitialDelay(5.seconds.toJavaDuration())
                         .build(),
                 )
             }

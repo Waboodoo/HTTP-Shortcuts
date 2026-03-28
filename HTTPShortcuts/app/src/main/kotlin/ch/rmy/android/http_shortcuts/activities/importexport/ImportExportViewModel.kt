@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.random.Random
@@ -41,7 +42,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val importer: Importer,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
-
+    private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
 ) : BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
 
     private var currentJob: Job? = null
@@ -149,6 +150,9 @@ constructor(
                         status.importedShortcuts,
                     ),
                 )
+
+                shortcutUpdateWorkerStarter.invoke()
+
                 categoriesChanged = true
             } catch (e: CancellationException) {
                 throw e

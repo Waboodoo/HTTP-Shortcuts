@@ -136,7 +136,7 @@ constructor(
         }
 
     // TODO: Move this to somewhere else
-    private suspend fun runPostImportSteps(importBase: ImportBase) {
+    private fun runPostImportSteps(importBase: ImportBase) {
         deviceLocalPreferences.isAwareOfResponseHandling = true
         if (!importBase.variables.isNullOrEmpty()) {
             deviceLocalPreferences.isAwareOfVariablePlaceholders = true
@@ -144,8 +144,6 @@ constructor(
         if (importBase.categories?.any { category -> category.shortcuts?.any { it.section != null } == true } == true) {
             deviceLocalPreferences.isAwareOfSectionPopulation = true
         }
-        launcherShortcutUpdater.updateAppShortcuts()
-        secondaryLauncherManager.setSecondaryLauncherVisibility(shortcutRepository.hasSecondaryLauncherShortcuts())
     }
 
     private fun getStream(context: Context, uri: Uri): InputStream =
@@ -176,7 +174,7 @@ constructor(
             is IllegalArgumentException,
             is IllegalStateException,
             is IOException,
-            -> {
+                -> {
                 e.message
             }
             else ->

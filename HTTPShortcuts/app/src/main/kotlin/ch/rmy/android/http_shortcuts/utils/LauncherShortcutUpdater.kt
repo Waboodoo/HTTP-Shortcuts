@@ -32,7 +32,13 @@ constructor(
     private val launcherShortcutManager: LauncherShortcutManager,
     private val shareUtil: ShareUtil,
 ) {
-    suspend fun updateAppShortcuts() {
+    suspend fun updateAllAppShortcuts() {
+        launcherShortcutManager.updateAppShortcuts(
+            getLauncherShortcuts(Shortcut::launcherShortcut),
+        )
+    }
+
+    private suspend fun getLauncherShortcuts(filter: (Shortcut) -> Boolean = { true }): List<LauncherShortcut> {
         val categoryIds = categoryRepository.getCategoryIds()
         val shortcuts = shortcutRepository.getShortcuts()
         val shortcutIds = shortcuts.ids()
@@ -41,11 +47,11 @@ constructor(
         val globalVariableIds = shareUtil.getTextShareGlobalVariables(variables).ids()
         val headersByShortcutId = requestHeaderRepository.getRequestHeadersByShortcutIds(shortcutIds)
         val parametersById = requestParameterRepository.getRequestParametersForShortcuts(shortcuts)
-        val launcherShortcuts = categoryIds
+        return categoryIds
             .flatMap { categoryId ->
                 shortcutsByCategoryId[categoryId] ?: emptyList()
             }
-            .filter(Shortcut::launcherShortcut)
+            .filter(filter)
             .map { shortcut ->
                 getLauncherShortcut(
                     shortcut = shortcut,
@@ -55,25 +61,30 @@ constructor(
                     variableManager = VariableManager(variables),
                 )
             }
-        launcherShortcutManager.updateAppShortcuts(launcherShortcuts)
     }
 
     suspend fun pinShortcut(shortcutId: ShortcutId) {
-        if (!launcherShortcutManager.supportsPinning()) {
-            return
+        if (launcherShortcutManager.supportsPinning()) {
+            launcherShortcutManager.pinShortcut(
+                getLauncherShortcut(shortcutId),
+            )
         }
-        launcherShortcutManager.pinShortcut(
-            getLauncherShortcut(shortcutId),
-        )
     }
 
     suspend fun updatePinnedShortcut(shortcutId: ShortcutId) {
-        if (!launcherShortcutManager.supportsPinning()) {
-            return
+        if (launcherShortcutManager.supportsPinning()) {
+            launcherShortcutManager.updatePinnedShortcut(
+                getLauncherShortcut(shortcutId),
+            )
         }
-        launcherShortcutManager.updatePinnedShortcut(
-            getLauncherShortcut(shortcutId),
-        )
+    }
+
+    suspend fun updateAllPinnedShortcuts() {
+        if (launcherShortcutManager.supportsPinning()) {
+            launcherShortcutManager.updatePinnedShortcuts(
+                getLauncherShortcuts(),
+            )
+        }
     }
 
     private suspend fun getLauncherShortcut(shortcutId: ShortcutId): LauncherShortcut {
