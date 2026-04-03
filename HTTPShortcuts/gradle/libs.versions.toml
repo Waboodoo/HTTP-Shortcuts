@@ -10,7 +10,7 @@ annotation = "1.9.1"
 appcompat = "1.7.1"
 biometric = "1.2.0-alpha05"
 brotli = "0.1.2"
-browser = "1.9.0"
+browser = "1.10.0"
 bugsnag = "8.2.0"
 bugsnagAndroid = "6.25.0"
 coilCompose = "3.4.0"
@@ -72,7 +72,7 @@ androidx-googleShortcuts = { module = "androidx.core:core-google-shortcuts", ver
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidxHiltCompiler" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
-androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidXNavigation" }
 androidx-preference = { module = "androidx.preference:preference-ktx", version.ref = "preference" }
