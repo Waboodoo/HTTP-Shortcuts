@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.components.OrderedOptionsSlider
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.localize
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
@@ -114,4 +115,6 @@ private val TIMEOUT_OPTIONS = arrayOf(
     5.minutes,
     450.seconds,
     10.minutes,
+    30.minutes,
+    2.hours,
 )
