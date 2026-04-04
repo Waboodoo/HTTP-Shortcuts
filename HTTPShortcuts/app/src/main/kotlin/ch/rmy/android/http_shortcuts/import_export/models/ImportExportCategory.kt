@@ -23,8 +23,11 @@ data class ImportExportCategory(
         require(id == null || id.isUUID() || id.isInt()) {
             "Invalid category ID found, must be UUID: $id"
         }
-        require(name != null && name.isNotBlank()) {
+        require(!name.isNullOrBlank()) {
             "Category without a name found"
+        }
+        require(scale == null || (scale in 0.25f..10f)) {
+            "Invalid category scale found"
         }
         shortcuts?.forEach { it.validate() }
         sections?.forEach { it.validate() }

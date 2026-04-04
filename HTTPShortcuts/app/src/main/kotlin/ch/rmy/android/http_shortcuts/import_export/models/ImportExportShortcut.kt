@@ -70,6 +70,12 @@ data class ImportExportShortcut(
         require(certificateFingerprint.isNullOrEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
             "Invalid certificate fingerprint: $certificateFingerprint"
         }
+        require(timeout == null || (timeout >= 250 && timeout <= (24 * 60 * 60 * 1000))) {
+            "Invalid timeout value found"
+        }
+        require(delay == null || delay >= 0) {
+            "Invalid delay value found"
+        }
         fileUploadOptions?.validate()
         headers?.forEach { it.validate() }
         parameters?.forEach { it.validate() }
