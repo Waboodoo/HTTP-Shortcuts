@@ -7,16 +7,13 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.import_export.ImportRepository
-import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.import_export.ImportExport.JSON_FILE
 import ch.rmy.android.http_shortcuts.import_export.models.ImportBase
 import ch.rmy.android.http_shortcuts.import_export.models.ImportExportBase
 import ch.rmy.android.http_shortcuts.utils.GsonUtil.gson
 import ch.rmy.android.http_shortcuts.utils.IconUtil
-import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.utils.NoCloseInputStream
-import ch.rmy.android.http_shortcuts.utils.SecondaryLauncherManager
 import com.google.gson.JsonParseException
 import com.google.gson.JsonParser
 import java.io.BufferedReader
@@ -43,9 +40,6 @@ constructor(
     private val importRepository: ImportRepository,
     private val importExportDefaultsProvider: ImportExportDefaultsProvider,
     private val deviceLocalPreferences: DeviceLocalPreferences,
-    private val shortcutRepository: ShortcutRepository,
-    private val launcherShortcutUpdater: LauncherShortcutUpdater,
-    private val secondaryLauncherManager: SecondaryLauncherManager,
 ) {
     suspend fun importFromUri(uri: Uri, importMode: ImportMode, password: String? = null): ImportStatus =
         withContext(Dispatchers.IO) {
