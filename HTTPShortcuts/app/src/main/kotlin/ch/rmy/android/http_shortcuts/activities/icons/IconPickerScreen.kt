@@ -19,8 +19,10 @@ import ch.rmy.android.http_shortcuts.icons.EditImageContract
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 
 @Composable
-fun IconPickerScreen() {
-    val (viewModel, state) = bindViewModel<IconPickerViewState, IconPickerViewModel>()
+fun IconPickerScreen(isMaterialDesignIconPicker: Boolean) {
+    val (viewModel, state) = bindViewModel<IconPickerViewModel.InitData, IconPickerViewState, IconPickerViewModel>(
+        IconPickerViewModel.InitData(isMaterialDesignIconPicker = isMaterialDesignIconPicker),
+    )
 
     val pickImage = rememberLauncherForActivityResult(FilePickerUtil.PickFile) { fileUri ->
         fileUri?.let(viewModel::onImageSelected)
@@ -84,7 +86,9 @@ fun IconPickerScreen() {
     IconPickerDialogs(
         dialogState = state?.dialogState,
         onShapeSelected = viewModel::onShapeSelected,
+        onMaterialIconSelected = viewModel::onMaterialIconSelected,
         onDeleteConfirmed = viewModel::onDeletionConfirmed,
         onDialogDismissRequested = viewModel::onDialogDismissalRequested,
+        getMaterialIcons = viewModel::getIcons,
     )
 }

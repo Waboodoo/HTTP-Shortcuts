@@ -109,6 +109,7 @@ fun CodeSnippetPickerScreen(
         onShortcutSelected = viewModel::onShortcutSelected,
         onCurrentShortcutSelected = viewModel::onCurrentShortcutSelected,
         onIconSelected = viewModel::onIconSelected,
+        onMaterialDesignIconOptionSelected = viewModel::onMaterialDesignIconOptionSelected,
         onCustomIconOptionSelected = viewModel::onCustomIconOptionSelected,
         onVariableSelected = viewModel::onVariableSelected,
         onWorkingDirectorySelected = viewModel::onWorkingDirectorySelected,

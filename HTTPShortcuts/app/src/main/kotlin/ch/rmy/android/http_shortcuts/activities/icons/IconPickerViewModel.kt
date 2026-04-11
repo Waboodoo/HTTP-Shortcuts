@@ -5,21 +5,36 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
+import ch.rmy.android.http_shortcuts.activities.icons.models.MaterialIcon
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
+import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.CustomIconName
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.IconUtil.analyzeColors
+import ch.rmy.android.http_shortcuts.utils.SearchUtil
+import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
+import ch.rmy.iconfetcher.IconFetcher
+import ch.rmy.iconfetcher.models.IconEntry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
+import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import okhttp3.Request
 
 @HiltViewModel
 class IconPickerViewModel
@@ -27,22 +42,37 @@ class IconPickerViewModel
 constructor(
     application: Application,
     private val getIconListItems: GetIconListItemsUseCase,
-) : BaseViewModel<Unit, IconPickerViewState>(application) {
+    httpClientFactory: HttpClientFactory,
+) : BaseViewModel<IconPickerViewModel.InitData, IconPickerViewState>(application) {
+
+    private var cachedIcons: List<MaterialIcon>? = null
+    private val iconsMutex = Mutex()
 
     private var selectedShape = IconShape.SQUARE
 
-    override suspend fun initialize(data: Unit): IconPickerViewState {
+    private val okHttpClient = httpClientFactory.getClient(context, userAgent = UserAgentProvider.getUserAgent(context))
+
+    override suspend fun initialize(data: InitData): IconPickerViewState {
         val icons = withContext(Dispatchers.IO) {
             getIconListItems()
         }
         viewModelScope.launch {
-            if (icons.isEmpty()) {
+            if (data.isMaterialDesignIconPicker) {
+                // TODO: Show an instruction dialog the first time
+                showMaterialIconSelectionDialog()
+            } else if (icons.isEmpty()) {
                 showCircleSelectionDialog()
             }
         }
         return IconPickerViewState(
             icons = icons,
         )
+    }
+
+    private suspend fun showMaterialIconSelectionDialog() {
+        updateViewState {
+            copy(dialogState = IconPickerDialogState.SelectMaterialIcon)
+        }
     }
 
     fun onIconClicked(icon: ShortcutIcon.CustomIcon) = runAction {
@@ -73,6 +103,43 @@ constructor(
             copy(dialogState = null)
         }
         showImagePicker()
+    }
+
+    fun onMaterialIconSelected(icon: MaterialIcon, color: Int) = runAction {
+        updateViewState {
+            copy(dialogState = IconPickerDialogState.Processing)
+        }
+        val iconName = CustomIconName.generate(
+            prefix = "md-${icon.name}",
+            isCircular = selectedShape == IconShape.CIRCLE,
+            hasTransparency = true,
+            singleColor = color,
+        )
+        val targetFile = File(context.filesDir, iconName.toString())
+        try {
+            withContext(Dispatchers.IO) {
+                okHttpClient.newCall(Request.Builder().url(icon.url).build())
+                    .execute()
+                    .takeIf { it.isSuccessful }
+                    ?.body
+                    ?.use { body ->
+                        targetFile.outputStream().use { outputStream ->
+                            body.byteStream().copyTo(outputStream)
+                        }
+                    }
+                    ?: throw IOException()
+            }
+        } catch (_: IOException) {
+            showSnackbar(R.string.error_set_image, long = true)
+            return@runAction
+        }
+        val icon = ShortcutIcon.CustomIcon(iconName)
+        updateViewState {
+            copy(
+                icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
+            )
+        }
+        selectIcon(icon)
     }
 
     fun onIconCreationFailed() = runAction {
@@ -170,10 +237,79 @@ constructor(
     }
 
     fun onDialogDismissalRequested() = runAction {
+        if (viewState.dialogState == IconPickerDialogState.SelectMaterialIcon) {
+            closeScreen()
+        }
         updateViewState {
             copy(
                 dialogState = null,
             )
         }
+    }
+
+    suspend fun getIcons(query: String): List<MaterialIcon> = withContext(Dispatchers.Default) {
+        val queryTerms = query.trim()
+            .takeUnlessEmpty()
+            ?.let {
+                SearchUtil.normalizeToKeywords(it, minLength = 1)
+            }
+        getIcons()
+            .runIfNotNull(queryTerms) { queryTerms ->
+                filter { icon ->
+                    icon.matches(queryTerms)
+                }
+            }
+    }
+
+    private suspend fun getIcons(): List<MaterialIcon> {
+        cachedIcons?.let {
+            return it
+        }
+        iconsMutex.withLock {
+            cachedIcons?.let {
+                return it
+            }
+            cachedIcons = computeIconIndex()
+            return cachedIcons!!
+        }
+    }
+
+    private suspend fun computeIconIndex(): List<MaterialIcon> = coroutineScope {
+        val iconFetcher = IconFetcher(
+            client = okHttpClient,
+            cacheFile = File(context.cacheDir, MATERIAL_ICONS_INDEX_FILE),
+        )
+        iconFetcher.getIcons()
+            .chunked(1000)
+            .map { iconEntries: List<IconEntry> ->
+                async {
+                    iconEntries.map { iconEntry ->
+                        MaterialIcon(
+                            name = iconEntry.name,
+                            url = iconEntry.url,
+                            keywords = buildSet {
+                                addAll(SearchUtil.normalizeToKeywords(iconEntry.name, minLength = 2))
+                                iconEntry.aliases?.forEach { alias -> addAll(SearchUtil.normalizeToKeywords(alias, minLength = 3)) }
+                                iconEntry.tags?.forEach { alias -> addAll(SearchUtil.normalizeToKeywords(alias, minLength = 3)) }
+                            },
+                        )
+                    }
+                }
+            }
+            .awaitAll()
+            .flatten()
+    }
+
+    private fun MaterialIcon.matches(queryTerms: Set<String>): Boolean =
+        queryTerms.any { queryTerm ->
+            keywords.any { keyword -> queryTerm in keyword }
+        }
+
+    data class InitData(
+        val isMaterialDesignIconPicker: Boolean,
+    )
+
+    companion object {
+        private const val MATERIAL_ICONS_INDEX_FILE = "material-icons-index.json"
     }
 }

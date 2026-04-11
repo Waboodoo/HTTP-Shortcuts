@@ -35,6 +35,7 @@ fun MainDialogs(
     onManageSectionsClicked: () -> Unit,
     onPlaceCategoryOnHomeScreenClicked: () -> Unit,
     onCategoryIconSelected: (ShortcutIcon) -> Unit,
+    onMaterialDesignCategoryIconOptionSelected: () -> Unit,
     onCustomCategoryIconOptionSelected: () -> Unit,
     onDismissed: () -> Unit,
 ) {
@@ -109,6 +110,7 @@ fun MainDialogs(
                 currentIcon = dialogState.currentIcon,
                 suggestionBase = dialogState.suggestionBase,
                 title = stringResource(R.string.title_category_select_icon),
+                onMaterialDesignIconOptionSelected = onMaterialDesignCategoryIconOptionSelected,
                 onCustomIconOptionSelected = onCustomCategoryIconOptionSelected,
                 onIconSelected = onCategoryIconSelected,
                 onDismissRequested = onDismissed,

@@ -21,6 +21,7 @@ fun CategoriesDialogs(
     onDeleteClicked: () -> Unit,
     onDeletionConfirmed: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
+    onMaterialDesignIconOptionSelected: () -> Unit,
     onCustomIconOptionSelected: () -> Unit,
     onDismissRequested: () -> Unit,
 ) {
@@ -48,6 +49,7 @@ fun CategoriesDialogs(
                 currentIcon = dialogState.currentIcon,
                 suggestionBase = dialogState.suggestionBase,
                 title = stringResource(R.string.title_category_select_icon),
+                onMaterialDesignIconOptionSelected = onMaterialDesignIconOptionSelected,
                 onCustomIconOptionSelected = onCustomIconOptionSelected,
                 onIconSelected = onIconSelected,
                 onDismissRequested = onDismissRequested,

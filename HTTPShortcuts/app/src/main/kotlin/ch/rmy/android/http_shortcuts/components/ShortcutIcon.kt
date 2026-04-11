@@ -24,6 +24,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.fallback
+import coil3.request.placeholder
 
 @Composable
 fun ShortcutIcon(
@@ -43,6 +44,7 @@ fun ShortcutIcon(
         ImageRequest.Builder(context)
             .data(uri)
             .fallback(R.drawable.image_placeholder)
+            .placeholder(R.drawable.image_placeholder)
             .error(R.drawable.bitsies_cancel)
             .crossfade(true)
             .build()
@@ -67,7 +69,7 @@ fun ShortcutIcon(
     AsyncImage(
         model = model,
         contentDescription = contentDescription,
-        imageLoader = ImageLoader(context),
+        imageLoader = remember(context) { ImageLoader(context) },
         colorFilter = tint?.let { ColorFilter.tint(tint) },
         modifier = modifier,
     )

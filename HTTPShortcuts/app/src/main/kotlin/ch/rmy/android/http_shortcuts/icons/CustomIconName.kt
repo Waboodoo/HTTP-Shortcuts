@@ -38,11 +38,11 @@ value class CustomIconName(val fileName: String) {
                 null
             }
 
-        fun generate(isCircular: Boolean, hasTransparency: Boolean, @ColorInt singleColor: Int?) =
+        fun generate(prefix: String? = null, isCircular: Boolean, hasTransparency: Boolean, @ColorInt singleColor: Int?) =
             CustomIconName(
                 buildString {
                     append(CUSTOM_ICON_NAME_PREFIX)
-                    append(generatePrefix())
+                    append(prefix ?: generatePrefix())
                     if (isCircular) {
                         append(CIRCULAR_ICON_NAME)
                     }

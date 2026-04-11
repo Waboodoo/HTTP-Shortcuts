@@ -163,8 +163,23 @@ sealed interface NavigationDestination {
         override val path = "history"
     }
 
-    object IconPicker : NoArgNavigationDestination {
+    object IconPicker : NavigationDestination {
+        private const val ARG_MATERIAL_DESIGN_ICON = "materialDesignIcon"
+
         override val path = "iconPicker"
+
+        override val arguments =
+            listOf(
+                optionalBooleanArg(ARG_MATERIAL_DESIGN_ICON),
+            )
+
+        fun buildRequest(materialDesignIcon: Boolean = false) =
+            buildNavigationRequest {
+                parameter(ARG_MATERIAL_DESIGN_ICON, materialDesignIcon)
+            }
+
+        fun extractIsMaterialDesignIcon(bundle: Bundle): Boolean =
+            bundle.getBoolean(ARG_MATERIAL_DESIGN_ICON)
 
         data class Result(
             val icon: ShortcutIcon,

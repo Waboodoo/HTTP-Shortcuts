@@ -266,9 +266,14 @@ constructor(
         }
     }
 
+    fun onMaterialDesignIconOptionSelected() = runAction {
+        updateDialogState(null)
+        navigate(NavigationDestination.IconPicker.buildRequest(materialDesignIcon = true))
+    }
+
     fun onCustomIconOptionSelected() = runAction {
         updateDialogState(null)
-        navigate(NavigationDestination.IconPicker)
+        navigate(NavigationDestination.IconPicker.buildRequest())
     }
 
     data class InitData(

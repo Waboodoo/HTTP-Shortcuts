@@ -22,6 +22,7 @@ fun CodeSnippetPickerDialogs(
     onShortcutSelected: (ShortcutId) -> Unit,
     onCurrentShortcutSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
+    onMaterialDesignIconOptionSelected: () -> Unit,
     onCustomIconOptionSelected: () -> Unit,
     onVariableSelected: (VariableKeyOrId) -> Unit,
     onWorkingDirectorySelected: (String) -> Unit,
@@ -39,6 +40,7 @@ fun CodeSnippetPickerDialogs(
         }
         is CodeSnippetPickerDialogState.SelectIcon -> {
             SelectIcon(
+                onMaterialDesignIconOptionSelected = onMaterialDesignIconOptionSelected,
                 onCustomIconOptionSelected = onCustomIconOptionSelected,
                 onIconSelected = onIconSelected,
                 onDismissRequested = onDismissRequested,
@@ -95,12 +97,14 @@ private fun SelectShortcutDialog(
 
 @Composable
 private fun SelectIcon(
+    onMaterialDesignIconOptionSelected: () -> Unit,
     onCustomIconOptionSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
     onDismissRequested: () -> Unit,
 ) {
     IconPickerDialog(
         title = stringResource(R.string.change_icon),
+        onMaterialDesignIconOptionSelected = onMaterialDesignIconOptionSelected,
         onCustomIconOptionSelected = onCustomIconOptionSelected,
         onIconSelected = onIconSelected,
         onDismissRequested = onDismissRequested,

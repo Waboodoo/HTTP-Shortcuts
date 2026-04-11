@@ -23,8 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
+import ch.rmy.android.http_shortcuts.activities.icons.models.MaterialIcon
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.Spacing
 
@@ -32,14 +34,23 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 fun IconPickerDialogs(
     dialogState: IconPickerDialogState?,
     onShapeSelected: (IconShape) -> Unit,
+    onMaterialIconSelected: (MaterialIcon, color: Int) -> Unit,
     onDeleteConfirmed: () -> Unit,
     onDialogDismissRequested: () -> Unit,
+    getMaterialIcons: suspend (String) -> List<MaterialIcon>,
 ) {
     when (dialogState) {
         is IconPickerDialogState.SelectShape -> {
             SelectShapeDialog(
                 onShapeSelected = onShapeSelected,
                 onDismissRequested = onDialogDismissRequested,
+            )
+        }
+        is IconPickerDialogState.SelectMaterialIcon -> {
+            MaterialIconPickerDialog(
+                getIcons = getMaterialIcons,
+                onIconSelected = onMaterialIconSelected,
+                onDismiss = onDialogDismissRequested,
             )
         }
         is IconPickerDialogState.DeleteIcon -> {
@@ -53,6 +64,11 @@ fun IconPickerDialogs(
             BulkDeleteDialog(
                 onConfirm = onDeleteConfirmed,
                 onDismissRequested = onDialogDismissRequested,
+            )
+        }
+        is IconPickerDialogState.Processing -> {
+            ProgressDialog(
+                onDismissRequest = {},
             )
         }
         null -> Unit

@@ -132,8 +132,10 @@ fun NavigationRoot(navController: NavHostController) {
             HistoryScreen()
         }
 
-        composable(NavigationDestination.IconPicker) {
-            IconPickerScreen()
+        composable(NavigationDestination.IconPicker) { backStackEntry ->
+            IconPickerScreen(
+                isMaterialDesignIconPicker = NavigationDestination.IconPicker.extractIsMaterialDesignIcon(backStackEntry.arguments!!),
+            )
         }
 
         composable(NavigationDestination.ImportExport) { backStackEntry ->

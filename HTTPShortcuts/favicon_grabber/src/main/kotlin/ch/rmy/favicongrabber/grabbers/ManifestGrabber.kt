@@ -60,9 +60,9 @@ class ManifestGrabber(
         private fun parseManifest(manifestString: String): ManifestRoot? =
             try {
                 Gson().fromJson(manifestString, ManifestRoot::class.java)
-            } catch (e: JsonSyntaxException) {
+            } catch (_: JsonSyntaxException) {
                 null
-            } catch (e: JsonParseException) {
+            } catch (_: JsonParseException) {
                 null
             }
     }

@@ -188,6 +188,7 @@ fun MainScreen(
         onManageSectionsClicked = viewModel::onManageSectionsClicked,
         onPlaceCategoryOnHomeScreenClicked = viewModel::onPlaceCategoryOnHomeScreenClicked,
         onCategoryIconSelected = viewModel::onCategoryIconSelected,
+        onMaterialDesignCategoryIconOptionSelected = viewModel::onMaterialDesignCategoryIconOptionSelected,
         onCustomCategoryIconOptionSelected = viewModel::onCustomCategoryIconOptionSelected,
         onDismissed = viewModel::onDialogDismissed,
     )

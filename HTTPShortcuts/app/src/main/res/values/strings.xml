@@ -2040,4 +2040,10 @@
     <string name="description_sync_failed_too_many_times">The automatic import or export has failed to run multiple times and has therefore been disabled. Please check its configuration and ensure that it is valid.</string>
     <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
     <string name="error_sync_server_error">Server responded with error code: %s</string>
+    <!-- Error message shown when icons could not be loaded in the icon picker -->
+    <string name="instructions_icon_search_failed">Failed to load icons</string>
+    <!-- Title for dialog that lets the user select an icon from the "Material Design Icons" collection -->
+    <string name="dialog_title_material_design_icons">Material Design Icons</string>
+    <!-- Option in Icon selector dialog, to go to the "Material Design Icons" collection to pick an icon from it -->
+    <string name="dialog_option_material_design_icon">Material Design Icon</string>
 </resources>

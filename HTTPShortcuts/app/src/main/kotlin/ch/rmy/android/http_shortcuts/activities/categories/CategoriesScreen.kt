@@ -68,6 +68,7 @@ fun CategoriesScreen(savedStateHandle: SavedStateHandle) {
         onDeleteClicked = viewModel::onDeleteClicked,
         onDeletionConfirmed = viewModel::onCategoryDeletionConfirmed,
         onIconSelected = viewModel::onCategoryIconSelected,
+        onMaterialDesignIconOptionSelected = viewModel::onMaterialDesignIconOptionSelected,
         onCustomIconOptionSelected = viewModel::onCustomIconOptionSelected,
         onDismissRequested = viewModel::onDialogDismissed,
     )

@@ -106,6 +106,7 @@ fun ShortcutEditorScreen(
         dialogState = state?.dialogState,
         onDiscardConfirmed = viewModel::onDiscardDialogConfirmed,
         onIconSelected = viewModel::onShortcutIconChanged,
+        onMaterialDesignIconOptionSelected = viewModel::onMaterialDesignIconOptionSelected,
         onCustomIconOptionSelected = viewModel::onCustomIconOptionSelected,
         onFaviconOptionSelected = viewModel::onFetchFaviconOptionSelected,
         onDismiss = viewModel::onDismissDialog,

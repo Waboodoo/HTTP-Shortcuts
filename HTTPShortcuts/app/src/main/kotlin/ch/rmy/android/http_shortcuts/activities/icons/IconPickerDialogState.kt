@@ -7,10 +7,14 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 sealed class IconPickerDialogState {
     data object SelectShape : IconPickerDialogState()
 
+    data object SelectMaterialIcon : IconPickerDialogState()
+
     data class DeleteIcon(
         val icon: ShortcutIcon.CustomIcon,
         val stillInUseWarning: Boolean,
     ) : IconPickerDialogState()
 
     data object BulkDelete : IconPickerDialogState()
+
+    data object Processing : IconPickerDialogState()
 }

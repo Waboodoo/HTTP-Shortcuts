@@ -345,6 +345,11 @@ dependencies {
     /* cURL import & export */
     implementation(project(path = ":curl_command"))
 
+    /* Material Design icon fetching */
+    implementation(project(path = ":icon_fetcher"))
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.coil.svg)
+
     /* Favicon fetching */
     implementation(project(path = ":favicon_grabber"))
 

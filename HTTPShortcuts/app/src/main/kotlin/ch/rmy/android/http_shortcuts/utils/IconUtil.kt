@@ -34,7 +34,7 @@ object IconUtil {
 
     private const val ICON_SCALING_FACTOR = 4
     private const val CUSTOM_ICON_MAX_FILE_SIZE = 8 * 1024 * 1024
-    private const val CUSTOM_ICON_NAME_REGEX = "custom-icon_([A-Za-z0-9_-]{1,36})\\.(png|jpg)"
+    private const val CUSTOM_ICON_NAME_REGEX = "custom-icon_([A-Za-z0-9_-]{1,50})\\.(png|jpg)"
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
     fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean = false): Icon? = try {

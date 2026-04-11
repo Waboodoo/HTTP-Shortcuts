@@ -75,6 +75,7 @@ constructor() {
         cookieJar: CookieJar? = null,
         certificatePins: List<CertificatePin> = emptyList(),
         hostVerificationConfig: HostVerificationConfig = HostVerificationConfig.Default,
+        userAgent: String? = null,
     ): OkHttpClient {
         val cacheKey = CacheKey(
             clientCertParams = clientCertParams,
@@ -101,6 +102,11 @@ constructor() {
                 authenticator(authenticator)
             }
             .addInterceptor(CompressionInterceptor)
+            .runIfNotNull(userAgent) { userAgent ->
+                addInterceptor { chain ->
+                    chain.proceed(chain.request().newBuilder().header(HttpHeaders.USER_AGENT, userAgent).build())
+                }
+            }
             .followRedirects(followRedirects)
             .followSslRedirects(followRedirects)
             .connectTimeout(timeout, TimeUnit.MILLISECONDS)

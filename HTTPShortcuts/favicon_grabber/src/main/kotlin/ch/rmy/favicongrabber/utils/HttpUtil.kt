@@ -17,29 +17,27 @@ class HttpUtil(
     private val userAgent: String,
 ) {
 
-    suspend fun downloadIntoFile(url: HttpUrl): File? {
-        return withContext(Dispatchers.IO) {
-            var targetFile: File? = null
-            try {
-                ensureActive()
-                makeRequest(url).use { response ->
-                    response
-                        ?.byteStream()
-                        ?.use { inStream ->
-                            targetFile = File.createTempFile(TEMP_FILE_PREFIX, null, targetDirectory)
-                            targetFile
-                                ?.outputStream()
-                                ?.use { outStream ->
-                                    inStream.copyTo(outStream)
-                                    return@withContext targetFile
-                                }
-                        }
-                }
-            } catch (e: IOException) {
-                targetFile?.delete()
+    suspend fun downloadIntoFile(url: HttpUrl): File? = withContext(Dispatchers.IO) {
+        var targetFile: File? = null
+        try {
+            ensureActive()
+            makeRequest(url).use { response ->
+                response
+                    ?.byteStream()
+                    ?.use { inStream ->
+                        targetFile = File.createTempFile(TEMP_FILE_PREFIX, null, targetDirectory)
+                        targetFile
+                            ?.outputStream()
+                            ?.use { outStream ->
+                                inStream.copyTo(outStream)
+                                return@withContext targetFile
+                            }
+                    }
             }
-            null
+        } catch (_: IOException) {
+            targetFile?.delete()
         }
+        null
     }
 
     fun downloadIntoString(url: HttpUrl): String? {
@@ -54,7 +52,7 @@ class HttpUtil(
                 pageCache[url] = result
                 return result
             }
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             pageCache[url] = null
             return null
         }

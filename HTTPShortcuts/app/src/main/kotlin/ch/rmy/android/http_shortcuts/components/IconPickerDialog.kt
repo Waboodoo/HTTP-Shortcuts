@@ -20,8 +20,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
@@ -35,7 +33,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,6 +56,7 @@ fun IconPickerDialog(
     title: String,
     currentIcon: ShortcutIcon.BuiltInIcon? = null,
     suggestionBase: String? = null,
+    onMaterialDesignIconOptionSelected: () -> Unit,
     onCustomIconOptionSelected: () -> Unit,
     onIconSelected: (ShortcutIcon) -> Unit,
     onFaviconOptionSelected: (() -> Unit)? = null,
@@ -129,6 +127,7 @@ fun IconPickerDialog(
                 onBuiltInIconOptionSelected = {
                     state = STATE_BUILT_IN
                 },
+                onMaterialDesignIconOptionSelected = onMaterialDesignIconOptionSelected,
                 onCustomIconOptionSelected = onCustomIconOptionSelected,
                 onFaviconOptionSelected = onFaviconOptionSelected,
                 onDismissRequested = onDismissRequested,
@@ -141,6 +140,7 @@ fun IconPickerDialog(
 private fun OptionsDialog(
     title: String,
     onBuiltInIconOptionSelected: () -> Unit,
+    onMaterialDesignIconOptionSelected: () -> Unit,
     onCustomIconOptionSelected: () -> Unit,
     onFaviconOptionSelected: (() -> Unit)? = null,
     onDismissRequested: () -> Unit,
@@ -152,6 +152,10 @@ private fun OptionsDialog(
         SelectDialogEntry(
             label = stringResource(R.string.choose_icon),
             onClick = onBuiltInIconOptionSelected,
+        )
+        SelectDialogEntry(
+            label = stringResource(R.string.dialog_option_material_design_icon),
+            onClick = onMaterialDesignIconOptionSelected,
         )
         SelectDialogEntry(
             label = stringResource(R.string.choose_image),
@@ -296,32 +300,6 @@ private fun BuiltInIconPicker(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun SearchBar(
-    query: String,
-    onQueryChanged: (String) -> Unit,
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = Spacing.SMALL),
-    ) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = query,
-            onValueChange = onQueryChanged,
-            placeholder = {
-                Text(stringResource(R.string.menu_action_search))
-            },
-            leadingIcon = {
-                Icon(painterResource(R.drawable.outline_search_24), contentDescription = null)
-            },
-            maxLines = 1,
-            singleLine = true,
-        )
     }
 }
 
