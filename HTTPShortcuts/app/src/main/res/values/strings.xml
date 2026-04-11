@@ -2046,4 +2046,6 @@
     <string name="dialog_title_material_design_icons">Material Design Icons</string>
     <!-- Option in Icon selector dialog, to go to the "Material Design Icons" collection to pick an icon from it -->
     <string name="dialog_option_material_design_icon">Material Design Icon</string>
+    <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
+    <string name="accessibility_clear_search">Clear</string>
 </resources>
