@@ -1,7 +1,6 @@
 package ch.rmy.iconfetcher
 
 import ch.rmy.iconfetcher.Config.CACHE_MAX_AGE
-import ch.rmy.iconfetcher.Config.ICONS_BASE_URL
 import ch.rmy.iconfetcher.Config.ICONS_FILE
 import ch.rmy.iconfetcher.models.IconEntry
 import com.google.gson.Gson
@@ -17,6 +16,7 @@ import okhttp3.ResponseBody
 
 class IconFetcher(
     private val client: OkHttpClient,
+    private val baseUrl: String,
     private val cacheFile: File,
 ) {
     @Throws(IOException::class)
@@ -40,7 +40,7 @@ class IconFetcher(
     private fun fetchIconIndex(): ResponseBody =
         client.newCall(
             Request.Builder()
-                .url(ICONS_BASE_URL + ICONS_FILE)
+                .url(baseUrl + ICONS_FILE)
                 .build(),
         )
             .execute()

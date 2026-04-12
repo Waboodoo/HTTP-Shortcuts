@@ -297,6 +297,7 @@ constructor(
     private suspend fun computeIconIndex(): List<MaterialIcon> = coroutineScope {
         val iconFetcher = IconFetcher(
             client = okHttpClient,
+            baseUrl = ICONS_BASE_URL,
             cacheFile = File(context.cacheDir, MATERIAL_ICONS_INDEX_FILE),
         )
         iconFetcher.getIcons()
@@ -306,7 +307,7 @@ constructor(
                     iconEntries.map { iconEntry ->
                         MaterialIcon(
                             name = iconEntry.name,
-                            url = iconEntry.url,
+                            url = ICONS_BASE_URL + iconEntry.url,
                             keywords = buildSet {
                                 addAll(SearchUtil.normalizeToKeywords(iconEntry.name, minLength = 2))
                                 iconEntry.aliases?.forEach { alias -> addAll(SearchUtil.normalizeToKeywords(alias, minLength = 3)) }
@@ -330,6 +331,7 @@ constructor(
     )
 
     companion object {
+        const val ICONS_BASE_URL = "https://http-shortcuts.rmy.ch/material-icons/"
         private const val MATERIAL_ICONS_INDEX_FILE = "material-icons-index.json"
     }
 }
