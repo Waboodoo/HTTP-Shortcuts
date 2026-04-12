@@ -17,6 +17,7 @@
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncImportFailed { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncExportSucceed { *; }
 -keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncExportFailed { *; }
+-keep class ch.rmy.iconfetcher.models.IconEntry { *; }
 -keep class com.joaomgcd.taskerpluginlibrary.** { *; }
 -keep class net.dinglisch.android.tasker.** { *; }
 -dontwarn org.apache.harmony.xnet.provider.jsse.SSLParametersImpl
