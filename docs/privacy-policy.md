@@ -2,7 +2,7 @@
 
 ## Data Collection
 
-With the exception of Crash Reporting and the Remote Edit ("Edit on Computer") feature (see below for these), all data entered into the app is only ever sent to the servers specified by the user through the use of shortcuts. No data about the user, their activity or device is collected or sent to the developer or any other third-party as part of this app.
+With the exception of Crash Reporting, the Remote Edit ("Edit on Computer") feature, and the use of Material Design icons (see below for these), all data entered into the app is only ever sent to the servers specified by the user through the use of shortcuts. No data about the user, their activity or device is collected or sent to the developer or any other third-party as part of this app.
 
 <a id="crash-reporting"></a>
 ## Crash Reporting
@@ -19,6 +19,12 @@ The "Edit on Computer" feature requires the use of a remote server. By default, 
 The user has the option to change to a different remote server from within the app, in which case the privacy policy of that server applies instead of the one for the default server.
 
 The use of this feature is non-essential and the app can otherwise be fully used without the "Edit on Computer" feature.
+
+## Material Design Icons
+
+When picking an icon for a shortcut, the user has the option to select from the "Material Design Icons" collection. These icons are fetched from [https://http-shortcuts.rmy.ch](https://http-shortcuts.rmy.ch), which provides a mirror of [https://github.com/Templarian/MaterialDesign-SVG](https://github.com/Templarian/MaterialDesign-SVG). When using this feature, the user has to first confirm that network requests will be made to fetch these icons.
+
+The use of this feature is non-essential and the app can otherwise be fully used without it.
 
 ## Permissions
 

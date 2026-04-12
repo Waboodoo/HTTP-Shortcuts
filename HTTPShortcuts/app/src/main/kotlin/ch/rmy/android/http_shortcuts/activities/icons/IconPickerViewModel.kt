@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
 import ch.rmy.android.http_shortcuts.activities.icons.models.MaterialIcon
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.CustomIconName
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -43,6 +44,7 @@ constructor(
     application: Application,
     private val getIconListItems: GetIconListItemsUseCase,
     httpClientFactory: HttpClientFactory,
+    private val deviceLocalPreferences: DeviceLocalPreferences,
 ) : BaseViewModel<IconPickerViewModel.InitData, IconPickerViewState>(application) {
 
     private var cachedIcons: List<MaterialIcon>? = null
@@ -58,8 +60,11 @@ constructor(
         }
         viewModelScope.launch {
             if (data.isMaterialDesignIconPicker) {
-                // TODO: Show an instruction dialog the first time
-                showMaterialIconSelectionDialog()
+                if (deviceLocalPreferences.isAwareOfMaterialIconsInfo) {
+                    showMaterialIconSelectionDialog()
+                } else {
+                    showMaterialIconsInfoDialog()
+                }
             } else if (icons.isEmpty()) {
                 showCircleSelectionDialog()
             }
@@ -67,6 +72,12 @@ constructor(
         return IconPickerViewState(
             icons = icons,
         )
+    }
+
+    private suspend fun showMaterialIconsInfoDialog() {
+        updateViewState {
+            copy(dialogState = IconPickerDialogState.MaterialIconsInfo)
+        }
     }
 
     private suspend fun showMaterialIconSelectionDialog() {
@@ -103,6 +114,11 @@ constructor(
             copy(dialogState = null)
         }
         showImagePicker()
+    }
+
+    fun onMaterialIconsInfoConfirmed() = runAction {
+        deviceLocalPreferences.isAwareOfMaterialIconsInfo = true
+        showMaterialIconSelectionDialog()
     }
 
     fun onMaterialIconSelected(icon: MaterialIcon, color: Int) = runAction {
@@ -246,7 +262,7 @@ constructor(
                 dialogState = null,
             )
         }
-        if (dialogState == IconPickerDialogState.SelectMaterialIcon) {
+        if (dialogState == IconPickerDialogState.SelectMaterialIcon || dialogState == IconPickerDialogState.MaterialIconsInfo) {
             closeScreen()
         }
     }

@@ -7,6 +7,8 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 sealed class IconPickerDialogState {
     data object SelectShape : IconPickerDialogState()
 
+    data object MaterialIconsInfo : IconPickerDialogState()
+
     data object SelectMaterialIcon : IconPickerDialogState()
 
     data class DeleteIcon(

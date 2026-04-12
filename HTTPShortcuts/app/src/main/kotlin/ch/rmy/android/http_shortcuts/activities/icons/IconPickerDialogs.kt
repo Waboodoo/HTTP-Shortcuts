@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 fun IconPickerDialogs(
     dialogState: IconPickerDialogState?,
     onShapeSelected: (IconShape) -> Unit,
+    onMaterialIconsInfoConfirmed: () -> Unit,
     onMaterialIconSelected: (MaterialIcon, color: Int) -> Unit,
     onDeleteConfirmed: () -> Unit,
     onDialogDismissRequested: () -> Unit,
@@ -43,6 +44,12 @@ fun IconPickerDialogs(
         is IconPickerDialogState.SelectShape -> {
             SelectShapeDialog(
                 onShapeSelected = onShapeSelected,
+                onDismissRequested = onDialogDismissRequested,
+            )
+        }
+        is IconPickerDialogState.MaterialIconsInfo -> {
+            MaterialIconsInfoDialog(
+                onConfirm = onMaterialIconsInfoConfirmed,
                 onDismissRequested = onDialogDismissRequested,
             )
         }
@@ -134,6 +141,20 @@ private fun ShapeButton(
             fontSize = FontSize.BIG,
         )
     }
+}
+
+@Composable
+private fun MaterialIconsInfoDialog(
+    onConfirm: () -> Unit,
+    onDismissRequested: () -> Unit,
+) {
+    ConfirmDialog(
+        title = stringResource(R.string.dialog_title_material_design_icons),
+        message = stringResource(R.string.instructions_material_design_icons),
+        confirmButton = stringResource(R.string.dialog_ok),
+        onConfirmRequest = onConfirm,
+        onDismissRequest = onDismissRequested,
+    )
 }
 
 @Composable
