@@ -33,6 +33,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -41,6 +42,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.models.MaterialIcon
 import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
@@ -212,16 +215,12 @@ private fun IconPickerDialog(
                                     },
                                 ) { icon ->
                                     IconItem(
-                                        modifier = Modifier.clickable(
-                                            interactionSource = remember { MutableInteractionSource() },
-                                            indication = ripple(bounded = false),
-                                            onClick = {
-                                                onIconSelected(icon)
-                                            },
-                                        ),
                                         icon = icon,
                                         imageLoader = imageLoader,
                                         colorFilter = colorFilter,
+                                        onClick = {
+                                            onIconSelected(icon)
+                                        },
                                     )
                                 }
                             }
@@ -246,12 +245,14 @@ private fun TextItem(text: String) {
 
 @Composable
 private fun IconItem(
-    modifier: Modifier = Modifier,
     icon: MaterialIcon,
     colorFilter: ColorFilter,
     imageLoader: ImageLoader,
+    onClick: (() -> Unit)? = null,
 ) {
     val context = LocalContext.current
+    var loaded by remember { mutableStateOf(false) }
+    var failed by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier.size(44.dp),
     ) {
@@ -270,10 +271,27 @@ private fun IconItem(
             contentDescription = icon.name,
             imageLoader = imageLoader,
             colorFilter = colorFilter,
+            onSuccess = {
+                loaded = true
+                failed = false
+            },
+            onError = {
+                failed = true
+            },
             modifier = Modifier
                 .width(44.dp)
                 .aspectRatio(1f)
-                .then(modifier),
+                .runIf(failed) {
+                    alpha(0.2f)
+                }
+                .runIfNotNull(onClick) { onClick ->
+                    clickable(
+                        enabled = loaded,
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = ripple(bounded = false),
+                        onClick = onClick,
+                    )
+                },
         )
     }
 }

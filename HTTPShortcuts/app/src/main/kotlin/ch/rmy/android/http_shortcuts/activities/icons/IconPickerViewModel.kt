@@ -130,6 +130,9 @@ constructor(
                     ?: throw IOException()
             }
         } catch (_: IOException) {
+            updateViewState {
+                copy(dialogState = null)
+            }
             showSnackbar(R.string.error_set_image, long = true)
             return@runAction
         }
@@ -237,13 +240,14 @@ constructor(
     }
 
     fun onDialogDismissalRequested() = runAction {
-        if (viewState.dialogState == IconPickerDialogState.SelectMaterialIcon) {
-            closeScreen()
-        }
+        val dialogState = viewState.dialogState
         updateViewState {
             copy(
                 dialogState = null,
             )
+        }
+        if (dialogState == IconPickerDialogState.SelectMaterialIcon) {
+            closeScreen()
         }
     }
 
