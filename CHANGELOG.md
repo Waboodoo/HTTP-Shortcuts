@@ -1,6 +1,13 @@
 ## Version 4.4.0
 
-TBD
+### Improvements
+- When selecting an icon for a shortcut, you can now also choose from the Material Design Icons collection
+- The range of possible timeout values for a shortcut was increased to allow for long-running HTTP requests
+- There is now a "Visit Website" button on the "Information" screen to make it easier to go to the official website
+- The icon search bar now has a 'Clear' button
+
+### Miscellaneous
+- Various minor tweaks under the hood here and there, mainly in the form of improved error handling for the "Automatic Import / Export" feature
 
 ## Version 4.3.0
 
