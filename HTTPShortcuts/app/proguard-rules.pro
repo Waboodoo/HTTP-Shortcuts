@@ -1,25 +1,8 @@
--keep class ch.rmy.android.http_shortcuts.data.models.** { *; }
--keep class ch.rmy.android.http_shortcuts.import_export.models.** { *; }
--keep class ch.rmy.android.http_shortcuts.activities.contact.MetaData { *; }
--keep class ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams { *; }
--keep class ch.rmy.android.http_shortcuts.http.FileUploadManager$Result { *; }
--keep class ch.rmy.android.http_shortcuts.http.FileUploadManager$File { *; }
--keep class ch.rmy.android.http_shortcuts.http.HttpRequesterWorker$Params { *; }
--keep class ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$ShortcutTriggered { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$ShortcutCancelled { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$HttpRequestSent { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$HttpResponseReceived { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$NetworkError { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$Error { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$CustomEvent { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncImportSucceed { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncImportFailed { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncExportSucceed { *; }
--keep class ch.rmy.android.http_shortcuts.history.HistoryEvent$SyncExportFailed { *; }
--keep class ch.rmy.iconfetcher.models.IconEntry { *; }
+# Tasker integration
 -keep class com.joaomgcd.taskerpluginlibrary.** { *; }
 -keep class net.dinglisch.android.tasker.** { *; }
+
+# Cryptography and such
 -dontwarn org.apache.harmony.xnet.provider.jsse.SSLParametersImpl
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
 -dontwarn org.bouncycastle.jsse.BCSSLSocket
@@ -28,6 +11,7 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
 
+# Room specific rules
 -keep class androidx.room.RoomDatabase { *; }
 -keep class androidx.room.Room { *; }
 -keep class android.arch.** { *; }

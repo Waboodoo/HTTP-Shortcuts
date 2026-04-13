@@ -1,5 +1,8 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class ImportExportParameter(
     val key: String? = null,
     val value: String? = null,

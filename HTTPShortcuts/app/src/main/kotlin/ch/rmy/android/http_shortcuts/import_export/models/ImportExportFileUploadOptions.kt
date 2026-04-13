@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 
+@Keep
 data class ImportExportFileUploadOptions(
     val fileUploadType: String? = null,
     val directoryId: WorkingDirectoryId? = null,

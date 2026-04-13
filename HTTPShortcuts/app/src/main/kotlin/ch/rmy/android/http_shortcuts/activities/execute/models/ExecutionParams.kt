@@ -1,12 +1,14 @@
 package ch.rmy.android.http_shortcuts.activities.execute.models
 
 import android.net.Uri
+import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.ExecutionId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import java.time.Instant
 
+@Keep
 data class ExecutionParams(
     val shortcutId: ShortcutId,
     val variableValues: Map<VariableKeyOrId, String> = emptyMap(),

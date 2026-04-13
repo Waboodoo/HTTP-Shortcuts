@@ -1,5 +1,8 @@
 package ch.rmy.iconfetcher.models
 
+import androidx.annotation.Keep
+
+@Keep
 data class IconEntry(
     val name: String,
     val tags: List<String>? = null,

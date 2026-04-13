@@ -1,9 +1,11 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinId
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 
+@Keep
 data class ImportExportCertificatePin(
     val id: CertificatePinId? = null,
     val pattern: String? = null,

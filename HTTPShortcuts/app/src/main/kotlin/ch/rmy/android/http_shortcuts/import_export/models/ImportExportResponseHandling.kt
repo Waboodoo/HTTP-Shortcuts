@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 
+@Keep
 data class ImportExportResponseHandling(
     val actions: List<String>? = null,
     val uiType: String? = null,

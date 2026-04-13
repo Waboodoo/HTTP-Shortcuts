@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
@@ -7,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.variables.Variables
 
+@Keep
 data class ImportExportVariable(
     val id: GlobalVariableId? = null,
     val key: VariableKey? = null,

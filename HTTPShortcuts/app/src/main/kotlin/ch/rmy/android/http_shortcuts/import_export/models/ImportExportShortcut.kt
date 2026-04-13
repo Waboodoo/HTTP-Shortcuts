@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
@@ -7,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
 
+@Keep
 data class ImportExportShortcut(
     val id: ShortcutId? = null,
     val executionType: String? = null,

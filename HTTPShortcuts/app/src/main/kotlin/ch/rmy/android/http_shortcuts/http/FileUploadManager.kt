@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.http
 import android.content.ContentResolver
 import android.net.Uri
 import android.webkit.MimeTypeMap
+import androidx.annotation.Keep
 import androidx.exifinterface.media.ExifInterface
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.tryOrLog
@@ -159,6 +160,7 @@ class FileUploadManager internal constructor(
     fun getResult(): Result =
         Result(registeredFiles)
 
+    @Keep
     data class File(
         val id: String,
         val mimeType: String,
@@ -173,6 +175,7 @@ class FileUploadManager internal constructor(
         val created: String?,
     )
 
+    @Keep
     data class Result(
         private val registeredFiles: List<List<File>>,
     ) {

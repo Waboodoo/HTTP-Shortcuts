@@ -1,9 +1,11 @@
 package ch.rmy.android.http_shortcuts.variables
 
+import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKey
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 
+@Keep
 data class ResolvedVariableValues(
     val globalVariableValues: Map<GlobalVariableId, String>,
     val localVariablesValues: Map<VariableKey, String>,

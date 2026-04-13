@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
 import android.os.Build
+import androidx.annotation.Keep
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -207,6 +208,7 @@ constructor(
     private fun generateOutputFromError(error: Throwable, shortcutName: String, simple: Boolean = false) =
         errorFormatter.getPrettyError(error, shortcutName, includeBody = !simple)
 
+    @Keep
     private data class Params(
         val shortcutId: ShortcutId,
         val sessionId: String,

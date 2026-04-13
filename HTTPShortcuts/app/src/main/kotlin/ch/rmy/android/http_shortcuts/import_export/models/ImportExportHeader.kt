@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.http_shortcuts.utils.Validation
 
+@Keep
 data class ImportExportHeader(
     val key: String? = null,
     val value: String? = null,

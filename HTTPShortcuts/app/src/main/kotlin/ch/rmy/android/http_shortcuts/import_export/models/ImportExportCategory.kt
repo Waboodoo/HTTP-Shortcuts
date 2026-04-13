@@ -1,11 +1,13 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import ch.rmy.android.framework.extensions.isInt
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 
+@Keep
 data class ImportExportCategory(
     val id: CategoryId?,
     val name: String? = null,

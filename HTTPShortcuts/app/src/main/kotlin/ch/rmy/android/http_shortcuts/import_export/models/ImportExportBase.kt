@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.hasDuplicatesBy
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 
+@Keep
 data class ImportExportBase(
     val version: Long? = null,
     val compatibilityVersion: Long? = null,

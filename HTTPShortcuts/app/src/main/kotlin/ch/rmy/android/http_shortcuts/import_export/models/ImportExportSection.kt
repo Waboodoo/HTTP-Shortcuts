@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.import_export.models
 
+import androidx.annotation.Keep
 import ch.rmy.android.framework.extensions.isUUID
 import ch.rmy.android.http_shortcuts.data.domains.sections.SectionId
 
+@Keep
 data class ImportExportSection(
     val id: SectionId? = null,
     val name: String? = null,
