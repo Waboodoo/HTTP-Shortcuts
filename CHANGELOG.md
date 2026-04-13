@@ -6,6 +6,9 @@
 - There is now a "Visit Website" button on the "Information" screen to make it easier to go to the official website
 - The icon search bar now has a 'Clear' button
 
+### Bugfixes
+- When using a feature that requires a web view (such as displaying an HTML page) but none is installed, instead of crashing the app now displays an error message
+
 ### Miscellaneous
 - Various minor tweaks under the hood here and there, mainly in the form of improved error handling for the "Automatic Import / Export" feature
 
