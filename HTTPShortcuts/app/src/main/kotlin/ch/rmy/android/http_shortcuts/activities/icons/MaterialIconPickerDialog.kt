@@ -1,6 +1,5 @@
 package ch.rmy.android.http_shortcuts.activities.icons
 
-import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -51,11 +50,8 @@ import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.LoadingIndicator
 import ch.rmy.android.http_shortcuts.components.SearchBar
 import ch.rmy.android.http_shortcuts.components.Spacing
-import ch.rmy.android.http_shortcuts.http.HttpHeaders
-import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
-import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.request.error
@@ -64,7 +60,6 @@ import coil3.request.placeholder
 import java.io.IOException
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
-import okhttp3.OkHttpClient
 
 @Composable
 fun MaterialIconPickerDialog(
@@ -294,30 +289,6 @@ private fun IconItem(
                 },
         )
     }
-}
-
-private fun createImageLoader(context: Context): ImageLoader {
-    val userAgent = UserAgentProvider.getUserAgent(context)
-    return ImageLoader.Builder(context)
-        .components {
-            add(
-                OkHttpNetworkFetcherFactory(
-                    callFactory = {
-                        OkHttpClient.Builder()
-                            .addInterceptor { chain ->
-                                chain.proceed(
-                                    chain.request()
-                                        .newBuilder()
-                                        .header(HttpHeaders.USER_AGENT, userAgent)
-                                        .build(),
-                                )
-                            }
-                            .build()
-                    },
-                ),
-            )
-        }
-        .build()
 }
 
 @Stable

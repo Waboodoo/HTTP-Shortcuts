@@ -12,6 +12,7 @@ import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
 import ch.rmy.android.http_shortcuts.activities.icons.models.MaterialIcon
+import ch.rmy.android.http_shortcuts.activities.icons.usecases.FetchAndStoreMaterialIconUseCase
 import ch.rmy.android.http_shortcuts.activities.icons.usecases.GetIconListItemsUseCase
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
@@ -35,7 +36,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import okhttp3.Request
 
 @HiltViewModel
 class IconPickerViewModel
@@ -43,16 +43,15 @@ class IconPickerViewModel
 constructor(
     application: Application,
     private val getIconListItems: GetIconListItemsUseCase,
-    httpClientFactory: HttpClientFactory,
+    private val httpClientFactory: HttpClientFactory,
     private val deviceLocalPreferences: DeviceLocalPreferences,
+    private val fetchAndStoreMaterialIcon: FetchAndStoreMaterialIconUseCase,
 ) : BaseViewModel<IconPickerViewModel.InitData, IconPickerViewState>(application) {
 
     private var cachedIcons: List<MaterialIcon>? = null
     private val iconsMutex = Mutex()
 
     private var selectedShape = IconShape.SQUARE
-
-    private val okHttpClient = httpClientFactory.getClient(context, userAgent = UserAgentProvider.getUserAgent(context))
 
     override suspend fun initialize(data: InitData): IconPickerViewState {
         val icons = withContext(Dispatchers.IO) {
@@ -125,26 +124,14 @@ constructor(
         updateViewState {
             copy(dialogState = IconPickerDialogState.Processing)
         }
-        val iconName = CustomIconName.generate(
-            prefix = "md-${icon.name}",
-            isCircular = selectedShape == IconShape.CIRCLE,
-            hasTransparency = true,
-            singleColor = color,
-        )
-        val targetFile = File(context.filesDir, iconName.toString())
         try {
-            withContext(Dispatchers.IO) {
-                okHttpClient.newCall(Request.Builder().url(icon.url).build())
-                    .execute()
-                    .takeIf { it.isSuccessful }
-                    ?.body
-                    ?.use { body ->
-                        targetFile.outputStream().use { outputStream ->
-                            body.byteStream().copyTo(outputStream)
-                        }
-                    }
-                    ?: throw IOException()
+            val icon = fetchAndStoreMaterialIcon(icon, color)
+            updateViewState {
+                copy(
+                    icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
+                )
             }
+            selectIcon(icon)
         } catch (_: IOException) {
             updateViewState {
                 copy(dialogState = null)
@@ -152,13 +139,6 @@ constructor(
             showSnackbar(R.string.error_set_image, long = true)
             return@runAction
         }
-        val icon = ShortcutIcon.CustomIcon(iconName)
-        updateViewState {
-            copy(
-                icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
-            )
-        }
-        selectIcon(icon)
     }
 
     fun onIconCreationFailed() = runAction {
@@ -296,7 +276,7 @@ constructor(
 
     private suspend fun computeIconIndex(): List<MaterialIcon> = coroutineScope {
         val iconFetcher = IconFetcher(
-            client = okHttpClient,
+            client = httpClientFactory.getClient(context, userAgent = UserAgentProvider.getUserAgent(context)),
             baseUrl = ICONS_BASE_URL,
             cacheFile = File(context.cacheDir, MATERIAL_ICONS_INDEX_FILE),
         )
