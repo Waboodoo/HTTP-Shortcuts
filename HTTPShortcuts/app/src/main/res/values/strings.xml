@@ -2050,4 +2050,6 @@
     <string name="instructions_material_design_icons">\“Material Design Icons\” is a collection of vector icons provided by pictogrammers.com, licensed under Apache Version 2.0.\n\nThe icons will be fetched from the internet, so a network connection is required.\n\nAfter selecting an icon, you will be able to change its color.</string>
     <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
     <string name="accessibility_clear_search">Clear</string>
+    <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
+    <string name="error_no_webview">There appears to be no WebView installed on this device. The content can not be shown.</string>
 </resources>

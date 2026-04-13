@@ -41,6 +41,10 @@ fun SinglePageBrowser(
     val webView = rememberWebView { context, isRestore ->
         SinglePageWebView(context, url, isRestore, onNavigationRequest)
     }
+    if (webView == null) {
+        NoWebViewError(modifier)
+        return
+    }
 
     var loadingSpinnerVisible by remember {
         mutableStateOf(true)

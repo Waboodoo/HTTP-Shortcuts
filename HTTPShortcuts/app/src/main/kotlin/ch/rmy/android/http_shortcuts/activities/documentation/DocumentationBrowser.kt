@@ -12,6 +12,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.NoOpUpdate
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ch.rmy.android.http_shortcuts.activities.documentation.models.SearchDirection
+import ch.rmy.android.http_shortcuts.components.NoWebViewError
 import ch.rmy.android.http_shortcuts.extensions.rememberWebView
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
@@ -32,6 +33,14 @@ fun DocumentationBrowser(
 ) {
     val webView = rememberWebView { context, _ ->
         DocumentationWebView(context)
+    }
+
+    if (webView == null) {
+        LaunchedEffect(onLoadingStateChanged) {
+            onLoadingStateChanged(false)
+        }
+        NoWebViewError(modifier)
+        return
     }
 
     val canGoBack by webView.canGoBack.collectAsStateWithLifecycle()

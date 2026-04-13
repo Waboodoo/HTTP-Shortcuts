@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.webkit.WebView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.SaverScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -13,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.utils.WebViewChecker
 import ch.rmy.android.framework.utils.localization.Localizable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -40,7 +42,11 @@ fun LocalDateTime.formatMediumDateTime(): String =
     mediumDateTimeFormatter.format(this)
 
 @Composable
-fun <T : WebView> rememberWebView(init: (Context, isRestore: Boolean) -> T): T {
+fun <T : WebView> rememberWebView(init: (Context, isRestore: Boolean) -> T): T? {
+    val isWebViewAvailable = remember { WebViewChecker.isWebViewAvailable() }
+    if (!isWebViewAvailable) {
+        return null
+    }
     val context = LocalContext.current
     val webView = rememberSaveable(
         saver = object : Saver<T, Bundle> {
