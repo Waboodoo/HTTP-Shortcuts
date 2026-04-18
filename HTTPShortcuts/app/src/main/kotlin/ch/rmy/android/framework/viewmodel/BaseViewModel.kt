@@ -16,6 +16,7 @@ import ch.rmy.android.framework.ui.IntentBuilder
 import ch.rmy.android.framework.utils.localization.Localizable
 import ch.rmy.android.http_shortcuts.R
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.channels.Channel
@@ -56,9 +57,9 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
         mutableViewState.update { it!!.mutation() }
     }
 
-    protected suspend fun <T> monitorFlow(flow: Flow<T>, onValue: suspend (T) -> Unit): T {
+    protected suspend fun <T> monitorFlow(flow: Flow<T>, context: CoroutineContext = EmptyCoroutineContext, onValue: suspend (T) -> Unit): T {
         val firstValue = CompletableDeferred<T>()
-        viewModelScope.launch {
+        viewModelScope.launch(context) {
             flow.collect { value ->
                 if (!firstValue.isCompleted) {
                     firstValue.complete(value)

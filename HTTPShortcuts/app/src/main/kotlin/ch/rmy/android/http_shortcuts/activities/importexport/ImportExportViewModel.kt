@@ -29,6 +29,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -55,7 +56,7 @@ constructor(
     private var categoriesChanged = false
 
     override suspend fun initialize(data: InitData): ImportExportViewState {
-        hasShortcuts = monitorFlow(shortcutRepository.observeShortcuts()) { shortcuts ->
+        hasShortcuts = monitorFlow(shortcutRepository.observeShortcuts(), Dispatchers.Default) { shortcuts ->
             updateViewState {
                 copy(exportEnabled = shortcuts.isNotEmpty())
             }
@@ -63,7 +64,7 @@ constructor(
             .isNotEmpty()
 
         val syncReplaceFlow = observeSyncReplace()
-        val isInSyncReplaceMode = monitorFlow(syncReplaceFlow) { isInSyncReplaceMode ->
+        val isInSyncReplaceMode = monitorFlow(syncReplaceFlow, Dispatchers.Default) { isInSyncReplaceMode ->
             updateViewState {
                 copy(
                     isInSyncReplaceMode = isInSyncReplaceMode,

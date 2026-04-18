@@ -71,7 +71,7 @@ constructor(
                 }
         }
 
-        val isInSyncReplaceMode = monitorFlow(observeSyncReplace()) { isInSyncReplaceMode ->
+        val isInSyncReplaceMode = monitorFlow(observeSyncReplace(), Dispatchers.Default) { isInSyncReplaceMode ->
             updateViewState {
                 copy(
                     isInSyncReplaceMode = isInSyncReplaceMode,

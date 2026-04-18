@@ -128,12 +128,12 @@ constructor(
             variablePlaceholderProvider.applyVariables(globalVariableRepository.getGlobalVariables())
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             categoriesFlow.drop(1).collect { categories ->
                 this@MainViewModel.categories = categories
                 updateViewState {
                     copy(
-                        categoryItems = getCategoryTabItems(),
+                        categoryItems = getCategoryTabItems(categories),
                         activeCategoryId = (categories.find { it.id == activeCategoryId && !it.hidden } ?: categories.first { !it.hidden }).id,
                     )
                 }
@@ -143,7 +143,7 @@ constructor(
         val isAppLockedFlow = appLockController.observeLocked()
         val isAppLocked = isAppLockedFlow.first()
         observeToolbarTitle()
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             isAppLockedFlow
                 .distinctUntilChanged()
                 .drop(1)
@@ -162,7 +162,7 @@ constructor(
                 }
         }
 
-        val isInSyncReplaceMode = monitorFlow(observeSyncReplace()) { isInSyncReplaceMode ->
+        val isInSyncReplaceMode = monitorFlow(observeSyncReplace(), Dispatchers.Default) { isInSyncReplaceMode ->
             updateViewState {
                 copy(
                     isInSyncReplaceMode = isInSyncReplaceMode,
@@ -172,7 +172,7 @@ constructor(
 
         val appHasLockFlow = appLockController.observeLock()
             .map { it != null }
-        val appHasLock = monitorFlow(appHasLockFlow) { hasLock ->
+        val appHasLock = monitorFlow(appHasLockFlow, Dispatchers.Default) { hasLock ->
             updateViewState {
                 copy(hasLock = hasLock)
             }
@@ -226,7 +226,7 @@ constructor(
 
         return MainViewState(
             selectionMode = selectionMode,
-            categoryItems = getCategoryTabItems(),
+            categoryItems = getCategoryTabItems(categories),
             activeCategoryId = initData.initialCategoryId
                 ?: (widgetShortcutForEditing?.categoryId ?: deviceLocalPreferences.lastActiveCategoryId)
                     ?.takeIf { categoryId -> categories.find { it.id == categoryId }?.hidden == false }
@@ -239,7 +239,7 @@ constructor(
         )
     }
 
-    private fun getCategoryTabItems() =
+    private fun getCategoryTabItems(categories: List<Category>) =
         categories
             .runIf(selectionMode == SelectionMode.NORMAL) {
                 filterNot { it.hidden }
