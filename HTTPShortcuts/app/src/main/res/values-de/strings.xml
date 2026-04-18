@@ -355,6 +355,10 @@
     <string name="settings_reddit">Reddit-Community</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
     <string name="settings_reddit_summary">Der offizielle Subreddit der App, für Diskussionen und Ideenaustausch</string>
+    <!-- Button title, for option to go to the app's official website -->
+    <string name="settings_go_to_website">Website besuchen</string>
+    <!-- Button subtitle, for option to go to the app's official website -->
+    <string name="settings_go_to_website_summary">Weitere Informationen auf der offiziellen Website finden</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Fragen, Wünsche, sonstige Kommentare, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -2039,4 +2043,18 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="error_sync_import_wrong_password">ZIP-Datei ist passwortgeschützt, aber falsches Passwort wurde angegeben</string>
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
     <string name="description_sync_failed_too_many_times">Der automatische Import oder Export ist mehrmals fehlgeschlagen und wurde daher deaktiviert. Bitte überprüfe die Konfiguration und stelle sicher, dass sie gültig ist.</string>
+    <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
+    <string name="error_sync_server_error">Server hat mit Fehlercode geantwortet: %s</string>
+    <!-- Error message shown when icons could not be loaded in the icon picker -->
+    <string name="instructions_icon_search_failed">Fehler beim Laden der Icons</string>
+    <!-- Title for dialog that lets the user select an icon from the "Material Design Icons" collection -->
+    <string name="dialog_title_material_design_icons">Material Design Icons</string>
+    <!-- Option in Icon selector dialog, to go to the "Material Design Icons" collection to pick an icon from it -->
+    <string name="dialog_option_material_design_icon">Material Design Icon</string>
+    <!-- Message for dialog that informs the user about Material Design Icons -->
+    <string name="instructions_material_design_icons">\“Material Design Icons\” ist eine Sammlung von Vektor-Symbolen, die von pictogrammers.com bereitgestellt werden, lizenziert unter Apache Version 2.0.\n\nDie Symbole werden aus dem Internet geholt, daher ist eine Netzwerkverbindung erforderlich.\n\nNach der Auswahl eines Symbols kannst du dessen Farbe ändern.</string>
+    <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
+    <string name="accessibility_clear_search">Leeren</string>
+    <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
+    <string name="error_no_webview">Es scheint keine WebView auf diesem Gerät installiert zu sein. Der Inhalt kann nicht angezeigt werden.</string>
 </resources>

@@ -343,6 +343,8 @@
     <string name="settings_reddit">Reddit 커뮤니티</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
     <string name="settings_reddit_summary">이 앱에 관한 이야기를 나누는 공식 서브레딧</string>
+    <!-- Button title, for option to go to the app's official website -->
+    <!-- Button subtitle, for option to go to the app's official website -->
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">질문, 기능 건의, 피드백 등…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -1892,4 +1894,11 @@
     <!-- Label used to display the time at which the automatic import/export feature has last failed. %s is a placeholder for the time. -->
     <!-- Error message shown when automatic import fails due to an incorrect (or missing) password -->
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
+    <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
+    <!-- Error message shown when icons could not be loaded in the icon picker -->
+    <!-- Title for dialog that lets the user select an icon from the "Material Design Icons" collection -->
+    <!-- Option in Icon selector dialog, to go to the "Material Design Icons" collection to pick an icon from it -->
+    <!-- Message for dialog that informs the user about Material Design Icons -->
+    <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
+    <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
 </resources>

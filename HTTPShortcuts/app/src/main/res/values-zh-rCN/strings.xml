@@ -350,6 +350,10 @@
     <string name="settings_reddit">Reddit 社区</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
     <string name="settings_reddit_summary">应用的官方 Reddit 子版，供讨论和交流想法</string>
+    <!-- Button title, for option to go to the app's official website -->
+    <string name="settings_go_to_website">访问网站</string>
+    <!-- Button subtitle, for option to go to the app's official website -->
+    <string name="settings_go_to_website_summary">在应用的官方网站上查找更多信息</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">提问题，请求新功能，其它…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -792,7 +796,7 @@
         <item quantity="other">选中了 %d 个快捷方式</item>
     </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
-    <string name="label_scripting_browser_shortcuts_subtitle">在执行签运行JavaScript代码</string>
+    <string name="label_scripting_browser_shortcuts_subtitle">在执行前运行JavaScript代码</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
     <string name="label_scripting_scripting_shortcuts_subtitle">运行 JavaScript 代码</string>
     <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
@@ -2025,4 +2029,18 @@
     <string name="error_sync_import_wrong_password">ZIP文件受密码保护，但提供的密码错误</string>
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
     <string name="description_sync_failed_too_many_times">自动导入或导出运行失败多次，因此已被禁用。 请检查其配置并确保它有效。</string>
+    <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
+    <string name="error_sync_server_error">服务器返回错误代码：%s</string>
+    <!-- Error message shown when icons could not be loaded in the icon picker -->
+    <string name="instructions_icon_search_failed">加载图标失败</string>
+    <!-- Title for dialog that lets the user select an icon from the "Material Design Icons" collection -->
+    <string name="dialog_title_material_design_icons">Material Design图标</string>
+    <!-- Option in Icon selector dialog, to go to the "Material Design Icons" collection to pick an icon from it -->
+    <string name="dialog_option_material_design_icon">Material Design图标</string>
+    <!-- Message for dialog that informs the user about Material Design Icons -->
+    <string name="instructions_material_design_icons">\"Material Design Icons\" 是由 pictogramers.com提供的矢量图标集，在Apache 2.0 版许可下授权使用。\n\n图标将从互联网获取，所以需要网络连接。\n\n选择图标后，您将能够更改其颜色。</string>
+    <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
+    <string name="accessibility_clear_search">清除</string>
+    <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
+    <string name="error_no_webview">此设备上似乎没有安装 WebView 。内容无法显示。</string>
 </resources>
