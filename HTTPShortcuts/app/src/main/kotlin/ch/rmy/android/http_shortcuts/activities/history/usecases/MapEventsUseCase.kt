@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.models.HistoryEvent as HistoryEventMod
 import ch.rmy.android.http_shortcuts.data.models.HistoryEvent.Companion.getEventData
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
 import ch.rmy.android.http_shortcuts.http.HttpStatus
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import javax.inject.Inject
@@ -22,18 +23,25 @@ class MapEventsUseCase
 @Inject
 constructor() {
 
-    operator fun invoke(events: List<HistoryEventModel>, secretValues: Set<String>): List<HistoryListItem> =
-        events.mapNotNull { eventModel ->
+    operator fun invoke(events: List<HistoryEventModel>, secretValues: Set<String>): List<HistoryListItem> {
+        var previousDate: LocalDate? = null
+        return events.mapNotNull { eventModel ->
             val event = eventModel.getEvent() ?: return@mapNotNull null
+            val time = LocalDateTime.ofInstant(eventModel.time, ZoneId.systemDefault())
+            val date = time.toLocalDate()
+            val headerDate = if (date != previousDate) date else null
+            previousDate = date
             HistoryListItem(
                 id = eventModel.id,
-                time = LocalDateTime.ofInstant(eventModel.time, ZoneId.systemDefault()),
+                time = time,
+                headerDate = headerDate,
                 epochMillis = eventModel.time.toEpochMilli(),
                 title = event.getTitle(),
                 detail = event.getDetail(secretValues),
                 displayType = event.getDisplayType(),
             )
         }
+    }
 
     private fun HistoryEventModel.getEvent(): HistoryEvent? =
         when (type) {

@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.history.HistoryCleanUpWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.days
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -29,7 +30,7 @@ constructor(
 ) : BaseViewModel<Unit, HistoryViewState>(application) {
 
     override suspend fun initialize(data: Unit): HistoryViewState {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val secretValues = globalVariableRepository.getSecretVariableValues()
             historyRepository.observeHistory(MAX_AGE).collect { events ->
                 updateViewState {

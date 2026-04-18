@@ -2,12 +2,14 @@ package ch.rmy.android.http_shortcuts.activities.history
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.framework.utils.localization.Localizable
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Stable
 data class HistoryListItem(
     val id: Int,
     val time: LocalDateTime,
+    val headerDate: LocalDate?,
     val epochMillis: Long,
     val title: Localizable,
     val detail: Localizable?,

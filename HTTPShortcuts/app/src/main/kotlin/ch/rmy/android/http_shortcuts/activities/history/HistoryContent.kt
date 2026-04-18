@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,15 +28,18 @@ import androidx.compose.ui.semantics.collapse
 import androidx.compose.ui.semantics.expand
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.EmptyState
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.extensions.formatDate
 import ch.rmy.android.http_shortcuts.extensions.formatMediumTime
 import ch.rmy.android.http_shortcuts.extensions.formatShortTime
 import ch.rmy.android.http_shortcuts.extensions.localize
 import java.time.Instant
+import java.time.LocalDate
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -60,37 +62,50 @@ fun HistoryContent(state: HistoryViewState, onLongPressed: (eventId: Int) -> Uni
         modifier = Modifier
             .fillMaxWidth(),
         content = {
-            items(
-                items = state.historyItems,
-                key = { it.id },
-            ) { historyItem ->
-                val isExpanded = expanded.getOrDefault(historyItem.id, false)
-                HistoryListItemView(
-                    modifier = Modifier.semantics {
-                        if (isExpanded) {
-                            collapse {
-                                consume {
-                                    expanded[historyItem.id] = false
+            state.historyItems.forEachIndexed { index, historyItem ->
+                historyItem.headerDate?.let { date ->
+                    item(
+                        key = "header_${historyItem.id}",
+                        contentType = "header",
+                    ) {
+                        DateHeader(
+                            date,
+                            modifier = Modifier.padding(top = if (index == 0) 0.dp else Spacing.BIG),
+                        )
+                    }
+                }
+                item(
+                    key = "item_${historyItem.id}",
+                    contentType = "item",
+                ) {
+                    val isExpanded = expanded.getOrDefault(historyItem.id, false)
+                    HistoryListItemView(
+                        modifier = Modifier.semantics {
+                            if (isExpanded) {
+                                collapse {
+                                    consume {
+                                        expanded[historyItem.id] = false
+                                    }
+                                }
+                            } else {
+                                expand {
+                                    consume {
+                                        expanded[historyItem.id] = true
+                                    }
                                 }
                             }
-                        } else {
-                            expand {
-                                consume {
-                                    expanded[historyItem.id] = true
-                                }
-                            }
-                        }
-                    },
-                    historyItem = historyItem,
-                    useRelativeTime = state.useRelativeTimes,
-                    expanded = isExpanded,
-                    onClick = {
-                        expanded[historyItem.id] = !isExpanded
-                    },
-                    onLongPress = {
-                        onLongPressed(historyItem.id)
-                    },
-                )
+                        },
+                        historyItem = historyItem,
+                        useRelativeTime = state.useRelativeTimes,
+                        expanded = isExpanded,
+                        onClick = {
+                            expanded[historyItem.id] = !isExpanded
+                        },
+                        onLongPress = {
+                            onLongPressed(historyItem.id)
+                        },
+                    )
+                }
             }
         },
     )
@@ -132,8 +147,7 @@ private fun HistoryListItemView(
             ) {
                 Title(
                     historyItem,
-                    modifier = Modifier
-                        .weight(1f, fill = true),
+                    modifier = Modifier.weight(1f, fill = true),
                 )
 
                 if (useRelativeTime) {
@@ -150,6 +164,25 @@ private fun HistoryListItemView(
     }
 
     HorizontalDivider()
+}
+
+@Composable
+private fun DateHeader(
+    date: LocalDate,
+    modifier: Modifier,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(modifier),
+    ) {
+        Text(
+            text = date.formatDate(),
+            fontSize = FontSize.MEDIUM,
+            modifier = Modifier.padding(horizontal = Spacing.MEDIUM, vertical = Spacing.SMALL),
+        )
+        HorizontalDivider()
+    }
 }
 
 @Composable

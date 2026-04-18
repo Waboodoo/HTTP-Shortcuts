@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.utils.WebViewChecker
 import ch.rmy.android.framework.utils.localization.Localizable
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -23,6 +24,7 @@ import java.time.format.FormatStyle
 val shortTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
 val mediumTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.MEDIUM)
 val mediumDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
 
 @Stable
 @Composable
@@ -40,6 +42,10 @@ fun LocalDateTime.formatMediumTime(): String =
 @Stable
 fun LocalDateTime.formatMediumDateTime(): String =
     mediumDateTimeFormatter.format(this)
+
+@Stable
+fun LocalDate.formatDate(): String =
+    dateFormatter.format(this)
 
 @Composable
 fun <T : WebView> rememberWebView(init: (Context, isRestore: Boolean) -> T): T? {
