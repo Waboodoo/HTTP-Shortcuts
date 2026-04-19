@@ -1,38 +1,45 @@
 package ch.rmy.android.http_shortcuts.icons
 
 import androidx.annotation.ColorInt
+import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import java.time.Instant
 
 @JvmInline
-value class CustomIconName(val fileName: String) {
+value class CustomIconName(val iconName: String) {
+    val fileName: String
+        get() = iconName.takeWhile { it != '?' }
 
-    override fun toString() = fileName
+    override fun toString() = iconName
 
     val isCircular: Boolean
-        get() = CIRCULAR_ICON_NAME in fileName
+        get() = CIRCULAR_ICON_NAME in iconName
 
     val hasTransparency: Boolean
-        get() = fileName.contains("$HAS_TRANSPARENCY_NAME(-[0-9A-Fa-f]{6})?".toRegex())
+        get() = iconName.contains("$HAS_TRANSPARENCY_NAME(-[0-9A-Fa-f]{6})?\\.".toRegex())
 
     @get:ColorInt
     val singleColor: Int?
-        get() = "$HAS_TRANSPARENCY_NAME(-[0-9A-Fa-f]{6})?".toRegex()
-            .find(fileName)
-            ?.groupValues
-            ?.get(1)
-            ?.takeUnlessEmpty()
-            ?.removePrefix("-")
-            ?.hexStringToColorInt()
+        get() {
+            return iconName.toUri().getQueryParameter("color")
+                ?.hexStringToColorInt()
+                ?: run {
+                    // Legacy way of storing color information: as part of the file name itself
+                    "$HAS_TRANSPARENCY_NAME(-[0-9A-Fa-f]{6})?".toRegex()
+                        .find(iconName)
+                        ?.groupValues
+                        ?.get(1)
+                        ?.takeUnlessEmpty()
+                        ?.removePrefix("-")
+                        ?.hexStringToColorInt()
+                }
+        }
 
     companion object {
         fun parse(iconName: String): CustomIconName? =
-            if (
-                iconName.endsWith(".png", ignoreCase = true) ||
-                iconName.endsWith(".jpg", ignoreCase = true)
-            ) {
+            if (iconName.matches(".+\\.(png|jpg|svg)(\\?.+)?$".toRegex(RegexOption.IGNORE_CASE))) {
                 CustomIconName(iconName)
             } else {
                 null
@@ -48,12 +55,12 @@ value class CustomIconName(val fileName: String) {
                     }
                     if (hasTransparency) {
                         append(HAS_TRANSPARENCY_NAME)
-                        if (singleColor != null) {
-                            append('-')
-                            append(singleColor.colorIntToHexString())
-                        }
                     }
                     append(".png")
+                    if (singleColor != null) {
+                        append("?color=")
+                        append(singleColor.colorIntToHexString())
+                    }
                 },
             )
 

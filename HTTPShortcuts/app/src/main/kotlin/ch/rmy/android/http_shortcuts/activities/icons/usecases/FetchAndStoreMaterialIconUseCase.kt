@@ -2,13 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.icons.usecases
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Paint
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
-import androidx.core.graphics.applyCanvas
-import androidx.core.graphics.createBitmap
 import ch.rmy.android.http_shortcuts.activities.icons.createImageLoader
 import ch.rmy.android.http_shortcuts.activities.icons.models.MaterialIcon
 import ch.rmy.android.http_shortcuts.icons.CustomIconName
@@ -37,11 +32,11 @@ constructor(
             hasTransparency = true,
             singleColor = color,
         )
-        val targetFile = File(context.filesDir, iconName.toString())
+        val targetFile = File(context.filesDir, iconName.fileName)
         try {
             // TODO: The file/bitmap/compression handling should probably not live in a usecase
             withContext(Dispatchers.IO) {
-                val bitmap = fetchIconAsBitmap(icon.url).tint(color)
+                val bitmap = fetchIconAsBitmap(icon.url)
                 targetFile.outputStream().use { outputStream ->
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
                     outputStream.flush()
@@ -71,19 +66,6 @@ constructor(
             } else {
                 IOException(result.throwable)
             }
-        }
-    }
-
-    private fun Bitmap.tint(color: Int): Bitmap {
-        val sourceBitmap = this
-        try {
-            val paint = Paint()
-            paint.setColorFilter(PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN))
-            return createBitmap(width, height).applyCanvas {
-                drawBitmap(sourceBitmap, 0f, 0f, paint)
-            }
-        } finally {
-            sourceBitmap.recycle()
         }
     }
 }

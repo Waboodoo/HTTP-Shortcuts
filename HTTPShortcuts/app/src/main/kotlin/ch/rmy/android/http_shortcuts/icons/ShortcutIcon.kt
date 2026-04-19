@@ -206,7 +206,7 @@ sealed interface ShortcutIcon {
             }
 
         val fileName: String
-            get() = name.toString()
+            get() = name.fileName
 
         override val isCircular: Boolean
             get() = name.isCircular
@@ -217,13 +217,13 @@ sealed interface ShortcutIcon {
         override val tint: Int?
             get() = name.singleColor
 
-        override fun toString() = fileName
+        override fun toString() = name.toString()
 
         override fun equals(other: Any?) =
-            fileName == (other as? CustomIcon)?.fileName
+            name == (other as? CustomIcon)?.name
 
         override fun hashCode() =
-            fileName.hashCode()
+            name.hashCode()
     }
 
     @Stable

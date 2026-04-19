@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.widget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.os.Build
 import android.util.TypedValue.COMPLEX_UNIT_SP
 import android.view.View
 import android.widget.RemoteViews
@@ -73,6 +74,14 @@ constructor(
             if (shortcutWidget.showIcon) {
                 if (shortcutWidget.showLabel) {
                     views.setInt(R.id.widget_label, "setLines", 2)
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    val color = shortcut.icon.tint
+                    if (color != null) {
+                        views.setColorInt(R.id.widget_icon, "setColorFilter", color, color)
+                    } else {
+                        views.setInt(R.id.widget_icon, "setColorFilter", 0)
+                    }
                 }
                 views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
                 views.setFloat(R.id.widget_icon, "setScaleX", shortcutWidget.iconScale)

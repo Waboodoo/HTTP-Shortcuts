@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.Icon
 import androidx.annotation.ColorInt
@@ -54,6 +55,7 @@ object IconUtil {
                     val options = BitmapFactory.Options()
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888
                     val originalBitmap = BitmapFactory.decodeFile(file.absolutePath, options)
+                    val singleColor = icon.tint
 
                     if (adaptive) {
                         val outerSize = (108 * density).toInt()
@@ -74,7 +76,6 @@ object IconUtil {
                         try {
                             val canvas = Canvas(paddedBitmap)
 
-                            val singleColor = icon.tint
                             if (singleColor != null) {
                                 val luminance = Color.valueOf(singleColor).luminance()
                                 if (luminance < 0.4f) {
@@ -87,6 +88,9 @@ object IconUtil {
                             }
 
                             val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+                            if (singleColor != null) {
+                                paint.setColorFilter(PorterDuffColorFilter(singleColor, PorterDuff.Mode.SRC_IN))
+                            }
                             paint.isAntiAlias = true
                             canvas.drawBitmap(scaledBitmap, offset, offset, paint)
 
@@ -104,8 +108,15 @@ object IconUtil {
                                 paint.isAntiAlias = true
                                 val canvas = Canvas(canvasBitmap)
                                 canvas.drawARGB(0, 0, 0, 0)
-                                canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+                                if (icon.isCircular) {
+                                    canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+                                } else {
+                                    canvas.drawPaint(paint)
+                                }
                                 paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+                                if (singleColor != null) {
+                                    paint.setColorFilter(PorterDuffColorFilter(singleColor, PorterDuff.Mode.SRC_IN))
+                                }
                                 canvas.drawBitmap(originalBitmap, 0f, 0f, paint)
                                 Icon.createWithBitmap(canvasBitmap)
                             } finally {
