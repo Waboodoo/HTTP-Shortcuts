@@ -132,6 +132,7 @@ constructor(
                     shortcut.icon.let { icon ->
                         when (icon) {
                             is ShortcutIcon.BuiltInIcon -> icon.normalizedIconName
+                            is ShortcutIcon.CustomIcon -> icon.fileName
                             else -> icon.toString()
                         }
                     },
