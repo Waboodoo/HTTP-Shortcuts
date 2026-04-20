@@ -215,7 +215,7 @@ constructor() {
                     }
 
                     for (shortcut in category.getObjectArray("shortcuts")) {
-                        val repetitionInterval = shortcut.getAsJsonObject("repetition")?.getInt("interval")
+                        val repetitionInterval = shortcut.getObject("repetition")?.getInt("interval")
                         if (repetitionInterval != null) {
                             shortcut.addProperty("repetitionInterval", repetitionInterval)
                         }
