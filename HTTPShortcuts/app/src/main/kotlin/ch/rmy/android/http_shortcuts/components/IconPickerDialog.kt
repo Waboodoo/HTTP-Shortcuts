@@ -210,7 +210,7 @@ private fun BuiltInIconPicker(
                             .filter { (_, score) -> score != 0 }
                             .sortedByDescending { (_, score) -> score }
                             .map { (icon, _) -> icon }
-                            .filterNot { it.normalizedIconName == activeIcon?.normalizedIconName }
+                            .filterNot { it.canonicalName == activeIcon?.canonicalName }
                             .take(4)
                             .toList()
                     }

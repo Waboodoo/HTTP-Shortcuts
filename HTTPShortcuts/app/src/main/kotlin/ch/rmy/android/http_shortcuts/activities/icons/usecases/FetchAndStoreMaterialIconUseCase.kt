@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.icons.usecases
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import androidx.annotation.CheckResult
 import androidx.annotation.ColorInt
 import ch.rmy.android.http_shortcuts.activities.icons.createImageLoader
@@ -30,7 +31,8 @@ constructor(
             prefix = "md-${icon.name}",
             isCircular = false,
             hasTransparency = true,
-            singleColor = color,
+            singleColor = Color.BLACK,
+            tint = color.takeUnless { it == Color.BLACK },
         )
         val targetFile = File(context.filesDir, iconName.fileName)
         try {

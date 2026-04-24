@@ -86,6 +86,7 @@ fun IconPickerScreen(isMaterialDesignIconPicker: Boolean) {
     IconPickerDialogs(
         dialogState = state?.dialogState,
         onShapeSelected = viewModel::onShapeSelected,
+        onCustomIconColorSelected = viewModel::onCustomIconColorSelected,
         onMaterialIconsInfoConfirmed = viewModel::onMaterialIconsInfoConfirmed,
         onMaterialIconSelected = viewModel::onMaterialIconSelected,
         onDeleteConfirmed = viewModel::onDeletionConfirmed,

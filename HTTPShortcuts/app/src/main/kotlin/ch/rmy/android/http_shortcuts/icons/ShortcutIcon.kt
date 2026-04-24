@@ -71,14 +71,14 @@ sealed interface ShortcutIcon {
         @DrawableRes
         fun getDrawableIdentifier(context: Context): Int =
             context.resources.getIdentifier(
-                normalizedIconName,
+                canonicalName,
                 "drawable",
                 context.packageName,
             )
                 .takeUnless { it == 0 }
                 ?: NoIcon.iconResource
 
-        val normalizedIconName: String = run {
+        override val canonicalName: String = run {
             iconName
                 .run {
                     COLOR_SUFFIX_REGEX.matchEntire(this)
@@ -102,7 +102,7 @@ sealed interface ShortcutIcon {
         }
 
         val plainName: String by lazy(LazyThreadSafetyMode.NONE) {
-            var name = normalizedIconName
+            var name = canonicalName
             Icons.PREFIXES.forEach { prefix ->
                 name = name.removePrefix(prefix)
             }
@@ -119,7 +119,7 @@ sealed interface ShortcutIcon {
             iconName.hashCode()
 
         fun withTint(@ColorInt tint: Int): BuiltInIcon =
-            BuiltInIcon("${normalizedIconName}_${tint.colorIntToHexString()}")
+            BuiltInIcon("${canonicalName}_${tint.colorIntToHexString()}")
 
         companion object {
             fun fromDrawableResource(
@@ -208,6 +208,9 @@ sealed interface ShortcutIcon {
         val fileName: String
             get() = name.fileName
 
+        override val canonicalName: String
+            get() = name.fileName
+
         override val isCircular: Boolean
             get() = name.isCircular
 
@@ -215,6 +218,9 @@ sealed interface ShortcutIcon {
             get() = name.hasTransparency
 
         override val tint: Int?
+            get() = name.tint
+
+        val singleColor: Int?
             get() = name.singleColor
 
         override fun toString() = name.toString()
@@ -224,6 +230,9 @@ sealed interface ShortcutIcon {
 
         override fun hashCode() =
             name.hashCode()
+
+        fun withTint(@ColorInt color: Int) =
+            CustomIcon(CustomIconName.fromCanonical(canonicalName, tint = color))
     }
 
     @Stable
@@ -254,6 +263,9 @@ sealed interface ShortcutIcon {
     @get:ColorInt
     val tint: Int?
         get() = null
+
+    val canonicalName: String
+        get() = toString()
 
     companion object {
         fun fromName(iconName: String?): ShortcutIcon {

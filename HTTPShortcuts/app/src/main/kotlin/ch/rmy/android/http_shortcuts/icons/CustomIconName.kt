@@ -22,30 +22,39 @@ value class CustomIconName(val iconName: String) {
 
     @get:ColorInt
     val singleColor: Int?
-        get() {
-            return iconName.toUri().getQueryParameter("color")
-                ?.hexStringToColorInt()
-                ?: run {
-                    // Legacy way of storing color information: as part of the file name itself
-                    "$HAS_TRANSPARENCY_NAME(-[0-9A-Fa-f]{6})?".toRegex()
-                        .find(iconName)
-                        ?.groupValues
-                        ?.get(1)
-                        ?.takeUnlessEmpty()
-                        ?.removePrefix("-")
-                        ?.hexStringToColorInt()
-                }
-        }
+        get() = "$HAS_TRANSPARENCY_NAME(-[0-9A-Fa-f]{6})".toRegex()
+            .find(iconName)
+            ?.groupValues
+            ?.get(1)
+            ?.takeUnlessEmpty()
+            ?.removePrefix("-")
+            ?.hexStringToColorInt()
+
+    @get:ColorInt
+    val tint: Int?
+        get() = iconName.toUri()
+            .getQueryParameter(PARAM_TINT)
+            ?.hexStringToColorInt()
 
     companion object {
+
+        fun fromCanonical(canonicalIconName: String, @ColorInt tint: Int) =
+            CustomIconName("$canonicalIconName?$PARAM_TINT=${tint.colorIntToHexString()}")
+
         fun parse(iconName: String): CustomIconName? =
-            if (iconName.matches(".+\\.(png|jpg|svg)(\\?.+)?$".toRegex(RegexOption.IGNORE_CASE))) {
+            if (iconName.matches(".+\\.(png|jpg)(\\?.+)?$".toRegex(RegexOption.IGNORE_CASE))) {
                 CustomIconName(iconName)
             } else {
                 null
             }
 
-        fun generate(prefix: String? = null, isCircular: Boolean, hasTransparency: Boolean, @ColorInt singleColor: Int?) =
+        fun generate(
+            prefix: String? = null,
+            isCircular: Boolean,
+            hasTransparency: Boolean,
+            @ColorInt singleColor: Int?,
+            @ColorInt tint: Int? = null,
+        ) =
             CustomIconName(
                 buildString {
                     append(CUSTOM_ICON_NAME_PREFIX)
@@ -55,11 +64,15 @@ value class CustomIconName(val iconName: String) {
                     }
                     if (hasTransparency) {
                         append(HAS_TRANSPARENCY_NAME)
+                        if (singleColor != null) {
+                            append('-')
+                            append(singleColor.colorIntToHexString())
+                        }
                     }
                     append(".png")
-                    if (singleColor != null) {
-                        append("?color=")
-                        append(singleColor.colorIntToHexString())
+                    if (tint != null) {
+                        append("?$PARAM_TINT=")
+                        append(tint.colorIntToHexString())
                     }
                 },
             )
@@ -70,5 +83,7 @@ value class CustomIconName(val iconName: String) {
         const val CUSTOM_ICON_NAME_PREFIX = "custom-icon_"
         private const val CIRCULAR_ICON_NAME = "_circle"
         private const val HAS_TRANSPARENCY_NAME = "_tr"
+
+        private const val PARAM_TINT = "tint"
     }
 }

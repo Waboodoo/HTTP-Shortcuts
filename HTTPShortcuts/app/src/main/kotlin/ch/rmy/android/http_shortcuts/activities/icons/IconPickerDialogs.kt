@@ -3,9 +3,11 @@ package ch.rmy.android.http_shortcuts.activities.icons
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -24,16 +26,20 @@ import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.icons.models.IconShape
 import ch.rmy.android.http_shortcuts.activities.icons.models.MaterialIcon
+import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
 fun IconPickerDialogs(
     dialogState: IconPickerDialogState?,
     onShapeSelected: (IconShape) -> Unit,
+    onCustomIconColorSelected: (ShortcutIcon.CustomIcon, Int) -> Unit,
     onMaterialIconsInfoConfirmed: () -> Unit,
     onMaterialIconSelected: (MaterialIcon, color: Int) -> Unit,
     onDeleteConfirmed: () -> Unit,
@@ -44,6 +50,13 @@ fun IconPickerDialogs(
         is IconPickerDialogState.SelectShape -> {
             SelectShapeDialog(
                 onShapeSelected = onShapeSelected,
+                onDismissRequested = onDialogDismissRequested,
+            )
+        }
+        is IconPickerDialogState.CustomIconColorPicker -> {
+            CustomIconColorPicker(
+                selectedIcon = dialogState.selectedIcon,
+                onColorSelected = onCustomIconColorSelected,
                 onDismissRequested = onDialogDismissRequested,
             )
         }
@@ -141,6 +154,31 @@ private fun ShapeButton(
             fontSize = FontSize.BIG,
         )
     }
+}
+
+@Composable
+private fun CustomIconColorPicker(
+    selectedIcon: ShortcutIcon.CustomIcon,
+    onColorSelected: (ShortcutIcon.CustomIcon, Int) -> Unit,
+    onDismissRequested: () -> Unit,
+) {
+    ColorPickerDialog(
+        initialColor = remember(selectedIcon) { selectedIcon.tint },
+        extraContent = { color ->
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                ShortcutIcon(
+                    selectedIcon.withTint(color),
+                )
+            }
+        },
+        onColorSelected = { color ->
+            onColorSelected(selectedIcon, color)
+        },
+        onDismissRequested = onDismissRequested,
+    )
 }
 
 @Composable

@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.icons
 import android.app.Application
 import android.graphics.BitmapFactory
 import android.net.Uri
+import androidx.annotation.ColorInt
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.runIfNotNull
@@ -90,7 +91,25 @@ constructor(
     }
 
     private suspend fun selectIcon(icon: ShortcutIcon.CustomIcon) {
-        closeScreen(result = NavigationDestination.IconPicker.Result(icon))
+        if (icon.isUsableAsSilhouette && icon.singleColor != null) {
+            updateViewState {
+                copy(dialogState = IconPickerDialogState.CustomIconColorPicker(icon))
+            }
+        } else {
+            closeScreen(result = NavigationDestination.IconPicker.Result(icon))
+        }
+    }
+
+    fun onCustomIconColorSelected(icon: ShortcutIcon.CustomIcon, @ColorInt tint: Int) = runAction {
+        updateViewState {
+            copy(dialogState = null)
+        }
+        val finalIcon = if (tint != icon.singleColor) {
+            icon.withTint(tint)
+        } else {
+            icon
+        }
+        closeScreen(result = NavigationDestination.IconPicker.Result(finalIcon))
     }
 
     fun onAddIconButtonClicked() = runAction {
@@ -131,7 +150,7 @@ constructor(
                     icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
                 )
             }
-            selectIcon(icon)
+            closeScreen(result = NavigationDestination.IconPicker.Result(icon))
         } catch (_: IOException) {
             updateViewState {
                 copy(dialogState = null)
