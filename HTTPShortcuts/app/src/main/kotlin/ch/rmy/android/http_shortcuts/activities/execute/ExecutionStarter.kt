@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.execute
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
@@ -40,11 +41,13 @@ constructor(
                 .build(context)
 
             if (shortcutRepository.shouldUseForegroundService(shortcutId)) {
+                logInfo("Starting execution using foreground service")
                 context.startForegroundService(
                     Intent(context, ExecutionService::class.java)
                         .putExtras(intent),
                 )
             } else {
+                logInfo("Starting execution using activity")
                 intent.startActivity(context)
             }
         }
