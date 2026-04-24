@@ -112,7 +112,9 @@ constructor(
                 )
                 return@flow
             } catch (e: Throwable) {
-                logException(e)
+                if (e !is IllegalStateException || e.message?.contains("Data cannot occupy more than ") != true) {
+                    logException(e)
+                }
             }
         }
 
@@ -171,7 +173,7 @@ constructor(
                 when (val failureOutput = shortcut.responseFailureOutput) {
                     ResponseFailureOutput.DETAILED,
                     ResponseFailureOutput.SIMPLE,
-                    -> {
+                        -> {
                         displayResult(
                             shortcut = shortcut,
                             params = params,
@@ -214,7 +216,7 @@ constructor(
             when (val failureOutput = shortcut.responseFailureOutput) {
                 ResponseFailureOutput.DETAILED,
                 ResponseFailureOutput.SIMPLE,
-                -> {
+                    -> {
                     displayResult(
                         params = params,
                         shortcut = shortcut,
