@@ -1936,8 +1936,10 @@
     <string name="dialog_text_export_with_password">To protect your data, you can encrypt the exported file with a password. Leave blank to omit encryption.</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <string name="accessibility_rotate_cw">Rotate clockwise</string>
-    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">Failed to run command, Termux app is not active.</string>
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the HTTP Shortcuts app is in the background -->
+    <string name="error_termux_cannot_start_from_background">Termux cannot be started from the background</string>
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <string name="label_variable_widget_select_variable">Global Variable</string>
     <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->

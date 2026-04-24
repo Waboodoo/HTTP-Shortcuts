@@ -57,6 +57,10 @@ constructor(
                     userError {
                         getString(R.string.error_termux_not_running)
                     }
+                } else if (e is IllegalStateException && e.message?.contains("app is in background") == true) {
+                    userError {
+                        getString(R.string.error_termux_cannot_start_from_background)
+                    }
                 } else {
                     throw e
                 }
