@@ -1956,7 +1956,7 @@
     <string name="button_import_data">Import Data</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
     <string name="button_delete_data">Delete Data</string>
-    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <!-- Warning message shown on dialog when the user is about to delete all the app's data, as part of the app recovery process -->
     <string name="message_delete_all">You are about to delete all of your shortcuts, variables, etc. This can not be undone. Continue?</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">Data successfully restored.</string>

@@ -1919,8 +1919,9 @@
     <string name="dialog_text_export_with_password">データを保護するには、書き出したファイルをパスワードで暗号化できます。暗号化を省略するには空白のままにしてください。</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <string name="accessibility_rotate_cw">時計回りに回転</string>
-    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">コマンドの実行に失敗しました。Termux アプリがアクティブではありません。</string>
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the HTTP Shortcuts app is in the background -->
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <string name="label_variable_widget_select_variable">グローバル変数</string>
     <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->

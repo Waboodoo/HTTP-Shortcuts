@@ -1896,8 +1896,9 @@
     <string name="dialog_text_export_with_password">為保護您的資料，您可使用密碼加密匯出的檔案。留空則省略加密。</string>
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
     <string name="accessibility_rotate_cw">順時針旋轉</string>
-    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">無法執行命令，Termux 應用程式不在使用中。</string>
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the HTTP Shortcuts app is in the background -->
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <string name="label_variable_widget_select_variable">全域變數</string>
     <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->

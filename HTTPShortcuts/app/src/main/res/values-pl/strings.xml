@@ -1897,7 +1897,8 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <!-- Dialog title: shown on export dialog, e.g. when setting a password -->
     <!-- Dialog text: Asks user to enter a password to export data with password-protection -->
     <!-- Accessibility label on "Rotate clockwise" button in image editor -->
-    <!-- Error message, shown in when the user tries to run a Termux command from Scripting, but the Termux app is not active -->
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the Termux app is not active -->
+    <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the HTTP Shortcuts app is in the background -->
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
