@@ -65,7 +65,8 @@ constructor(
             ?.takeUnlessEmpty()
             ?: return
 
-        val iconsInUse = shortcuts.map(Shortcut::icon)
+        val iconsInUse = shortcuts.asSequence()
+            .map(Shortcut::icon)
             .plus(categoryRepository.getCategories().mapNotNull(Category::icon))
             .filterIsInstance<ShortcutIcon.BuiltInIcon>()
             .flatMap { icon ->
