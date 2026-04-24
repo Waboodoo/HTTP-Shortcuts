@@ -236,7 +236,7 @@ class MainActivity : BaseComposeActivity() {
                     modifier = Modifier.verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(stringResource(R.string.error_manual_data_migration, "http-shortcuts.rmy.ch/recover"))
+                    Text(stringResource(R.string.error_manual_data_migration, "http-shortcuts.rmy.ch/restore"))
 
                     VerticalSpacer(height = Spacing.MEDIUM)
 
