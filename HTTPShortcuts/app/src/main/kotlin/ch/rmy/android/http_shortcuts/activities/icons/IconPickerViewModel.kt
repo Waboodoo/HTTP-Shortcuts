@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.annotation.ColorInt
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
+import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -127,6 +128,7 @@ constructor(
     }
 
     fun onShapeSelected(iconShape: IconShape) = runAction {
+        logInfo("Shape selected")
         selectedShape = iconShape
         updateViewState {
             copy(dialogState = null)
@@ -140,23 +142,33 @@ constructor(
     }
 
     fun onMaterialIconSelected(icon: MaterialIcon, color: Int) = runAction {
+        logInfo("Material icon selected")
         updateViewState {
             copy(dialogState = IconPickerDialogState.Processing)
         }
-        try {
-            val icon = fetchAndStoreMaterialIcon(icon, color)
-            updateViewState {
-                copy(
-                    icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
-                )
-            }
-            closeScreen(result = NavigationDestination.IconPicker.Result(icon))
+        val icon = try {
+            fetchAndStoreMaterialIcon(icon, color)
         } catch (_: IOException) {
             updateViewState {
                 copy(dialogState = null)
             }
             showSnackbar(R.string.error_set_image, long = true)
             return@runAction
+        }
+        addIconToViewStateIfNeeded(icon)
+        closeScreen(result = NavigationDestination.IconPicker.Result(icon))
+    }
+
+    private suspend fun addIconToViewStateIfNeeded(icon: ShortcutIcon.CustomIcon) {
+        updateViewState {
+            val previousIcons = icons
+            copy(
+                icons = if (previousIcons.any { it.icon.fileName == icon.fileName }) {
+                    previousIcons
+                } else {
+                    previousIcons.plus(IconPickerListItem(icon, isUnused = true))
+                },
+            )
         }
     }
 
@@ -169,6 +181,7 @@ constructor(
     }
 
     fun onIconCreated(iconUri: Uri) = runAction {
+        logInfo("Custom image selected for icon")
         val colorAnalysis = withContext(Dispatchers.IO) {
             val bitmap = context.contentResolver.openInputStream(iconUri)?.use { stream ->
                 BitmapFactory.decodeStream(stream)
@@ -193,12 +206,7 @@ constructor(
             }
         }
         val icon = ShortcutIcon.CustomIcon(iconName)
-
-        updateViewState {
-            copy(
-                icons = icons.plus(IconPickerListItem(icon, isUnused = true)),
-            )
-        }
+        addIconToViewStateIfNeeded(icon)
         selectIcon(icon)
     }
 
