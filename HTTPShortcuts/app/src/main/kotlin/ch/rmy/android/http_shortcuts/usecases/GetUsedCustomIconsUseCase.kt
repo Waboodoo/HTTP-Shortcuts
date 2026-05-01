@@ -70,6 +70,7 @@ constructor(
                         ShortcutIcon.CustomIcon(customIconName)
                     },
             )
+            .map { ShortcutIcon.CustomIcon(CustomIconName(it.canonicalName)) }
             .distinct()
             .toList()
 
