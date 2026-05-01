@@ -12,6 +12,7 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileNotFoundException
+import java.io.IOException
 import java.io.OutputStreamWriter
 import java.time.Instant
 import java.util.concurrent.ConcurrentHashMap
@@ -43,7 +44,8 @@ object FileUtil {
             }
 
     fun getOutputStream(context: Context, uri: Uri) =
-        context.contentResolver.openOutputStream(uri, "wt")!!
+        context.contentResolver.openOutputStream(uri, "wt")
+            ?: throw IOException("Failed to open URI $uri")
 
     fun getWriter(context: Context, uri: Uri) =
         BufferedWriter(OutputStreamWriter(getOutputStream(context, uri)))
