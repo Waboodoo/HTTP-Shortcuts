@@ -20,6 +20,7 @@ import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteViewModel
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionService
@@ -105,6 +106,12 @@ class ExecuteActivity : BaseComposeActivity() {
                     finishWithoutAnimation()
                 },
             )
+        }
+
+        if (viewState?.dialogState != null) {
+            LaunchedEffect(Unit) {
+                setTheme(R.style.Theme_Transparent_Dimmed)
+            }
         }
 
         ExecuteDialogs(
