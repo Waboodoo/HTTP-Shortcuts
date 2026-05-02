@@ -1,3 +1,9 @@
+## Version 4.4.1
+
+### Bugfixes
+- Fixed a potential infinite loop that would cause widgets to flicker
+- Shortcuts are now less likely to darken the screen while executing
+
 ## Version 4.4.0
 
 ### Improvements
