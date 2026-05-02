@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.fragment.app.FragmentActivity
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.awaitNonNull
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
@@ -52,6 +54,11 @@ class HostActivity : BaseComposeActivity() {
     @Composable
     override fun Content() {
         val dialogState by dialogStateFlow.collectAsState()
+        if (dialogState != null) {
+            LaunchedEffect(Unit) {
+                setTheme(R.style.Theme_Transparent_Dimmed)
+            }
+        }
         ExecuteDialogs(
             dialogState,
             onResult = { result ->
