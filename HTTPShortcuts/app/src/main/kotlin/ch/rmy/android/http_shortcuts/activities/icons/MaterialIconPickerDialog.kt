@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.R
@@ -57,6 +58,7 @@ import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.fallback
 import coil3.request.placeholder
+import kotlinx.coroutines.CancellationException
 import java.io.IOException
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CancellationException
@@ -88,6 +90,11 @@ fun MaterialIconPickerDialog(
             }
             iconsState = IconsState.Success(getIcons(searchQuery))
         } catch (_: IOException) {
+            iconsState = IconsState.Failed
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            logException("MaterialIconPickerDialog", e)
             iconsState = IconsState.Failed
         }
     }
