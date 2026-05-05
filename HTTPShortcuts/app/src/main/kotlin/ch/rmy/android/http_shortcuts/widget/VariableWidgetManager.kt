@@ -18,6 +18,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.VariableWidget
 import javax.inject.Inject
+import kotlin.text.toInt
 
 class VariableWidgetManager
 @Inject
@@ -88,16 +89,16 @@ constructor(
             views.setTextViewText(R.id.widget_text, globalVariable?.value?.ifEmpty { "-" } ?: "???")
 
             val fontSize = variableWidget.fontSize.toFloat()
-            views.setFloat(R.id.widget_text, "setTextSize", fontSize)
-            views.setInt(R.id.widget_text, "setLineHeight", TypedValueCompat.dpToPx(fontSize, context.resources.displayMetrics).toInt())
+            views.setTextSize(R.id.widget_text, fontSize)
+            views.setLineHeight(R.id.widget_text, TypedValueCompat.dpToPx(fontSize, context.resources.displayMetrics).toInt())
 
             if (variableWidget.title.isNotEmpty()) {
                 views.setViewVisibility(R.id.widget_title, View.VISIBLE)
                 views.setTextViewText(R.id.widget_title, variableWidget.title)
 
                 val titleFontSize = fontSize * 0.75f
-                views.setFloat(R.id.widget_title, "setTextSize", titleFontSize)
-                views.setInt(R.id.widget_title, "setLineHeight", TypedValueCompat.dpToPx(titleFontSize, context.resources.displayMetrics).toInt())
+                views.setTextSize(R.id.widget_title, titleFontSize)
+                views.setLineHeight(R.id.widget_title, TypedValueCompat.dpToPx(titleFontSize, context.resources.displayMetrics).toInt())
             } else {
                 views.setViewVisibility(R.id.widget_title, View.GONE)
             }

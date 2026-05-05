@@ -59,6 +59,7 @@ import coil3.request.fallback
 import coil3.request.placeholder
 import java.io.IOException
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 
 @Composable
