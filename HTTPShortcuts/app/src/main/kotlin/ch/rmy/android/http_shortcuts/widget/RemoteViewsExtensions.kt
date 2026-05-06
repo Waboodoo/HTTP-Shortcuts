@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.widget
 
+import android.widget.ImageView
 import android.widget.RemoteViews
 import android.widget.TextView
 import androidx.annotation.IdRes
@@ -7,25 +8,33 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import java.lang.reflect.Method
 
 fun RemoteViews.setTextSize(@IdRes id: Int, fontSize: Float) {
-    setTextViewFloatSafely(id, "setTextSize", fontSize)
+    setFloatSafely(TextView::class.java, id, "setTextSize", fontSize)
 }
 
 fun RemoteViews.setLineHeight(@IdRes id: Int, lineHeightPx: Int) {
-    setTextViewIntSafely(id, "setLineHeight", lineHeightPx)
+    setTextViewIntSafely(TextView::class.java, id, "setLineHeight", lineHeightPx)
 }
 
-private fun RemoteViews.setTextViewFloatSafely(@IdRes id: Int, methodName: String, value: Float) {
+fun RemoteViews.setImageViewScaleX(@IdRes id: Int, scaleX: Float) {
+    setFloatSafely(ImageView::class.java, id, "setScaleX", scaleX)
+}
+
+fun RemoteViews.setImageViewScaleY(@IdRes id: Int, scaleY: Float) {
+    setFloatSafely(ImageView::class.java, id, "setScaleY", scaleY)
+}
+
+private fun RemoteViews.setFloatSafely(clazz: Class<*>, @IdRes id: Int, methodName: String, value: Float) {
     tryOrLog {
-        val method = TextView::class.java.getMethod(methodName, Float::class.java)
+        val method = clazz.getMethod(methodName, Float::class.java)
         if (method.isRemoteViewMethod()) {
             setFloat(id, methodName, value)
         }
     }
 }
 
-private fun RemoteViews.setTextViewIntSafely(@IdRes id: Int, methodName: String, value: Int) {
+private fun RemoteViews.setTextViewIntSafely(clazz: Class<*>, @IdRes id: Int, methodName: String, value: Int) {
     tryOrLog {
-        val method = TextView::class.java.getMethod(methodName, Int::class.java)
+        val method = clazz::class.java.getMethod(methodName, Int::class.java)
         if (method.isRemoteViewMethod()) {
             setInt(id, methodName, value)
         }

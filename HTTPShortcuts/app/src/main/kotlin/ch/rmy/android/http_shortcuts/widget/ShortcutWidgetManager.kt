@@ -84,8 +84,8 @@ constructor(
                     }
                 }
                 views.setImageViewIcon(R.id.widget_icon, IconUtil.getIcon(context, shortcut.icon, adaptive = false))
-                views.setFloat(R.id.widget_icon, "setScaleX", shortcutWidget.iconScale)
-                views.setFloat(R.id.widget_icon, "setScaleY", shortcutWidget.iconScale)
+                views.setImageViewScaleX(R.id.widget_icon, shortcutWidget.iconScale)
+                views.setImageViewScaleY(R.id.widget_icon, shortcutWidget.iconScale)
             } else {
                 views.setInt(R.id.widget_label, "setMaxLines", 4)
                 views.setViewVisibility(R.id.widget_icon, View.GONE)

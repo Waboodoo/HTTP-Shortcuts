@@ -58,7 +58,6 @@ import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.fallback
 import coil3.request.placeholder
-import kotlinx.coroutines.CancellationException
 import java.io.IOException
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CancellationException
