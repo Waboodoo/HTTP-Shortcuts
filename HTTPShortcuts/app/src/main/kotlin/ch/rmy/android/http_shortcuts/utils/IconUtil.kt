@@ -55,14 +55,15 @@ object IconUtil {
                     val options = BitmapFactory.Options()
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888
                     val originalBitmap = BitmapFactory.decodeFile(file.absolutePath, options)
-                    val singleColor = icon.tint
+                    val iconColor = icon.tint ?: icon.singleColor
 
                     if (adaptive) {
                         val outerSize = (108 * density).toInt()
 
                         // Icons with transparency are well suited to be used in adaptive icons, so we can go with 66dp as recommended by the
-                        // guidelines. Icons without transparency will look weird, so we scale them up a little so the cropping is less obvious.
-                        val innerSize = ((if (icon.isUsableAsSilhouette) 66 else 76) * density).toInt()
+                        // guidelines minus some extra padding. Icons without transparency will look weird, so we scale them up a little
+                        // so the cropping is less obvious.
+                        val innerSize = ((if (icon.isUsableAsSilhouette) 58 else 76) * density).toInt()
                         val offset = (outerSize - innerSize) / 2f
                         val scaledBitmap = originalBitmap.scale(innerSize, innerSize, false)
                             .runIf(icon.isCircular) {
@@ -76,8 +77,8 @@ object IconUtil {
                         try {
                             val canvas = Canvas(paddedBitmap)
 
-                            if (singleColor != null) {
-                                val luminance = Color.valueOf(singleColor).luminance()
+                            if (iconColor != null) {
+                                val luminance = Color.valueOf(iconColor).luminance()
                                 if (luminance < 0.4f) {
                                     canvas.drawARGB(255, 250, 250, 250)
                                 } else {
@@ -88,8 +89,8 @@ object IconUtil {
                             }
 
                             val paint = Paint(Paint.FILTER_BITMAP_FLAG)
-                            if (singleColor != null) {
-                                paint.setColorFilter(PorterDuffColorFilter(singleColor, PorterDuff.Mode.SRC_IN))
+                            if (iconColor != null) {
+                                paint.setColorFilter(PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN))
                             }
                             paint.isAntiAlias = true
                             canvas.drawBitmap(scaledBitmap, offset, offset, paint)
@@ -114,8 +115,8 @@ object IconUtil {
                                     canvas.drawPaint(paint)
                                 }
                                 paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                                if (singleColor != null) {
-                                    paint.setColorFilter(PorterDuffColorFilter(singleColor, PorterDuff.Mode.SRC_IN))
+                                if (iconColor != null) {
+                                    paint.setColorFilter(PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN))
                                 }
                                 canvas.drawBitmap(originalBitmap, 0f, 0f, paint)
                                 Icon.createWithBitmap(canvasBitmap)
