@@ -1,20 +1,28 @@
 package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -25,6 +33,8 @@ import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.fallback
 import coil3.request.placeholder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun ShortcutIcon(
@@ -50,13 +60,37 @@ fun ShortcutIcon(
             .build()
     }
 
+    val isDarkMode = isSystemInDarkTheme()
+    var background by remember {
+        mutableStateOf<Color?>(null)
+    }
+    LaunchedEffect(shortcutIcon, isDarkMode) {
+        background = withContext(Dispatchers.Default) {
+            val iconLuminance = when (shortcutIcon) {
+                is ShortcutIcon.CustomIcon -> shortcutIcon.tint ?: shortcutIcon.singleColor
+                else -> shortcutIcon.tint
+            }
+                ?.let(::Color)
+                ?.luminance()
+                ?: return@withContext null
+            when {
+                iconLuminance > 0.9f && !isDarkMode -> Color.Black.copy(alpha = 0.7f)
+                iconLuminance < 0.1f && isDarkMode -> Color.White.copy(alpha = 0.9f)
+                else -> null
+            }
+        }
+    }
+
     val modifier = Modifier
         .width(size)
-        .aspectRatio(1f)
         .then(modifier)
         .runIf(shortcutIcon.isCircular) {
             clip(CircleShape)
         }
+        .runIfNotNull(background) { background ->
+            background(background, shape = RoundedCornerShape(percent = 25))
+        }
+        .aspectRatio(1f)
 
     val inPreview = LocalInspectionMode.current
     if (inPreview) {
