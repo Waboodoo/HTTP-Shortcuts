@@ -36,7 +36,11 @@ constructor(
 ) : BaseViewModel<Unit, ExecutionSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): ExecutionSettingsViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         val hasFileParameter = if (shortcut.usesRequestParameters()) {
             requestParameterRepository.getRequestParametersByShortcutId(TEMPORARY_ID)
                 .any { it.parameterType == ParameterType.FILE }

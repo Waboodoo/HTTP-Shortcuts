@@ -32,7 +32,11 @@ constructor(
         }
 
     override suspend fun initialize(data: Unit): MqttMessagesViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         return MqttMessagesViewState(
             messageItems = MqttUtil.getMessagesFromBody(shortcut.bodyContent)
                 .mapIndexed { index, message ->

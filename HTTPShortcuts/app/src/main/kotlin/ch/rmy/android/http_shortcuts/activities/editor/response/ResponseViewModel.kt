@@ -29,7 +29,11 @@ constructor(
 ) : BaseViewModel<Unit, ResponseViewState>(application) {
 
     override suspend fun initialize(data: Unit): ResponseViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         val storeDirectoryName = try {
             shortcut.responseStoreDirectoryId
                 ?.let { id ->

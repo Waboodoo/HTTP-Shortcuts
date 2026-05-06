@@ -20,7 +20,11 @@ constructor(
 ) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): BasicRequestSettingsViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         val type = shortcut.executionType
         return BasicRequestSettingsViewState(
             shortcutExecutionType = type,

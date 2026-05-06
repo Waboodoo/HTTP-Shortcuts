@@ -157,8 +157,7 @@ constructor(
         commitTransaction {
             val shortcutDao = shortcutDao()
             val shortcut = shortcutDao.getShortcutById(shortcutId)
-                .firstOrNull()
-                ?: return@commitTransaction
+                .first()
             shortcutDao.insertOrUpdateShortcut(
                 shortcut.copy(
                     id = TEMPORARY_ID,

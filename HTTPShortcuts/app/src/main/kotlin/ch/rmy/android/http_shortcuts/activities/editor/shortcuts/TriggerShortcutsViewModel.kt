@@ -65,7 +65,11 @@ constructor(
     override suspend fun initialize(data: InitData): TriggerShortcutsViewState {
         val shortcutsFlow = shortcutRepository.observeShortcuts()
         this.shortcuts = shortcutsFlow.first()
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         shortcutIdsInUse = getTriggeredShortcutIdsFromCode(shortcut.codeOnPrepare)
             .mapIndexed { index, shortcutId -> ShortcutListItemId(shortcutId, id = index.toString()) }
 

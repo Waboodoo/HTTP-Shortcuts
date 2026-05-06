@@ -23,7 +23,11 @@ constructor(
 ) : BaseViewModel<Unit, AdvancedSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): AdvancedSettingsViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         return AdvancedSettingsViewState(
             shortcutExecutionType = shortcut.executionType,
             followRedirects = shortcut.followRedirects,

@@ -27,7 +27,11 @@ constructor(
 ) : BaseViewModel<Unit, AuthenticationViewState>(application) {
 
     override suspend fun initialize(data: Unit): AuthenticationViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         return AuthenticationViewState(
             shortcutExecutionType = shortcut.executionType,
             authenticationType = shortcut.authenticationType,

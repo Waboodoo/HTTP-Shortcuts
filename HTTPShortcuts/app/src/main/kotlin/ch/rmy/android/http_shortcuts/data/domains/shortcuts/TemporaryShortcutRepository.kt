@@ -36,7 +36,7 @@ import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.time.Duration
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 
 class TemporaryShortcutRepository
 @Inject
@@ -44,9 +44,9 @@ constructor(
     database: Database,
 ) : BaseRepository(database) {
 
-    fun observeTemporaryShortcut(): Flow<Shortcut> = queryFlow {
+    fun observeTemporaryShortcut(): Flow<Shortcut?> = queryFlow {
         shortcutDao().observeShortcutById(TEMPORARY_ID)
-            .mapNotNull { it.firstOrNull() }
+            .map { it.firstOrNull() }
     }
 
     suspend fun createNewTemporaryShortcut(initialIcon: ShortcutIcon, executionType: ShortcutExecutionType, categoryId: CategoryId) = query {

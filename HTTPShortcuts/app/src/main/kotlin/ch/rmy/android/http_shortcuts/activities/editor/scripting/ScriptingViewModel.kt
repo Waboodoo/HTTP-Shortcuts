@@ -50,7 +50,11 @@ constructor(
         }
 
     override suspend fun initialize(data: InitData): ScriptingViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         val historyState = withContext(Dispatchers.Default) {
             HistoryState(
                 codeOnPrepare = codeTransformer.transformForEditing(shortcut.codeOnPrepare),

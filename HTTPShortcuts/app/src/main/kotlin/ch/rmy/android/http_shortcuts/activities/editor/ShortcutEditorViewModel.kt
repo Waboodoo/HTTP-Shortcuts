@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.editor
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
+import ch.rmy.android.framework.extensions.awaitNonNull
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.toLocalizable
@@ -55,6 +56,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -105,8 +107,10 @@ constructor(
                     categoryId = data.categoryId,
                 )
             }
-            else -> {
+            else -> try {
                 shortcutRepository.createTemporaryShortcutFromShortcut(data.shortcutId)
+            } catch (_: NoSuchElementException) {
+                terminateInitialization()
             }
         }
         data.curlCommandId
@@ -118,7 +122,7 @@ constructor(
             }
 
         val shortcutFlow = temporaryShortcutRepository.observeTemporaryShortcut()
-        this.shortcut = shortcutFlow.first()
+        this.shortcut = shortcutFlow.awaitNonNull()
         oldShortcut = this.shortcut
 
         val headersFlow = requestHeaderRepository.observeRequestHeaders(TEMPORARY_ID)
@@ -138,7 +142,14 @@ constructor(
         }
 
         viewModelScope.launch {
-            combine(shortcutFlow, headersFlow, parametersFlow, isSaving) { shortcut, headers, parameters, isSaving ->
+            shortcutFlow.first { it == null }
+            if (!isFinishing) {
+                closeScreen()
+            }
+        }
+
+        viewModelScope.launch {
+            combine(shortcutFlow.filterNotNull(), headersFlow, parametersFlow, isSaving) { shortcut, headers, parameters, isSaving ->
                 this@ShortcutEditorViewModel.shortcut = shortcut
                 this@ShortcutEditorViewModel.headers = headers
                 this@ShortcutEditorViewModel.parameters = parameters
@@ -194,7 +205,7 @@ constructor(
             ShortcutExecutionType.BROWSER -> isAcceptableUrl(shortcut.url)
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
-            -> shortcut.codeOnPrepare.isNotEmpty()
+                -> shortcut.codeOnPrepare.isNotEmpty()
             ShortcutExecutionType.MQTT -> hasUrl()
             ShortcutExecutionType.WAKE_ON_LAN -> shortcut.wolMacAddress.isNotEmpty()
         }
@@ -212,7 +223,7 @@ constructor(
     private fun getBasicSettingsSubtitle(): Localizable =
         when (shortcut.executionType) {
             ShortcutExecutionType.HTTP,
-            -> {
+                -> {
                 if (!hasUrl()) {
                     StringResLocalizable(R.string.subtitle_basic_request_settings_prompt)
                 } else {
@@ -242,7 +253,7 @@ constructor(
             }
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
-            -> Localizable.EMPTY
+                -> Localizable.EMPTY
         }
 
     private fun hasUrl() =
@@ -262,7 +273,7 @@ constructor(
             when (shortcut.requestBodyType) {
                 RequestBodyType.FORM_DATA,
                 RequestBodyType.X_WWW_FORM_URLENCODE,
-                -> {
+                    -> {
                     val count = parameters.size
                     if (count == 0) {
                         StringResLocalizable(R.string.subtitle_request_body_params_none)
@@ -334,10 +345,10 @@ constructor(
                 ShortcutExecutionType.BROWSER,
                 ShortcutExecutionType.MQTT,
                 ShortcutExecutionType.WAKE_ON_LAN,
-                -> R.string.label_scripting_browser_shortcuts_subtitle
+                    -> R.string.label_scripting_browser_shortcuts_subtitle
                 ShortcutExecutionType.HTTP,
                 ShortcutExecutionType.TRIGGER,
-                -> R.string.label_scripting_subtitle
+                    -> R.string.label_scripting_subtitle
             },
         )
 
@@ -445,7 +456,7 @@ constructor(
             }
             ShortcutExecutionType.SCRIPTING,
             ShortcutExecutionType.TRIGGER,
-            -> Unit
+                -> Unit
         }
 
         save()

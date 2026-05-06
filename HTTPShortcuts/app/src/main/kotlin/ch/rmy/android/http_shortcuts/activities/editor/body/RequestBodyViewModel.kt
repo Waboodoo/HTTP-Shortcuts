@@ -42,7 +42,11 @@ constructor(
     private var workingDirectoriesById: Map<WorkingDirectoryId, WorkingDirectory> = emptyMap()
 
     override suspend fun initialize(data: Unit): RequestBodyViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         workingDirectoriesById = workingDirectoryRepository.getWorkingDirectories().associateBy { it.id }
         val directoryName = shortcut.fileUploadSourceDirectoryId
             ?.let { id ->

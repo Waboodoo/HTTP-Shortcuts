@@ -18,7 +18,11 @@ constructor(
 ) : BaseViewModel<Unit, ResponseDisplayViewState>(application) {
 
     override suspend fun initialize(data: Unit): ResponseDisplayViewState {
-        val shortcut = temporaryShortcutRepository.getTemporaryShortcut()
+        val shortcut = try {
+            temporaryShortcutRepository.getTemporaryShortcut()
+        } catch (_: NoSuchElementException) {
+            terminateInitialization()
+        }
         return ResponseDisplayViewState(
             responseUiType = shortcut.responseUiType,
             responseSuccessOutput = shortcut.responseSuccessOutput,
