@@ -57,13 +57,16 @@ constructor() : Action<SendTCPPacketAction.Params> {
                                     .readLine()
                             }
                             else -> throw ActionException {
-                                "Unknown read mode: $readMode"
+                                "Unknown read mode, only 'text' and 'line' are supported but got: $readMode"
                             }
                         }
                     } catch (e: Exception) {
                         if (timeoutReached) {
                             writer.toString()
                         } else {
+                            if (e is ActionException) {
+                                throw e
+                            }
                             logException(e)
                             throw ActionException {
                                 getString(R.string.error_failed_to_receive_tcp, e.message ?: e.toString())
