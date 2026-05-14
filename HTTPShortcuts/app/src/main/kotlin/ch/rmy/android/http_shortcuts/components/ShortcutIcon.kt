@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -74,8 +75,8 @@ fun ShortcutIcon(
                 ?.luminance()
                 ?: return@withContext null
             when {
-                iconLuminance > 0.9f && !isDarkMode -> Color.Black.copy(alpha = 0.7f)
-                iconLuminance < 0.1f && isDarkMode -> Color.White.copy(alpha = 0.9f)
+                iconLuminance > 0.75f && !isDarkMode -> Color.Black.copy(alpha = 0.7f)
+                iconLuminance < 0.07f && isDarkMode -> Color.White.copy(alpha = 0.9f)
                 else -> null
             }
         }
@@ -88,7 +89,9 @@ fun ShortcutIcon(
             clip(CircleShape)
         }
         .runIfNotNull(background) { background ->
-            background(background, shape = RoundedCornerShape(percent = 25))
+            val offset = size * 0.05f
+            background(background, shape = RoundedCornerShape(percent = 30))
+                .padding(offset)
         }
         .aspectRatio(1f)
 
