@@ -1,3 +1,15 @@
+## Version 4.5.0
+
+### Improvements
+- The progress of long-running HTTP uploads is shown as a progress spinner or as a progress bar in the notification when running in the background
+- Single-color icons are now displayed with a background color inside the app if the contrast is too low
+
+### Bugfixes
+- Fixed icon background color being computed incorrectly for fully black icons
+- Fixed a crash that could happen when the loading of Material Icons failed
+- Fixed some rare crashes and edge-cases where the shortcut editor would close unexpectedly or stay in an invalid state after saving
+- Potentially fixed widgets not loading on certain devices
+
 ## Version 4.4.1
 
 ### Bugfixes
