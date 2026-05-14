@@ -87,12 +87,21 @@ class ExecuteActivity : BaseComposeActivity() {
         var showProgressSpinner by remember {
             mutableStateOf(false)
         }
+        var ignoreProgress by remember {
+            mutableStateOf(false)
+        }
         LaunchedEffect(viewState?.progressSpinnerVisible == true) {
             showProgressSpinner = if (viewState?.progressSpinnerVisible == true) {
                 delay(400.milliseconds)
                 true
             } else {
                 false
+            }
+        }
+        if (viewState?.progress == 1f) {
+            LaunchedEffect(Unit) {
+                delay(500.milliseconds)
+                ignoreProgress = true
             }
         }
 
@@ -102,7 +111,7 @@ class ExecuteActivity : BaseComposeActivity() {
 
         if (showProgressSpinner && viewState?.dialogState == null) {
             ProgressDialog(
-                progress = viewState?.progress,
+                progress = viewState?.takeUnless { ignoreProgress }?.progress,
                 onDismissRequest = {
                     finishWithoutAnimation()
                 },
