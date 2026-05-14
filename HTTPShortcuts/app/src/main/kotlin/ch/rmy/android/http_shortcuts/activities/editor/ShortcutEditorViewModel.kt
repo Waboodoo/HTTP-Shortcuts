@@ -143,7 +143,7 @@ constructor(
 
         viewModelScope.launch {
             shortcutFlow.first { it == null }
-            if (!isFinishing) {
+            if (!isFinishing && !isSaving.value) {
                 closeScreen()
             }
         }
