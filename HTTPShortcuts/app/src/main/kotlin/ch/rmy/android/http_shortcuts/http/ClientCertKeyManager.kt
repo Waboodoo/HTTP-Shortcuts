@@ -32,10 +32,9 @@ class ClientCertKeyManager(
     companion object {
         fun getClientCertKeyManager(context: Context, alias: String): ClientCertKeyManager {
             val certChain = KeyChain.getCertificateChain(context, alias)
+                ?: throw CertificateException("Can't access certificate from keystore, certificate chain not found for alias")
             val privateKey = KeyChain.getPrivateKey(context, alias)
-            if (certChain == null || privateKey == null) {
-                throw CertificateException("Can't access certificate from keystore")
-            }
+                ?: throw CertificateException("Can't access certificate from keystore, private key not found for alias")
             return ClientCertKeyManager(alias, certChain, privateKey)
         }
     }
