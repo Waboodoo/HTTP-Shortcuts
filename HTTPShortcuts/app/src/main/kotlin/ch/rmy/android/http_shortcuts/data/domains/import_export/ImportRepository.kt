@@ -255,7 +255,7 @@ constructor(
                 secondaryLauncherShortcut = shortcut.secondaryLauncherShortcut == true,
                 quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut == true,
                 delay = shortcut.delay ?: 0,
-                repetitionInterval = shortcut.repetitionInterval,
+                repetitionInterval = shortcut.repetitionInterval?.takeIf { it > 0 },
                 contentType = shortcut.contentType ?: "",
                 fileUploadType = shortcut.fileUploadOptions
                     ?.fileUploadType

@@ -15,6 +15,9 @@ constructor(
 ) {
     operator fun invoke(triggeredAt: Instant, interval: Duration): Instant {
         val now = now()
+        if (interval <= Duration.ZERO) {
+            return now + 5.minutes
+        }
         val elapsedMinutes = (now - triggeredAt).inWholeMinutes.coerceAtLeast(0)
         var nextTime = triggeredAt + interval * ((elapsedMinutes / interval.inWholeMinutes) + 1).toInt()
         if (nextTime - now < interval * 0.2) {
