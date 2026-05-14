@@ -280,7 +280,7 @@ class Execution(
 
         val fileUploadResult = handleFiles(loadMetaData = usesScripting)
 
-        emit(ExecutionStatus.InProgress(variableManager.getVariableValues()))
+        emit(ExecutionStatus.Started(variableManager.getVariableValues()))
 
         val resultHandler = ResultHandler()
 

@@ -36,6 +36,7 @@ class RequestBuilder(private val method: String, url: String) {
     private var contentType: String? = null
     private var userAgent: String? = null
     private val parameters = mutableListOf<Parameter>()
+    private var progressTracker: ProgressTracker? = null
 
     fun basicAuth(username: String, password: String) = also {
         requestBuilder.addHeader(HttpHeaders.AUTHORIZATION, Credentials.basic(username, password, UTF_8))
@@ -44,7 +45,7 @@ class RequestBuilder(private val method: String, url: String) {
     fun bearerAuth(authToken: String) = also {
         try {
             requestBuilder.addHeader(HttpHeaders.AUTHORIZATION, "Bearer $authToken")
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             throw InvalidBearerAuthException(authToken)
         }
     }
@@ -83,7 +84,7 @@ class RequestBuilder(private val method: String, url: String) {
     fun header(name: String, value: String) = also {
         try {
             requestBuilder.addHeader(name, value)
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             throw InvalidHeaderException("$name: $value")
         }
         when {
@@ -104,12 +105,24 @@ class RequestBuilder(private val method: String, url: String) {
         this.contentType = contentType
     }
 
+    fun withProgressTracker(progressTracker: ProgressTracker?) {
+        this.progressTracker = progressTracker
+    }
+
     fun build(): Request = requestBuilder
         .run {
             method(
                 method,
                 if (HttpMethod.permitsRequestBody(method)) {
                     getBody()
+                        .runIfNotNull(progressTracker) { progressTracker ->
+                            ProgressRequestBody(
+                                delegate = this,
+                                onUploadProgress = { progress ->
+                                    progressTracker.onProgress(progress)
+                                },
+                            )
+                        }
                 } else {
                     null
                 },

@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.execute.models
 
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
+import ch.rmy.android.http_shortcuts.http.UploadProgress
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import java.io.IOException
 
@@ -8,9 +9,13 @@ sealed interface ExecutionStatus {
 
     data object Preparing : ExecutionStatus
 
-    data class InProgress(
+    data class Started(
         override val variableValues: ResolvedVariableValues,
     ) : ExecutionStatus, WithVariables
+
+    data class ProgressUpdate(
+        val progress: UploadProgress,
+    ) : ExecutionStatus
 
     data class WrappingUp(
         override val variableValues: ResolvedVariableValues,

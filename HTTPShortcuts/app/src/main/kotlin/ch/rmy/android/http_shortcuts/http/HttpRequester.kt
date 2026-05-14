@@ -72,6 +72,7 @@ constructor(
         useCookieJar: Boolean = false,
         certificatePins: List<CertificatePin>,
         validateRequestData: suspend (RequestData) -> Unit = {},
+        progressTracker: ProgressTracker? = null,
     ): ShortcutResponse =
         withContext(Dispatchers.IO) {
             val responseFileStorage = responseFileStorageFactory.create(sessionId, storeDirectoryUri)
@@ -101,6 +102,7 @@ constructor(
                     fileUploadResult = fileUploadResult,
                     cookieJar = cookieJar,
                     certificatePins = certificatePins,
+                    progressTracker = progressTracker,
                 )
             } catch (e: UnknownHostException) {
                 ensureActive()
@@ -129,6 +131,7 @@ constructor(
                         fileUploadResult = fileUploadResult,
                         cookieJar = cookieJar,
                         certificatePins = certificatePins,
+                        progressTracker = progressTracker,
                     )
                 } else {
                     throw e
@@ -172,6 +175,7 @@ constructor(
         fileUploadResult: FileUploadManager.Result? = null,
         cookieJar: CookieJar? = null,
         certificatePins: List<CertificatePin>,
+        progressTracker: ProgressTracker?,
     ): ShortcutResponse =
         suspendCancellableCoroutine { continuation ->
             val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST
@@ -216,19 +220,26 @@ constructor(
                         Variables.rawPlaceholdersToResolvedValues(header.value, variablesValues),
                     )
                 }
-                if (shortcut.authenticationType == ShortcutAuthenticationType.BASIC) {
-                    basicAuth(requestData.username, requestData.password)
-                } else if (shortcut.authenticationType == ShortcutAuthenticationType.BEARER) {
-                    bearerAuth(requestData.authToken)
-                } else if (shortcut.authenticationType == null) {
-                    requestData.uri.userInfo
-                        ?.takeUnlessEmpty()
-                        ?.split(':')
-                        ?.takeIf { it.size == 2 }
-                        ?.let { (username, password) ->
-                            basicAuth(username, password)
-                        }
+                when (shortcut.authenticationType) {
+                    ShortcutAuthenticationType.BASIC -> {
+                        basicAuth(requestData.username, requestData.password)
+                    }
+                    ShortcutAuthenticationType.BEARER -> {
+                        bearerAuth(requestData.authToken)
+                    }
+                    ShortcutAuthenticationType.DIGEST,
+                    null,
+                    -> {
+                        requestData.uri.userInfo
+                            ?.takeUnlessEmpty()
+                            ?.split(':')
+                            ?.takeIf { it.size == 2 }
+                            ?.let { (username, password) ->
+                                basicAuth(username, password)
+                            }
+                    }
                 }
+                withProgressTracker(progressTracker)
             }
 
             if (shortcut.shouldIncludeInHistory()) {

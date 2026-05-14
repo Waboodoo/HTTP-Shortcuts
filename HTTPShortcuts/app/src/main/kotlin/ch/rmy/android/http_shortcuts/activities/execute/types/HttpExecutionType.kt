@@ -40,6 +40,7 @@ import ch.rmy.android.http_shortcuts.http.ErrorResponse
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.http.HttpRequester
 import ch.rmy.android.http_shortcuts.http.HttpRequesterWorker
+import ch.rmy.android.http_shortcuts.http.ProgressTracker
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
@@ -56,12 +57,17 @@ import java.io.IOException
 import java.net.UnknownHostException
 import javax.inject.Inject
 import kotlin.math.pow
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.sample
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@OptIn(FlowPreview::class)
 class HttpExecutionType
 @Inject
 constructor(
@@ -93,7 +99,7 @@ constructor(
         fileUploadResult: FileUploadManager.Result?,
         dialogHandle: DialogHandle,
         scriptExecutor: ScriptExecutor,
-    ): Flow<ExecutionStatus> = flow {
+    ): Flow<ExecutionStatus> = callbackFlow {
         val sessionId = "${shortcut.id}_${newUUID()}"
         if ((params.recursionDepth == 0 || params.trigger == SCHEDULE_IMMEDIATELY) &&
             checkHeadlessExecution(
@@ -110,7 +116,8 @@ constructor(
                     variableValues = variableManager.getVariableValues(),
                     fileUploadResult = fileUploadResult,
                 )
-                return@flow
+                close()
+                return@callbackFlow
             } catch (e: Throwable) {
                 if (e !is IllegalStateException || e.message?.contains("Data cannot occupy more than ") != true) {
                     logException(e)
@@ -124,6 +131,15 @@ constructor(
             } catch (_: NoSuchElementException) {
                 null
             }
+        }
+
+        val progressTracker = ProgressTracker()
+        launch {
+            progressTracker.observeProgress()
+                .sample(300.milliseconds)
+                .collect { progress ->
+                    channel.send(ExecutionStatus.ProgressUpdate(progress))
+                }
         }
 
         val response = try {
@@ -143,6 +159,7 @@ constructor(
                         validateRequestData = { requestData ->
                             validateRequestData(dialogHandle, shortcut, requestData)
                         },
+                        progressTracker = progressTracker,
                     )
             } catch (e: UnknownHostException) {
                 if (shouldReschedule(shortcut, e)) {
@@ -159,7 +176,8 @@ constructor(
                     }
                     rescheduleExecution(shortcut, params, variableManager)
                     executionScheduler.schedule()
-                    return@flow
+                    close()
+                    return@callbackFlow
                 }
                 throw e
             }
@@ -188,8 +206,7 @@ constructor(
                     }
                     else -> Unit
                 }
-
-                emit(
+                channel.send(
                     ExecutionStatus.CompletedWithError(
                         error = e as? IOException,
                         response = (e as? ErrorResponse)?.shortcutResponse,
@@ -197,7 +214,8 @@ constructor(
                         result = resultHandler.getResult(),
                     ),
                 )
-                return@flow
+                close()
+                return@callbackFlow
             }
             throw e
         }
@@ -232,7 +250,7 @@ constructor(
                 else -> Unit
             }
 
-            emit(
+            channel.send(
                 ExecutionStatus.CompletedWithError(
                     error = null,
                     response = response,
@@ -240,7 +258,8 @@ constructor(
                     result = resultHandler.getResult(),
                 ),
             )
-            return@flow
+            close()
+            return@callbackFlow
         }
 
         if (shortcut.responseStoreDirectoryId != null && response.contentFile != null) {
@@ -252,7 +271,7 @@ constructor(
             }
         }
 
-        emit(
+        channel.send(
             ExecutionStatus.WrappingUp(
                 variableManager.getVariableValues(),
                 result = resultHandler.getResult(),
@@ -266,13 +285,14 @@ constructor(
             variableManager = variableManager,
         )
         logInfo("Execution completed successfully (${params.shortcutId})")
-        emit(
+        channel.send(
             ExecutionStatus.CompletedSuccessfully(
                 response = response,
                 variableValues = variableManager.getVariableValues(),
                 result = resultHandler.getResult(),
             ),
         )
+        close()
     }
 
     private fun generateOutputFromError(

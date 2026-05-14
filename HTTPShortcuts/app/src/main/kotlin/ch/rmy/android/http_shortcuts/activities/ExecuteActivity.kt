@@ -102,6 +102,7 @@ class ExecuteActivity : BaseComposeActivity() {
 
         if (showProgressSpinner && viewState?.dialogState == null) {
             ProgressDialog(
+                progress = viewState?.progress,
                 onDismissRequest = {
                     finishWithoutAnimation()
                 },

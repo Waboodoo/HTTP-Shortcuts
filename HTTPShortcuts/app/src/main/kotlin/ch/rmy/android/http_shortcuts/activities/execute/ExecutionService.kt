@@ -12,13 +12,17 @@ import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity.Companion.toExecutionParams
+import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.activities.misc.host.HostActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.http.UploadProgress
 import ch.rmy.android.http_shortcuts.notifications.NotificationChannelIds
 import ch.rmy.android.http_shortcuts.notifications.NotificationChannelManager
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -47,10 +51,13 @@ class ExecutionService : LifecycleService() {
     private val activeExecutions = AtomicInteger()
     private val activeShortcuts = ConcurrentHashMap<String, Shortcut>()
 
+    private var channelsCreated = false
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
         val params = intent!!.toExecutionParams()
         val invocationId = UUIDUtils.newUUID()
+        logInfo("ExecutionService: onStartCommand")
         lifecycleScope.launch {
             activeExecutions.incrementAndGet()
             val foregroundJob = launch {
@@ -80,7 +87,11 @@ class ExecutionService : LifecycleService() {
 
             try {
                 val execution = executionFactory.createExecution(params, dialogHandler)
-                execution.execute().collect()
+                execution.execute().collect { status ->
+                    if (status is ExecutionStatus.ProgressUpdate) {
+                        startOrUpdateForegroundService(status.progress)
+                    }
+                }
                 logInfo("ExecutionService finished")
             } catch (_: CancellationException) {
                 // Nothing to do here
@@ -93,6 +104,7 @@ class ExecutionService : LifecycleService() {
             }
             if (activeExecutions.decrementAndGet() == 0) {
                 activeShortcuts.clear()
+                ServiceCompat.stopForeground(this@ExecutionService, ServiceCompat.STOP_FOREGROUND_REMOVE)
                 stopSelf()
             } else {
                 startOrUpdateForegroundService()
@@ -101,12 +113,15 @@ class ExecutionService : LifecycleService() {
         return START_NOT_STICKY
     }
 
-    private fun startOrUpdateForegroundService() {
-        notificationChannelManager.createChannels()
+    private fun startOrUpdateForegroundService(progress: UploadProgress? = null) {
+        if (!channelsCreated) {
+            notificationChannelManager.createChannels()
+            channelsCreated = true
+        }
         ServiceCompat.startForeground(
             this,
             NOTIFICATION_ID,
-            buildNotification(),
+            buildNotification(progress),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 ServiceInfo.FOREGROUND_SERVICE_TYPE_SHORT_SERVICE
             } else {
@@ -115,7 +130,7 @@ class ExecutionService : LifecycleService() {
         )
     }
 
-    private fun buildNotification(): Notification {
+    private fun buildNotification(progress: UploadProgress?): Notification {
         val activeShortcuts = activeShortcuts.values
         val shortcut = activeShortcuts.firstOrNull()
             ?.takeIf { first -> activeShortcuts.all { it.id == first.id } }
@@ -131,6 +146,11 @@ class ExecutionService : LifecycleService() {
             .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_DEFERRED)
             .setLocalOnly(true)
             .setShowWhen(false)
+            .runIfNotNull(progress) { progress ->
+                runIf(counter == 1) {
+                    setProgress(1000, (progress.progress * 1000).toInt(), false)
+                }
+            }
             .setContentIntent(
                 // TODO(???): What should happen when the notification is clicked? Should there be a way to cancel execution?
                 MainActivity.IntentBuilder()

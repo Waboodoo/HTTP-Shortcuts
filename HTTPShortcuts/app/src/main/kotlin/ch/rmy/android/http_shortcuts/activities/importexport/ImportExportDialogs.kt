@@ -21,7 +21,7 @@ fun ImportExportDialog(
             MessageDialog(dialogState.message.localize(), onDismissRequest = onDismissRequest)
         }
         is ImportExportDialogState.Progress -> {
-            ProgressDialog(dialogState.text.localize(), onDismissRequest)
+            ProgressDialog(dialogState.text.localize(), onDismissRequest = onDismissRequest)
         }
         is ImportExportDialogState.ImportFromUrl -> {
             ImportFromUrlDialog(dialogState.initialValue, onImportFromUrl, onDismissRequest)

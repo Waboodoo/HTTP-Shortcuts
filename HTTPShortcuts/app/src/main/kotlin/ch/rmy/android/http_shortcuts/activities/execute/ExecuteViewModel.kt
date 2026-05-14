@@ -72,14 +72,25 @@ constructor(
         try {
             execution.execute().collect { status ->
                 when (status) {
-                    is ExecutionStatus.InProgress -> {
+                    is ExecutionStatus.Started -> {
                         updateViewState {
                             copy(executionInProgress = true)
                         }
                     }
+                    is ExecutionStatus.ProgressUpdate -> {
+                        updateViewState {
+                            copy(
+                                executionInProgress = true,
+                                progress = status.progress.progress,
+                            )
+                        }
+                    }
                     is ExecutionStatus.WrappingUp -> {
                         updateViewState {
-                            copy(executionInProgress = false)
+                            copy(
+                                executionInProgress = false,
+                                progress = null,
+                            )
                         }
                     }
                     else -> Unit

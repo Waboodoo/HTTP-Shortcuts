@@ -21,7 +21,6 @@ import ch.rmy.android.scripting.ScriptingEngine
 import java.time.Instant
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.coroutines.withContext
 
 class ExecuteShortcutAction
@@ -65,10 +64,21 @@ constructor(
             dialogHandle = executionContext.dialogHandle,
         )
 
-        val finalStatus = try {
+        var finalVariableValues: ResolvedVariableValues? = null
+        var finalStatus: ExecutionStatus? = null
+
+        try {
             withContext(Dispatchers.Main) {
                 execution.execute()
-            }.lastOrNull()
+            }
+                .collect { status ->
+                    if (status !is ExecutionStatus.ProgressUpdate) {
+                        finalStatus = status
+                    }
+                    if (status is ExecutionStatus.WithVariables) {
+                        finalVariableValues = status.variableValues
+                    }
+                }
         } catch (e: UserAbortException) {
             if (e.abortAll) {
                 throw e
@@ -83,7 +93,7 @@ constructor(
             }
         }
 
-        (finalStatus as? ExecutionStatus.WithVariables)?.variableValues?.let {
+        finalVariableValues?.let {
             executionContext.variableManager.storeVariableValues(it)
         }
 

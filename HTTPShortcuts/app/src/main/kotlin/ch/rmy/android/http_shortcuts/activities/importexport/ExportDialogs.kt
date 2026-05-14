@@ -20,7 +20,7 @@ fun ExportDialog(
             MessageDialog(dialogState.message.localize(), onDismissRequest = onDismissRequest)
         }
         is ExportDialogState.Progress -> {
-            ProgressDialog(dialogState.text.localize(), onDismissRequest)
+            ProgressDialog(dialogState.text.localize(), onDismissRequest = onDismissRequest)
         }
         is ExportDialogState.ExportPasswordPrompt -> {
             ExportPasswordDialog(

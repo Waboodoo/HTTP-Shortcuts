@@ -6,6 +6,7 @@ import androidx.compose.runtime.Stable
 data class ExecuteViewState(
     val dialogState: ExecuteDialogState<*>? = null,
     val executionInProgress: Boolean = false,
+    val progress: Float? = null,
 ) {
     val progressSpinnerVisible: Boolean
         get() = executionInProgress && dialogState == null
