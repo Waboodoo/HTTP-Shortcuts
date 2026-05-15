@@ -4,7 +4,9 @@ import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.RemoteViews
 import androidx.core.util.TypedValueCompat
 import ch.rmy.android.http_shortcuts.R
@@ -15,10 +17,10 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableReposi
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.domains.widgets.VariableWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.VariableWidget
 import javax.inject.Inject
-import kotlin.text.toInt
 
 class VariableWidgetManager
 @Inject
@@ -32,9 +34,10 @@ constructor(
         globalVariableId: GlobalVariableId,
         fontSize: Int,
         title: String,
+        background: WidgetBackgroundType?,
         shortcutId: ShortcutId?,
     ) {
-        variableWidgetsRepository.createOrUpdateVariableWidget(widgetId, globalVariableId, fontSize, title, shortcutId)
+        variableWidgetsRepository.createOrUpdateVariableWidget(widgetId, globalVariableId, fontSize, title, background, shortcutId)
     }
 
     suspend fun updateAllWidgets() {
@@ -83,6 +86,23 @@ constructor(
                 views.setOnClickPendingIntent(
                     R.id.widget_base,
                     PendingIntent.getBroadcast(context, variableWidget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE),
+                )
+            }
+
+            val background = variableWidget.background
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && background is WidgetBackgroundType.Color) {
+                views.setColorIntSafely(
+                    clazz = FrameLayout::class.java,
+                    id = R.id.widget_container,
+                    methodName = "setBackgroundColor",
+                    value = background.color,
+                )
+            } else {
+                views.setIntSafely(
+                    clazz = FrameLayout::class.java,
+                    id = R.id.widget_container,
+                    methodName = "setBackgroundResource",
+                    value = R.drawable.variable_widget_background,
                 )
             }
 

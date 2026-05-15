@@ -1,6 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.variablewidget
 
+import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,10 +18,20 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,12 +40,16 @@ import androidx.compose.ui.unit.sp
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.variablewidget.models.SelectableShortcut
 import ch.rmy.android.http_shortcuts.activities.variablewidget.models.SelectableVariable
+import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
+import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
+
+private const val BACKGROUND_TYPE_COLOR = "color"
 
 @Composable
 fun VariableWidgetSettingsContent(
@@ -41,13 +58,34 @@ fun VariableWidgetSettingsContent(
     variableValue: String?,
     fontSize: Int,
     title: String,
+    background: WidgetBackgroundType?,
     shortcutId: ShortcutId?,
     shortcuts: List<SelectableShortcut>,
     onVariableSelected: (GlobalVariableId?) -> Unit,
     onFontSizeChanged: (Int) -> Unit,
     onTitleChanged: (String) -> Unit,
+    onBackgroundChanged: (WidgetBackgroundType?) -> Unit,
     onShortcutSelected: (ShortcutId?) -> Unit,
 ) {
+    var colorPickerInitialColor by remember {
+        mutableStateOf<Int?>(null)
+    }
+    colorPickerInitialColor?.let { initialColor ->
+        ColorPickerDialog(
+            initialColor = initialColor,
+            withAlpha = true,
+            onColorSelected = { color ->
+                onBackgroundChanged(
+                    WidgetBackgroundType.Color(color),
+                )
+                colorPickerInitialColor = null
+            },
+            onDismissRequested = {
+                colorPickerInitialColor = null
+            },
+        )
+    }
+
     if (variables.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -85,6 +123,7 @@ fun VariableWidgetSettingsContent(
                 value = variableValue,
                 fontSize = fontSize,
                 title = title,
+                background = background,
             )
         }
 
@@ -130,6 +169,47 @@ fun VariableWidgetSettingsContent(
 
         VerticalSpacer(Spacing.SMALL)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Spacing.MEDIUM),
+            ) {
+                BackgroundTypeSelection(
+                    backgroundType = when (background) {
+                        is WidgetBackgroundType.Color -> BACKGROUND_TYPE_COLOR
+                        else -> null
+                    },
+                    onBackgroundTypeSelected = { backgroundType ->
+                        onBackgroundChanged(
+                            if (backgroundType == BACKGROUND_TYPE_COLOR) {
+                                WidgetBackgroundType.Color(
+                                    color = (background as? WidgetBackgroundType.Color)?.color ?: Color.White.toArgb(),
+                                )
+                            } else {
+                                null
+                            },
+                        )
+                    },
+                )
+                AnimatedVisibility(visible = background is WidgetBackgroundType.Color) {
+                    Box(modifier = Modifier.padding(top = Spacing.SMALL)) {
+                        (background as? WidgetBackgroundType.Color)?.let { background ->
+                            BackgroundColorButton(
+                                background.color,
+                                background.getHexString(),
+                                onColorButtonClicked = {
+                                    colorPickerInitialColor = Color(background.color).copy(alpha = 1f).toArgb()
+                                },
+                            )
+                        }
+                    }
+                }
+            }
+
+            VerticalSpacer(Spacing.SMALL)
+        }
+
         SelectionField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -154,12 +234,16 @@ private fun WidgetPreview(
     value: String?,
     fontSize: Int,
     title: String,
+    background: WidgetBackgroundType?,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = colorResource(R.color.variable_widget_background),
+                color = when (background) {
+                    is WidgetBackgroundType.Color -> Color(background.color)
+                    null -> colorResource(R.color.variable_widget_background)
+                },
                 shape = RoundedCornerShape(8.dp),
             )
             .padding(
@@ -216,6 +300,52 @@ private fun FontSizeSelection(
     )
 }
 
+@Composable
+private fun BackgroundTypeSelection(
+    backgroundType: String?,
+    onBackgroundTypeSelected: (String?) -> Unit,
+) {
+    SelectionField(
+        title = stringResource(R.string.label_category_background),
+        selectedKey = backgroundType,
+        items = listOf(
+            null to stringResource(R.string.category_background_type_default),
+            "color" to stringResource(R.string.category_background_type_color),
+        ),
+        onItemSelected = onBackgroundTypeSelected,
+    )
+}
+
+@Composable
+private fun BackgroundColorButton(
+    backgroundColor: Int,
+    backgroundColorAsText: String,
+    onColorButtonClicked: () -> Unit,
+) {
+    val textStyle = TextStyle(
+        fontSize = FontSize.MEDIUM,
+        fontFamily = FontFamily.Monospace,
+        color = Color.White,
+        shadow = Shadow(
+            Color.Black.copy(0.8f),
+            offset = Offset(3f, 3f),
+            blurRadius = 3f,
+        ),
+    )
+
+    Text(
+        text = backgroundColorAsText,
+        style = textStyle,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(backgroundColor))
+            .clickable {
+                onColorButtonClicked()
+            }
+            .padding(Spacing.SMALL),
+    )
+}
+
 private val FONT_SIZES = listOf(
     8 to R.string.font_size_tiny,
     12 to R.string.font_size_very_small,
@@ -237,6 +367,7 @@ private fun WidgetPreview_Preview() {
         value = "Hello World",
         fontSize = 20,
         title = "",
+        background = null,
     )
 }
 
@@ -247,5 +378,17 @@ private fun WidgetPreview_WithTitle_Preview() {
         value = "Hello World",
         fontSize = 20,
         title = "My Widget",
+        background = null,
+    )
+}
+
+@Preview
+@Composable
+private fun WidgetPreview_WithTitleAndBackground_Preview() {
+    WidgetPreview(
+        value = "Hello World",
+        fontSize = 20,
+        title = "My Widget",
+        background = WidgetBackgroundType.Color(Color.White.toArgb()),
     )
 }

@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SyncSchedule
 import ch.rmy.android.http_shortcuts.data.enums.SyncTargetType
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.nio.charset.Charset
 import java.time.Instant
@@ -255,4 +256,12 @@ class Converters {
     @TypeConverter
     fun serializeSyncSchedule(syncSchedule: SyncSchedule) =
         syncSchedule.value
+
+    @TypeConverter
+    fun deserializeWidgetBackgroundType(value: String?): WidgetBackgroundType? =
+        value?.let { WidgetBackgroundType.parse(it) }
+
+    @TypeConverter
+    fun serializeWidgetBackgroundType(widgetBackgroundType: WidgetBackgroundType) =
+        widgetBackgroundType.serialize()
 }

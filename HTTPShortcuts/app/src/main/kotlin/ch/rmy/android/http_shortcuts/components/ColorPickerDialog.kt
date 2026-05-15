@@ -50,6 +50,7 @@ private val UNSUPPORTED_CHARACTERS_REGEX = "[^A-Fa-f0-9]".toRegex()
 fun ColorPickerDialog(
     initialColor: Int? = null,
     title: String? = null,
+    withAlpha: Boolean = false,
     onColorSelected: (Int) -> Unit,
     extraContent: @Composable ColumnScope.(Int) -> Unit = {},
     onDismissRequested: () -> Unit,
@@ -97,6 +98,7 @@ fun ColorPickerDialog(
             ) {
                 ColorPicker(
                     color = color,
+                    withAlpha = withAlpha,
                     onColorChanged = {
                         color = it
                     },

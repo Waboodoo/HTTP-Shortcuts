@@ -219,10 +219,10 @@ private fun BackgroundColorButton(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(backgroundColor))
-            .padding(Spacing.SMALL)
             .clickable {
                 onColorButtonClicked()
-            },
+            }
+            .padding(Spacing.SMALL),
     )
 }
 

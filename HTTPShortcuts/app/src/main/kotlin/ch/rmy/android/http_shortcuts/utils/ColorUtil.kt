@@ -15,4 +15,7 @@ object ColorUtil {
 
     fun Int.colorIntToHexString(): String =
         String.format("%06x", this and 0xffffff).uppercase()
+
+    fun Int.colorIntWithAlphaToHexString(): String =
+        String.format("%08x", this).uppercase()
 }

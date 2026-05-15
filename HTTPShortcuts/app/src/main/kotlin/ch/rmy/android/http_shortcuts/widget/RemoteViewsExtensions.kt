@@ -1,9 +1,12 @@
 package ch.rmy.android.http_shortcuts.widget
 
+import android.os.Build
 import android.widget.ImageView
 import android.widget.RemoteViews
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
 import ch.rmy.android.framework.extensions.tryOrLog
 import java.lang.reflect.Method
 
@@ -12,7 +15,7 @@ fun RemoteViews.setTextSize(@IdRes id: Int, fontSize: Float) {
 }
 
 fun RemoteViews.setLineHeight(@IdRes id: Int, lineHeightPx: Int) {
-    setTextViewIntSafely(TextView::class.java, id, "setLineHeight", lineHeightPx)
+    setIntSafely(TextView::class.java, id, "setLineHeight", lineHeightPx)
 }
 
 fun RemoteViews.setImageViewScaleX(@IdRes id: Int, scaleX: Float) {
@@ -32,11 +35,21 @@ private fun RemoteViews.setFloatSafely(clazz: Class<*>, @IdRes id: Int, methodNa
     }
 }
 
-private fun RemoteViews.setTextViewIntSafely(clazz: Class<*>, @IdRes id: Int, methodName: String, value: Int) {
+fun RemoteViews.setIntSafely(clazz: Class<*>, @IdRes id: Int, methodName: String, value: Int) {
     tryOrLog {
         val method = clazz.getMethod(methodName, Int::class.java)
         if (method.isRemoteViewMethod()) {
             setInt(id, methodName, value)
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.S)
+fun RemoteViews.setColorIntSafely(clazz: Class<*>, @IdRes id: Int, methodName: String, @ColorInt value: Int) {
+    tryOrLog {
+        val method = clazz.getMethod(methodName, Int::class.java)
+        if (method.isRemoteViewMethod()) {
+            setColorInt(id, methodName, value, value)
         }
     }
 }

@@ -93,6 +93,7 @@ fun MainScreen(
                     variableId = result.variableId,
                     fontSize = result.fontSize,
                     title = result.title,
+                    background = result.background,
                     shortcutId = result.shortcutId,
                 )
             }

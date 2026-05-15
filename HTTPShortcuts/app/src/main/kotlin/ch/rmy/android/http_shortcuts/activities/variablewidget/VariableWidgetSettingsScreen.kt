@@ -45,11 +45,13 @@ fun VariableWidgetSettingsScreen(
             variableValue = viewState.variableValue,
             fontSize = viewState.fontSize,
             title = viewState.title,
+            background = viewState.background,
             shortcutId = viewState.shortcutId,
             shortcuts = viewState.selectableShortcuts,
             onVariableSelected = viewModel::onVariableSelected,
             onFontSizeChanged = viewModel::onFontSizeChanged,
             onTitleChanged = viewModel::onTitleChanged,
+            onBackgroundChanged = viewModel::onBackgroundChanged,
             onShortcutSelected = viewModel::onShortcutSelected,
         )
     }

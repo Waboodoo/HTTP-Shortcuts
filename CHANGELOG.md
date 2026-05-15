@@ -4,6 +4,7 @@
 - The Scripting editor screens, as well as the request body editor screen when using JSON, now feature a set of buttons for inserting commonly used characters, such as curly brackets or quotation marks
 - The progress of long-running HTTP uploads is shown as a progress spinner or as a progress bar in the notification when running in the background
 - Single-color icons are now displayed with a background color inside the app if the contrast is too low
+- You can now customize the background color of the variable widget
 
 ### Bugfixes
 - Fixed icon background color being computed incorrectly for fully black icons

@@ -10,6 +10,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.VariableWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,6 +52,7 @@ constructor(
             variableValue = selectedVariable?.value,
             fontSize = widget?.fontSize ?: 22,
             title = widget?.title ?: "",
+            background = widget?.background,
             shortcutId = widget?.shortcutId,
             selectableShortcuts = selectableShortcuts,
         )
@@ -87,6 +89,14 @@ constructor(
         }
     }
 
+    fun onBackgroundChanged(background: WidgetBackgroundType?) = runAction {
+        updateViewState {
+            copy(
+                background = background,
+            )
+        }
+    }
+
     fun onShortcutSelected(shortcutId: ShortcutId?) = runAction {
         updateViewState {
             copy(
@@ -102,6 +112,7 @@ constructor(
                 variableId = variableId,
                 fontSize = viewState.fontSize,
                 title = viewState.title,
+                background = viewState.background,
                 shortcutId = viewState.shortcutId,
             ),
         )

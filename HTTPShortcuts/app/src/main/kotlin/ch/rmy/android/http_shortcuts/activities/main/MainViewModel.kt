@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableReposi
 import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
+import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
@@ -603,6 +604,7 @@ constructor(
         variableId: GlobalVariableId,
         fontSize: Int,
         title: String,
+        background: WidgetBackgroundType?,
         shortcutId: ShortcutId?,
     ) = runAction {
         logInfo("Variable widget settings submitted")
@@ -612,6 +614,7 @@ constructor(
             globalVariableId = variableId,
             fontSize = fontSize,
             title = title,
+            background = background,
             shortcutId = shortcutId,
         )
         variableWidgetManager.updateWidgets(variableId)

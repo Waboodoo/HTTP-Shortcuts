@@ -11,14 +11,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.NoOpUpdate
+import androidx.core.view.isVisible
 import ch.rmy.android.http_shortcuts.R
 import com.skydoves.colorpickerview.ColorPickerView
 import com.skydoves.colorpickerview.listeners.ColorListener
+import com.skydoves.colorpickerview.sliders.AlphaSlideBar
 import com.skydoves.colorpickerview.sliders.BrightnessSlideBar
 
 @Composable
 fun ColorPicker(
     color: Int,
+    withAlpha: Boolean = false,
     onColorChanged: (Int) -> Unit,
 ) {
     val context = LocalContext.current
@@ -30,6 +33,16 @@ fun ColorPicker(
     }
     val brightnessSliderBar = remember {
         view.findViewById<BrightnessSlideBar>(R.id.brightnessSlideBar)
+    }
+    val alphaSliderBar = if (withAlpha) {
+        remember {
+            view.findViewById<AlphaSlideBar>(R.id.alphaSlideBar)
+                .apply {
+                    isVisible = true
+                }
+        }
+    } else {
+        null
     }
     var applyColor by remember {
         mutableStateOf(true)
@@ -46,23 +59,28 @@ fun ColorPicker(
     AndroidView(
         factory = {
             colorPickerView.attachBrightnessSlider(brightnessSliderBar)
+            alphaSliderBar?.let {
+                colorPickerView.attachAlphaSlider(alphaSliderBar)
+            }
             colorPickerView.setInitialColor(color)
             var previousPureColor: Int = colorPickerView.pureColor
-            colorPickerView.setColorListener(object : ColorListener {
-                override fun onColorSelected(color: Int, fromUser: Boolean) {
-                    if (fromUser) {
-                        val selectedColor = if (color == Color.BLACK && colorPickerView.pureColor != previousPureColor) {
-                            colorPickerView.selectByHsvColor(colorPickerView.pureColor)
-                            colorPickerView.pureColor
-                        } else {
-                            color
+            colorPickerView.setColorListener(
+                object : ColorListener {
+                    override fun onColorSelected(color: Int, fromUser: Boolean) {
+                        if (fromUser) {
+                            val selectedColor = if (color == Color.BLACK && colorPickerView.pureColor != previousPureColor) {
+                                colorPickerView.selectByHsvColor(colorPickerView.pureColor)
+                                colorPickerView.pureColor
+                            } else {
+                                color
+                            }
+                            previousPureColor = colorPickerView.pureColor
+                            applyColor = false
+                            onColorChanged(selectedColor)
                         }
-                        previousPureColor = colorPickerView.pureColor
-                        applyColor = false
-                        onColorChanged(selectedColor)
                     }
-                }
-            })
+                },
+            )
             view
         },
         update = NoOpUpdate,

@@ -11,6 +11,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
+import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.io.Serializable
 
@@ -542,6 +543,7 @@ sealed interface NavigationDestination {
             val variableId: GlobalVariableId,
             val fontSize: Int,
             val title: String,
+            val background: WidgetBackgroundType?,
             val shortcutId: ShortcutId?,
         ) : Serializable
 
