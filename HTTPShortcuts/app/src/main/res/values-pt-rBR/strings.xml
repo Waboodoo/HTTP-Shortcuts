@@ -45,7 +45,9 @@
     <string name="label_include_meta_information">Mostrar Meta Information</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Permite o uso de JavaScript no corpo da resposta HTML exibida. Isso pode não funcionar em algumas páginas web.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">Exibe o texto usando uma fonte mono espaçada</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Adicionar na tela inicial</string>
@@ -54,9 +56,11 @@
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Executar</string>
     <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Selecionar</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Editar</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Gerenciar Sessões</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
     <string name="action_duplicate">Duplicar</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
