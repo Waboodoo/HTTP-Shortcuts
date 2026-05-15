@@ -34,7 +34,7 @@ private fun RemoteViews.setFloatSafely(clazz: Class<*>, @IdRes id: Int, methodNa
 
 private fun RemoteViews.setTextViewIntSafely(clazz: Class<*>, @IdRes id: Int, methodName: String, value: Int) {
     tryOrLog {
-        val method = clazz::class.java.getMethod(methodName, Int::class.java)
+        val method = clazz.getMethod(methodName, Int::class.java)
         if (method.isRemoteViewMethod()) {
             setInt(id, methodName, value)
         }
