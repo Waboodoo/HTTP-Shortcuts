@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "ch.rmy.android.scripting"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 26
