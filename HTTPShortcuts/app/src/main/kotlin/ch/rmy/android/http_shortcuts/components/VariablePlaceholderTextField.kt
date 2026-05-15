@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -200,6 +199,65 @@ fun VariablePlaceholderTextField(
     textFilter: (String) -> String = { it },
     transformation: AnnotatedString.Builder.(String) -> Unit = {},
 ) {
+    var textFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = value,
+                selection = TextRange(0),
+            ),
+        )
+    }
+    DisposableEffect(value) {
+        textFieldValue = textFieldValue.copy(text = value)
+        onDispose { }
+    }
+
+    VariablePlaceholderTextField(
+        savedStateHandle = savedStateHandle,
+        value = textFieldValue,
+        onValueChange = {
+            textFieldValue = it
+            onValueChange(it.text)
+        },
+        modifier = modifier,
+        allowOpeningVariableEditor = allowOpeningVariableEditor,
+        label = label,
+        placeholder = placeholder,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        textStyle = textStyle,
+        supportingText = supportingText,
+        isError = isError,
+        maxLength = maxLength,
+        maxLines = maxLines,
+        minLines = minLines,
+        singleLine = singleLine,
+        textFilter = textFilter,
+        transformation = transformation,
+    )
+}
+
+@Composable
+fun VariablePlaceholderTextField(
+    savedStateHandle: SavedStateHandle,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    allowOpeningVariableEditor: Boolean = true,
+    label: (@Composable () -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    textStyle: TextStyle = LocalTextStyle.current,
+    supportingText: @Composable (() -> Unit)? = null,
+    isError: Boolean = false,
+    maxLength: Int = Int.MAX_VALUE,
+    maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
+    singleLine: Boolean = false,
+    textFilter: (String) -> String = { it },
+    transformation: AnnotatedString.Builder.(String) -> Unit = {},
+) {
     val viewModel = hiltViewModel<VariablePlaceholderViewModel>()
     val placeholders by viewModel.variablePlaceholders.collectAsStateWithLifecycle()
     val focusRequester = remember {
@@ -224,22 +282,7 @@ fun VariablePlaceholderTextField(
         mutableStateOf(false)
     }
 
-    var textSelection by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-    var textFieldValue by remember {
-        mutableStateOf(
-            TextFieldValue(
-                text = value,
-                selection = TextRange(textSelection),
-            ),
-        )
-    }
-    var transformedText by remember { mutableStateOf(value) }
-    DisposableEffect(value) {
-        textFieldValue = textFieldValue.copy(text = value)
-        onDispose { }
-    }
+    var transformedText by remember { mutableStateOf(value.text) }
 
     TextField(
         modifier = Modifier
@@ -250,7 +293,7 @@ fun VariablePlaceholderTextField(
             }
             .then(modifier),
         label = label,
-        value = textFieldValue,
+        value = value,
         onValueChange = { newValue ->
             var selection = newValue.selection
             val newText = newValue.text
@@ -262,12 +305,15 @@ fun VariablePlaceholderTextField(
                 }
                 .run(textFilter)
                 .take(maxLength)
-            val textChanged = newText != textFieldValue.text
-            textFieldValue = newValue.copy(text = newText, selection = selection)
-            if (textChanged) {
-                textSelection = selection.start
-                onValueChange(newText)
-            }
+            val textChanged = newText != value.text
+            val newTextFieldValue = newValue.copy(text = newText, selection = selection)
+            onValueChange(
+                if (textChanged) {
+                    newTextFieldValue.copy(selection = TextRange(selection.start))
+                } else {
+                    newTextFieldValue
+                },
+            )
         },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions,
@@ -308,13 +354,12 @@ fun VariablePlaceholderTextField(
             title = stringResource(R.string.dialog_title_variable_selection),
             globalVariables = placeholders,
             onVariableSelected = {
-                val newTextFieldValue = textFieldValue.insertAtCursor("{{$it}}", "")
+                val newTextFieldValue = value.insertAtCursor(before = "{{$it}}")
                 if (newTextFieldValue.text.length > maxLength) {
                     context.showToast(resources.getString(R.string.error_text_too_long_for_variable, maxLength), long = true)
                     return@VariablePickerDialog
                 }
-                textFieldValue = newTextFieldValue
-                onValueChange(textFieldValue.text)
+                onValueChange(newTextFieldValue)
                 logInfo("VariablePlaceholderTextField", "Variable placeholder inserted")
                 dialogVisible = false
                 focusRequester.requestFocus()

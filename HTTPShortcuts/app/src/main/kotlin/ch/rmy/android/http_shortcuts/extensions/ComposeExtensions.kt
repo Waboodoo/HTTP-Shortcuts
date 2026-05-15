@@ -84,7 +84,7 @@ fun <T : WebView> rememberWebView(init: (Context, isRestore: Boolean) -> T): T? 
     return webView
 }
 
-fun TextFieldValue.insertAtCursor(before: String, after: String): TextFieldValue {
+fun TextFieldValue.insertAtCursor(before: String = "", after: String = ""): TextFieldValue {
     val position = selection.min
     return copy(
         text = text.take(position) + before + after + text.drop(position),

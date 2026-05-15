@@ -213,6 +213,15 @@ constructor(
         )
     }
 
+    fun onSymbolClicked(symbol: Char) = runAction {
+        emitEvent(
+            ScriptingEvent.InsertCodeSnippet(
+                textBeforeCursor = symbol.toString(),
+                textAfterCursor = "",
+            ),
+        )
+    }
+
     data class HistoryState(
         val codeOnPrepare: String,
         var codeOnSuccess: String,

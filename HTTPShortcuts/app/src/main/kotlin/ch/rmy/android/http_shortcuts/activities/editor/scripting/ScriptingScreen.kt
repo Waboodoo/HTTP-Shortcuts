@@ -94,6 +94,7 @@ fun ScriptingScreen(
             onCodeOnPrepareChanged = viewModel::onCodePrepareChanged,
             onCodeOnSuccessChanged = viewModel::onCodeSuccessChanged,
             onCodeOnFailureChanged = viewModel::onCodeFailureChanged,
+            onSymbolClicked = viewModel::onSymbolClicked,
         )
     }
 }

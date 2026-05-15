@@ -4,4 +4,7 @@ object Constants {
     const val SHORTCUT_NAME_MAX_LENGTH = 50
     const val SHORTCUT_DESCRIPTION_MAX_LENGTH = 200
     const val CATEGORY_NAME_MAX_LENGTH = 50
+
+    val JAVASCRIPT_SYMBOLS = listOf('{', '}', '[', ']', '"', '=', ':', ';', '(', ')', '<', '>', '&', '|')
+    val JSON_SYMBOLS = listOf('{', '}', '[', ']', ':', '"', ',')
 }

@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,6 +25,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,16 +34,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.move
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.Constants.JSON_SYMBOLS
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.editor.body.models.ParameterListItem
 import ch.rmy.android.http_shortcuts.components.EmptyState
+import ch.rmy.android.http_shortcuts.components.FloatingSymbolBar
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
@@ -50,6 +58,7 @@ import ch.rmy.android.http_shortcuts.data.domains.request_parameters.RequestPara
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
+import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.rememberSyntaxHighlighter
 import sh.calvin.reorderable.ReorderableItem
@@ -160,6 +169,19 @@ private fun ColumnScope.BodyTextEditor(
     onBodyContentChanged: (String) -> Unit,
     onFormatButtonClicked: () -> Unit,
 ) {
+    var textFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = bodyContent,
+                selection = TextRange(0),
+            ),
+        )
+    }
+    DisposableEffect(bodyContent) {
+        textFieldValue = textFieldValue.copy(text = bodyContent)
+        onDispose { }
+    }
+
     Column(
         modifier = Modifier
             .padding(horizontal = Spacing.MEDIUM)
@@ -207,7 +229,7 @@ private fun ColumnScope.BodyTextEditor(
             VariablePlaceholderTextField(
                 savedStateHandle = savedStateHandle,
                 modifier = Modifier.weight(1f),
-                value = bodyContent,
+                value = textFieldValue,
                 minLines = 10,
                 label = {
                     Text(stringResource(R.string.label_custom_body))
@@ -215,7 +237,10 @@ private fun ColumnScope.BodyTextEditor(
                 placeholder = {
                     Text(stringResource(R.string.placeholder_request_body_content))
                 },
-                onValueChange = onBodyContentChanged,
+                onValueChange = {
+                    textFieldValue = it
+                    onBodyContentChanged(it.text)
+                },
                 textStyle = TextStyle.Default.copy(
                     fontFamily = FontFamily.Monospace,
                 ),
@@ -233,10 +258,27 @@ private fun ColumnScope.BodyTextEditor(
             )
 
             AnimatedVisibility(visible = contentType == FileTypeUtil.TYPE_JSON) {
-                Button(
-                    onClick = onFormatButtonClicked,
+                Row(
+                    modifier = Modifier.padding(top = Spacing.TINY),
+                    horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL),
                 ) {
-                    Text(stringResource(R.string.button_format_json))
+                    Button(
+                        modifier = Modifier.height(IntrinsicSize.Max),
+                        onClick = onFormatButtonClicked,
+                    ) {
+                        Text(stringResource(R.string.button_format_json))
+                    }
+
+                    FloatingSymbolBar(
+                        modifier = Modifier
+                            .weight(1f, fill = false)
+                            .padding(bottom = Spacing.TINY),
+                        symbols = JSON_SYMBOLS,
+                        onSymbolClicked = { symbol ->
+                            textFieldValue = textFieldValue.insertAtCursor(before = symbol.toString())
+                            onBodyContentChanged(textFieldValue.text)
+                        },
+                    )
                 }
             }
         }
