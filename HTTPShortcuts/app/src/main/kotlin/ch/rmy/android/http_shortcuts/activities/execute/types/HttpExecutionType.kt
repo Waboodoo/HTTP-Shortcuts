@@ -138,7 +138,7 @@ constructor(
             progressTracker.observeProgress()
                 .sample(300.milliseconds)
                 .collect { progress ->
-                    channel.send(ExecutionStatus.ProgressUpdate(progress))
+                    trySend(ExecutionStatus.ProgressUpdate(progress))
                 }
         }
 
@@ -206,7 +206,7 @@ constructor(
                     }
                     else -> Unit
                 }
-                channel.send(
+                send(
                     ExecutionStatus.CompletedWithError(
                         error = e as? IOException,
                         response = (e as? ErrorResponse)?.shortcutResponse,
@@ -250,7 +250,7 @@ constructor(
                 else -> Unit
             }
 
-            channel.send(
+            send(
                 ExecutionStatus.CompletedWithError(
                     error = null,
                     response = response,
@@ -271,7 +271,7 @@ constructor(
             }
         }
 
-        channel.send(
+        send(
             ExecutionStatus.WrappingUp(
                 variableManager.getVariableValues(),
                 result = resultHandler.getResult(),
@@ -285,7 +285,7 @@ constructor(
             variableManager = variableManager,
         )
         logInfo("Execution completed successfully (${params.shortcutId})")
-        channel.send(
+        send(
             ExecutionStatus.CompletedSuccessfully(
                 response = response,
                 variableValues = variableManager.getVariableValues(),

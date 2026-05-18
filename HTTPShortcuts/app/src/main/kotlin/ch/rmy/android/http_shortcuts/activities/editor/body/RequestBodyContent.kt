@@ -129,7 +129,7 @@ fun RequestBodyContent(
             }
             RequestBodyType.FORM_DATA,
             RequestBodyType.X_WWW_FORM_URLENCODE,
-                -> {
+            -> {
                 ParameterList(
                     parameters = parameters,
                     onParameterClicked = onParameterClicked,
@@ -137,7 +137,7 @@ fun RequestBodyContent(
                 )
             }
             RequestBodyType.FILE,
-                -> {
+            -> {
                 FileOptions(
                     allowMultiple = false,
                     allowStaticValues = false,
