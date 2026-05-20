@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
@@ -80,6 +81,13 @@ class DocumentationWebView(context: Context) : WebView(context) {
                 }
                 evaluateJavascript("""document.getElementsByTagName("h1")[0].innerText""") { pageTitle ->
                     onPageTitle(pageTitle.trim('"').takeUnless { it.isEmpty() || it == "null" || it == "Documentation" })
+                }
+            }
+
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                super.onReceivedError(view, request, error)
+                if (request.isForMainFrame) {
+                    hideLoading()
                 }
             }
         }
