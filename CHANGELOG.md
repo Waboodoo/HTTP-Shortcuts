@@ -10,7 +10,9 @@
 - Fixed icon background color being computed incorrectly for fully black icons
 - Fixed a crash that could happen when the loading of Material Icons failed
 - Fixed some rare crashes and edge-cases where the shortcut editor would close unexpectedly or stay in an invalid state after saving
-- Potentially fixed widgets not loading on certain devices
+- Fixed an issue with the `setVariable` Scripting function where it would sometimes not store the new value
+- (Probably) fixed widgets not loading on certain devices
+- If a web view fails to load, it will no longer get stuck on a loading indicator (thanks [@jim-daf](https://github.com/jim-daf))
 
 ## Version 4.4.1
 
