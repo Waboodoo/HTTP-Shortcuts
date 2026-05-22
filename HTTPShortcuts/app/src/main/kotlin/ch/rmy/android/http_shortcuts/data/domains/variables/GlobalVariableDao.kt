@@ -23,7 +23,7 @@ abstract class GlobalVariableDao {
     @Query("SELECT * FROM variable WHERE id = :id LIMIT 1")
     abstract suspend fun getVariableById(id: GlobalVariableId): List<GlobalVariable>
 
-    @Query("SELECT * FROM variable WHERE `key` = :keyOrId OR id = :keyOrId")
+    @Query("SELECT * FROM variable WHERE (`key` = :keyOrId OR id = :keyOrId) AND id != ${GlobalVariable.TEMPORARY_ID}")
     abstract suspend fun getVariableByKeyOrId(keyOrId: String): List<GlobalVariable>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -76,7 +76,10 @@ abstract class GlobalVariableDao {
         updateSortingOrder(from = variable.sortingOrder, until = Int.MAX_VALUE, diff = -1)
     }
 
-    @Query("UPDATE variable SET sorting_order = sorting_order + :diff WHERE sorting_order >= :from AND sorting_order <= :until")
+    @Query(
+        "UPDATE variable SET sorting_order = sorting_order + :diff " +
+            "WHERE sorting_order >= :from AND sorting_order <= :until AND id != ${GlobalVariable.TEMPORARY_ID}",
+    )
     protected abstract suspend fun updateSortingOrder(from: Int, until: Int, diff: Int)
 
     @Transaction
@@ -105,11 +108,12 @@ abstract class GlobalVariableDao {
                 sortingOrder = existingVariable?.sortingOrder ?: (getMaxSortingOrder() + 1),
             ),
         )
+        deleteById(GlobalVariable.TEMPORARY_ID)
     }
 
-    @Query("SELECT MAX(sorting_order) AS max_sorting_order FROM variable")
+    @Query("SELECT MAX(sorting_order) AS max_sorting_order FROM variable WHERE id != ${GlobalVariable.TEMPORARY_ID}")
     protected abstract suspend fun getMaxSortingOrder(): Int
 
-    @Query("SELECT value FROM variable WHERE secret = 1")
+    @Query("SELECT value FROM variable WHERE secret = 1 AND id != ${GlobalVariable.TEMPORARY_ID}")
     abstract suspend fun getSecretValues(): List<String>
 }

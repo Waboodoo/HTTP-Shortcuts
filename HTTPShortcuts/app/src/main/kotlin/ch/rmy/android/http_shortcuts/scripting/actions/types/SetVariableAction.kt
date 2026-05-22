@@ -20,20 +20,15 @@ constructor(
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         logInfo("Setting variable value (${value.length} characters)")
         executionContext.variableManager.setVariableValueByKeyOrId(variableKeyOrId, value, storeOnly)
-        try {
-            val variable = globalVariableRepository.getVariableByKeyOrId(variableKeyOrId)
+        val variable = executionContext.variableManager.getGlobalVariableByKeyOrId(variableKeyOrId)
+        if (variable != null) {
             globalVariableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
             if (variable.type == VariableType.CONSTANT) {
                 variableWidgetManager.updateWidgets(variable.id)
             }
-        } catch (_: NoSuchElementException) {
-            if (variableKeyOrId.globalVariableId != null) {
-                throw ActionException {
-                    getString(
-                        R.string.error_variable_not_found_write,
-                        variableKeyOrId,
-                    )
-                }
+        } else if (variableKeyOrId.globalVariableId != null) {
+            throw ActionException {
+                getString(R.string.error_variable_not_found_write, variableKeyOrId)
             }
         }
     }
