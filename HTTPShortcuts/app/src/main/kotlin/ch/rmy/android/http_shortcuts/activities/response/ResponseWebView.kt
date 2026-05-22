@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.activities.response
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
@@ -124,6 +125,13 @@ class ResponseWebView @JvmOverloads constructor(
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 onLoaded()
+            }
+
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                super.onReceivedError(view, request, error)
+                if (request.isForMainFrame) {
+                    onLoaded()
+                }
             }
         }
 

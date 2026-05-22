@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -123,6 +124,13 @@ private class SinglePageWebView(
                     onNavigationRequest(NavigationDestination.Documentation.buildRequest(request.url))
                 } else {
                     context.openURL(request.url)
+                }
+            }
+
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                super.onReceivedError(view, request, error)
+                if (request.isForMainFrame) {
+                    onLoaded()
                 }
             }
         }
