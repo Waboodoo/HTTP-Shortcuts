@@ -14,6 +14,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
+import ch.rmy.android.framework.extensions.tryOrLog
 import com.wakaztahir.codeeditor.highlight.prettify.PrettifyParser
 import com.wakaztahir.codeeditor.highlight.theme.CodeTheme
 import com.wakaztahir.codeeditor.highlight.theme.DefaultTheme
@@ -39,9 +40,11 @@ class SyntaxHighlighter(
     }
 
     fun applyFormatting(builder: AnnotatedString.Builder, text: String) {
-        with(builder) {
-            parser.parse(language, text).forEach {
-                addStyle(theme.toSpanStyle(it), it.offset, it.offset + it.length)
+        tryOrLog {
+            with(builder) {
+                parser.parse(language, text).forEach {
+                    addStyle(theme.toSpanStyle(it), it.offset, it.offset + it.length)
+                }
             }
         }
     }
