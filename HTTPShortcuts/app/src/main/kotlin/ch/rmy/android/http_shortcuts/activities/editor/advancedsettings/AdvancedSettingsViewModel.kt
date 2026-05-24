@@ -5,6 +5,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.editor.advancedsettings.models.HostVerificationType
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
+import ch.rmy.android.http_shortcuts.data.enums.NetworkPreference
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.SecurityPolicy
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -46,6 +47,7 @@ constructor(
             proxyPassword = shortcut.proxyPassword ?: "",
             requireSpecificWifi = !shortcut.wifiSsid.isNullOrEmpty(),
             wifiSsid = shortcut.wifiSsid.orEmpty(),
+            networkPreference = shortcut.networkPreference,
         )
     }
 
@@ -212,6 +214,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setWifiSsid(ssid)
+        }
+    }
+
+    fun onNetworkPreferenceChanged(networkPreference: NetworkPreference?) = runAction {
+        updateViewState {
+            copy(networkPreference = networkPreference)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setNetworkPreference(networkPreference)
         }
     }
 

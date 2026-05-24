@@ -725,6 +725,12 @@
     <string name="subtitle_shortcut_as_file_share_target">Enabling this allows you to share files from other apps and use them for this shortcut\'s request body or form parameters.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Allow triggering via Quick Settings Tile</string>
+    <string name="label_network_preference">Network Preference</string>
+    <string name="option_network_default">Use system default</string>
+    <string name="option_network_prefer_cellular">Prefer mobile data</string>
+    <string name="option_network_only_cellular">Mobile data only</string>
+    <string name="option_network_prefer_wifi">Prefer Wi-Fi</string>
+    <string name="option_network_only_wifi">Wi-Fi only</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">An error occurred while sharing.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->

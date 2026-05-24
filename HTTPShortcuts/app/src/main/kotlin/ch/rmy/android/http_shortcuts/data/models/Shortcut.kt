@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HostVerificationConfig
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
+import ch.rmy.android.http_shortcuts.data.enums.NetworkPreference
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ResponseContentType
@@ -79,6 +80,8 @@ data class Shortcut(
     val delay: Int,
     @ColumnInfo(name = "repetition_interval")
     val repetitionInterval: Int?,
+    @ColumnInfo(name = "network_preference")
+    val networkPreference: NetworkPreference?,
     @ColumnInfo(name = "content_type")
     val contentType: String,
     @ColumnInfo(name = "file_upload_type")
@@ -239,6 +242,7 @@ data class Shortcut(
                 quickSettingsTileShortcut = false,
                 delay = 0,
                 repetitionInterval = null,
+                networkPreference = null,
                 contentType = "",
                 fileUploadType = null,
                 fileUploadSourceDirectoryId = null,

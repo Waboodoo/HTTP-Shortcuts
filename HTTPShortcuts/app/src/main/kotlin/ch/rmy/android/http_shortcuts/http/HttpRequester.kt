@@ -3,8 +3,13 @@ package ch.rmy.android.http_shortcuts.http
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.net.Uri
 import android.text.format.Formatter
+import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.isSuccessfulOrRedirect
@@ -12,6 +17,7 @@ import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
+import ch.rmy.android.http_shortcuts.data.enums.NetworkPreference
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutAuthenticationType
@@ -90,6 +96,8 @@ constructor(
 
             val cookieJar = if (useCookieJar) cookieManager.getCookieJar() else null
 
+            val network = shortcut.networkPreference?.let { getNetworkForPreference(context, it) }
+
             try {
                 makeRequest(
                     context = context,
@@ -103,6 +111,7 @@ constructor(
                     cookieJar = cookieJar,
                     certificatePins = certificatePins,
                     progressTracker = progressTracker,
+                    network = network,
                 )
             } catch (e: UnknownHostException) {
                 ensureActive()
@@ -132,6 +141,7 @@ constructor(
                         cookieJar = cookieJar,
                         certificatePins = certificatePins,
                         progressTracker = progressTracker,
+                        network = network,
                     )
                 } else {
                     throw e
@@ -164,6 +174,58 @@ constructor(
         )
     }
 
+    private suspend fun getNetworkForPreference(
+        context: Context,
+        preference: NetworkPreference,
+    ): Network? {
+        val transport = when (preference) {
+            NetworkPreference.PREFER_CELLULAR, NetworkPreference.ONLY_CELLULAR ->
+                NetworkCapabilities.TRANSPORT_CELLULAR
+            NetworkPreference.PREFER_WIFI, NetworkPreference.ONLY_WIFI ->
+                NetworkCapabilities.TRANSPORT_WIFI
+        }
+        val network = context.requestNetworkByTransport(transport)
+        return if (network != null) {
+            network
+        } else when (preference) {
+            NetworkPreference.PREFER_CELLULAR, NetworkPreference.PREFER_WIFI -> null
+            NetworkPreference.ONLY_CELLULAR -> throw IOException("Cellular network not available")
+            NetworkPreference.ONLY_WIFI -> throw IOException("Wi-Fi network not available")
+        }
+    }
+
+    private suspend fun Context.requestNetworkByTransport(transport: Int): Network? {
+        val connectivityManager = getSystemService<ConnectivityManager>() ?: return null
+        return suspendCancellableCoroutine { continuation ->
+            val request = NetworkRequest.Builder()
+                .addTransportType(transport)
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .build()
+            val callback = object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    connectivityManager.unregisterNetworkCallback(this)
+                    continuation.resume(network)
+                }
+                override fun onUnavailable() {
+                    connectivityManager.unregisterNetworkCallback(this)
+                    continuation.resume(null)
+                }
+            }
+            try {
+                connectivityManager.requestNetwork(request, callback)
+            } catch (e: SecurityException) {
+                val fallback = connectivityManager.allNetworks.firstOrNull { network ->
+                    connectivityManager.getNetworkCapabilities(network)
+                        ?.let { it.hasTransport(transport) && it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) } == true
+                }
+                continuation.resume(fallback)
+            }
+            continuation.invokeOnCancellation {
+                connectivityManager.unregisterNetworkCallback(callback)
+            }
+        }
+    }
+
     private suspend fun makeRequest(
         context: Context,
         shortcut: Shortcut,
@@ -176,6 +238,7 @@ constructor(
         cookieJar: CookieJar? = null,
         certificatePins: List<CertificatePin>,
         progressTracker: ProgressTracker?,
+        network: Network?,
     ): ShortcutResponse =
         suspendCancellableCoroutine { continuation ->
             val useDigestAuth = shortcut.authenticationType == ShortcutAuthenticationType.DIGEST
@@ -191,6 +254,7 @@ constructor(
                 certificatePins = certificatePins.map(CertificatePin::toCertificatePin),
                 clientCertParams = shortcut.clientCertParams,
                 hostVerificationConfig = shortcut.getSSLConfig(),
+                network = network,
             )
 
             val request = buildRequest(shortcut.method.method, requestData.url) {

@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
+import ch.rmy.android.http_shortcuts.data.enums.NetworkPreference
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 
@@ -45,6 +46,7 @@ fun AdvancedSettingsContent(
     proxyPort: String,
     proxyUsername: String,
     proxyPassword: String,
+    networkPreference: NetworkPreference?,
     hostVerificationEnabled: Boolean,
     hostVerificationType: HostVerificationType,
     certificateFingerprint: String,
@@ -60,6 +62,7 @@ fun AdvancedSettingsContent(
     onProxyPortChanged: (String) -> Unit,
     onProxyUsernameChanged: (String) -> Unit,
     onProxyPasswordChanged: (String) -> Unit,
+    onNetworkPreferenceChanged: (NetworkPreference?) -> Unit,
     onHostVerificationTypeChanged: (HostVerificationType) -> Unit,
     onCertificateFingerprintChanged: (String) -> Unit,
 ) {
@@ -139,6 +142,26 @@ fun AdvancedSettingsContent(
                         IpVersion.V6 to "IPv6",
                     ),
                     onItemSelected = onIpVersionChanged,
+                )
+            }
+
+            HorizontalDivider()
+
+            Column(
+                modifier = Modifier.padding(Spacing.MEDIUM),
+                verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
+            ) {
+                SelectionField(
+                    title = stringResource(R.string.label_network_preference),
+                    selectedKey = networkPreference,
+                    items = listOf(
+                        null to stringResource(R.string.option_network_default),
+                        NetworkPreference.PREFER_CELLULAR to stringResource(R.string.option_network_prefer_cellular),
+                        NetworkPreference.ONLY_CELLULAR to stringResource(R.string.option_network_only_cellular),
+                        NetworkPreference.PREFER_WIFI to stringResource(R.string.option_network_prefer_wifi),
+                        NetworkPreference.ONLY_WIFI to stringResource(R.string.option_network_only_wifi),
+                    ),
+                    onItemSelected = onNetworkPreferenceChanged,
                 )
             }
 

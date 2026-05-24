@@ -33,6 +33,7 @@ data class ImportExportShortcut(
     val quickSettingsTileShortcut: Boolean? = false,
     val delay: Int? = null,
     val repetitionInterval: Int? = null,
+    val networkPreference: String? = null,
     val requestBodyType: String? = null,
     val contentType: String? = null,
     val responseHandling: ImportExportResponseHandling? = null,
