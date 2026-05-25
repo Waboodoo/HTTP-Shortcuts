@@ -60,7 +60,12 @@ constructor(
                     .trigger(ShortcutTriggerType.WIDGET)
                     .build(context)
                     .let { intent ->
-                        PendingIntent.getActivity(context, shortcutWidget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE)
+                        PendingIntent.getActivity(
+                            context,
+                            shortcutWidget.widgetId,
+                            intent,
+                            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT,
+                        )
                     },
             )
             if (shortcutWidget.showLabel) {
