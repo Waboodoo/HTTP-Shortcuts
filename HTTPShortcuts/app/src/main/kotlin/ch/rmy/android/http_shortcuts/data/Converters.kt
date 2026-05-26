@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HistoryEventType
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
+import ch.rmy.android.http_shortcuts.data.enums.NetworkPreference
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -264,4 +265,12 @@ class Converters {
     @TypeConverter
     fun serializeWidgetBackgroundType(widgetBackgroundType: WidgetBackgroundType) =
         widgetBackgroundType.serialize()
+
+    @TypeConverter
+    fun deserializeNetworkPreference(value: String?): NetworkPreference? =
+        value?.let { NetworkPreference.parse(it) }
+
+    @TypeConverter
+    fun serializeNetworkPreference(networkPreference: NetworkPreference?): String? =
+        networkPreference?.key
 }
