@@ -167,6 +167,9 @@ constructor() {
                 }
             }
             .runIfNotNull(network) { net ->
+                // Bind both TCP (socketFactory) and DNS (getAllByName) to the specified network.
+                // OkHttp dns() is a setter — this overrides the ipVersion DNS block above.
+                // The ipVersion filter is replicated here so it still applies when a network is bound.
                 socketFactory(net.socketFactory)
                 dns { hostname ->
                     val addresses = net.getAllByName(hostname).toList()
