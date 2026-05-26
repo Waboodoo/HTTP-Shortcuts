@@ -184,7 +184,11 @@ constructor(
             NetworkPreference.PREFER_WIFI, NetworkPreference.ONLY_WIFI ->
                 NetworkCapabilities.TRANSPORT_WIFI
         }
-        val network = context.requestNetworkByTransport(transport)
+        val timeoutMs = when (preference) {
+            NetworkPreference.PREFER_CELLULAR, NetworkPreference.PREFER_WIFI -> PREFER_TIMEOUT_MS
+            NetworkPreference.ONLY_CELLULAR, NetworkPreference.ONLY_WIFI -> ONLY_TIMEOUT_MS
+        }
+        val network = context.requestNetworkByTransport(transport, timeoutMs)
         return if (network != null) {
             network
         } else when (preference) {
@@ -194,7 +198,7 @@ constructor(
         }
     }
 
-    private suspend fun Context.requestNetworkByTransport(transport: Int): Network? {
+    private suspend fun Context.requestNetworkByTransport(transport: Int, timeoutMs: Int): Network? {
         val connectivityManager = getSystemService<ConnectivityManager>() ?: return null
         return suspendCancellableCoroutine { continuation ->
             val request = NetworkRequest.Builder()
@@ -212,7 +216,7 @@ constructor(
                 }
             }
             try {
-                connectivityManager.requestNetwork(request, callback)
+                connectivityManager.requestNetwork(request, callback, timeoutMs)
             } catch (e: SecurityException) {
                 val fallback = connectivityManager.allNetworks.firstOrNull { network ->
                     connectivityManager.getNetworkCapabilities(network)
@@ -441,6 +445,9 @@ constructor(
     }
 
     companion object {
+
+        private const val PREFER_TIMEOUT_MS = 5_000
+        private const val ONLY_TIMEOUT_MS = 15_000
 
         internal fun prepareResponse(url: String, response: Response, contentFile: DocumentFile?, charsetOverride: Charset?) =
             ShortcutResponse(
