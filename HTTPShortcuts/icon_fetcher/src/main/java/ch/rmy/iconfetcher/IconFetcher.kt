@@ -21,7 +21,17 @@ class IconFetcher(
 ) {
     @Throws(IOException::class)
     suspend fun getIcons(): List<IconEntry> = withContext(Dispatchers.IO) {
-        getEntries()
+        try {
+            getEntries()
+        } catch (e: IllegalStateException) {
+            if (e.message?.contains("Expected BEGIN_ARRAY but was STRING") == true) {
+                // The server sometimes returns fails and returns an error message.
+                // We treat this as an IOException as it is temporary and expected.
+                throw IOException(e)
+            } else {
+                throw e
+            }
+        }
     }
 
     private fun getEntries(): List<IconEntry> {
