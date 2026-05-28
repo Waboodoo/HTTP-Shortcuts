@@ -18,7 +18,11 @@ fun BroadcastReceiver.goAsync(
         try {
             block()
         } finally {
-            pendingResult.finish()
+            try {
+                pendingResult.finish()
+            } catch (_: IllegalStateException) {
+                // ignore
+            }
         }
     }
 }
