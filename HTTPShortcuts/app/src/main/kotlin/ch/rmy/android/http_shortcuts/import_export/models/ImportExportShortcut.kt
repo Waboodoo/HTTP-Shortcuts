@@ -72,7 +72,7 @@ data class ImportExportShortcut(
         require(certificateFingerprint.isNullOrEmpty() || certificateFingerprint.isValidCertificateFingerprint()) {
             "Invalid certificate fingerprint: $certificateFingerprint"
         }
-        require(timeout == null || (timeout >= 250 && timeout <= (24 * 60 * 60 * 1000))) {
+        require(timeout == null || timeout == 0 || (timeout >= 250 && timeout <= (24 * 60 * 60 * 1000))) {
             "Invalid timeout value found"
         }
         require(delay == null || delay >= 0) {

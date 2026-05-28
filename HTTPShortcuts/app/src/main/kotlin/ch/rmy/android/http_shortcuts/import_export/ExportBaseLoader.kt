@@ -156,7 +156,7 @@ constructor(
                                 bodyContent = shortcut
                                     .takeIf { type == HTTP || type == MQTT }
                                     ?.bodyContent,
-                                timeout = shortcut.takeIf { type == HTTP }?.timeout?.takeIf { it != 10_000 },
+                                timeout = shortcut.takeIf { type == HTTP }?.timeout?.takeIf { it != 10_000 && it != 0 },
                                 waitForInternet = shortcut.takeIf { type == HTTP }?.isWaitForNetwork?.trueOrNull(),
                                 acceptAllCertificates = (
                                     shortcut.takeIf { type == HTTP || type == MQTT }

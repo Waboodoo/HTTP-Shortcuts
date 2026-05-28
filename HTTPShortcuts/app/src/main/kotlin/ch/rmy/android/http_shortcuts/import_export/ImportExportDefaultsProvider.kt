@@ -27,7 +27,7 @@ constructor() {
                     shortcut.copy(
                         executionType = shortcut.executionType ?: ShortcutExecutionType.HTTP.type,
                         method = shortcut.method ?: HttpMethod.GET.method,
-                        timeout = shortcut.timeout ?: 10_000,
+                        timeout = shortcut.timeout?.takeIf { it != 0 } ?: 10_000,
                         launcherShortcut = shortcut.launcherShortcut != false,
                         requestBodyType = shortcut.requestBodyType ?: RequestBodyType.CUSTOM_TEXT.type,
                         responseHandling = shortcut.responseHandling?.let { responseHandling ->
