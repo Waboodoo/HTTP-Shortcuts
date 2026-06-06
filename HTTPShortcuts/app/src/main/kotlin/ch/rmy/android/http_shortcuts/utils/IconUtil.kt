@@ -19,6 +19,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.graphics.get
 import androidx.core.graphics.scale
+import ch.rmy.android.framework.extensions.isNewerThan
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.CustomIconName
 import ch.rmy.android.http_shortcuts.icons.CustomIconName.Companion.CUSTOM_ICON_NAME_PREFIX
@@ -28,6 +29,7 @@ import java.io.InputStream
 import java.util.regex.Pattern
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.time.Duration.Companion.days
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -78,11 +80,10 @@ object IconUtil {
                             val canvas = Canvas(paddedBitmap)
 
                             if (iconColor != null) {
-                                val luminance = Color.valueOf(iconColor).luminance()
-                                if (luminance < 0.4f) {
-                                    canvas.drawARGB(255, 250, 250, 250)
-                                } else {
+                                if (iconColor.isCloseToWhite()) {
                                     canvas.drawARGB(255, 5, 5, 5)
+                                } else {
+                                    canvas.drawARGB(255, 250, 250, 250)
                                 }
                             } else {
                                 canvas.drawARGB(255, 5, 5, 5)
@@ -173,7 +174,7 @@ object IconUtil {
     ): File {
         val fileName = getRasterizedIconFileName(icon, adaptive)
         val file = context.getFileStreamPath(fileName)
-        if (file.exists()) {
+        if (file.exists() && file.isNewerThan(3.days)) {
             return file
         }
 
@@ -236,8 +237,10 @@ object IconUtil {
         return bitmap
     }
 
-    private fun Int.isCloseToWhite() =
-        Color.red(this) > 200 && Color.green(this) > 200 && Color.blue(this) > 200
+    private fun Int.isCloseToWhite(): Boolean {
+        val luminance = Color.valueOf(this).luminance()
+        return luminance > 0.7f
+    }
 
     fun createIconFromStream(context: Context, inStream: InputStream): ShortcutIcon? {
         val bitmap = BitmapFactory.decodeStream(inStream)

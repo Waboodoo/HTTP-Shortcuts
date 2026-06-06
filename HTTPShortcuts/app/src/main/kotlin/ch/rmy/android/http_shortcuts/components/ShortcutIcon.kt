@@ -75,7 +75,7 @@ fun ShortcutIcon(
                 ?.luminance()
                 ?: return@withContext null
             when {
-                iconLuminance > 0.75f && !isDarkMode -> Color.Black.copy(alpha = 0.7f)
+                iconLuminance > 0.7f && !isDarkMode -> Color.Black.copy(alpha = 0.7f)
                 iconLuminance < 0.07f && isDarkMode -> Color.White.copy(alpha = 0.9f)
                 else -> null
             }
