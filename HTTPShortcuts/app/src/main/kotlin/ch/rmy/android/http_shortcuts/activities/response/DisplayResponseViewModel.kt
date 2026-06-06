@@ -103,7 +103,7 @@ constructor(
                                 copy(text = GsonUtil.prettyPrintOrThrow(json), processing = false)
                             }
                         }
-                    } catch (e: JsonParseException) {
+                    } catch (_: JsonParseException) {
                         updateViewState {
                             copy(text = responseText, processing = false)
                         }

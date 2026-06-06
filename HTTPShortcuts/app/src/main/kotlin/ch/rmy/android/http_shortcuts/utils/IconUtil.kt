@@ -266,7 +266,7 @@ object IconUtil {
         val totalPixels = width * height
         val factor = if (totalPixels > 64 * 64) 2 else 1
         var transparentPixels = 0
-        val transparencyThreshold = (totalPixels * 0.1f / factor).toInt()
+        var nonTransparentPixels = 0
         val colors = mutableMapOf<Int, Int>()
         for (x in 0 until width step factor) {
             for (y in 0 until height step factor) {
@@ -276,21 +276,30 @@ object IconUtil {
                 } else {
                     val colorWithoutAlpha = color and 0xFFFFFF
                     colors[colorWithoutAlpha] = (colors[colorWithoutAlpha] ?: 0) + 1
+                    nonTransparentPixels++
                 }
             }
         }
 
-        val singleColorThreshold = ((totalPixels - transparentPixels) * 0.1f / factor).toInt()
-        val mostPopularEntries = colors.entries.sortedByDescending { it.value }
-        val mostPopularEntry = mostPopularEntries.getOrNull(0)
-        val secondPopularEntry = mostPopularEntries.getOrNull(1)
+        val singleColor = colors.entries.maxByOrNull { it.value }
+            ?.let { mostCommonEntry ->
+                mostCommonEntry.takeIf {
+                    // The most common color needs to make up at least 95% of the non-transparent pixels
+                    it.value > (nonTransparentPixels * 0.95f).toInt()
+                }
+                    ?.takeIf {
+                        // The second most common color needs to make up less than 5% of the non-transparent pixels
+                        val secondMostCommonValue = colors.values.filter { it != mostCommonEntry.value }.maxOrNull() ?: 0
+                        secondMostCommonValue < (nonTransparentPixels * 0.05f).toInt()
+                    }
+            }
+            ?.key
+
+        // The transparent pixels need to make up at least 10% of all the pixels
+        val transparencyThreshold = ((transparentPixels + nonTransparentPixels) * 0.1f).toInt()
         return BitmapColorAnalysis(
             hasSignificantTransparency = transparentPixels >= transparencyThreshold,
-            singleColor = if (mostPopularEntry != null && (secondPopularEntry?.value ?: 0) < singleColorThreshold) {
-                mostPopularEntry.key
-            } else {
-                null
-            },
+            singleColor = singleColor,
         )
     }
 
