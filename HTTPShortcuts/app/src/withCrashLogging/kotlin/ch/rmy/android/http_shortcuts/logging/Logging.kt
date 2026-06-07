@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.logging
 import android.content.Context
 import android.view.InflateException
 import ch.rmy.android.framework.extensions.minus
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.utils.InstallUtil
 import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
@@ -33,7 +34,8 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
         }
 
         if (BuildConfig.BUGSNAG_API_KEY.isEmpty()) {
-            error("Bugsnag API key not set")
+            context.showToast("Crash reporting failed. Please contact developer")
+            return
         }
 
         val deviceLocalPreferences = DeviceLocalPreferences(context)
