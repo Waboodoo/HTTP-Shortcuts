@@ -16,7 +16,7 @@ constructor(
         ActionRunnable(
             action = vibrateAction,
             params = VibrateAction.Params(
-                patternId = args.getInt(0) ?: 0,
+                patternName = args.getString(0) ?: "",
                 waitForCompletion = args.getBoolean(1) == true,
             ),
         )

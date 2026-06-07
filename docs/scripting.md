@@ -465,16 +465,23 @@ speak('Dieser Text ist deutsch', 'de');
 <a id="vibrate"></a>
 ### vibrate
 
-With this function you can cause the device to vibrate (if supported). As an optional first argument, you can pass the number of the vibration pattern you want to use, and as an optional second argument you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
+With this function you can cause the device to vibrate (if supported). As an optional first argument, you can pass the name of the vibration pattern you want to use, and as an optional second argument you can pass a boolean denoting whether the execution should wait for the vibration pattern to finish or not.
 
 Vibration patterns:
 
-- 0 means *"1 short vibration"*
-- 1 means *"1 long vibration"*
-- 2 means *"3 short vibrations"*
+| Name | Description |
+| --- | --- |
+| short | 1 short pulse. This is the default if no pattern is provided |
+| long | 1 long pulse |
+| 3 pulses | 3 short pulses |
+| click | A very brief, gentle pulse, typically used for haptic feedback of UI elements |
+| tick | A very brief, gentle pulse. Less strong than "click" |
+| heavy click | A very brief, gentle pulse. Stronger than "click" |
+| double click | 2 very brief, gentle pulses |
 
 ```js
-vibrate(2, true);
+vibrate("3 pulses", true);
+vibrate("click");
 ```
 
 <a id="scan-barcode"></a>

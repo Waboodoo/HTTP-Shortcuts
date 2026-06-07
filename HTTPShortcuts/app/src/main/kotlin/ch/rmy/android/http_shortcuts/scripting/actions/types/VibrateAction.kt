@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
 import javax.inject.Inject
@@ -21,7 +23,7 @@ constructor(
         val vibrator = vibrationUtil.getVibrator()
             ?: return
 
-        val pattern = findPattern(patternId)
+        val pattern = findPattern(patternName)
         withContext(Dispatchers.Main) {
             pattern.execute(vibrator)
         }
@@ -34,43 +36,86 @@ constructor(
 
         val duration: Duration
 
-        val milliseconds: Long
-            get() = duration.inWholeMilliseconds
-
         fun execute(vibrator: Vibrator)
     }
 
     data class Params(
-        val patternId: Int,
+        val patternName: String,
         val waitForCompletion: Boolean,
     )
 
     companion object {
 
-        internal fun findPattern(patternId: Int): VibrationPattern =
-            when (patternId) {
-                1 -> object : VibrationPattern {
+        internal fun findPattern(patternName: String): VibrationPattern =
+            when (patternName.lowercase().filter { it.isLetterOrDigit() }) {
+                "1", "long" -> object : VibrationPattern {
                     override val duration = 1.seconds
 
                     override fun execute(vibrator: Vibrator) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
+                        vibrator.vibrate(VibrationEffect.createOneShot(duration.inWholeMilliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
                     }
                 }
-                2 -> object : VibrationPattern {
-                    override val duration = 1200.milliseconds
+                "2", "3pulses" -> object : VibrationPattern {
+                    override val duration = 1000.milliseconds
 
                     override fun execute(vibrator: Vibrator) {
-                        val pattern = longArrayOf(200L, 200L, 200L, 200L, 200L, 200L)
+                        val pattern = longArrayOf(0L, 200L, 200L, 200L, 200L, 200L)
                         vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
                     }
                 }
-                else -> object : VibrationPattern {
+                "click" -> object : VibrationPattern {
+                    override val duration = 100.milliseconds
+
+                    override fun execute(vibrator: Vibrator) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
+                        } else {
+                            vibrator.vibrate(VibrationEffect.createOneShot(duration.inWholeMilliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
+                        }
+                    }
+                }
+                "tick" -> object : VibrationPattern {
+                    override val duration = 100.milliseconds
+
+                    override fun execute(vibrator: Vibrator) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK))
+                        } else {
+                            vibrator.vibrate(VibrationEffect.createOneShot(duration.inWholeMilliseconds, 100))
+                        }
+                    }
+                }
+                "heavyclick" -> object : VibrationPattern {
+                    override val duration = 100.milliseconds
+
+                    override fun execute(vibrator: Vibrator) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK))
+                        } else {
+                            vibrator.vibrate(VibrationEffect.createOneShot(duration.inWholeMilliseconds, 255))
+                        }
+                    }
+                }
+                "doubleclick" -> object : VibrationPattern {
                     override val duration = 300.milliseconds
 
                     override fun execute(vibrator: Vibrator) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK))
+                        } else {
+                            val pattern = longArrayOf(0L, 100L, 100L, 100L)
+                            vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1))
+                        }
                     }
                 }
+                "0", "3", "short", "" -> object : VibrationPattern {
+                    override val duration = 300.milliseconds
+
+                    override fun execute(vibrator: Vibrator) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(duration.inWholeMilliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
+                    }
+                }
+                else -> userError { "Unknown vibration pattern: $patternName" }
             }
     }
 }
