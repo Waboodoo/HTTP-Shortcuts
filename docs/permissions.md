@@ -16,6 +16,9 @@ Needed to inspect the current Wi-Fi network's name, as well as prompting the use
 ## view network connections
 Needed to determine whether a suitable network connection is available to make HTTP requests.
 
+## change network state
+Needed for shortcuts that force traffic through a specific network (Wi-Fi or cellular). Never used of there are no shortcuts configured to make use of this feature.
+
 ## connect and disconnect from Wi-Fi
 Needed for prompting the user to select a different network to connect to in case they configured a shortcut to only use a specific network. The app never switches the Wi-Fi network without the user's input.
 

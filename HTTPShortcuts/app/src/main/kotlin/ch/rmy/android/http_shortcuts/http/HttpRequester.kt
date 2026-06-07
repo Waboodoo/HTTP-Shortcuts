@@ -44,7 +44,9 @@ import java.nio.charset.Charset
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -184,21 +186,19 @@ constructor(
             NetworkPreference.PREFER_WIFI, NetworkPreference.ONLY_WIFI ->
                 NetworkCapabilities.TRANSPORT_WIFI
         }
-        val timeoutMs = when (preference) {
-            NetworkPreference.PREFER_CELLULAR, NetworkPreference.PREFER_WIFI -> PREFER_TIMEOUT_MS
-            NetworkPreference.ONLY_CELLULAR, NetworkPreference.ONLY_WIFI -> ONLY_TIMEOUT_MS
+        val timeout = when (preference) {
+            NetworkPreference.PREFER_CELLULAR, NetworkPreference.PREFER_WIFI -> PREFER_TIMEOUT
+            NetworkPreference.ONLY_CELLULAR, NetworkPreference.ONLY_WIFI -> ONLY_TIMEOUT
         }
-        val network = context.requestNetworkByTransport(transport, timeoutMs)
-        return if (network != null) {
-            network
-        } else when (preference) {
-            NetworkPreference.PREFER_CELLULAR, NetworkPreference.PREFER_WIFI -> null
-            NetworkPreference.ONLY_CELLULAR -> throw IOException("Cellular network not available")
-            NetworkPreference.ONLY_WIFI -> throw IOException("Wi-Fi network not available")
-        }
+        return context.requestNetworkByTransport(transport, timeout)
+            ?: when (preference) {
+                NetworkPreference.PREFER_CELLULAR, NetworkPreference.PREFER_WIFI -> null
+                NetworkPreference.ONLY_CELLULAR -> throw IOException("Cellular network not available")
+                NetworkPreference.ONLY_WIFI -> throw IOException("Wi-Fi network not available")
+            }
     }
 
-    private suspend fun Context.requestNetworkByTransport(transport: Int, timeoutMs: Int): Network? {
+    private suspend fun Context.requestNetworkByTransport(transport: Int, timeout: Duration): Network? {
         val connectivityManager = getSystemService<ConnectivityManager>() ?: return null
         return suspendCancellableCoroutine { continuation ->
             val request = NetworkRequest.Builder()
@@ -210,14 +210,15 @@ constructor(
                     connectivityManager.unregisterNetworkCallback(this)
                     continuation.resume(network)
                 }
+
                 override fun onUnavailable() {
                     connectivityManager.unregisterNetworkCallback(this)
                     continuation.resume(null)
                 }
             }
             try {
-                connectivityManager.requestNetwork(request, callback, timeoutMs)
-            } catch (e: SecurityException) {
+                connectivityManager.requestNetwork(request, callback, timeout.inWholeMilliseconds.toInt())
+            } catch (_: SecurityException) {
                 val fallback = connectivityManager.allNetworks.firstOrNull { network ->
                     connectivityManager.getNetworkCapabilities(network)
                         ?.let { it.hasTransport(transport) && it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) } == true
@@ -446,8 +447,8 @@ constructor(
 
     companion object {
 
-        private const val PREFER_TIMEOUT_MS = 5_000
-        private const val ONLY_TIMEOUT_MS = 15_000
+        private val PREFER_TIMEOUT = 5.seconds
+        private val ONLY_TIMEOUT = 15.seconds
 
         internal fun prepareResponse(url: String, response: Response, contentFile: DocumentFile?, charsetOverride: Charset?) =
             ShortcutResponse(

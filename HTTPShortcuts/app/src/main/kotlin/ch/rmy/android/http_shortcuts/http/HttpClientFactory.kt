@@ -166,21 +166,21 @@ constructor() {
                         }
                 }
             }
-            .runIfNotNull(network) { net ->
+            .runIfNotNull(network) { network ->
                 // Bind both TCP (socketFactory) and DNS (getAllByName) to the specified network.
-                // OkHttp dns() is a setter — this overrides the ipVersion DNS block above.
                 // The ipVersion filter is replicated here so it still applies when a network is bound.
-                socketFactory(net.socketFactory)
+                socketFactory(network.socketFactory)
                 dns { hostname ->
-                    val addresses = net.getAllByName(hostname).toList()
-                    ipVersion?.let { ver ->
-                        addresses.filter {
-                            when (ver) {
-                                IpVersion.V4 -> it is Inet4Address
-                                IpVersion.V6 -> it is Inet6Address
+                    network.getAllByName(hostname).toList()
+                        .runIfNotNull(ipVersion) { ipVersion ->
+                            filter {
+                                when (ipVersion) {
+                                    IpVersion.V4 -> it is Inet4Address
+                                    IpVersion.V6 -> it is Inet6Address
+                                }
                             }
-                        }.ifEmpty { throw NoIpAddressException(hostname, ver) }
-                    } ?: addresses
+                                .ifEmpty { throw NoIpAddressException(hostname, ipVersion) }
+                        }
                 }
             }
             .build()
