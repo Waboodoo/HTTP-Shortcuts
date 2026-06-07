@@ -35,6 +35,11 @@ fun GlobalVariableEditorScreen(
         backButton = BackButton.CROSS,
         actions = {
             ToolbarIcon(
+                painterResource(R.drawable.outline_help_24),
+                contentDescription = stringResource(R.string.button_show_help),
+                onClick = viewModel::onHelpButtonClicked,
+            )
+            ToolbarIcon(
                 painterResource(R.drawable.outline_check_24),
                 contentDescription = stringResource(R.string.save_button),
                 onClick = viewModel::onSaveButtonClicked,

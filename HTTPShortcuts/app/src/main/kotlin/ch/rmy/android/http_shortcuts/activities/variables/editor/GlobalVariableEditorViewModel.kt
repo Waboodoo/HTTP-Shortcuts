@@ -28,6 +28,7 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.GlobalVariableEditor.VariableCreatedResult
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -345,6 +346,10 @@ constructor(
         withProgressTracking {
             typeViewModel?.save(temporaryGlobalVariableRepository, variableTypeViewState)
         }
+    }
+
+    fun onHelpButtonClicked() = runAction {
+        openURL(ExternalURLs.getVariableTypeDocumentation(variableType))
     }
 
     data class InitData(

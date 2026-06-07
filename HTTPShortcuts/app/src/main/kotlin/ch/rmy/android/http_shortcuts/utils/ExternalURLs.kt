@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import ch.rmy.android.http_shortcuts.data.enums.VariableType
+
 object ExternalURLs {
 
     const val BASE_URL = "https://http-shortcuts.rmy.ch"
@@ -24,4 +26,26 @@ object ExternalURLs {
 
     fun getScriptingDocumentation(docRef: String) =
         "$BASE_URL/scripting#$docRef"
+
+    fun getVariableTypeDocumentation(variableType: VariableType): String {
+        val anchor = when (variableType) {
+            VariableType.CONSTANT -> "constant"
+            VariableType.TEXT,
+            VariableType.NUMBER,
+            VariableType.PASSWORD,
+            -> "text-number-password"
+            VariableType.SELECT -> "multiple-choice"
+            VariableType.COLOR -> "color"
+            VariableType.DATE,
+            VariableType.TIME,
+            -> "date-time"
+            VariableType.SLIDER -> "number-slider"
+            VariableType.TOGGLE -> "toggle"
+            VariableType.INCREMENT -> "increment"
+            VariableType.UUID -> "uuid"
+            VariableType.CLIPBOARD -> "clipboard-content"
+            VariableType.TIMESTAMP -> "timestamp"
+        }
+        return "$VARIABLES_DOCUMENTATION#$anchor"
+    }
 }
