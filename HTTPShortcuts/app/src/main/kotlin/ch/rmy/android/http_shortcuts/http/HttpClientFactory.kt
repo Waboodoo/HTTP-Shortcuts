@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.Context
+import android.net.Network
 import android.util.Base64
 import androidx.collection.LruCache
 import ch.rmy.android.framework.extensions.runFor
@@ -61,6 +62,7 @@ constructor() {
         val cookieJar: CookieJar?,
         val certificatePins: List<CertificatePin>,
         val hostVerificationConfig: HostVerificationConfig,
+        val network: Network?,
     )
 
     fun getClient(
@@ -76,6 +78,7 @@ constructor() {
         certificatePins: List<CertificatePin> = emptyList(),
         hostVerificationConfig: HostVerificationConfig = HostVerificationConfig.Default,
         userAgent: String? = null,
+        network: Network? = null,
     ): OkHttpClient {
         val cacheKey = CacheKey(
             clientCertParams = clientCertParams,
@@ -88,6 +91,7 @@ constructor() {
             cookieJar = cookieJar,
             certificatePins = certificatePins,
             hostVerificationConfig = hostVerificationConfig,
+            network = network,
         )
         val cachedClient = cache[cacheKey]
         if (cachedClient != null) {
@@ -160,6 +164,23 @@ constructor() {
                         .ifEmpty {
                             throw NoIpAddressException(hostname, it)
                         }
+                }
+            }
+            .runIfNotNull(network) { net ->
+                // Bind both TCP (socketFactory) and DNS (getAllByName) to the specified network.
+                // OkHttp dns() is a setter — this overrides the ipVersion DNS block above.
+                // The ipVersion filter is replicated here so it still applies when a network is bound.
+                socketFactory(net.socketFactory)
+                dns { hostname ->
+                    val addresses = net.getAllByName(hostname).toList()
+                    ipVersion?.let { ver ->
+                        addresses.filter {
+                            when (ver) {
+                                IpVersion.V4 -> it is Inet4Address
+                                IpVersion.V6 -> it is Inet6Address
+                            }
+                        }.ifEmpty { throw NoIpAddressException(hostname, ver) }
+                    } ?: addresses
                 }
             }
             .build()

@@ -38,6 +38,7 @@ fun AdvancedSettingsScreen(
             proxyPort = viewState.proxyPort,
             proxyUsername = viewState.proxyUsername,
             proxyPassword = viewState.proxyPassword,
+            networkPreference = viewState.networkPreference,
             hostVerificationEnabled = viewState.hostVerificationEnabled,
             hostVerificationType = viewState.hostVerificationType,
             certificateFingerprint = viewState.certificateFingerprint,
@@ -53,6 +54,7 @@ fun AdvancedSettingsScreen(
             onProxyPortChanged = viewModel::onProxyPortChanged,
             onProxyUsernameChanged = viewModel::onProxyUsernameChanged,
             onProxyPasswordChanged = viewModel::onProxyPasswordChanged,
+            onNetworkPreferenceChanged = viewModel::onNetworkPreferenceChanged,
             onHostVerificationTypeChanged = viewModel::onHostVerificationTypeChanged,
             onCertificateFingerprintChanged = viewModel::onCertificateFingerprintChanged,
         )

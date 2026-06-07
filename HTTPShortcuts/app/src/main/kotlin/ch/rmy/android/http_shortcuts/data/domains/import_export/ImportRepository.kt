@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.enums.IpVersion
+import ch.rmy.android.http_shortcuts.data.enums.NetworkPreference
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.ProxyType
 import ch.rmy.android.http_shortcuts.data.enums.RequestBodyType
@@ -256,6 +257,7 @@ constructor(
                 quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut == true,
                 delay = shortcut.delay ?: 0,
                 repetitionInterval = shortcut.repetitionInterval?.takeIf { it > 0 },
+                networkPreference = shortcut.networkPreference?.let { NetworkPreference.parse(it) },
                 contentType = shortcut.contentType ?: "",
                 fileUploadType = shortcut.fileUploadOptions
                     ?.fileUploadType

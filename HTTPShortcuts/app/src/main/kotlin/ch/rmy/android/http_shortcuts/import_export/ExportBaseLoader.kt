@@ -169,6 +169,7 @@ constructor(
                                 quickSettingsTileShortcut = shortcut.quickSettingsTileShortcut.trueOrNull(),
                                 delay = shortcut.delay.takeIf { it != 0 },
                                 repetitionInterval = shortcut.repetitionInterval,
+                                networkPreference = shortcut.takeIf { type == HTTP }?.networkPreference?.key,
                                 requestBodyType = shortcut.takeIf { type == HTTP }
                                     ?.requestBodyType
                                     ?.takeIf { it != RequestBodyType.CUSTOM_TEXT }?.type,
