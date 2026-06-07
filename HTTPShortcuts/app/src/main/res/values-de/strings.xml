@@ -497,6 +497,12 @@
     <string name="label_variable_date_format">Datumsformat</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Zeitformat</string>
+    <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <string name="label_variable_timestamp_timezone">Zeitzone</string>
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <string name="label_variable_timestamp_local_timezone">Lokal</string>
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
+    <string name="label_variable_timestamp_local_utc">UTC</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">Trennzeichen</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
@@ -729,6 +735,18 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="subtitle_shortcut_as_file_share_target">Ist diese Option aktiviert, so kannst du Dateien mit der App teilen und deren Inhalt als den Request-Body oder als einen Form-Parameter des Shortcuts verwenden.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Auslösen via Quick Settings Tile erlauben</string>
+    <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
+    <string name="label_network_preference">Netzwerk-Präferenz</string>
+    <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
+    <string name="option_network_default">Systemstandard verwenden</string>
+    <!-- Dropdown option for network preference: prefer cellular, fall back to default if unavailable -->
+    <string name="option_network_prefer_cellular">Mobile Daten bevorzugen</string>
+    <!-- Dropdown option for network preference: only cellular, fail if unavailable -->
+    <string name="option_network_only_cellular">Nur mobile Daten</string>
+    <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
+    <string name="option_network_prefer_wifi">WLAN bevorzugen</string>
+    <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
+    <string name="option_network_only_wifi">Nur WLAN</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">Beim Teilen ist ein Fehler aufgetreten.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
@@ -1961,7 +1979,7 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="button_import_data">Daten importieren</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
     <string name="button_delete_data">Daten löschen</string>
-    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <!-- Warning message shown on dialog when the user is about to delete all the app's data, as part of the app recovery process -->
     <string name="message_delete_all">Du bist dabei, alle deine Shortcuts, Variablen usw. zu löschen. Dies kann nicht rückgängig gemacht werden. Trotzdem fortfahren?</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">Daten erfolgreich wiederhergestellt.</string>

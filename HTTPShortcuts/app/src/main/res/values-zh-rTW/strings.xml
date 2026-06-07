@@ -480,6 +480,9 @@
     <string name="label_variable_date_format">日期格式</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">時間格式</string>
+    <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">分隔字元</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
@@ -706,6 +709,12 @@
     <string name="subtitle_shortcut_as_file_share_target">啟用此選項可讓您從其他應用程式分享檔案並用作此捷徑的請求內文或表單參數。</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">允許透過快速設定方塊觸發</string>
+    <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
+    <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
+    <!-- Dropdown option for network preference: prefer cellular, fall back to default if unavailable -->
+    <!-- Dropdown option for network preference: only cellular, fail if unavailable -->
+    <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
+    <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">分享時發生錯誤。</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
@@ -1914,7 +1923,7 @@
     <string name="button_import_data">匯入資料</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
     <string name="button_delete_data">刪除資料</string>
-    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <!-- Warning message shown on dialog when the user is about to delete all the app's data, as part of the app recovery process -->
     <string name="message_delete_all">您即將刪除您所有的捷徑、變數等。此動作無法復原。要繼續嗎？</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">資料已成功還原。</string>

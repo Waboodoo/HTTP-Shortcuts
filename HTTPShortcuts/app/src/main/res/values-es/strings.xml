@@ -481,6 +481,9 @@
     <string name="label_variable_date_format">Formato de fecha</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Formato de hora</string>
+    <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">Separador</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
@@ -704,6 +707,12 @@ Sin embargo, todavía no tiene ninguna variable configurada.</string>
     <string name="subtitle_shortcut_as_file_share_target">Habilitar esto le permite compartir archivos de otras aplicaciones y usarlos para el cuerpo de la petición de este atajo o parámetros de formulario.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Permitir la activación a través de configuración rápida</string>
+    <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
+    <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
+    <!-- Dropdown option for network preference: prefer cellular, fall back to default if unavailable -->
+    <!-- Dropdown option for network preference: only cellular, fail if unavailable -->
+    <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
+    <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">Ocurrió un error al compartir.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
@@ -1881,7 +1890,7 @@ Sin embargo, todavía no tiene ninguna variable configurada.</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to import data from the external Restore app. -->
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
-    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <!-- Warning message shown on dialog when the user is about to delete all the app's data, as part of the app recovery process -->
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
     <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->

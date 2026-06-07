@@ -490,6 +490,12 @@
     <string name="label_variable_date_format">日期格式</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">时间格式</string>
+    <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <string name="label_variable_timestamp_timezone">时区</string>
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <string name="label_variable_timestamp_local_timezone">本地</string>
+    <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
+    <string name="label_variable_timestamp_local_utc">UTC</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">分隔符</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
@@ -718,6 +724,18 @@
     <string name="subtitle_shortcut_as_file_share_target">启用此选项允许你分享其他应用的文件并将其用于这个快捷键的请求主体或表单参数。</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">允许通过快捷工具栏启动</string>
+    <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
+    <string name="label_network_preference">网络首选项</string>
+    <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
+    <string name="option_network_default">使用系统默认</string>
+    <!-- Dropdown option for network preference: prefer cellular, fall back to default if unavailable -->
+    <string name="option_network_prefer_cellular">首选移动数据</string>
+    <!-- Dropdown option for network preference: only cellular, fail if unavailable -->
+    <string name="option_network_only_cellular">仅移动数据</string>
+    <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
+    <string name="option_network_prefer_wifi">偏好Wi-Fi</string>
+    <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
+    <string name="option_network_only_wifi">仅限 Wi-Fi</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">分享出错</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
@@ -1947,7 +1965,7 @@
     <string name="button_import_data">导入数据</string>
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to delete all data -->
     <string name="button_delete_data">删除数据</string>
-    <!-- Warning message shown on dialog when the user is about the delete all the app's data, as part of the app recovery process -->
+    <!-- Warning message shown on dialog when the user is about to delete all the app's data, as part of the app recovery process -->
     <string name="message_delete_all">即将删除所有的快捷方式、变量等。此操作无法撤销。继续吗？</string>
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">数据恢复成功。</string>
