@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
@@ -40,5 +41,24 @@ fun TimestampTypeEditor(
             null
         },
         singleLine = true,
+    )
+
+    SelectionField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.MEDIUM),
+        title = stringResource(R.string.label_variable_timestamp_timezone),
+        selectedKey = viewState.useUTC,
+        items = listOf(
+            false to stringResource(R.string.label_variable_timestamp_local_timezone),
+            true to stringResource(R.string.label_variable_timestamp_local_utc),
+        ),
+        onItemSelected = {
+            onViewStateChanged(
+                viewState.copy(
+                    useUTC = it,
+                ),
+            )
+        },
     )
 }

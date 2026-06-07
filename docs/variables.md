@@ -61,14 +61,46 @@ The *Number Slider* type is similar to the *number* type. It allows you to pick 
 <a id="date-time"></a>
 ### Date Input and Time Input
 
-The *Date Input* and *Time Input* types trigger a prompt dialog where a date or time can be selected. If you just want the current date or time without showing a picker dialog, use the *timestamp* type instead.
+The *Date Input* and *Time Input* types trigger a prompt dialog where a date or time can be selected. If you just want the current date or time without showing a picker dialog, use the [timestamp](#timestamp) type instead.
 
-The output format can be specified according to Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html).
+The output format can be specified using letters from the following table:
+
+| Letter | Date or Time Component                           | Examples                                    |
+| ------ | ------------------------------------------------ | ------------------------------------------- |
+| `G`    | Era designator                                   | `AD`                                        |
+| `y`    | Year                                             | `1996`; `96`                                |
+| `Y`    | Week year                                        | `2009`; `09`                                |
+| `M`    | Month in year (context sensitive)                | `July`; `Jul`; `07`                         |
+| `L`    | Month in year (standalone form)                  | `July`; `Jul`; `07`                         |
+| `w`    | Week in year                                     | `27`                                        |
+| `W`    | Week in month                                    | `2`                                         |
+| `D`    | Day in year                                      | `189`                                       |
+| `d`    | Day in month                                     | `10`                                        |
+| `F`    | Day of week in month                             | `2`                                         |
+| `E`    | Day name in week                                 | `Tuesday`; `Tue`                            |
+| `u`    | Day number of week (1 = Monday, ..., 7 = Sunday) | `1`                                         |
+| `a`    | Am/pm marker                                     | `PM`                                        |
+| `H`    | Hour in day (0-23)                               | `0`                                         |
+| `k`    | Hour in day (1-24)                               | `24`                                        |
+| `K`    | Hour in am/pm (0-11)                             | `0`                                         |
+| `h`    | Hour in am/pm (1-12)                             | `12`                                        |
+| `m`    | Minute in hour                                   | `30`                                        |
+| `s`    | Second in minute                                 | `55`                                        |
+| `S`    | Millisecond                                      | `978`                                       |
+| `z`    | Time zone                                        | `Pacific Standard Time`; `PST`; `GMT-08:00` |
+| `Z`    | Time zone                                        | `-0800`                                     |
+| `X`    | Time zone                                        | `-08`; `-0800`; `-08:00`                    |
+
+For more details see Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html), which is used under the hood.
 
 <a id="timestamp"></a>
 ### Timestamp
 
-A variable of *timestamp* type will use the current date and/or time as its valid, using the specified format. The output format can be specified according to Android's [SimpleDateFormat](https://developer.android.com/reference/java/text/SimpleDateFormat.html).
+A variable of *timestamp* type will use the current date and/or time as its valid, using the specified format. It can be configured to either use the local timezone of the device, or to use UTC.
+
+The time format uses the same syntax as that of [Date Input and Time Input variables](#date-time)
+
+> The device's default locale is used, meaning that e.g. "Day of week" will be in the language of the device
 
 <a id="color"></a>
 ### Color Input

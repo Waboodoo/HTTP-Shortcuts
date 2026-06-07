@@ -6,4 +6,5 @@ import androidx.compose.runtime.Stable
 data class TimestampTypeViewState(
     val timeFormat: String,
     val invalidFormat: Boolean = false,
+    val useUTC: Boolean = false,
 ) : VariableTypeViewState
