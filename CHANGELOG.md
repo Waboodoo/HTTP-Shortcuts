@@ -1,3 +1,21 @@
+## Version 4.6.0
+
+### Improvements
+- Global variables of type *timestamp* can now be configured to use UTC instead of the local timezone
+- HTTP shortcuts can be configured to use cellular networks only or wi-fi networks only (thanks [@cheriu](https://github.com/cheriu))
+- The `vibrate` Scripting function now supports more patterns, including a short "click" pattern
+- Some fine-tuning to how the background color of icons is determined, to better align the behavior in-app with the behavior on the home screen
+
+### Bugfixes
+- Custom images with a gradient are no longer incorrectly treated as having a single color when using them as a shortcut icon
+- The click action for variable widgets can now be changed correctly
+- Fixed a crash that could happen when loading the Material Design Icons failed
+- The changelog should no longer disappear while scrolling
+
+### Miscellaneous
+- The variable editor screen now has its own "Help" button to more easily access type-specific documentation
+- When importing, shortcuts with an invalid value of 0 as their "timeout" are now corrected to use the default timeout of 10 seconds instead of being rejected
+
 ## Version 4.5.0
 
 ### Improvements
