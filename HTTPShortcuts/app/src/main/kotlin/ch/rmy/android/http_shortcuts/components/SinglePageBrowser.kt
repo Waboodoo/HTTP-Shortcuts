@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -97,7 +98,7 @@ private class SinglePageWebView(
     var onLoaded: () -> Unit = {}
 
     init {
-        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 setBackgroundColor(Color.TRANSPARENT)
