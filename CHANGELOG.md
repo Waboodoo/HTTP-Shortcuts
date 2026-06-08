@@ -5,6 +5,7 @@
 - HTTP shortcuts can be configured to use cellular networks only or wi-fi networks only (thanks [@cheriu](https://github.com/cheriu))
 - The `vibrate` Scripting function now supports more patterns, including a short "click" pattern
 - Some fine-tuning to how the background color of icons is determined, to better align the behavior in-app with the behavior on the home screen
+- The variable widget no longer has a maximum number of lines that can be displayed
 
 ### Bugfixes
 - Custom images with a gradient are no longer incorrectly treated as having a single color when using them as a shortcut icon
