@@ -197,7 +197,7 @@ fun VariableWidgetSettingsContent(
                         (background as? WidgetBackgroundType.Color)?.let { background ->
                             BackgroundColorButton(
                                 background.color,
-                                background.getHexString(),
+                                background.toHumanReadableString(),
                                 onColorButtonClicked = {
                                     colorPickerInitialColor = Color(background.color).copy(alpha = 1f).toArgb()
                                 },
