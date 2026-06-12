@@ -420,8 +420,10 @@ class MainActivity : BaseComposeActivity() {
         fun determineMode(context: Context, intent: Intent) = when (intent.action) {
             Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
             AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> {
+                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0)
+                logInfo("Determining mode for widget configuration, has Widget ID = ${widgetId > 0}")
                 val variableLayout = AppWidgetManager.getInstance(context)
-                    .getAppWidgetInfo(intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0))
+                    .getAppWidgetInfo(widgetId)
                     ?.initialLayout
                 when (variableLayout) {
                     R.layout.variable_widget -> SelectionMode.VARIABLE_WIDGET_PLACEMENT
