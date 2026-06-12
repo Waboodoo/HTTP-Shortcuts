@@ -489,8 +489,11 @@
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">時刻の形式</string>
     <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <string name="label_variable_timestamp_timezone">タイムゾーン</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <string name="label_variable_timestamp_local_timezone">ローカル</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
+    <string name="label_variable_timestamp_local_utc">UTC</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">区切りセパレーター</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
@@ -720,11 +723,17 @@
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">「クイック設定タイル」経由でトリガーを許可する</string>
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
+    <string name="label_network_preference">ネットワーク設定</string>
     <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
+    <string name="option_network_default">システムの既定を使用</string>
     <!-- Dropdown option for network preference: prefer cellular, fall back to default if unavailable -->
+    <string name="option_network_prefer_cellular">モバイル通信を優先</string>
     <!-- Dropdown option for network preference: only cellular, fail if unavailable -->
+    <string name="option_network_only_cellular">モバイル通信のみ</string>
     <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
+    <string name="option_network_prefer_wifi">Wi-Fiを優先</string>
     <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
+    <string name="option_network_only_wifi">Wi-Fi のみ</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">共有中にエラーが発生しました</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
