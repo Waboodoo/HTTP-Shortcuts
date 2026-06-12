@@ -70,29 +70,25 @@ constructor(
     private fun updateWidget(variableWidget: VariableWidget, globalVariable: GlobalVariable?) {
         RemoteViews(context.packageName, R.layout.variable_widget).also { views ->
             val shortcutId = variableWidget.shortcutId
-            if (shortcutId != null) {
-                views.setOnClickPendingIntent(
-                    R.id.widget_base,
-                    ExecuteActivity.IntentBuilder(shortcutId)
-                        .trigger(ShortcutTriggerType.WIDGET)
-                        .build(context)
-                        .let { intent ->
-                            PendingIntent.getActivity(
-                                context,
-                                variableWidget.widgetId,
-                                intent,
-                                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT,
-                            )
-                        },
-                )
+            val pendingIntent = if (shortcutId != null) {
+                ExecuteActivity.IntentBuilder(shortcutId)
+                    .trigger(ShortcutTriggerType.WIDGET)
+                    .build(context)
+                    .let { intent ->
+                        PendingIntent.getActivity(
+                            context,
+                            variableWidget.widgetId,
+                            intent,
+                            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT,
+                        )
+                    }
             } else {
                 // There's no way to remove a click action, so instead we just set a dummy intent that won't be handled by anything
                 val intent = Intent("http-shortcuts-dummy-action")
-                views.setOnClickPendingIntent(
-                    R.id.widget_base,
-                    PendingIntent.getBroadcast(context, variableWidget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE),
-                )
+                PendingIntent.getBroadcast(context, variableWidget.widgetId, intent, PendingIntent.FLAG_IMMUTABLE)
             }
+
+            views.setOnClickPendingIntent(R.id.widget_base, pendingIntent)
 
             val background = variableWidget.background
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && background is WidgetBackgroundType.Color) {
@@ -111,11 +107,26 @@ constructor(
                 )
             }
 
-            views.setTextViewText(R.id.widget_text, globalVariable?.value?.ifEmpty { "-" } ?: "???")
-
+            val text = globalVariable?.value?.ifEmpty { "-" } ?: "???"
             val fontSize = variableWidget.fontSize.toFloat()
-            views.setTextSize(R.id.widget_text, fontSize)
-            views.setLineHeight(R.id.widget_text, TypedValueCompat.dpToPx(fontSize, context.resources.displayMetrics).toInt())
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val items = RemoteViews.RemoteCollectionItems.Builder()
+                    .setHasStableIds(true)
+                    .setViewTypeCount(1)
+                    .addItem(
+                        0,
+                        RemoteViews(context.packageName, R.layout.variable_widget_content).also { innerViews ->
+                            configureTextView(innerViews, fontSize, text)
+                            innerViews.setOnClickFillInIntent(R.id.widget_content_container, Intent())
+                        },
+                    )
+                    .build()
+                views.setRemoteAdapter(R.id.widget_list, items)
+                views.setPendingIntentTemplate(R.id.widget_list, pendingIntent)
+            } else {
+                configureTextView(views, fontSize, text)
+            }
 
             if (variableWidget.title.isNotEmpty()) {
                 views.setViewVisibility(R.id.widget_title, View.VISIBLE)
@@ -131,6 +142,12 @@ constructor(
             AppWidgetManager.getInstance(context)
                 .updateAppWidget(variableWidget.widgetId, views)
         }
+    }
+
+    private fun configureTextView(remoteViews: RemoteViews, fontSize: Float, text: String) {
+        remoteViews.setTextViewText(R.id.widget_text, text)
+        remoteViews.setTextSize(R.id.widget_text, fontSize)
+        remoteViews.setLineHeight(R.id.widget_text, TypedValueCompat.dpToPx(fontSize, context.resources.displayMetrics).toInt())
     }
 
     suspend fun deleteWidgets(widgetIds: List<Int>) {
