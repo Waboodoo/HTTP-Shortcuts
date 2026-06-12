@@ -169,9 +169,10 @@ private fun ExecuteDialog(
             SelectDialog(
                 title = dialogState.title?.localize(),
                 onDismissRequest = onDismissed,
-            ) {
+            ) { horizontalPadding ->
                 dialogState.values.forEach { (value, label) ->
                     SelectDialogEntry(
+                        horizontalPadding = horizontalPadding,
                         label = label,
                         onClick = {
                             onResult(value)

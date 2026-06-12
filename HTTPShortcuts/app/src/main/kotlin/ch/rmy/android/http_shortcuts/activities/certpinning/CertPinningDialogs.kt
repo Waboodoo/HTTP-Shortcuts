@@ -71,13 +71,15 @@ private fun ContextMenuDialog(
 ) {
     SelectDialog(
         onDismissRequest = onDismissed,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_edit),
             icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_delete),
             icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteOptionSelected,

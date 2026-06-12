@@ -72,19 +72,22 @@ private fun ContextMenuDialog(
     SelectDialog(
         title = contextMenuState.title.localize(),
         onDismissRequest = onDismissRequested,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_edit),
             icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditClicked,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_manage_sections),
             icon = painterResource(R.drawable.outline_menu_24),
             onClick = onManageSectionsClicked,
         )
         if (contextMenuState.placeOnHomeScreenOptionVisible) {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = stringResource(R.string.action_place_category),
                 icon = painterResource(R.drawable.outline_home_24),
                 onClick = onPlaceOnHomeScreenClicked,
@@ -92,6 +95,7 @@ private fun ContextMenuDialog(
         }
         if (contextMenuState.showOptionVisible) {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = stringResource(R.string.action_show_category),
                 icon = painterResource(R.drawable.outline_visibility_24),
                 onClick = {
@@ -101,6 +105,7 @@ private fun ContextMenuDialog(
         }
         if (contextMenuState.hideOptionVisible) {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = stringResource(R.string.action_hide_category),
                 icon = painterResource(R.drawable.outline_visibility_off_24),
                 enabled = contextMenuState.hideOptionEnabled,
@@ -110,6 +115,7 @@ private fun ContextMenuDialog(
             )
         }
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_delete),
             icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteClicked,

@@ -37,9 +37,10 @@ fun <T> SettingsSelection(
         onDismissRequest = {
             dialogVisible = false
         },
-    ) {
+    ) { horizontalPadding ->
         items.forEach { (key, label) ->
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = label,
                 checked = key == selectedKey,
                 useRadios = true,

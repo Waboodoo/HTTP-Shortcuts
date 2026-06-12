@@ -148,21 +148,25 @@ private fun OptionsDialog(
     SelectDialog(
         title = title,
         onDismissRequest = onDismissRequested,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.choose_icon),
             onClick = onBuiltInIconOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.dialog_option_material_design_icon),
             onClick = onMaterialDesignIconOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.choose_image),
             onClick = onCustomIconOptionSelected,
         )
         if (onFaviconOptionSelected != null) {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = stringResource(R.string.choose_page_favicon),
                 onClick = {
                     onFaviconOptionSelected()

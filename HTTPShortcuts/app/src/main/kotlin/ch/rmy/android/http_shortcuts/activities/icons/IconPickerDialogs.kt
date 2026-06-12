@@ -103,10 +103,11 @@ private fun SelectShapeDialog(
     SelectDialog(
         title = stringResource(R.string.dialog_title_select_icon_shape),
         onDismissRequest = onDismissRequested,
-    ) {
+    ) { horizontalPadding ->
         Row(
             modifier = Modifier
-                .width(IntrinsicSize.Max),
+                .width(IntrinsicSize.Max)
+                .padding(horizontal = horizontalPadding),
             horizontalArrangement = Arrangement.spacedBy(Spacing.BIG),
         ) {
             ShapeButton(

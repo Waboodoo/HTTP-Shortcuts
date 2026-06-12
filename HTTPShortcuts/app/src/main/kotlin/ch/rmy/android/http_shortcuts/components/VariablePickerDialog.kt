@@ -147,7 +147,7 @@ fun VariablePickerDialog(
         } else {
             null
         },
-    ) {
+    ) { horizontalPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -156,6 +156,7 @@ fun VariablePickerDialog(
                 key = "local",
             ) {
                 SelectDialogEntry(
+                    horizontalPadding = horizontalPadding,
                     label = stringResource(R.string.dialog_option_label_local_variable),
                     description = stringResource(R.string.dialog_option_subtitle_local_variable),
                     onClick = {
@@ -166,7 +167,9 @@ fun VariablePickerDialog(
 
             item(key = "divider") {
                 HorizontalDivider(
-                    modifier = Modifier.padding(vertical = Spacing.MEDIUM),
+                    modifier = Modifier
+                        .padding(horizontal = horizontalPadding)
+                        .padding(vertical = Spacing.MEDIUM),
                 )
             }
 
@@ -175,7 +178,8 @@ fun VariablePickerDialog(
                     key = "no-global-variables",
                 ) {
                     Text(
-                        stringResource(R.string.help_text_no_global_variables_yet, stringResource(R.string.label_edit_variables)),
+                        modifier = Modifier.padding(horizontal = horizontalPadding),
+                        text = stringResource(R.string.help_text_no_global_variables_yet, stringResource(R.string.label_edit_variables)),
                     )
                 }
             } else {
@@ -184,6 +188,7 @@ fun VariablePickerDialog(
                     key = { it.globalVariableId },
                 ) { variable ->
                     SelectDialogEntry(
+                        horizontalPadding = horizontalPadding,
                         label = variable.variableKey,
                         description = stringResource(variable.variableType.getTypeName()),
                         onClick = {

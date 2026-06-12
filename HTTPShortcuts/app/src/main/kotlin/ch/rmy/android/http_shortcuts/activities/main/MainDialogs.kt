@@ -221,19 +221,22 @@ private fun CategoryMenuDialog(
     SelectDialog(
         title = title,
         onDismissRequest = onDismissRequested,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_edit),
             icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditClicked,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_manage_sections),
             icon = painterResource(R.drawable.outline_menu_24),
             onClick = onManageSectionsClicked,
         )
         if (placeOnHomeScreenOptionVisible) {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = stringResource(R.string.action_place_category),
                 icon = painterResource(R.drawable.outline_home_24),
                 onClick = onPlaceOnHomeScreenClicked,

@@ -16,6 +16,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import ch.rmy.android.http_shortcuts.extensions.runIf
 
@@ -26,7 +28,7 @@ fun SelectDialog(
     extraButton: (@Composable () -> Unit)? = null,
     onDismissRequest: () -> Unit,
     scrolling: Boolean = true,
-    content: @Composable ColumnScope.() -> Unit,
+    content: @Composable ColumnScope.(horizontalPadding: Dp) -> Unit,
 ) {
     if (extraButton != null) {
         AlertDialog(
@@ -47,7 +49,7 @@ fun SelectDialog(
                             verticalScroll(rememberScrollState())
                         },
                 ) {
-                    content()
+                    content(0.dp)
                 }
             },
             confirmButton = {},
@@ -70,15 +72,16 @@ fun SelectDialog(
                 contentColor = AlertDialogDefaults.textContentColor,
                 tonalElevation = AlertDialogDefaults.TonalElevation,
             ) {
+                val horizontalPadding = Spacing.MEDIUM + Spacing.SMALL
                 Column(
-                    modifier = Modifier.padding(
-                        horizontal = Spacing.MEDIUM + Spacing.SMALL,
-                        vertical = Spacing.MEDIUM,
-                    ),
+                    modifier = Modifier.padding(vertical = Spacing.MEDIUM),
                 ) {
                     if (!title.isNullOrEmpty()) {
                         Text(
-                            modifier = Modifier.padding(vertical = Spacing.SMALL),
+                            modifier = Modifier.padding(
+                                horizontal = horizontalPadding,
+                                vertical = Spacing.SMALL,
+                            ),
                             text = title,
                             style = MaterialTheme.typography.headlineSmall,
                         )
@@ -89,7 +92,7 @@ fun SelectDialog(
                                 verticalScroll(rememberScrollState())
                             },
                     ) {
-                        content()
+                        content(horizontalPadding)
                     }
                 }
             }

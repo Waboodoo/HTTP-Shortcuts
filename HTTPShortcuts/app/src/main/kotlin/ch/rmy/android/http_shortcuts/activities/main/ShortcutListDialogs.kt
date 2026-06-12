@@ -249,12 +249,14 @@ private fun ExportOptionsDialog(
     SelectDialog(
         title = stringResource(R.string.title_export_shortcut_as),
         onDismissRequest = onDismissed,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_export_as_curl),
             onClick = onExportAsCurlOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_export_as_file),
             onClick = onExportAsFileOptionSelected,
         )
@@ -270,12 +272,14 @@ private fun ExportDestinationOptionsDialog(
     SelectDialog(
         title = stringResource(R.string.title_export),
         onDismissRequest = onDismissed,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.button_export_to_general),
             onClick = onExportToFileOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.button_export_send_to),
             onClick = onExportViaSharingOptionSelected,
         )
@@ -304,40 +308,48 @@ private fun ContextMenuDialog(
     SelectDialog(
         title = shortcutName,
         onDismissRequest = onDismissed,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_place),
             icon = painterResource(R.drawable.outline_menu_24),
             onClick = onPlaceOnHomeScreenOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_run),
             icon = painterResource(R.drawable.outline_play_arrow_24),
             onClick = onExecuteOptionSelected,
         )
         if (isPending) {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = stringResource(R.string.action_cancel_pending),
                 icon = painterResource(R.drawable.outline_cancel_24),
                 onClick = onCancelPendingExecutionOptionSelected,
             )
         }
         HorizontalDivider(
-            modifier = Modifier.padding(vertical = Spacing.MEDIUM),
+            modifier = Modifier
+                .padding(horizontal = horizontalPadding)
+                .padding(vertical = Spacing.MEDIUM),
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_edit),
             icon = painterResource(R.drawable.outline_edit_24),
             onClick = onEditOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_move),
             icon = painterResource(R.drawable.outline_move_down_24),
             onClick = onMoveOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_duplicate),
             icon = painterResource(R.drawable.outline_file_copy_24),
@@ -345,6 +357,7 @@ private fun ContextMenuDialog(
         )
         if (isHidden) {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 enabled = !isInSyncReplaceMode,
                 label = stringResource(R.string.action_show_shortcut),
                 icon = painterResource(R.drawable.outline_visibility_24),
@@ -352,6 +365,7 @@ private fun ContextMenuDialog(
             )
         } else {
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 enabled = !isInSyncReplaceMode,
                 label = stringResource(R.string.action_hide_shortcut),
                 icon = painterResource(R.drawable.outline_visibility_off_24),
@@ -359,20 +373,25 @@ private fun ContextMenuDialog(
             )
         }
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             enabled = !isInSyncReplaceMode,
             label = stringResource(R.string.action_delete),
             icon = painterResource(R.drawable.outline_delete_24),
             onClick = onDeleteOptionSelected,
         )
         HorizontalDivider(
-            modifier = Modifier.padding(vertical = Spacing.MEDIUM),
+            modifier = Modifier
+                .padding(horizontal = horizontalPadding)
+                .padding(vertical = Spacing.MEDIUM),
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_shortcut_information),
             icon = painterResource(R.drawable.outline_info_24),
             onClick = onShowInfoOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_export),
             icon = painterResource(R.drawable.outline_output_24),
             onClick = onExportOptionSelected,

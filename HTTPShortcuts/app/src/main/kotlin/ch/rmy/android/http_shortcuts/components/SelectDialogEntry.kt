@@ -18,11 +18,13 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
 fun SelectDialogEntry(
+    horizontalPadding: Dp,
     label: String,
     description: String? = null,
     checked: Boolean? = null,
@@ -59,7 +61,8 @@ fun SelectDialogEntry(
                     )
                 }
             }
-            .padding(vertical = Spacing.SMALL + Spacing.TINY),
+            .padding(vertical = Spacing.SMALL + Spacing.TINY)
+            .padding(horizontal = horizontalPadding),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (checked != null) {

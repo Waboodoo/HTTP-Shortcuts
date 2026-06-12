@@ -25,7 +25,7 @@ fun ShortcutPickerDialog(
         title = title,
         scrolling = false,
         onDismissRequest = onDismissRequested,
-    ) {
+    ) { horizontalPadding ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -33,6 +33,7 @@ fun ShortcutPickerDialog(
             if (includeCurrentShortcutOption) {
                 item(key = "current") {
                     SelectDialogEntry(
+                        horizontalPadding = horizontalPadding,
                         label = stringResource(R.string.label_insert_action_code_for_current_shortcut),
                         onClick = onCurrentShortcutSelected,
                     )
@@ -43,6 +44,7 @@ fun ShortcutPickerDialog(
                 key = { it.id },
             ) { shortcut ->
                 SelectDialogEntry(
+                    horizontalPadding = horizontalPadding,
                     label = shortcut.name,
                     description = shortcut.description,
                     shortcutIcon = shortcut.icon,

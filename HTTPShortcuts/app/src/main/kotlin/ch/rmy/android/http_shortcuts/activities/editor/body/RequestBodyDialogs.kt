@@ -83,14 +83,16 @@ private fun ParameterTypePickerDialog(
     SelectDialog(
         title = stringResource(R.string.dialog_title_parameter_type),
         onDismissRequest = onDismissed,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.option_parameter_type_string),
             onClick = {
                 onParameterTypeSelected(ParameterType.STRING)
             },
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.option_parameter_type_file),
             onClick = {
                 onParameterTypeSelected(ParameterType.FILE)

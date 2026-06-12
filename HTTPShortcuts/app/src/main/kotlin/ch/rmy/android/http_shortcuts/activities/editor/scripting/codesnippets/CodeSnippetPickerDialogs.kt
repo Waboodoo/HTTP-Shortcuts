@@ -120,9 +120,10 @@ private fun SelectWorkingDirectory(
     SelectDialog(
         title = stringResource(R.string.title_select_working_directory),
         onDismissRequest = onDismissRequested,
-    ) {
+    ) { horizontalPadding ->
         directoryNames.forEach { directoryName ->
             SelectDialogEntry(
+                horizontalPadding = horizontalPadding,
                 label = directoryName,
                 onClick = {
                     onWorkingDirectorySelected(directoryName)

@@ -43,13 +43,15 @@ private fun SelectClientCertTypeDialog(
     SelectDialog(
         title = stringResource(R.string.title_client_cert),
         onDismissRequest = onDismissed,
-    ) {
+    ) { horizontalPadding ->
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.label_client_cert_from_os),
             description = stringResource(R.string.label_client_cert_from_os_subtitle),
             onClick = onFromSystemOptionSelected,
         )
         SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
             label = stringResource(R.string.label_client_cert_from_file),
             description = stringResource(R.string.label_client_cert_from_file_subtitle),
             onClick = onFromFileOptionSelected,
