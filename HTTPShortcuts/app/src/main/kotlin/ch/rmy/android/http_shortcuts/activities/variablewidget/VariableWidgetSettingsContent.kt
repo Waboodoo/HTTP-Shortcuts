@@ -254,6 +254,7 @@ private fun WidgetPreview(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         if (title.isNotEmpty()) {
+            VerticalSpacer(Spacing.SMALL)
             Text(
                 text = title,
                 maxLines = 2,
@@ -263,17 +264,18 @@ private fun WidgetPreview(
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
             )
-            VerticalSpacer(Spacing.SMALL)
         }
+        VerticalSpacer(Spacing.SMALL)
         Text(
             text = value?.ifEmpty { "-" } ?: "???",
-            maxLines = 10,
+            maxLines = 6,
             fontSize = fontSize.sp,
             lineHeight = (fontSize * 1.2).sp,
             color = colorResource(R.color.variable_widget_foreground),
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
         )
+        VerticalSpacer(Spacing.SMALL)
     }
 }
 

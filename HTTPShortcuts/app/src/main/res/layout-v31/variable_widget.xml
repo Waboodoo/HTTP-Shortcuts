@@ -12,9 +12,7 @@
         android:background="@drawable/variable_widget_background"
         android:orientation="vertical"
         android:paddingStart="16dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="8dp">
+        android:paddingEnd="16dp">
 
         <TextView
             android:id="@+id/widget_title"
@@ -22,7 +20,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:padding="4dp"
+            android:paddingTop="8dp"
             android:textAlignment="center"
             android:textColor="@color/variable_widget_foreground"
             android:textSize="15sp" />
