@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.logging
 
 import android.content.Context
+import android.os.DeadObjectException
 import android.view.InflateException
 import ch.rmy.android.framework.extensions.minus
 import ch.rmy.android.framework.extensions.showToast
@@ -87,6 +88,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             e.cause is IOException ||
             e is CancellationException ||
             e is InflateException ||
+            e is DeadObjectException ||
             e.stackTrace.any { it.className.contains("Miui") }
 
     override fun logInfo(origin: String?, message: String) {
