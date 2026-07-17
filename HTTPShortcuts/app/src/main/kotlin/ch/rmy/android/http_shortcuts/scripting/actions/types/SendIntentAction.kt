@@ -187,16 +187,16 @@ constructor(
                 }
 
         internal fun shouldLogException(e: Exception): Boolean =
-            if (e is FileUriExposedException) {
-                false
-            } else {
-                when (e) {
-                    is NumberFormatException,
-                    is ActivityNotFoundException,
-                    is SecurityException,
-                    -> false
-                    else -> true
+            when (e) {
+                is FileUriExposedException,
+                is NumberFormatException,
+                is ActivityNotFoundException,
+                is SecurityException,
+                -> false
+                is IllegalArgumentException -> {
+                    e.message?.contains("Service Intent must be explicit") != true
                 }
+                else -> true
             }
     }
 }
