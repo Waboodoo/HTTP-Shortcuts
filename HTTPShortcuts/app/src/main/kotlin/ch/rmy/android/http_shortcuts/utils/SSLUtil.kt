@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ClientCertException
 import ch.rmy.android.http_shortcuts.http.ClientCertKeyManager
 import ch.rmy.android.http_shortcuts.http.UnsafeTrustManager
 import java.security.KeyStore
+import java.security.cert.CertificateException
 import javax.net.ssl.KeyManager
 import javax.net.ssl.KeyManagerFactory
 import javax.net.ssl.X509TrustManager
@@ -27,7 +28,9 @@ object SSLUtil {
                 try {
                     arrayOf(ClientCertKeyManager.getClientCertKeyManager(context, alias))
                 } catch (e: Throwable) {
-                    logException(e)
+                    if (e !is CertificateException) {
+                        logException(e)
+                    }
                     throw ClientCertException()
                 }
             }
