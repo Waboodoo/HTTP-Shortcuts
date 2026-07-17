@@ -14,7 +14,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - 100% free
 - Open-source
 - No ads
-- No AI features
+- No enshitification (I try)
 - [(Almost) no tracking](privacy-policy.md)
 - Runs on Android 8 (Oreo) or newer. See below for older versions.
 

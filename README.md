@@ -22,7 +22,7 @@ Find more information and documentation on the [official website](https://http-s
 [Support this app](https://http-shortcuts.rmy.ch/support-me) by helping me [translate it](https://crowdin.com/project/http-shortcuts) or by becoming a [Beta Tester](https://play.google.com/apps/testing/ch.rmy.android.http_shortcuts)!
 
 ## Features
-- No ads, no AI features and completely free and open-source
+- No ads, no enshitification (I try) and completely free and open-source
 - Supports HTTP and HTTPS, and methods GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS and TRACE
 - Basic Authentication, Digest Authentication & Bearer Authentication
 - Custom request headers
