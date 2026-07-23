@@ -100,11 +100,12 @@ constructor() {
         }
 
         val client = baseClient.newBuilder()
-            .configureTLS(context, hostVerificationConfig, clientCertParams)
-            .runIf(username != null && password != null) {
-                val authenticator = DigestAuthenticator(Credentials(username, password))
-                authenticator(authenticator)
-            }
+.configureTLS(context, hostVerificationConfig) {
+    val supportedProtocols = listOf("TLSv1.2", "TLSv1.3")
+    val selectedProtocol = supportedProtocols.firstOrNull { it in context.protocols }
+        ?: throw IllegalStateException("Unsupported TLS protocol")
+    context.setProtocol(selectedProtocol)
+}
             .addInterceptor(CompressionInterceptor)
             .runIfNotNull(userAgent) { userAgent ->
                 addInterceptor { chain ->
