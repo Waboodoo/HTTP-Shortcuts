@@ -2,11 +2,15 @@ import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
 import com.android.build.gradle.internal.api.BaseVariantOutputImpl
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.opencsv.CSVReader
 import `in`.wilsonl.minifyhtml.Configuration
 import `in`.wilsonl.minifyhtml.MinifyHtml
 import java.io.FileReader
 import java.util.zip.GZIPOutputStream
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.html.HtmlGenerator
 import org.intellij.markdown.parser.MarkdownParser
@@ -564,5 +568,56 @@ tasks.register("syncStoreListings") {
     description = "processes the store listing CSV files to generate the metadata files for F-Droid"
     doFirst {
         processStoreListings()
+    }
+}
+
+tasks.register("syncTranslationProgress") {
+    description = "fetches translation progress and stores it"
+    doFirst {
+        val config = File("../crowdin.yml").readLines()
+        val apiToken = config.first { it.startsWith("\"api_token\"") }.split(": ")[1].trim('"')
+        val projectId = config.first { it.startsWith("\"project_id\"") }.split(": ")[1].trim('"')
+
+        val outputFile = File("app/src/main/assets/translation-progress.txt")
+        val writer = outputFile.printWriter()
+
+        val jsonReport = OkHttpClient.Builder()
+            .build()
+            .newCall(
+                Request.Builder()
+                    .get()
+                    .url("https://api.crowdin.com/api/v2/projects/$projectId/languages/progress?limit=100")
+                    .header("Authorization", "Bearer $apiToken")
+                    .build(),
+            )
+            .execute()
+            .body
+            .string()
+        val report = Gson().fromJson(jsonReport, JsonObject::class.java)
+        report.get("data").asJsonArray.forEach { languageReportElement ->
+            val languageReport = languageReportElement.asJsonObject.getAsJsonObject("data")
+            val rawLanguage = languageReport.getAsJsonPrimitive("languageId").asString
+            val progress = languageReport.getAsJsonPrimitive("translationProgress").asInt
+            if (progress > 10) {
+                val language = if (rawLanguage == "he") {
+                    "iw"
+                } else if (rawLanguage == "id") {
+                    "in"
+                } else if ('-' in rawLanguage) {
+                    val parts = rawLanguage.split('-')
+                    if (parts[0].equals(parts[1], ignoreCase = true)) {
+                        parts[0]
+                    } else {
+                        "${parts[0]}-r${parts[1]}"
+                    }
+                } else {
+                    rawLanguage
+                }
+                writer.println("$language:$progress")
+            }
+        }
+        writer.println("en:100")
+        writer.flush()
+        writer.close()
     }
 }

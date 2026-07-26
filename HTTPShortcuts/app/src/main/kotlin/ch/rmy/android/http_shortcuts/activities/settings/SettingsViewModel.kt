@@ -7,6 +7,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
+import ch.rmy.android.http_shortcuts.activities.settings.usecases.GetTranslationProgressUseCase
 import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -52,6 +53,7 @@ constructor(
     private val deviceLocalPreferences: DeviceLocalPreferences,
     private val unlockApp: UnlockAppUseCase,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
+    private val getTranslationProgress: GetTranslationProgressUseCase,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): SettingsViewState {
@@ -92,6 +94,7 @@ constructor(
             rememberActiveCategory = userPreferences.isRememberActiveCategory,
             rememberActiveCategoryEnabled = categoryRepository.getCategories().count { !it.hidden } > 1,
             isInSyncReplaceMode = isInSyncReplaceMode,
+            translationProgress = getTranslationProgress(),
         )
     }
 

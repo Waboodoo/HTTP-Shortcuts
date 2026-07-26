@@ -27,6 +27,7 @@ fun SettingsScreen() {
             showHiddenShortcuts = viewState.showHiddenShortcuts,
             rememberActiveCategory = viewState.rememberActiveCategory,
             rememberActiveCategoryEnabled = viewState.rememberActiveCategoryEnabled,
+            translationProgress = viewState.translationProgress,
             onLanguageSelected = viewModel::onLanguageSelected,
             onDarkModeOptionSelected = viewModel::onDarkModeOptionSelected,
             onClickActionOptionSelected = viewModel::onClickActionOptionSelected,

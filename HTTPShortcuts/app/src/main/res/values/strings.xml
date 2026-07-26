@@ -2072,4 +2072,6 @@
     <string name="accessibility_clear_search">Clear</string>
     <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
     <string name="error_no_webview">There appears to be no WebView installed on this device. The content can not be shown.</string>
+    <!-- Pattern for combining the name of a language with its translation progress percentage. %s is a placeholder for the language, %d a placeholder for the percentage, %% a placeholder for the percentage sign itself -->
+    <string name="translation_progress_pattern">%s (%d%%)</string>
 </resources>

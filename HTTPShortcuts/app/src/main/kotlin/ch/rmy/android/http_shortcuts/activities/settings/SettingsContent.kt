@@ -35,6 +35,7 @@ fun SettingsContent(
     showHiddenShortcuts: Boolean,
     rememberActiveCategory: Boolean,
     rememberActiveCategoryEnabled: Boolean,
+    translationProgress: Map<String, Int>,
     selectedClickActionOption: ShortcutClickBehavior,
     onLanguageSelected: (String?) -> Unit,
     onDarkModeOptionSelected: (String) -> Unit,
@@ -90,7 +91,15 @@ fun SettingsContent(
                     "ar" to stringResource(R.string.language_arabic),
                     "el" to stringResource(R.string.language_greek),
                     "fa" to stringResource(R.string.language_persian),
-                ),
+                )
+                    .map { (key, languageName) ->
+                        val progress = translationProgress[key]
+                        key to if (progress != null) {
+                            stringResource(R.string.translation_progress_pattern, languageName, progress)
+                        } else {
+                            languageName
+                        }
+                    },
                 onItemSelected = onLanguageSelected,
             )
 

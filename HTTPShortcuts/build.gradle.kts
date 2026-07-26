@@ -11,6 +11,8 @@ buildscript {
         classpath(libs.minifyHtml)
         classpath(libs.opencsv)
         classpath(libs.unmock)
+        classpath(libs.okhttp3)
+        classpath(libs.gson)
     }
 }
 

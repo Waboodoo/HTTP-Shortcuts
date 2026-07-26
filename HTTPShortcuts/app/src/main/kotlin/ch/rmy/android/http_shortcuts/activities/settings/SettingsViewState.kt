@@ -18,4 +18,5 @@ data class SettingsViewState(
     val rememberActiveCategoryEnabled: Boolean,
     val hasLock: Boolean,
     val isInSyncReplaceMode: Boolean,
+    val translationProgress: Map<String, Int>,
 )
