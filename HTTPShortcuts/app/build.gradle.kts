@@ -224,6 +224,27 @@ android {
     }
 }
 
+val shellApkTemplateAssetDir = layout.buildDirectory.dir("generated/assets/shell-apk-template").get().asFile
+
+val copyShellApkTemplate by tasks.registering(Copy::class) {
+    dependsOn(":shell_apk_template:assembleRelease")
+    from(project(":shell_apk_template").layout.buildDirectory.file("outputs/apk/release/shell_apk_template-release-unsigned.apk")) {
+        rename { "shell-apk-template.apk" }
+    }
+    into(shellApkTemplateAssetDir)
+}
+
+android.sourceSets.getByName("main").assets.srcDir(shellApkTemplateAssetDir)
+
+tasks.configureEach {
+    if (name.startsWith("merge") && name.endsWith("Assets")) {
+        dependsOn(copyShellApkTemplate)
+    }
+    if (name.contains("Lint", ignoreCase = true)) {
+        dependsOn(copyShellApkTemplate)
+    }
+}
+
 composeCompiler {
     includeSourceInformation = true
     stabilityConfigurationFiles.add(rootProject.layout.projectDirectory.file("stability_config.conf"))
@@ -356,6 +377,9 @@ dependencies {
 
     /* Reading & writing zip files for Import & Export */
     implementation(libs.zip4j)
+
+    /* Signing generated shell APKs */
+    implementation(libs.apksig)
 
     /* Google Assistant integration */
     "releaseFullImplementation"(libs.androidx.googleShortcuts)

@@ -41,6 +41,7 @@ fun ShortcutListDialogs(
     dialogState: ShortcutListDialogState?,
     isInSyncReplaceMode: Boolean,
     onPlaceOnHomeScreenOptionSelected: () -> Unit,
+    onInstallAsAppOptionSelected: () -> Unit,
     onExecuteOptionSelected: () -> Unit,
     onCancelPendingExecutionOptionSelected: () -> Unit,
     onEditOptionSelected: () -> Unit,
@@ -106,6 +107,7 @@ fun ShortcutListDialogs(
                 isPending = dialogState.isPending,
                 isHidden = dialogState.isHidden,
                 onPlaceOnHomeScreenOptionSelected = onPlaceOnHomeScreenOptionSelected,
+                onInstallAsAppOptionSelected = onInstallAsAppOptionSelected,
                 onExecuteOptionSelected = onExecuteOptionSelected,
                 onCancelPendingExecutionOptionSelected = onCancelPendingExecutionOptionSelected,
                 onEditOptionSelected = onEditOptionSelected,
@@ -312,6 +314,7 @@ private fun ContextMenuDialog(
     isPending: Boolean,
     isHidden: Boolean,
     onPlaceOnHomeScreenOptionSelected: () -> Unit,
+    onInstallAsAppOptionSelected: () -> Unit,
     onExecuteOptionSelected: () -> Unit,
     onCancelPendingExecutionOptionSelected: () -> Unit,
     onEditOptionSelected: () -> Unit,
@@ -333,6 +336,12 @@ private fun ContextMenuDialog(
             label = stringResource(R.string.action_place),
             icon = painterResource(R.drawable.outline_add_to_home_screen),
             onClick = onPlaceOnHomeScreenOptionSelected,
+        )
+        SelectDialogEntry(
+            horizontalPadding = horizontalPadding,
+            label = stringResource(R.string.action_install_as_app),
+            icon = painterResource(R.drawable.outline_touch_app_24),
+            onClick = onInstallAsAppOptionSelected,
         )
         SelectDialogEntry(
             horizontalPadding = horizontalPadding,

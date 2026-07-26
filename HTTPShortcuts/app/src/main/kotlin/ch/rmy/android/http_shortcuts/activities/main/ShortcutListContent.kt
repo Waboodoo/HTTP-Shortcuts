@@ -41,6 +41,7 @@ fun ShortcutListContent(
     isActive: Boolean,
     highlightedShortcutId: ShortcutId?,
     onPlaceShortcutOnHomeScreen: (ShortcutPlaceholder) -> Unit,
+    onInstallShortcutAsApp: (ShortcutPlaceholder) -> Unit,
     onRemoveShortcutFromHomeScreen: (ShortcutPlaceholder) -> Unit,
     onSelectShortcut: (ShortcutId) -> Unit,
     onLongPress: () -> Unit,
@@ -76,6 +77,9 @@ fun ShortcutListContent(
             }
             is ShortcutListEvent.PlaceShortcutOnHomeScreen -> consume {
                 onPlaceShortcutOnHomeScreen(event.shortcut)
+            }
+            is ShortcutListEvent.InstallShortcutAsApp -> consume {
+                onInstallShortcutAsApp(event.shortcut)
             }
             is ShortcutListEvent.RemoveShortcutFromHomeScreen -> consume {
                 onRemoveShortcutFromHomeScreen(event.shortcut)
@@ -126,6 +130,7 @@ fun ShortcutListContent(
         dialogState = state.dialogState,
         isInSyncReplaceMode = isInSyncReplaceMode,
         onPlaceOnHomeScreenOptionSelected = viewModel::onPlaceOnHomeScreenOptionSelected,
+        onInstallAsAppOptionSelected = viewModel::onInstallAsAppOptionSelected,
         onExecuteOptionSelected = viewModel::onExecuteOptionSelected,
         onCancelPendingExecutionOptionSelected = viewModel::onCancelPendingExecutionOptionSelected,
         onEditOptionSelected = viewModel::onEditOptionSelected,

@@ -316,6 +316,13 @@ constructor(
         emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toShortcutPlaceholder()))
     }
 
+    fun onInstallAsAppOptionSelected() = runAction {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: skipAction()
+        val shortcut = getShortcutById(shortcutId) ?: skipAction()
+        emitEvent(ShortcutListEvent.InstallShortcutAsApp(shortcut.toShortcutPlaceholder()))
+    }
+
     fun onExecuteOptionSelected() = runAction {
         updateDialogState(null)
         val shortcutId = activeShortcutId ?: skipAction()

@@ -169,6 +169,7 @@ fun MainScreen(
             highlightedShortcutId = viewState.highlightedShortcutId,
             onActiveCategoryIdChanged = viewModel::onActiveCategoryChanged,
             onPlaceShortcutOnHomeScreen = viewModel::onPlaceShortcutOnHomeScreen,
+            onInstallShortcutAsApp = viewModel::onInstallShortcutAsApp,
             onRemoveShortcutFromHomeScreen = viewModel::onRemoveShortcutFromHomeScreen,
             onSelectShortcut = viewModel::onSelectShortcut,
             onLongPress = viewModel::onLongPress,

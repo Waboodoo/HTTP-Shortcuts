@@ -4,6 +4,7 @@ include(":curl_command")
 include(":favicon_grabber")
 include(":icon_fetcher")
 include(":scripting")
+include(":shell_apk_template")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)

@@ -9,6 +9,8 @@ abstract class ShortcutListEvent : ViewModelEvent() {
 
     data class PlaceShortcutOnHomeScreen(val shortcut: ShortcutPlaceholder) : ShortcutListEvent()
 
+    data class InstallShortcutAsApp(val shortcut: ShortcutPlaceholder) : ShortcutListEvent()
+
     data class RemoveShortcutFromHomeScreen(val shortcut: ShortcutPlaceholder) : ShortcutListEvent()
 
     data class SelectShortcut(val shortcutId: ShortcutId) : ShortcutListEvent()

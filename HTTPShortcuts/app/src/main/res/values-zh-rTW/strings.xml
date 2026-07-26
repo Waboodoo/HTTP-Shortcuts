@@ -62,6 +62,8 @@
     <string name="subtitle_include_meta_information">回應標頭、狀態代碼 …</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">放置於主畫面</string>
+    <!-- Shortcut dropdown option: Install the shortcut as a separate launcher app -->
+    <string name="action_install_as_app">安裝為應用</string>
     <!-- Category dropdown option: Place category on home screen -->
     <string name="action_place_category">放置於主畫面</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
@@ -384,6 +386,18 @@
     <string name="shortcut_deleted">「%1$s」已刪除。</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">「%1$s」已放置於主畫面。</string>
+    <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission -->
+    <string name="message_shell_apk_unknown_sources_permission_required">請允許 HTTP Shortcuts 安裝未知來源應用，然後再次嘗試安裝此捷徑。</string>
+    <!-- Error shown when the generated shell APK could not be parsed by Android -->
+    <string name="error_shell_apk_invalid">產生的安裝包無效，無法安裝。</string>
+    <!-- Message shown when the generated shell APK was handed to Android's package installer -->
+    <string name="message_shell_apk_install_started">正在開啟安裝器…</string>
+    <!-- Message shown when the generated shell APK was installed successfully -->
+    <string name="message_shell_apk_installed">應用已安裝。</string>
+    <!-- Message shown by a generated shell APK when HTTP Shortcuts can no longer handle its deep link -->
+    <string name="message_shell_apk_shortcut_not_found">未找到對應的捷徑，請解除安裝此應用</string>
+    <!-- Error shown when Android reports that the generated shell APK installation failed. %1$s is the system-provided reason. -->
+    <string name="error_shell_apk_install_failed">安裝失敗：%1$s</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">刪除</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->

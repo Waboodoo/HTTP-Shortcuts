@@ -33,6 +33,7 @@ object DefaultModels {
         bodyContent = "",
         timeout = 0,
         isWaitForNetwork = false,
+        networkPreference = null,
         securityPolicy = null,
         launcherShortcut = false,
         secondaryLauncherShortcut = false,

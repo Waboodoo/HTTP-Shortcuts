@@ -40,6 +40,8 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.shell_apk.InvalidShellApkException
+import ch.rmy.android.http_shortcuts.shell_apk.ShellApkInstaller
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
@@ -98,6 +100,7 @@ constructor(
     private val navigationArgStore: NavigationArgStore,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
     private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
+    private val shellApkInstaller: ShellApkInstaller,
 ) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -634,6 +637,32 @@ constructor(
 
     fun onPlaceShortcutOnHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         placeShortcutOnHomeScreen(shortcut)
+    }
+
+    fun onInstallShortcutAsApp(shortcut: ShortcutPlaceholder) = runAction {
+        withProgressTracking {
+            try {
+                val result = shellApkInstaller.prepareInstall(
+                    shortcutId = shortcut.id,
+                    shortcutName = shortcut.name,
+                    shortcutIcon = shortcut.icon,
+                    allShortcutIds = shortcutRepository.getShortcuts().map { it.id },
+                )
+                when (result) {
+                    is ShellApkInstaller.Result.PermissionRequired -> {
+                        showSnackbar(R.string.message_shell_apk_unknown_sources_permission_required, long = true)
+                        sendIntent(result.intent)
+                    }
+                    is ShellApkInstaller.Result.ReadyToInstall -> {
+                        sendIntent(result.intent)
+                    }
+                }
+            } catch (e: InvalidShellApkException) {
+                showSnackbar(R.string.error_shell_apk_invalid, long = true)
+            } catch (e: Exception) {
+                handleUnexpectedError(e)
+            }
+        }
     }
 
     fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
