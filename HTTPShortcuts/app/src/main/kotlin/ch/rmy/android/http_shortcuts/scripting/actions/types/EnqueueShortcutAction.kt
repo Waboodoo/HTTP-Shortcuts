@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import android.content.Context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -8,7 +9,9 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
+import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.Instant
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
@@ -16,6 +19,8 @@ import kotlin.time.Duration.Companion.milliseconds
 class EnqueueShortcutAction
 @Inject
 constructor(
+    @ApplicationContext
+    private val context: Context,
     private val shortcutRepository: ShortcutRepository,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
 ) : Action<EnqueueShortcutAction.Params> {
@@ -43,9 +48,13 @@ constructor(
             recursionDepth = 0
         }
 
+        val resolvedVariables = variableValues?.mapValues { it.value?.toString() ?: "" } ?: emptyMap()
+
+        copyExternalFilesForForwardingIfNeeded(resolvedVariables)
+
         pendingExecutionsRepository.createPendingExecution(
             shortcutId = shortcut.id,
-            resolvedVariables = variableValues?.mapValues { it.value?.toString() ?: "" } ?: emptyMap(),
+            resolvedVariables = resolvedVariables,
             triggeredAt = Instant.now(),
             tryNumber = 0,
             delay = delay.milliseconds,
@@ -53,6 +62,17 @@ constructor(
             recursionDepth = recursionDepth,
             type = PendingExecutionType.EXPLICITLY_SCHEDULED,
         )
+    }
+
+    private suspend fun copyExternalFilesForForwardingIfNeeded(resolvedVariables: Map<VariableKeyOrId, String>) {
+        resolvedVariables[VariableKeyOrId($$"$files")]?.let { fileIdsAsString ->
+            val fileIds = if (fileIdsAsString.startsWith("[") && fileIdsAsString.endsWith("]")) {
+                fileIdsAsString.trim('[', ']').split(",").map { it.trim() }.toSet()
+            } else {
+                setOf(fileIdsAsString)
+            }
+            FileUploadManager.copyExternalFilesToCacheByIds(context, fileIds)
+        }
     }
 
     data class Params(

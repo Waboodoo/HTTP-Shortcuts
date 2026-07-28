@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.http
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.annotation.Keep
@@ -9,8 +10,11 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
+import ch.rmy.android.http_shortcuts.BuildConfig
 import ch.rmy.android.http_shortcuts.extensions.userError
 import java.io.IOException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class FileUploadManager internal constructor(
     private val contentResolver: ContentResolver,
@@ -179,7 +183,6 @@ class FileUploadManager internal constructor(
     data class Result(
         private val registeredFiles: List<List<File>>,
     ) {
-
         fun getFiles(): List<File> =
             registeredFiles.flatten()
 
@@ -234,5 +237,26 @@ class FileUploadManager internal constructor(
         private const val DEFAULT_FILE_NAME = "file"
 
         private val fileLookup = mutableMapOf<String, File>()
+
+        suspend fun copyExternalFilesToCacheByIds(context: Context, fileIds: Set<String>) = withContext(Dispatchers.IO) {
+            fileIds.forEach { fileId ->
+                val externalFile = fileLookup[fileId]
+                    ?.takeIf { file ->
+                        file.data.scheme == ContentResolver.SCHEME_CONTENT && file.data.host != BuildConfig.APPLICATION_ID
+                    }
+                    ?: return@forEach
+
+                val cacheFile = FileUtil.createCacheFile(context, "forwarded-$fileId")
+                context.contentResolver.openInputStream(externalFile.data)
+                    ?.use { inputStream ->
+                        context.contentResolver.openOutputStream(cacheFile)!!.use { outputStream ->
+                            inputStream.copyTo(outputStream)
+                        }
+                    }
+                fileLookup[fileId] = externalFile.copy(
+                    data = cacheFile,
+                )
+            }
+        }
     }
 }

@@ -210,7 +210,7 @@ constructor(
             fileUris
                 .map { fileUri ->
                     context.contentResolver.openInputStream(fileUri)!!
-                        .use { stream ->
+                        .use { inputStream ->
                             FileUtil.createCacheFile(context, createCacheFileName())
                                 .also { file ->
                                     FileUtil.getFileName(context.contentResolver, fileUri)
@@ -221,7 +221,9 @@ constructor(
                                         ?.let { fileType ->
                                             FileUtil.putCacheFileOriginalType(file, fileType)
                                         }
-                                    stream.copyTo(context.contentResolver.openOutputStream(file)!!)
+                                    context.contentResolver.openOutputStream(file)!!.use { outputStream ->
+                                        inputStream.copyTo(outputStream)
+                                    }
                                 }
                         }
                 }
