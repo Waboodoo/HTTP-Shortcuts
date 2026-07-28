@@ -188,15 +188,9 @@ constructor() {
         cache.put(cacheKey, client)
         scheduleCacheCleanup()
 
-        return client
-    }
-
-    private fun scheduleCacheCleanup() {
-        cleanupJob?.cancel()
-        cleanupJob = coroutineScope.launch {
-            delay(CACHE_CLEAR_TIMEOUT)
-            cache.evictAll()
-        }
+return client
+    .setProtocols(Arrays.asList("TLSv1.2"))
+    .build();
     }
 
     private fun OkHttpClient.Builder.configureTLS(
