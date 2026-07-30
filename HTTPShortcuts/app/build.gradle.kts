@@ -87,6 +87,7 @@ android {
         localeFilters += setOf(
             "en",
             "en-rGB",
+            "bg",
             "ca",
             "de",
             "de-rCH",

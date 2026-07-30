@@ -67,6 +67,7 @@ fun SettingsContent(
                 items = listOf(
                     null to stringResource(R.string.language_default),
                     "en" to stringResource(R.string.language_english),
+                    "bg" to stringResource(R.string.language_bulgarian),
                     "ca" to stringResource(R.string.language_catalan),
                     "cs" to stringResource(R.string.language_czech),
                     "de" to stringResource(R.string.language_german),
