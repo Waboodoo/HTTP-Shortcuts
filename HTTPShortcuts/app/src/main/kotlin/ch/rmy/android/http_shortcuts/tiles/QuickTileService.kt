@@ -63,7 +63,6 @@ class QuickTileService : TileService() {
 
     override fun onClick() {
         if (!scope.isActive) {
-            logException(IllegalStateException("QuickTileService coroutine scope was inactive"))
             val shortcuts = runBlocking {
                 getShortcuts()
             }
