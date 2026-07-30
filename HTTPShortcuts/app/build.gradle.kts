@@ -67,9 +67,9 @@ android {
         targetSdk = 36
 
         // Version name and code must remain as literals so that F-Droid can read them
-        versionName = "4.6.0"
+        versionName = "4.7.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1104060001
+        versionCode = 1104070000
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("long", "BUILD_TIMESTAMP", buildTimestamp.toString())
