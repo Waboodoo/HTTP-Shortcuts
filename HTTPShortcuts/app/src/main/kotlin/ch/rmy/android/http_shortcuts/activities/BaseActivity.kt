@@ -3,7 +3,9 @@ package ch.rmy.android.http_shortcuts.activities
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import ch.rmy.android.framework.ui.BaseActivity
+import ch.rmy.android.http_shortcuts.Application
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 
 abstract class BaseActivity : BaseActivity() {
@@ -15,6 +17,12 @@ abstract class BaseActivity : BaseActivity() {
         setTheme(if (initializeWithTheme) R.style.LightTheme else R.style.Theme_Transparent)
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+        if (Application.unmigratedRealmFound && this !is MainActivity) {
+            finish()
+            return
+        }
+
         onCreated(savedInstanceState)
     }
 
