@@ -329,9 +329,18 @@ private fun ShortcutListItem(
             },
             trailingContent = if (shortcut.isPending) {
                 {
-                    // TODO(???): Add background / shadow if needed
-                    // TODO(???): Animate in & out
-                    painterResource(R.drawable.outline_hourglass_empty_24)
+                    Icon(
+                        painterResource(R.drawable.outline_hourglass_empty_24),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSecondary,
+                        modifier = Modifier
+                            .size(16.dp * scale)
+                            .background(
+                                color = MaterialTheme.colorScheme.secondary,
+                                shape = CircleShape,
+                            )
+                            .padding(2.dp),
+                    )
                 }
             } else {
                 null
