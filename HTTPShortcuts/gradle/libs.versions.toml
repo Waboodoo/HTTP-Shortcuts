@@ -98,7 +98,6 @@ jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 jetbrains-markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }

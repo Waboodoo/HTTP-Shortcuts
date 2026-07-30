@@ -1,3 +1,7 @@
+import buildSrc.LocalProperties
+
+LocalProperties.init(project.rootProject)
+
 buildscript {
     repositories {
         mavenCentral()
@@ -7,12 +11,7 @@ buildscript {
         classpath(libs.kotlin.gradle.plugin)
         classpath(libs.android.gradle)
         classpath(libs.bugsnag.gradle)
-        classpath(libs.jetbrains.markdown)
-        classpath(libs.minifyHtml)
-        classpath(libs.opencsv)
         classpath(libs.unmock)
-        classpath(libs.okhttp3)
-        classpath(libs.gson)
     }
 }
 
