@@ -151,10 +151,8 @@ constructor(
 
     @Suppress("DEPRECATION")
     private fun validateApk(apkFile: File) {
-        val packageInfo = context.packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.GET_ACTIVITIES)
-        if (packageInfo == null) {
-            throw InvalidShellApkException()
-        }
+        context.packageManager.getPackageArchiveInfo(apkFile.absolutePath, PackageManager.GET_ACTIVITIES)
+            ?: throw InvalidShellApkException()
     }
 
     private data class TemplateEntry(

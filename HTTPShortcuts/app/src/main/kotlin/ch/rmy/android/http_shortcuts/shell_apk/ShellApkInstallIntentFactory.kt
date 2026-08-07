@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
+import androidx.core.net.toUri
 import java.io.File
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Intent(
                 Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
-                android.net.Uri.parse("package:${context.packageName}"),
+                "package:${context.packageName}".toUri(),
             )
         } else {
             Intent(Settings.ACTION_SECURITY_SETTINGS)

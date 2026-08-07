@@ -8,7 +8,7 @@ import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import java.io.File
@@ -26,24 +26,24 @@ class ShellApkInstallerActivity : Activity() {
 
             val apkFile = File(intent.getStringExtra(EXTRA_APK_PATH).orEmpty())
             if (!apkFile.isFile) {
-                Toast.makeText(this, R.string.error_shell_apk_invalid, Toast.LENGTH_LONG).show()
+                showToast(R.string.error_shell_apk_invalid, long = true)
                 finish()
                 return
             }
 
             val packageName = getArchivePackageName(apkFile)
             if (packageName == null) {
-                Toast.makeText(this, R.string.error_shell_apk_invalid, Toast.LENGTH_LONG).show()
+                showToast(R.string.error_shell_apk_invalid, long = true)
                 finish()
                 return
             }
 
             install(apkFile, packageName)
             deleteTemporaryApkFiles(apkFile)
-            Toast.makeText(this, R.string.message_shell_apk_install_started, Toast.LENGTH_SHORT).show()
+            showToast(R.string.message_shell_apk_install_started)
         } catch (e: Exception) {
             logException(e)
-            Toast.makeText(this, getString(R.string.error_shell_apk_install_failed, e.message.orEmpty()), Toast.LENGTH_LONG).show()
+            showToast(getString(R.string.error_shell_apk_install_failed, e.message.orEmpty()), long = true)
         } finally {
             finish()
         }
@@ -58,14 +58,14 @@ class ShellApkInstallerActivity : Activity() {
                     ?: showInstallFailure("status=$status")
             }
             PackageInstaller.STATUS_SUCCESS -> {
-                Toast.makeText(this, R.string.message_shell_apk_installed, Toast.LENGTH_SHORT).show()
+                showToast(R.string.message_shell_apk_installed)
             }
             else -> {
                 // Some vendor installers report STATUS_FAILURE_ABORTED after the package has already been installed.
                 // Trust the package manager over the callback before showing a failure to the user.
                 val expectedPackageName = intent.getStringExtra(EXTRA_PACKAGE_NAME)
                 if (expectedPackageName != null && isPackageInstalled(expectedPackageName)) {
-                    Toast.makeText(this, R.string.message_shell_apk_installed, Toast.LENGTH_SHORT).show()
+                    showToast(R.string.message_shell_apk_installed)
                 } else {
                     val message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)
                         .orEmpty()
@@ -147,11 +147,10 @@ class ShellApkInstallerActivity : Activity() {
         }
 
     private fun showInstallFailure(message: String) {
-        Toast.makeText(
-            this,
+        showToast(
             getString(R.string.error_shell_apk_install_failed, message.ifEmpty { "unknown" }),
-            Toast.LENGTH_LONG,
-        ).show()
+            long = true,
+        )
     }
 
     companion object {

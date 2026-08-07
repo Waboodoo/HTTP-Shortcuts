@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
@@ -109,6 +110,7 @@ constructor(
         get() = initData.selectionMode
 
     private var activeShortcutId: ShortcutId? = null
+    private var pendingShellApkPermissionIntent: Intent? = null
     private var settingsRequestHandled: Boolean = false
     private var switchedAwayFromInitialCategory = false
 
@@ -646,12 +648,11 @@ constructor(
                     shortcutId = shortcut.id,
                     shortcutName = shortcut.name,
                     shortcutIcon = shortcut.icon,
-                    allShortcutIds = shortcutRepository.getShortcuts().map { it.id },
                 )
                 when (result) {
                     is ShellApkInstaller.Result.PermissionRequired -> {
-                        showSnackbar(R.string.message_shell_apk_unknown_sources_permission_required, long = true)
-                        sendIntent(result.intent)
+                        pendingShellApkPermissionIntent = result.intent
+                        updateDialogState(MainDialogState.ShellApkUnknownSourcesPermissionRequired)
                     }
                     is ShellApkInstaller.Result.ReadyToInstall -> {
                         sendIntent(result.intent)
@@ -663,6 +664,13 @@ constructor(
                 handleUnexpectedError(e)
             }
         }
+    }
+
+    fun onShellApkPermissionConfirmed() = runAction {
+        val intent = pendingShellApkPermissionIntent ?: skipAction()
+        pendingShellApkPermissionIntent = null
+        updateDialogState(null)
+        sendIntent(intent)
     }
 
     fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
@@ -681,6 +689,9 @@ constructor(
                 MainDialogState.NetworkRestrictionsWarning,
             )
         } else {
+            if (viewState.dialogState is MainDialogState.ShellApkUnknownSourcesPermissionRequired) {
+                pendingShellApkPermissionIntent = null
+            }
             updateDialogState(null)
         }
     }

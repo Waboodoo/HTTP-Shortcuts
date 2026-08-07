@@ -3,8 +3,6 @@ package ch.rmy.android.http_shortcuts.shell_apk
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import androidx.core.graphics.createBitmap
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
@@ -19,7 +17,7 @@ constructor(
 ) {
 
     fun createIconPng(icon: ShortcutIcon): ByteArray {
-        val bitmap = loadBitmap(icon) ?: createFallbackBitmap()
+        val bitmap = loadBitmap(icon) ?: throw InvalidShellApkException()
         return try {
             ByteArrayOutputStream().use { output ->
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
@@ -51,19 +49,6 @@ constructor(
         } finally {
             bounds = oldBounds
         }
-        return bitmap
-    }
-
-    private fun createFallbackBitmap(): Bitmap {
-        val bitmap = createBitmap(ICON_SIZE, ICON_SIZE)
-        val canvas = Canvas(bitmap)
-        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        paint.color = Color.rgb(45, 108, 223)
-        canvas.drawRect(0f, 0f, ICON_SIZE.toFloat(), ICON_SIZE.toFloat(), paint)
-        paint.color = Color.WHITE
-        canvas.drawRect(60f, 64f, 132f, 80f, paint)
-        canvas.drawRect(60f, 88f, 132f, 104f, paint)
-        canvas.drawRect(60f, 112f, 108f, 128f, paint)
         return bitmap
     }
 

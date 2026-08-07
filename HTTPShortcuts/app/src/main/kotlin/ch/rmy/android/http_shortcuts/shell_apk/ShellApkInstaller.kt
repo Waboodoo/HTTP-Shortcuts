@@ -17,12 +17,11 @@ constructor(
         shortcutId: ShortcutId,
         shortcutName: String,
         shortcutIcon: ShortcutIcon,
-        allShortcutIds: Collection<ShortcutId>,
     ): Result {
         if (!installIntentFactory.canRequestPackageInstalls()) {
             return Result.PermissionRequired(installIntentFactory.createManageUnknownSourcesIntent())
         }
-        val packageName = packageNameFactory.createPackageName(shortcutId, allShortcutIds)
+        val packageName = packageNameFactory.createPackageName(shortcutId)
         val apkFile = shellApkBuilder.build(
             shortcutId = shortcutId,
             packageName = packageName,

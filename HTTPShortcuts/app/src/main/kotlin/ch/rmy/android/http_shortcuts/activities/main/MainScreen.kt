@@ -184,6 +184,7 @@ fun MainScreen(
         onRecoveryConfirmed = viewModel::onRecoveryConfirmed,
         onRecoveryDiscarded = viewModel::onRecoveryDiscarded,
         onShortcutPlacementConfirmed = viewModel::onShortcutPlacementConfirmed,
+        onShellApkPermissionConfirmed = viewModel::onShellApkPermissionConfirmed,
         onNetworkRestrictionsWarningHidden = viewModel::onNetworkRestrictionsWarningHidden,
         onUnlockDialogSubmitted = viewModel::onUnlockDialogSubmitted,
         onEditCategoryClicked = viewModel::onEditCategoryClicked,

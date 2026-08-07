@@ -22,6 +22,9 @@ sealed class MainDialogState {
     data object ShortcutPlacement : MainDialogState()
 
     @Stable
+    data object ShellApkUnknownSourcesPermissionRequired : MainDialogState()
+
+    @Stable
     data class Unlock(
         val tryAgain: Boolean = false,
     ) : MainDialogState()

@@ -29,6 +29,7 @@ fun MainDialogs(
     onRecoveryConfirmed: () -> Unit,
     onRecoveryDiscarded: () -> Unit,
     onShortcutPlacementConfirmed: (useLegacy: Boolean) -> Unit,
+    onShellApkPermissionConfirmed: () -> Unit,
     onNetworkRestrictionsWarningHidden: (Boolean) -> Unit,
     onUnlockDialogSubmitted: (String) -> Unit,
     onEditCategoryClicked: () -> Unit,
@@ -81,6 +82,14 @@ fun MainDialogs(
             ShortcutPlacementDialog(
                 onShortcutPlacementConfirmed = onShortcutPlacementConfirmed,
                 onDismissed = onDismissed,
+            )
+        }
+        is MainDialogState.ShellApkUnknownSourcesPermissionRequired -> {
+            ConfirmDialog(
+                title = stringResource(R.string.action_install_as_app),
+                message = stringResource(R.string.message_shell_apk_unknown_sources_permission_required),
+                onConfirmRequest = onShellApkPermissionConfirmed,
+                onDismissRequest = onDismissed,
             )
         }
         is MainDialogState.Unlock -> {
