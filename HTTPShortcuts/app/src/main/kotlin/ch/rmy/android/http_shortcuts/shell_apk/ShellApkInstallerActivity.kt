@@ -9,11 +9,13 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.getParcelable
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
@@ -66,9 +68,10 @@ class ShellApkInstallerActivity : AppCompatActivity() {
         logInfo("Handling install status $status")
         when (status) {
             PackageInstaller.STATUS_PENDING_USER_ACTION -> {
-                val confirmationIntent = intent.getConfirmationIntent()
+                val confirmationIntent = intent.getParcelable<Intent>(Intent.EXTRA_INTENT)
                 if (confirmationIntent == null) {
-                    showInstallFailure("status=$status")
+                    showInstallFailure("intent was unexpected null")
+                    logException(RuntimeException("Confirmation intent was null"))
                     return
                 }
                 confirmationIntent
@@ -78,6 +81,9 @@ class ShellApkInstallerActivity : AppCompatActivity() {
             PackageInstaller.STATUS_SUCCESS -> {
                 showToast(R.string.message_shell_apk_installed)
             }
+            PackageInstaller.STATUS_FAILURE_ABORTED,
+            PackageInstaller.STATUS_FAILURE_TIMEOUT,
+            -> Unit
             else -> {
                 // Some vendor installers report STATUS_FAILURE_ABORTED after the package has already been installed.
                 // Trust the package manager over the callback before showing a failure to the user.
@@ -89,10 +95,12 @@ class ShellApkInstallerActivity : AppCompatActivity() {
                 if (expectedPackageNames.any(::isPackageInstalled)) {
                     showToast(R.string.message_shell_apk_installed)
                 } else {
-                    val message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)
-                        .orEmpty()
-                        .ifEmpty { "status=$status" }
-                    showInstallFailure("status=$status, $message")
+                    val statusMessage = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)?.takeUnlessEmpty()
+                    showInstallFailure(
+                        message = statusMessage ?: "status=$status",
+                    )
+                    logInfo("Installation failed: $status, $statusMessage")
+                    logException(RuntimeException("APK installation failed"))
                 }
             }
         }
@@ -160,27 +168,14 @@ class ShellApkInstallerActivity : AppCompatActivity() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0,
         )
 
-    @Suppress("DEPRECATION")
-    private fun Intent.getConfirmationIntent(): Intent? =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            getParcelableExtra(Intent.EXTRA_INTENT, Intent::class.java)
-        } else {
-            getParcelableExtra(Intent.EXTRA_INTENT)
-        }
-
     private fun showInstallFailure(message: String) {
-        showToast(
-            getString(R.string.error_shell_apk_install_failed, message.ifEmpty { "unknown" }),
-            long = true,
-        )
-        logException(RuntimeException(message))
+        showToast(getString(R.string.error_shell_apk_install_failed, message), long = true)
     }
 
     companion object {
         private const val APK_SESSION_NAME = "base.apk"
         private const val EXTRA_APK_PATH = "apk_path"
-
-        private const val SHELL_APK_PACKAGE_NAME_EXTRA = "package_name"
+        private const val EXTRA_SHELL_APK_PACKAGE_NAME = "package_name"
         private const val SHELL_APK_INSTALL_STATUS_ACTION_PREFIX = "ch.rmy.android.http_shortcuts.shell_apk.INSTALL_STATUS."
 
         private fun Intent.isShellApkInstallStatusIntent(): Boolean =
@@ -190,7 +185,7 @@ class ShellApkInstallerActivity : AppCompatActivity() {
         private fun Intent.getShellApkExpectedPackageNames(): Set<String> =
             listOfNotNull(
                 getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME),
-                getStringExtra(SHELL_APK_PACKAGE_NAME_EXTRA),
+                getStringExtra(EXTRA_SHELL_APK_PACKAGE_NAME),
                 data?.schemeSpecificPart,
                 action
                     ?.takeIf { it.startsWith(SHELL_APK_INSTALL_STATUS_ACTION_PREFIX) }
@@ -210,6 +205,6 @@ class ShellApkInstallerActivity : AppCompatActivity() {
                 // Some vendor installers drop custom extras from the final status callback.
                 .setData("http-shortcuts-install:$packageName".toUri())
                 .putExtra(PackageInstaller.EXTRA_PACKAGE_NAME, packageName)
-                .putExtra(SHELL_APK_PACKAGE_NAME_EXTRA, packageName)
+                .putExtra(EXTRA_SHELL_APK_PACKAGE_NAME, packageName)
     }
 }
