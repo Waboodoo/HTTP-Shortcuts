@@ -290,7 +290,7 @@ constructor(
         val shortcutId = activeShortcutId ?: skipAction()
         val shortcut = getShortcutById(shortcutId) ?: skipAction()
 
-        if ((shortcut.icon as? ShortcutIcon.CustomIcon)?.isUsableAsSilhouette == true) {
+        if (launcherShortcutManager.supportsPinning() && (shortcut.icon as? ShortcutIcon.CustomIcon)?.isUsableAsSilhouette == true) {
             updateDialogState(
                 ShortcutListDialogState.SelectBackgroundColor(
                     icon = shortcut.icon,
