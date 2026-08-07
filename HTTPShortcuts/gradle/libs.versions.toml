@@ -79,6 +79,7 @@ androidx-preference = { module = "androidx.preference:preference-ktx", version.r
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-test = { module = "androidx.test:core-ktx", version.ref = "androidxTestCore" }
 androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
+apksig = { module = "com.android.tools.build:apksig", version.ref = "androidGradle" }
 brotli = { module = "org.brotli:dec", version.ref = "brotli" }
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
 bugsnag-gradle = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnag" }

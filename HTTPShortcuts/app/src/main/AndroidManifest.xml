@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- Needed for checking the current wi-fi SSID, and for the `getLocation()` scripting function -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -61,6 +62,12 @@
 
         <intent>
             <action android:name="com.google.zxing.client.android.SCAN" />
+        </intent>
+
+        <!-- Shell APKs expose only a launcher activity with dynamic package names. -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
         </intent>
 
         <package android:name="de.markusfisch.android.binaryeye" />
@@ -295,6 +302,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
+
+        <activity
+            android:name=".shell_apk.ShellApkInstallerActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:theme="@style/Theme.Transparent" />
 
         <service
             android:name=".tiles.QuickTileService"

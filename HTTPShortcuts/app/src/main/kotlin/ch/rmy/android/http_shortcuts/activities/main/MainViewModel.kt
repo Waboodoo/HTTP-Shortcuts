@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.app.Application
+import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
@@ -40,6 +41,8 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.shell_apk.InvalidShellApkException
+import ch.rmy.android.http_shortcuts.shell_apk.ShellApkInstaller
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
@@ -98,6 +101,7 @@ constructor(
     private val navigationArgStore: NavigationArgStore,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
     private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
+    private val shellApkInstaller: ShellApkInstaller,
 ) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -106,6 +110,7 @@ constructor(
         get() = initData.selectionMode
 
     private var activeShortcutId: ShortcutId? = null
+    private var pendingShellApkPermissionIntent: Intent? = null
     private var settingsRequestHandled: Boolean = false
     private var switchedAwayFromInitialCategory = false
 
@@ -636,6 +641,38 @@ constructor(
         placeShortcutOnHomeScreen(shortcut)
     }
 
+    fun onInstallShortcutAsApp(shortcut: ShortcutPlaceholder) = runAction {
+        withProgressTracking {
+            try {
+                val result = shellApkInstaller.prepareInstall(
+                    shortcutId = shortcut.id,
+                    shortcutName = shortcut.name,
+                    shortcutIcon = shortcut.icon,
+                )
+                when (result) {
+                    is ShellApkInstaller.Result.PermissionRequired -> {
+                        pendingShellApkPermissionIntent = result.intent
+                        updateDialogState(MainDialogState.ShellApkUnknownSourcesPermissionRequired)
+                    }
+                    is ShellApkInstaller.Result.ReadyToInstall -> {
+                        sendIntent(result.intent)
+                    }
+                }
+            } catch (e: InvalidShellApkException) {
+                showSnackbar(R.string.error_shell_apk_invalid, long = true)
+            } catch (e: Exception) {
+                handleUnexpectedError(e)
+            }
+        }
+    }
+
+    fun onShellApkPermissionConfirmed() = runAction {
+        val intent = pendingShellApkPermissionIntent ?: skipAction()
+        pendingShellApkPermissionIntent = null
+        updateDialogState(null)
+        sendIntent(intent)
+    }
+
     fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
         removeShortcutFromHomeScreen(shortcut)
         shortcutUpdateWorkerStarter.invoke()
@@ -652,6 +689,9 @@ constructor(
                 MainDialogState.NetworkRestrictionsWarning,
             )
         } else {
+            if (viewState.dialogState is MainDialogState.ShellApkUnknownSourcesPermissionRequired) {
+                pendingShellApkPermissionIntent = null
+            }
             updateDialogState(null)
         }
     }
