@@ -235,6 +235,67 @@
             android:showWhenLocked="true"
             android:theme="@style/Theme.Transparent" />
 
+        <activity-alias
+            android:name="ch.rmy.android.launchers.AltIconBlackAndWhite"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_black_and_white"
+            android:label="@string/app_name"
+            android:targetActivity=".activities.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name="ch.rmy.android.launchers.AltIconWhiteAndBlack"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_white_and_black"
+            android:label="@string/app_name"
+            android:targetActivity=".activities.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name="ch.rmy.android.launchers.AltIconSolarized"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_solarized"
+            android:label="@string/app_name"
+            android:targetActivity=".activities.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name="ch.rmy.android.launchers.AltIconHacker"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_hacker"
+            android:label="@string/app_name"
+            android:targetActivity=".activities.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+            android:name="ch.rmy.android.launchers.AltIconGreen"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_green"
+            android:label="@string/app_name"
+            android:targetActivity=".activities.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <service
             android:name=".tiles.QuickTileService"
             android:exported="true"

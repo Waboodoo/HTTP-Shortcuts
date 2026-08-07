@@ -42,6 +42,7 @@ fun SettingsContent(
     onRememberActiveCategoryChanged: (Boolean) -> Unit,
     onClickActionOptionSelected: (ShortcutClickBehavior) -> Unit,
     onChangeTitleButtonClicked: () -> Unit,
+    onChangeAppIconButtonClicked: () -> Unit,
     onUserAgentButtonClicked: () -> Unit,
     onLockButtonClicked: () -> Unit,
     onQuickSettingsTileButtonClicked: () -> Unit,
@@ -143,6 +144,13 @@ fun SettingsContent(
                 title = stringResource(R.string.settings_app_title_title),
                 subtitle = stringResource(R.string.settings_app_title_summary),
                 onClick = onChangeTitleButtonClicked,
+            )
+
+            SettingsButton(
+                icon = painterResource(R.drawable.outline_app_shortcut),
+                title = stringResource(R.string.settings_app_icon_title),
+                subtitle = stringResource(R.string.settings_app_icon_summary),
+                onClick = onChangeAppIconButtonClicked,
             )
 
             SettingsSelection(

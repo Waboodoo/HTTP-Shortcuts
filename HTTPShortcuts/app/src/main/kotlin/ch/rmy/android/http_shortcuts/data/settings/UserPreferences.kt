@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.settings
 import android.content.Context
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.framework.utils.PreferencesStore
+import ch.rmy.android.http_shortcuts.data.enums.AppIconType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.enums.SyncType
 import javax.inject.Inject
@@ -74,6 +75,10 @@ constructor(
         get() = getString(KEY_SYNC_TYPE)?.let { SyncType.parse(it) }
         set(value) = putString(KEY_SYNC_TYPE, value?.value)
 
+    var appIconTye: AppIconType
+        get() = getString(KEY_APP_ICON_TYPE)?.let { AppIconType.parse(it) } ?: AppIconType.DEFAULT
+        set(value) = putString(KEY_APP_ICON_TYPE, value.type)
+
     fun observeSyncType(): Flow<SyncType?> =
         observe { syncType }
 
@@ -100,5 +105,6 @@ constructor(
         private const val KEY_HEADLESS_MODE_DISABLED = "headless_mode_disabled"
         private const val KEY_REMEMBER_ACTIVE_CATEGORY = "remember_active_category"
         private const val KEY_SYNC_TYPE = "sync_type"
+        private const val KEY_APP_ICON_TYPE = "app_icon"
     }
 }

@@ -312,7 +312,7 @@ private fun ContextMenuDialog(
         SelectDialogEntry(
             horizontalPadding = horizontalPadding,
             label = stringResource(R.string.action_place),
-            icon = painterResource(R.drawable.outline_menu_24),
+            icon = painterResource(R.drawable.outline_add_to_home_screen),
             onClick = onPlaceOnHomeScreenOptionSelected,
         )
         SelectDialogEntry(

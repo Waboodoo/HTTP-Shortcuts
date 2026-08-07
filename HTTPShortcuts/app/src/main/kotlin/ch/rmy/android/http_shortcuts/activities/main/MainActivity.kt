@@ -68,7 +68,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
-class MainActivity : BaseComposeActivity() {
+open class MainActivity : BaseComposeActivity() {
 
     @Inject
     lateinit var importer: Importer

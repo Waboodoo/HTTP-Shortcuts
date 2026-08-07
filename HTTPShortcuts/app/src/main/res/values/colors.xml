@@ -15,4 +15,9 @@
     <item name="variable_widget_foreground" type="color">#262626</item>
     <item name="variable_widget_background" type="color">#87EBEBEB</item>
     <item name="highlighted_shortcut" type="color">#66ffefc2</item>
+
+    <item name="white" type="color">#ffffff</item>
+    <item name="black" type="color">#000000</item>
+    <item name="beige" type="color">#fdf6e3</item>
+    <item name="green" type="color">#19CC55</item>
 </resources>

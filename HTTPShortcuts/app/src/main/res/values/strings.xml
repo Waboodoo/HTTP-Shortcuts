@@ -773,6 +773,10 @@
     <string name="settings_app_title_title">App Title</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">Change the title of the app\’s main screen</string>
+    <!-- Title of section in settings that allows the user to change the icon of the app -->
+    <string name="settings_app_icon_title">App Icon</string>
+    <!-- Summary/subtitle of section in settings that allows the user to change the icon of the app -->
+    <string name="settings_app_icon_summary">Change the app\’s launcher icon</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">Minimum</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -2074,4 +2078,10 @@
     <string name="error_no_webview">There appears to be no WebView installed on this device. The content can not be shown.</string>
     <!-- Pattern for combining the name of a language with its translation progress percentage. %s is a placeholder for the language, %d a placeholder for the percentage, %% a placeholder for the percentage sign itself -->
     <string name="translation_progress_pattern">%s (%d%%)</string>
+    <!-- Title of dialog where the user can choose a different icon for the app -->
+    <string name="dialog_title_select_app_icon">Change App Icon</string>
+    <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
+    <string name="instructions_apply_new_app_icon">To change the app icon the app may need to close itself. It may take a few seconds for the launcher to update the icon.\n\nShortcuts already placed on the home screen may not work until you manually re-open the app.</string>
+    <!-- Message displayed in a toast when the user selects a different icon for the app -->
+    <string name="message_apply_new_app_icon">Applying new app icon</string>
 </resources>

@@ -8,9 +8,11 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.CreateQuickSettingsTileUseCase
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.GetTranslationProgressUseCase
+import ch.rmy.android.http_shortcuts.activities.settings.usecases.SetAppIconUseCase
 import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.enums.AppIconType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
@@ -54,6 +56,7 @@ constructor(
     private val unlockApp: UnlockAppUseCase,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
     private val getTranslationProgress: GetTranslationProgressUseCase,
+    private val setAppIcon: SetAppIconUseCase,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): SettingsViewState {
@@ -216,6 +219,25 @@ constructor(
         localeHelper.applyLocale(language)
     }
 
+    fun onAppIconTypeSelected(appIconType: AppIconType) = runAction {
+        if (!deviceLocalPreferences.isAwareOfAppIconChange && getCurrentViewState().dialogState is SettingsDialogState.SelectAppIcon) {
+            updateDialogState(
+                SettingsDialogState.AppIconInfo(
+                    selected = appIconType,
+                ),
+            )
+            skipAction()
+        }
+
+        updateDialogState(null)
+        if (appIconType != userPreferences.appIconTye) {
+            showToast(R.string.message_apply_new_app_icon)
+            userPreferences.appIconTye = appIconType
+            deviceLocalPreferences.isAwareOfAppIconChange = true
+            setAppIcon(appIconType)
+        }
+    }
+
     fun onDarkModeOptionSelected(option: String) = runAction {
         userPreferences.darkThemeSetting = option
         updateViewState {
@@ -234,6 +256,14 @@ constructor(
     fun onChangeTitleButtonClicked() = runAction {
         val oldTitle = appConfigRepository.getToolbarTitle()
         updateDialogState(SettingsDialogState.ChangeTitle(oldTitle))
+    }
+
+    fun onChangeAppIconButtonClicked() = runAction {
+        updateDialogState(
+            SettingsDialogState.SelectAppIcon(
+                current = userPreferences.appIconTye,
+            ),
+        )
     }
 
     fun onUserAgentButtonClicked() = runAction {

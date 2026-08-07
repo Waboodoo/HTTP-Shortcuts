@@ -238,7 +238,7 @@ private fun CategoryMenuDialog(
             SelectDialogEntry(
                 horizontalPadding = horizontalPadding,
                 label = stringResource(R.string.action_place_category),
-                icon = painterResource(R.drawable.outline_home_24),
+                icon = painterResource(R.drawable.outline_add_to_home_screen),
                 onClick = onPlaceOnHomeScreenClicked,
             )
         }

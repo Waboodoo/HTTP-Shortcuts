@@ -85,6 +85,10 @@ constructor(
         get() = getBoolean(KEY_AWARE_OF_MATERIAL_ICONS_INFO)
         set(value) = putBoolean(KEY_AWARE_OF_MATERIAL_ICONS_INFO, value)
 
+    var isAwareOfAppIconChange: Boolean
+        get() = getBoolean(KEY_AWARE_OF_APP_ICON_CHANGE)
+        set(value) = putBoolean(KEY_AWARE_OF_APP_ICON_CHANGE, value)
+
     var lastActiveCategoryId: CategoryId?
         get() = getString(KEY_LAST_ACTIVE_CATEGORY_ID)
         set(value) = putString(KEY_LAST_ACTIVE_CATEGORY_ID, value)
@@ -114,6 +118,7 @@ constructor(
         private const val KEY_AWARE_OF_VARIABLE_PLACEHOLDERS = "aware_of_variable_placeholders"
         private const val KEY_AWARE_OF_SECTION_POPULATION = "aware_of_section_population"
         private const val KEY_AWARE_OF_MATERIAL_ICONS_INFO = "aware_of_material_icons_info"
+        private const val KEY_AWARE_OF_APP_ICON_CHANGE = "aware_of_app_icon_change"
         private const val KEY_LAST_ACTIVE_CATEGORY_ID = "last_active_category_id"
         private const val KEY_SYNC_ERROR_COUNT = "sync_error_count"
         private const val KEY_SYNC_TOO_MANY_ERRORS = "sync_too_many_errors"
