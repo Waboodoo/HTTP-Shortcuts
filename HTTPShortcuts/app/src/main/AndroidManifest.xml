@@ -64,6 +64,12 @@
             <action android:name="com.google.zxing.client.android.SCAN" />
         </intent>
 
+        <!-- Shell APKs expose only a launcher activity with dynamic package names. -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+
         <package android:name="de.markusfisch.android.binaryeye" />
         <package android:name="com.google.zxing.client.android" />
         <package android:name="la.droid.qr" />

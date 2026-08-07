@@ -8,6 +8,7 @@ import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
@@ -19,7 +20,7 @@ class ShellApkInstallerActivity : Activity() {
         super.onCreate(savedInstanceState)
 
         try {
-            if (intent.action == ACTION_INSTALL_STATUS) {
+            if (intent.isShellApkInstallStatusIntent()) {
                 handleInstallStatus(intent)
                 return
             }
@@ -58,15 +59,20 @@ class ShellApkInstallerActivity : Activity() {
                     ?: showInstallFailure("status=$status")
             }
             PackageInstaller.STATUS_SUCCESS -> {
+                // Some vendor installers deliver a late failure callback after success.
+                // Keep the package name so that callback can still verify the installed app.
                 showToast(R.string.message_shell_apk_installed)
             }
             else -> {
                 // Some vendor installers report STATUS_FAILURE_ABORTED after the package has already been installed.
                 // Trust the package manager over the callback before showing a failure to the user.
-                val expectedPackageName = intent.getStringExtra(EXTRA_PACKAGE_NAME)
-                if (expectedPackageName != null && isPackageInstalled(expectedPackageName)) {
+                val expectedPackageNames =
+                    intent.getShellApkExpectedPackageNames() + getPendingPackageName().orEmpty()
+                if (expectedPackageNames.any(::isPackageInstalled)) {
+                    clearPendingPackageName()
                     showToast(R.string.message_shell_apk_installed)
                 } else {
+                    clearPendingPackageName()
                     val message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)
                         .orEmpty()
                         .ifEmpty { "status=$status" }
@@ -93,6 +99,7 @@ class ShellApkInstallerActivity : Activity() {
         val sessionId = packageInstaller.createSession(params)
         var session: PackageInstaller.Session? = null
         try {
+            rememberPendingPackageName(packageName)
             session = packageInstaller.openSession(sessionId)
             apkFile.inputStream().use { input ->
                 session.openWrite(APK_SESSION_NAME, 0, apkFile.length()).use { output ->
@@ -102,6 +109,7 @@ class ShellApkInstallerActivity : Activity() {
             }
             session.commit(createStatusPendingIntent(sessionId, packageName).intentSender)
         } catch (e: Exception) {
+            clearPendingPackageName()
             packageInstaller.abandonSession(sessionId)
             throw e
         } finally {
@@ -132,11 +140,34 @@ class ShellApkInstallerActivity : Activity() {
             this,
             sessionId,
             Intent(this, ShellApkInstallerActivity::class.java)
-                .setAction(ACTION_INSTALL_STATUS)
-                .putExtra(EXTRA_PACKAGE_NAME, packageName),
+                // The action survives vendor PackageInstaller fill-in intents more reliably than extras or data.
+                .setAction("$SHELL_APK_INSTALL_STATUS_ACTION_PREFIX$packageName")
+                // Some vendor installers drop custom extras from the final status callback.
+                .setData("http-shortcuts-install:$packageName".toUri())
+                .putExtra(PackageInstaller.EXTRA_PACKAGE_NAME, packageName)
+                .putExtra(SHELL_APK_PACKAGE_NAME_EXTRA, packageName),
             PendingIntent.FLAG_UPDATE_CURRENT or
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0,
         )
+
+    private fun rememberPendingPackageName(packageName: String) {
+        getPreferences(MODE_PRIVATE)
+            .edit()
+            .putString(PENDING_PACKAGE_NAME, packageName)
+            .apply()
+    }
+
+    private fun getPendingPackageName(): String? =
+        getPreferences(MODE_PRIVATE)
+            .getString(PENDING_PACKAGE_NAME, null)
+            ?.takeIf { it.isNotEmpty() }
+
+    private fun clearPendingPackageName() {
+        getPreferences(MODE_PRIVATE)
+            .edit()
+            .remove(PENDING_PACKAGE_NAME)
+            .apply()
+    }
 
     @Suppress("DEPRECATION")
     private fun Intent.getConfirmationIntent(): Intent? =
@@ -154,13 +185,30 @@ class ShellApkInstallerActivity : Activity() {
     }
 
     companion object {
-        private const val ACTION_INSTALL_STATUS = "ch.rmy.android.http_shortcuts.shell_apk.INSTALL_STATUS"
         private const val APK_SESSION_NAME = "base.apk"
         private const val EXTRA_APK_PATH = "apk_path"
-        private const val EXTRA_PACKAGE_NAME = "package_name"
+        private const val PENDING_PACKAGE_NAME = "pending_package_name"
 
         fun createIntent(context: Context, apkFile: File): Intent =
             Intent(context, ShellApkInstallerActivity::class.java)
                 .putExtra(EXTRA_APK_PATH, apkFile.absolutePath)
     }
 }
+
+internal const val SHELL_APK_PACKAGE_NAME_EXTRA = "package_name"
+internal const val SHELL_APK_INSTALL_STATUS_ACTION_PREFIX =
+    "ch.rmy.android.http_shortcuts.shell_apk.INSTALL_STATUS."
+
+internal fun Intent.isShellApkInstallStatusIntent(): Boolean =
+    action?.startsWith(SHELL_APK_INSTALL_STATUS_ACTION_PREFIX) == true ||
+        hasExtra(PackageInstaller.EXTRA_STATUS)
+
+internal fun Intent.getShellApkExpectedPackageNames(): List<String> =
+    listOfNotNull(
+        getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME),
+        getStringExtra(SHELL_APK_PACKAGE_NAME_EXTRA),
+        data?.schemeSpecificPart,
+        action
+            ?.takeIf { it.startsWith(SHELL_APK_INSTALL_STATUS_ACTION_PREFIX) }
+            ?.removePrefix(SHELL_APK_INSTALL_STATUS_ACTION_PREFIX),
+    ).filter(String::isNotEmpty).distinct()
