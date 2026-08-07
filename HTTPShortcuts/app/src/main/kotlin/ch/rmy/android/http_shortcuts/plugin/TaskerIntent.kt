@@ -55,12 +55,12 @@ class TaskerIntent(taskName: String) : Intent(ACTION_TASK) {
             try {
                 context.packageManager.getPackageInfo(TASKER_PACKAGE, 0)
                 return true
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (_: PackageManager.NameNotFoundException) {
             }
             try {
                 context.packageManager.getPackageInfo(TASKER_PACKAGE_MARKET, 0)
                 return true
-            } catch (e: PackageManager.NameNotFoundException) {
+            } catch (_: PackageManager.NameNotFoundException) {
             }
             return false
         }

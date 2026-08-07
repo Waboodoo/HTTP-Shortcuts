@@ -1,3 +1,4 @@
+import com.android.utils.forEach
 import java.awt.Color
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
@@ -35,9 +36,10 @@ val generatedIconFiles = mapOf(
     "mipmap-xhdpi" to 96,
     "mipmap-xxhdpi" to 144,
     "mipmap-xxxhdpi" to 192,
-).map { (density, size) ->
-    generatedIconResDir.resolve("$density/ic_launcher_shell.png") to size
-}
+)
+    .map { (density, size) ->
+        generatedIconResDir.resolve("$density/ic_launcher_shell.png") to size
+    }
 
 val generateShellTemplateIcon by tasks.registering {
     generatedIconFiles.forEach { (file, _) ->
@@ -100,8 +102,8 @@ val syncShellTemplateStrings by tasks.registering {
             outputDocument.appendChild(outputResources)
 
             val stringElements = inputDocument.documentElement.getElementsByTagName("string")
-            for (index in 0 until stringElements.length) {
-                val element = stringElements.item(index) as Element
+            stringElements.forEach { item ->
+                val element = item as Element
                 if (element.getAttribute("name") in shellTemplateStringNames) {
                     outputResources.appendChild(outputDocument.importNode(element, true))
                 }

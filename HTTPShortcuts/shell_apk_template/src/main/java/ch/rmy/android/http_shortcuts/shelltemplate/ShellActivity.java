@@ -18,14 +18,13 @@ public class ShellActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         String targetUri = getTargetUri();
-        if (targetUri == null || targetUri.length() == 0) {
+        if (targetUri == null || targetUri.isEmpty()) {
             showShortcutNotFoundMessage();
             finish();
             return;
         }
 
         try {
-            // The URI itself is injected into the generated APK manifest at install time.
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(targetUri));
             startActivity(intent);
         } catch (ActivityNotFoundException | SecurityException e) {

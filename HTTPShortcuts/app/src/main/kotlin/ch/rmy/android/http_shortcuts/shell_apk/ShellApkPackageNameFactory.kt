@@ -13,7 +13,7 @@ constructor() {
 
     private fun ShortcutId.normalizedForPackageName(): String =
         lowercase(Locale.US)
-            .filter { it in 'a'..'z' || it in '0'..'9' }
+            .filter(Char::isLetterOrDigit)
 
     companion object {
         private const val PACKAGE_PREFIX = "ch.rmy.android.http_shortcuts.app_"

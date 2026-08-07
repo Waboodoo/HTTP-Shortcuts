@@ -1,3 +1,12 @@
+## Version 4.7.0
+
+### Improvements
+- You can now install shortcuts as lightweight apps (thanks [@weifengiii](https://github.com/weifengiii))
+
+### Bugfixes
+
+### Miscellaneous
+
 ## Version 4.6.0
 
 ### Improvements

@@ -73,6 +73,6 @@ constructor() {
         private const val ANDROID_KEYSTORE = "AndroidKeyStore"
         private const val KEY_ALIAS = "http_shortcuts_shell_apk"
         private const val MIN_SDK_VERSION = 26
-        private const val CERTIFICATE_VALIDITY_MS = 30L * 365L * 24L * 60L * 60L * 1000L
+        private const val CERTIFICATE_VALIDITY_MS = 30 * 365 * 24 * 60 * 60 * 1000L
     }
 }

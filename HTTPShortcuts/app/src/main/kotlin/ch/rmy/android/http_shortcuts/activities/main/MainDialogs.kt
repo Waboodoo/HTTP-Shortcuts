@@ -87,7 +87,7 @@ fun MainDialogs(
         is MainDialogState.ShellApkUnknownSourcesPermissionRequired -> {
             ConfirmDialog(
                 title = stringResource(R.string.action_install_as_app),
-                message = stringResource(R.string.message_shell_apk_unknown_sources_permission_required),
+                message = stringResource(R.string.message_shell_apk_intro, stringResource(R.string.app_name)),
                 onConfirmRequest = onShellApkPermissionConfirmed,
                 onDismissRequest = onDismissed,
             )

@@ -21,7 +21,6 @@ constructor(
     private val shellIconWriter: ShellIconWriter,
     private val shellApkSigner: ShellApkSigner,
 ) {
-
     suspend fun build(
         shortcutId: ShortcutId,
         packageName: String,
@@ -40,7 +39,7 @@ constructor(
 
             context.assets.open(TEMPLATE_ASSET).use { input ->
                 // The template APK is a tiny, unsigned Android app bundled as an asset. Customizing it here keeps the
-                // shell apps independent from Gradle and avoids shipping source-generation tooling on the device.
+                // shell apps independent of Gradle and avoids shipping source-generation tooling on the device.
                 rewriteTemplateApk(
                     templateBytes = input.readBytes(),
                     outputFile = unsignedApk,
@@ -68,7 +67,7 @@ constructor(
             ZipInputStream(templateBytes.inputStream()).use { zipInput ->
                 while (true) {
                     val entry = zipInput.nextEntry ?: break
-                    if (entry.name.startsWith("META-INF/")) {
+                    if (entry.name.startsWith("META-INF")) {
                         continue
                     }
 
@@ -155,7 +154,7 @@ constructor(
             ?: throw InvalidShellApkException()
     }
 
-    private data class TemplateEntry(
+    private class TemplateEntry(
         val name: String,
         val bytes: ByteArray,
         val method: Int,

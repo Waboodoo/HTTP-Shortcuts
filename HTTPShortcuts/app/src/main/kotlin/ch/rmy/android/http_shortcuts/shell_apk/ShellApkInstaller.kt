@@ -12,7 +12,6 @@ constructor(
     private val shellApkBuilder: ShellApkBuilder,
     private val installIntentFactory: ShellApkInstallIntentFactory,
 ) {
-
     suspend fun prepareInstall(
         shortcutId: ShortcutId,
         shortcutName: String,

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import androidx.annotation.WorkerThread
 import androidx.core.graphics.createBitmap
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
@@ -16,6 +17,7 @@ constructor(
     private val context: Context,
 ) {
 
+    @WorkerThread
     fun createIconPng(icon: ShortcutIcon): ByteArray {
         val bitmap = loadBitmap(icon) ?: throw InvalidShellApkException()
         return try {

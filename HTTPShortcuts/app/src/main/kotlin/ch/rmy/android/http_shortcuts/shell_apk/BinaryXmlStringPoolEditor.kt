@@ -14,7 +14,6 @@ import javax.inject.Inject
 class BinaryXmlStringPoolEditor
 @Inject
 constructor() {
-
     fun replaceStrings(binaryXml: ByteArray, replacements: Map<String, String>): ByteArray {
         if (binaryXml.readUShort(0) != RES_XML_TYPE) {
             error("Not an Android binary XML document")
@@ -25,30 +24,30 @@ constructor() {
             error("Binary XML string pool not found")
         }
 
-        val oldStringPoolSize = binaryXml.readIntLE(stringPoolOffset + OFFSET_CHUNK_SIZE)
+        val oldStringPoolSize = binaryXml.readLittleEndianInt(stringPoolOffset + OFFSET_CHUNK_SIZE)
         val newStringPool = rebuildStringPool(
             chunk = binaryXml.copyOfRange(stringPoolOffset, stringPoolOffset + oldStringPoolSize),
             replacements = replacements,
         )
-        val newXmlSize = binaryXml.readIntLE(OFFSET_CHUNK_SIZE) + newStringPool.size - oldStringPoolSize
+        val newXmlSize = binaryXml.readLittleEndianInt(OFFSET_CHUNK_SIZE) + newStringPool.size - oldStringPoolSize
 
         return ByteArrayOutputStream(newXmlSize).use { output ->
             output.write(binaryXml, 0, stringPoolOffset)
             output.write(newStringPool)
             output.write(binaryXml, stringPoolOffset + oldStringPoolSize, binaryXml.size - stringPoolOffset - oldStringPoolSize)
             output.toByteArray().also {
-                it.writeIntLE(OFFSET_CHUNK_SIZE, newXmlSize)
+                it.writeLittleEndianInt(OFFSET_CHUNK_SIZE, newXmlSize)
             }
         }
     }
 
     private fun rebuildStringPool(chunk: ByteArray, replacements: Map<String, String>): ByteArray {
         val headerSize = chunk.readUShort(OFFSET_HEADER_SIZE)
-        val stringCount = chunk.readIntLE(OFFSET_STRING_COUNT)
-        val styleCount = chunk.readIntLE(OFFSET_STYLE_COUNT)
-        val flags = chunk.readIntLE(OFFSET_FLAGS)
-        val stringsStart = chunk.readIntLE(OFFSET_STRINGS_START)
-        val stylesStart = chunk.readIntLE(OFFSET_STYLES_START)
+        val stringCount = chunk.readLittleEndianInt(OFFSET_STRING_COUNT)
+        val styleCount = chunk.readLittleEndianInt(OFFSET_STYLE_COUNT)
+        val flags = chunk.readLittleEndianInt(OFFSET_FLAGS)
+        val stringsStart = chunk.readLittleEndianInt(OFFSET_STRINGS_START)
+        val stylesStart = chunk.readLittleEndianInt(OFFSET_STYLES_START)
         val utf8 = flags and UTF8_FLAG != 0
         val styleData = if (stylesStart == 0) {
             ByteArray(0)
@@ -57,7 +56,7 @@ constructor() {
         }
 
         val strings = (0 until stringCount).map { index ->
-            val stringOffset = chunk.readIntLE(headerSize + index * 4)
+            val stringOffset = chunk.readLittleEndianInt(headerSize + index * 4)
             val value = if (utf8) {
                 chunk.readUtf8String(stringsStart + stringOffset)
             } else {
@@ -83,10 +82,10 @@ constructor() {
 
         // Replacing labels or package names can change the byte length of the pool, so all string offsets and chunk
         // sizes are rebuilt rather than patched in-place.
-        output.writeIntLE(OFFSET_CHUNK_SIZE, newChunkSize)
-        output.writeIntLE(OFFSET_STYLES_START, newStylesStart)
+        output.writeLittleEndianInt(OFFSET_CHUNK_SIZE, newChunkSize)
+        output.writeLittleEndianInt(OFFSET_STYLES_START, newStylesStart)
         stringOffsets.forEachIndexed { index, offset ->
-            output.writeIntLE(headerSize + index * 4, offset)
+            output.writeLittleEndianInt(headerSize + index * 4, offset)
         }
         newStringData.copyInto(output, stringsStart)
         if (styleData.isNotEmpty()) {
@@ -168,13 +167,13 @@ constructor() {
     private fun ByteArray.readUShort(offset: Int): Int =
         (this[offset].toInt() and 0xFF) or ((this[offset + 1].toInt() and 0xFF) shl 8)
 
-    private fun ByteArray.readIntLE(offset: Int): Int =
+    private fun ByteArray.readLittleEndianInt(offset: Int): Int =
         (this[offset].toInt() and 0xFF) or
             ((this[offset + 1].toInt() and 0xFF) shl 8) or
             ((this[offset + 2].toInt() and 0xFF) shl 16) or
             ((this[offset + 3].toInt() and 0xFF) shl 24)
 
-    private fun ByteArray.writeIntLE(offset: Int, value: Int) {
+    private fun ByteArray.writeLittleEndianInt(offset: Int, value: Int) {
         this[offset] = (value and 0xFF).toByte()
         this[offset + 1] = ((value shr 8) and 0xFF).toByte()
         this[offset + 2] = ((value shr 16) and 0xFF).toByte()

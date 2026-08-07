@@ -46,6 +46,7 @@
     - [Trigger shortcut via secondary launcher app](advanced.md#secondary-launcher)
     - [Trigger shortcut via Quick Settings Tile](advanced.md#quick-settings-tile)
     - [Trigger shortcut via app launcher](advanced.md#app-launcher)
+    - [Install shortcuts as apps](advanced.md#install-as-app)
     - [Integrating with Tasker](advanced.md#integrate-with-tasker)
     - [Integrating with MacroDroid](advanced.md#integrate-with-macrodroid)
     - [Certificate Pinning](advanced.md#certificate-pinning)
