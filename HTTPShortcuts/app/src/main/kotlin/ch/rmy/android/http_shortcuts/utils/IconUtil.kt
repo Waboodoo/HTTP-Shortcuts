@@ -10,7 +10,6 @@ import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.graphics.PorterDuffXfermode
 import android.graphics.drawable.Icon
 import androidx.annotation.ColorInt
 import androidx.appcompat.content.res.AppCompatResources
@@ -105,29 +104,36 @@ object IconUtil {
                         }
                     } else {
                         val size = options.outWidth
-                        if (icon.isCircular) {
-                            val canvasBitmap = createBitmap(size, size)
+
+                        val inputBitmap = if (icon.isCircular) {
                             try {
-                                val paint = Paint(Paint.FILTER_BITMAP_FLAG)
-                                paint.isAntiAlias = true
-                                val canvas = Canvas(canvasBitmap)
-                                canvas.drawARGB(0, 0, 0, 0)
-                                if (icon.isCircular) {
-                                    canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
-                                } else {
-                                    canvas.drawPaint(paint)
-                                }
-                                paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-                                if (iconColor != null) {
-                                    paint.setColorFilter(PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN))
-                                }
-                                canvas.drawBitmap(originalBitmap, 0f, 0f, paint)
-                                Icon.createWithBitmap(canvasBitmap)
+                                originalBitmap.croppedToCircle()
                             } finally {
                                 originalBitmap.recycle()
                             }
                         } else {
-                            Icon.createWithBitmap(originalBitmap)
+                            originalBitmap
+                        }
+                        try {
+                            val canvasBitmap = createBitmap(size, size)
+                            val canvas = Canvas(canvasBitmap)
+
+                            if (backgroundColor != null) {
+                                canvas.drawColor(backgroundColor)
+                            } else {
+                                canvas.drawARGB(0, 0, 0, 0)
+                            }
+
+                            val paint = Paint(Paint.FILTER_BITMAP_FLAG)
+                            if (iconColor != null) {
+                                paint.setColorFilter(PorterDuffColorFilter(iconColor, PorterDuff.Mode.SRC_IN))
+                            }
+                            paint.isAntiAlias = true
+
+                            canvas.drawBitmap(inputBitmap, 0f, 0f, paint)
+                            Icon.createWithBitmap(canvasBitmap)
+                        } finally {
+                            inputBitmap.recycle()
                         }
                     }
                 }
