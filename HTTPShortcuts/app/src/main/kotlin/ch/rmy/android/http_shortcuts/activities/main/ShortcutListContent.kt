@@ -143,6 +143,7 @@ fun ShortcutListContent(
         onDeletionConfirmed = viewModel::onDeletionConfirmed,
         onCurlExportCopyButtonClicked = viewModel::onCurlExportCopyButtonClicked,
         onCurlExportShareButtonClicked = viewModel::onCurlExportShareButtonClicked,
+        onBackgroundColorSelected = viewModel::onPlaceOnHomeScreenBackgroundColorSelected,
         onDismissed = viewModel::onDialogDismissed,
     )
 

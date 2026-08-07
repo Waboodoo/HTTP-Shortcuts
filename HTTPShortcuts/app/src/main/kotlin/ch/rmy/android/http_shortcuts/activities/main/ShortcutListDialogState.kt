@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import androidx.annotation.ColorInt
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Stable
 sealed class ShortcutListDialogState {
@@ -33,6 +35,12 @@ sealed class ShortcutListDialogState {
         val shortcutName: String,
         val isPending: Boolean,
         val isHidden: Boolean,
+    ) : ShortcutListDialogState()
+
+    @Stable
+    data class SelectBackgroundColor(
+        val icon: ShortcutIcon.CustomIcon,
+        @ColorInt val previousColor: Int,
     ) : ShortcutListDialogState()
 
     @Stable

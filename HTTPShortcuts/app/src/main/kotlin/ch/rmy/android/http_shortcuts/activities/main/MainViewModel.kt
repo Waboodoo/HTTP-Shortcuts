@@ -701,7 +701,7 @@ constructor(
         )
     }
 
-    private suspend fun ViewModelScope<MainViewState>.getActiveCategory(): Category? =
+    private fun ViewModelScope<MainViewState>.getActiveCategory(): Category? =
         categories.find { it.id == viewState.activeCategoryId }
 
     fun onEditCategoryClicked() = runAction {

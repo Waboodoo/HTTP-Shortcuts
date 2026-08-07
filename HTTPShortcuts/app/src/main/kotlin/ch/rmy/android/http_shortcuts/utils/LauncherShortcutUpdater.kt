@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Intent
+import androidx.core.graphics.toColorInt
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.domains.request_headers.RequestHeaderRepository
@@ -122,6 +123,13 @@ constructor(
             id = shortcut.id,
             name = shortcut.name,
             icon = shortcut.icon,
+            iconBackground = shortcut.iconBackground?.let {
+                try {
+                    "#$it".toColorInt()
+                } catch (_: IllegalArgumentException) {
+                    null
+                }
+            },
             isTextShareTarget = shareUtil.isTextShareTarget(shortcut, headers, parameters, globalVariableIds, variableManager),
             isFileShareTarget = shareUtil.isFileShareTarget(shortcut, parameters),
         )

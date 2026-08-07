@@ -6,6 +6,7 @@ data class LauncherShortcut(
     val id: String,
     val name: String,
     val icon: ShortcutIcon,
+    val iconBackground: Int?,
     val isTextShareTarget: Boolean,
     val isFileShareTarget: Boolean,
 )

@@ -55,4 +55,5 @@
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
     <string name="settings_export_via_share">Export via Share Dialogue</string>
     <string name="label_shortcut_as_file_share_target">Allow receiving files from share dialogue</string>
+    <string name="dialog_title_select_icon_background_color">Icon Background Colour</string>
 </resources>

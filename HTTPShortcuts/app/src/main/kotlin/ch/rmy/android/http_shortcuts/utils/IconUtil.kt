@@ -40,7 +40,7 @@ object IconUtil {
     private const val CUSTOM_ICON_NAME_REGEX = "custom-icon_([A-Za-z0-9_-]{1,50})\\.(png|jpg)"
     private val CUSTOM_ICON_NAME_PATTERN = CUSTOM_ICON_NAME_REGEX.toPattern(Pattern.CASE_INSENSITIVE)
 
-    fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean = false): Icon? = try {
+    fun getIcon(context: Context, icon: ShortcutIcon, adaptive: Boolean = false, backgroundColor: Int? = null): Icon? = try {
         when (icon) {
             is ShortcutIcon.NoIcon -> {
                 Icon.createWithResource(context.packageName, ShortcutIcon.NoIcon.iconResource)
@@ -79,7 +79,9 @@ object IconUtil {
                         try {
                             val canvas = Canvas(paddedBitmap)
 
-                            if (iconColor != null) {
+                            if (backgroundColor != null) {
+                                canvas.drawColor(backgroundColor)
+                            } else if (iconColor != null) {
                                 if (iconColor.isCloseToWhite()) {
                                     canvas.drawARGB(255, 5, 5, 5)
                                 } else {

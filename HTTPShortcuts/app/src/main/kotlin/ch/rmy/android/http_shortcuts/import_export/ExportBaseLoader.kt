@@ -135,6 +135,7 @@ constructor(
                                 name = shortcut.name,
                                 description = shortcut.description.takeUnlessEmpty(),
                                 iconName = shortcut.icon.toString(),
+                                iconBackground = shortcut.iconBackground,
                                 hidden = shortcut.hidden.trueOrNull(),
                                 method = shortcut.takeIf { type == HTTP }?.method?.method,
                                 url = shortcut

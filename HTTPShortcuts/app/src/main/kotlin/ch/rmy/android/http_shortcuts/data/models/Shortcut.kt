@@ -46,6 +46,8 @@ data class Shortcut(
     val description: String,
     @ColumnInfo(name = "icon")
     val icon: ShortcutIcon,
+    @ColumnInfo(name = "icon_background")
+    val iconBackground: String?,
     @ColumnInfo(name = "hidden")
     val hidden: Boolean,
     @ColumnInfo(name = "method")
@@ -215,6 +217,7 @@ data class Shortcut(
             Shortcut(
                 id = TEMPORARY_ID,
                 icon = initialIcon,
+                iconBackground = null,
                 executionType = executionType,
                 categoryId = categoryId,
                 name = "",

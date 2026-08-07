@@ -78,7 +78,12 @@ constructor(
         rank: Int = 0,
         trigger: ShortcutTriggerType,
     ): ShortcutInfo {
-        val icon = IconUtil.getIcon(context, launcherShortcut.icon, adaptive = true)
+        val icon = IconUtil.getIcon(
+            context = context,
+            icon = launcherShortcut.icon,
+            adaptive = true,
+            backgroundColor = launcherShortcut.iconBackground,
+        )
         val label = launcherShortcut.name.ifEmpty { "-" }
         return ShortcutInfo.Builder(context, createShortcutInfoId(launcherShortcut.id))
             .setShortLabel(label)

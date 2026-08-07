@@ -1,21 +1,29 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.ColorPickerDialog
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.HelpText
@@ -23,8 +31,10 @@ import ch.rmy.android.http_shortcuts.components.MessageDialog
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
+import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Composable
 fun ShortcutListDialogs(
@@ -48,6 +58,7 @@ fun ShortcutListDialogs(
     onDeletionConfirmed: () -> Unit,
     onCurlExportCopyButtonClicked: () -> Unit,
     onCurlExportShareButtonClicked: () -> Unit,
+    onBackgroundColorSelected: (Int) -> Unit,
     onDismissed: () -> Unit,
 ) {
     when (dialogState) {
@@ -105,6 +116,14 @@ fun ShortcutListDialogs(
                 onDeleteOptionSelected = onDeleteOptionSelected,
                 onShowInfoOptionSelected = onShowInfoOptionSelected,
                 onExportOptionSelected = onExportOptionSelected,
+                onDismissed = onDismissed,
+            )
+        }
+        is ShortcutListDialogState.SelectBackgroundColor -> {
+            PlaceOnHomeScreenBackgroundColorPickerDialog(
+                shortcutIcon = dialogState.icon,
+                initialColor = dialogState.previousColor,
+                onBackgroundColorSelected = onBackgroundColorSelected,
                 onDismissed = onDismissed,
             )
         }
@@ -397,4 +416,34 @@ private fun ContextMenuDialog(
             onClick = onExportOptionSelected,
         )
     }
+}
+
+@Composable
+private fun PlaceOnHomeScreenBackgroundColorPickerDialog(
+    shortcutIcon: ShortcutIcon.CustomIcon,
+    initialColor: Int,
+    onBackgroundColorSelected: (Int) -> Unit,
+    onDismissed: () -> Unit,
+) {
+    ColorPickerDialog(
+        title = stringResource(R.string.dialog_title_select_icon_background_color),
+        initialColor = remember(initialColor) { initialColor },
+        extraContent = { color ->
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = Color(color),
+                        shape = RoundedCornerShape(percent = 33),
+                    )
+                    .padding(6.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                ShortcutIcon(shortcutIcon)
+            }
+        },
+        onColorSelected = { color ->
+            onBackgroundColorSelected(color)
+        },
+        onDismissRequested = onDismissed,
+    )
 }

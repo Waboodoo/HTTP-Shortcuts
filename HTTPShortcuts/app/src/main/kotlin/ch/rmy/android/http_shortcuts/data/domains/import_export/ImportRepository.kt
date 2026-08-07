@@ -236,6 +236,7 @@ constructor(
                 name = shortcut.name!!.truncate(Constants.SHORTCUT_NAME_MAX_LENGTH),
                 description = shortcut.description?.truncate(Constants.SHORTCUT_DESCRIPTION_MAX_LENGTH) ?: "",
                 icon = ShortcutIcon.fromName(shortcut.iconName),
+                iconBackground = shortcut.iconBackground?.takeIf { it.length == 6 && it.toIntOrNull(radix = 16) != null },
                 hidden = shortcut.hidden == true,
                 method = HttpMethod.parse(shortcut.method!!) ?: HttpMethod.GET,
                 url = shortcut.url!!,

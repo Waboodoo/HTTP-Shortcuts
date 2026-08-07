@@ -15,6 +15,7 @@ data class ImportExportShortcut(
     val name: String? = null,
     val description: String? = null,
     val iconName: String? = null,
+    val iconBackground: String? = null,
     val hidden: Boolean? = null,
     val method: String? = null,
     val url: String? = null,

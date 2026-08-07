@@ -2084,4 +2084,6 @@
     <string name="instructions_apply_new_app_icon">To change the app icon the app may need to close itself. It may take a few seconds for the launcher to update the icon.\n\nShortcuts already placed on the home screen may not work until you manually re-open the app.</string>
     <!-- Message displayed in a toast when the user selects a different icon for the app -->
     <string name="message_apply_new_app_icon">Applying new app icon</string>
+    <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
+    <string name="dialog_title_select_icon_background_color">Icon Background Color</string>
 </resources>

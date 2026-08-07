@@ -229,6 +229,14 @@ constructor(
         }
     }
 
+    suspend fun setIconBackground(shortcutId: ShortcutId, background: String?) {
+        commitTransactionForShortcut(shortcutId) { shortcut ->
+            shortcutDao().insertOrUpdateShortcut(
+                shortcut.copy(iconBackground = background),
+            )
+        }
+    }
+
     suspend fun setName(shortcutId: ShortcutId, name: String) {
         commitTransactionForShortcut(shortcutId) { shortcut ->
             shortcutDao().insertOrUpdateShortcut(

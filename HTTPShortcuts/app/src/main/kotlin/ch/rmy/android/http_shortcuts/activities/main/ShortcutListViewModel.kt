@@ -3,7 +3,9 @@ package ch.rmy.android.http_shortcuts.activities.main
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
+import androidx.annotation.ColorInt
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
@@ -47,6 +49,7 @@ import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.import_export.CurlExporter
 import ch.rmy.android.http_shortcuts.import_export.ExportFormat
 import ch.rmy.android.http_shortcuts.import_export.Exporter
@@ -54,6 +57,8 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.AlarmScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
+import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
+import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
@@ -282,9 +287,32 @@ constructor(
         shortcuts.firstOrNull { it.id == shortcutId }
 
     fun onPlaceOnHomeScreenOptionSelected() = runAction {
-        updateDialogState(null)
         val shortcutId = activeShortcutId ?: skipAction()
         val shortcut = getShortcutById(shortcutId) ?: skipAction()
+
+        if ((shortcut.icon as? ShortcutIcon.CustomIcon)?.isUsableAsSilhouette == true) {
+            updateDialogState(
+                ShortcutListDialogState.SelectBackgroundColor(
+                    icon = shortcut.icon,
+                    previousColor = shortcut.iconBackground?.hexStringToColorInt() ?: Color.WHITE,
+                ),
+            )
+        } else {
+            updateDialogState(null)
+            val shortcutId = activeShortcutId ?: skipAction()
+            val shortcut = getShortcutById(shortcutId) ?: skipAction()
+            emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toShortcutPlaceholder()))
+        }
+    }
+
+    fun onPlaceOnHomeScreenBackgroundColorSelected(@ColorInt color: Int) = runAction {
+        updateDialogState(null)
+        val shortcutId = activeShortcutId ?: skipAction()
+        val iconBackground = color.colorIntToHexString()
+        shortcutRepository.setIconBackground(shortcutId, iconBackground)
+        val shortcut = getShortcutById(shortcutId)
+            ?.copy(iconBackground = iconBackground)
+            ?: skipAction()
         emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toShortcutPlaceholder()))
     }
 
