@@ -62,6 +62,7 @@
     <string name="subtitle_include_meta_information">Заголовки ответа, код состояния, …</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Разместить на главном экране</string>
+    <!-- Shortcut dropdown option: Install the shortcut as a separate launcher app -->
     <!-- Category dropdown option: Place category on home screen -->
     <string name="action_place_category">Поместить на главный экран</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
@@ -400,6 +401,12 @@
     <string name="shortcut_deleted">\"%1$s\" удален.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">\"%1$s\" размещен на главном экране.</string>
+    <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission. %s is a placeholder for the app's name. -->
+    <!-- Error shown when the generated shell APK could not be parsed by Android -->
+    <!-- Message shown when the generated shell APK was handed to Android's package installer -->
+    <!-- Message shown when the generated shell APK was installed successfully -->
+    <!-- Message shown by a generated shell APK when HTTP Shortcuts can no longer handle its deep link -->
+    <!-- Error shown when Android reports that the generated shell APK installation failed. %1$s is the system-provided reason. -->
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Удалить</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
@@ -764,6 +771,8 @@
     <string name="settings_app_title_title">Название приложения</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">Изменить название главного экрана приложения</string>
+    <!-- Title of section in settings that allows the user to change the icon of the app -->
+    <!-- Summary/subtitle of section in settings that allows the user to change the icon of the app -->
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">Минимум</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -921,7 +930,8 @@
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
     <string name="action_type_get_location_description">Запрашивает физическое местоположение устройства и возвращает его в виде объекта</string>
     <!-- Shortcut Action Title: Send a Wake-on-LAN packet to remotely turn on a computer -->
-    <string name="action_type_wake_on_lan">Wake-on-LAN</string>
+    <string name="action_type_wake_on_lan">
+Wake-on-LAN</string>
     <!-- Shortcut Action Title: Send a UDP packet to another device on the network -->
     <string name="action_type_send_udp_packet">Отправка UDP-пакета</string>
     <!-- Shortcut Action Title: Send a TCP packet to another device on the network -->
@@ -2034,4 +2044,9 @@
     <!-- Message for dialog that informs the user about Material Design Icons -->
     <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
     <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
+    <!-- Pattern for combining the name of a language with its translation progress percentage. %s is a placeholder for the language, %d a placeholder for the percentage, %% a placeholder for the percentage sign itself -->
+    <!-- Title of dialog where the user can choose a different icon for the app -->
+    <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
+    <!-- Message displayed in a toast when the user selects a different icon for the app -->
+    <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
 </resources>

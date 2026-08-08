@@ -44,4 +44,6 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
     <string name="sync_type_automatic_import_description">Importiere regelmässig Shortcuts, Variablen, etc., um mit anderen Geräten zu synchronisieren.</string>
     <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
     <string name="sync_type_automatic_export_description">Exportiere regelmässig Shortcuts, Variablen usw. um sie zu sichern oder mit anderen Geräten zu synchronisieren.</string>
+    <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
+    <string name="instructions_apply_new_app_icon">Um das App-Symbol zu ändern, muss sich die App möglicherweise selbst schliessen. Es kann ein paar Sekunden dauern, bis der Launcher das Symbol aktualisiert.\n\nShortcuts die bereits auf dem Startbildschirm platziert wurden, funktionieren möglicherweise nicht bis die App neu gestartet wird.</string>
 </resources>

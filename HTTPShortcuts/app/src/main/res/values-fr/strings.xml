@@ -62,6 +62,7 @@
     <string name="subtitle_include_meta_information">En-têtes de réponse, Code de retour, …</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Placer sur l\'écran d\'accueil</string>
+    <!-- Shortcut dropdown option: Install the shortcut as a separate launcher app -->
     <!-- Category dropdown option: Place category on home screen -->
     <string name="action_place_category">Placer sur l\'écran d\'accueil</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
@@ -219,7 +220,8 @@ Cliquer sur + pour ajouter une variable.</string>
     <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
     <string name="settings_cancel_all_pending_executions">Annuler toutes les exécutions en cours</string>
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_allow_overlay">Autoriser l\'affichage au-dessus des autres applications</string>
+    <string name="settings_allow_overlay">Autoriser l\'affichage au-dessus des autres applications
+</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Activez si les raccourcis ne fonctionnent pas lorsqu\'ils sont déclenchés à partir de la tuile des paramètres rapides ou d\'une application tierce.</string>
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
@@ -393,6 +395,12 @@ Cliquer sur + pour ajouter une variable.</string>
     <string name="shortcut_deleted">%1$s supprimé.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">%1$s placé sur l\'écran d\'accueil.</string>
+    <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission. %s is a placeholder for the app's name. -->
+    <!-- Error shown when the generated shell APK could not be parsed by Android -->
+    <!-- Message shown when the generated shell APK was handed to Android's package installer -->
+    <!-- Message shown when the generated shell APK was installed successfully -->
+    <!-- Message shown by a generated shell APK when HTTP Shortcuts can no longer handle its deep link -->
+    <!-- Error shown when Android reports that the generated shell APK installation failed. %1$s is the system-provided reason. -->
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">Supprimer</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
@@ -759,6 +767,8 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="settings_app_title_title">Titre de l\'application</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">Modifier le titre de l\'écran principal de l\'application</string>
+    <!-- Title of section in settings that allows the user to change the icon of the app -->
+    <!-- Summary/subtitle of section in settings that allows the user to change the icon of the app -->
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">Minimum</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -822,7 +832,8 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <string name="action_type_toast_title">Afficher les bulles de notification</string>
     <!-- Shortcut Action Title: Show Dialog -->
-    <string name="action_type_dialog_title">Afficher une boîte de dialogue</string>
+    <string name="action_type_dialog_title">Afficher une boîte de dialogue
+</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
     <string name="action_type_window_title">Afficher la fenêtre</string>
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
@@ -972,7 +983,8 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="message_app_unlocked">Application déverrouillée.</string>
     <!-- Snackbar message: App lock was fully removed -->
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
-    <string name="warning_data_saver_battery_saver_enabled">Les modes économie de bande passante et/ou économie de batterie sont activés sur votre appareil. Si vous rencontrez des problèmes avec les raccourcis, essayez de les désactiver.</string>
+    <string name="warning_data_saver_battery_saver_enabled">Les modes économie de bande passante et/ou économie de batterie sont activés sur votre appareil. Si vous rencontrez des problèmes avec les raccourcis, essayez de les désactiver.
+</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
     <string name="message_variable_duplicated">\"%1$s\" dupliqué.</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
@@ -1003,7 +1015,8 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
         <item quantity="other">%d en-têtes définies</item>
     </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
-    <string name="subtitle_authentication_none">Pas d\'authentification</string>
+    <string name="subtitle_authentication_none">Pas d\'authentification
+</string>
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
     <string name="subtitle_authentication_client_cert">Utilisation d\'un certificat client</string>
     <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
@@ -1115,7 +1128,8 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_name">Obtenir le nom du raccourci</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
-    <string name="dialog_code_snippet_get_shortcut_description">Obtenir la description du raccourci</string>
+    <string name="dialog_code_snippet_get_shortcut_description">Obtenir la description du raccourci
+</string>
     <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">Obtenir le corps de la réponse en tant que chaîne</string>
@@ -1998,4 +2012,9 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Message for dialog that informs the user about Material Design Icons -->
     <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
     <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
+    <!-- Pattern for combining the name of a language with its translation progress percentage. %s is a placeholder for the language, %d a placeholder for the percentage, %% a placeholder for the percentage sign itself -->
+    <!-- Title of dialog where the user can choose a different icon for the app -->
+    <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
+    <!-- Message displayed in a toast when the user selects a different icon for the app -->
+    <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
 </resources>

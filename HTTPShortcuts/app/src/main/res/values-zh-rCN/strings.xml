@@ -396,8 +396,10 @@
     <string name="shortcut_deleted">%1$s 已删除</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">%1$s 已添加至桌面</string>
+    <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission. %s is a placeholder for the app's name. -->
+    <string name="message_shell_apk_intro">使用此功能，您可以生成并安装一个在启动时触发此快捷方式的轻量级应用。 这主要有助于与可启动其他应用但无法直接处理快捷方式的自动化应用集成。\n\n要继续，请允许 %s 安装未知应用，然后尝试重新安装快捷方式。</string>
     <!-- Error shown when the generated shell APK could not be parsed by Android -->
-    <string name="error_shell_apk_invalid">生成的安装包无效，无法安装。</string>
+    <string name="error_shell_apk_invalid">>生成的安装包无效，无法安装。</string>
     <!-- Message shown when the generated shell APK was handed to Android's package installer -->
     <string name="message_shell_apk_install_started">正在打开安装器…</string>
     <!-- Message shown when the generated shell APK was installed successfully -->
@@ -778,6 +780,10 @@
     <string name="settings_app_title_title">应用标题</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">更改应用主屏幕的标题</string>
+    <!-- Title of section in settings that allows the user to change the icon of the app -->
+    <string name="settings_app_icon_title">应用图标</string>
+    <!-- Summary/subtitle of section in settings that allows the user to change the icon of the app -->
+    <string name="settings_app_icon_summary">更改应用\的启动器图标</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">最小值</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -2075,4 +2081,14 @@
     <string name="accessibility_clear_search">清除</string>
     <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
     <string name="error_no_webview">此设备上似乎没有安装 WebView 。内容无法显示。</string>
+    <!-- Pattern for combining the name of a language with its translation progress percentage. %s is a placeholder for the language, %d a placeholder for the percentage, %% a placeholder for the percentage sign itself -->
+    <string name="translation_progress_pattern">%s (%d%%)</string>
+    <!-- Title of dialog where the user can choose a different icon for the app -->
+    <string name="dialog_title_select_app_icon">更改应用图标</string>
+    <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
+    <string name="instructions_apply_new_app_icon">要更改应用图标，应用可能需要关闭自己。启动器可能需要几秒钟来更新图标。\n\n已经放置在主屏幕上的快捷方式在您手动重新打开应用程序之前可能无法工作。</string>
+    <!-- Message displayed in a toast when the user selects a different icon for the app -->
+    <string name="message_apply_new_app_icon">正在应用新应用图标</string>
+    <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
+    <string name="dialog_title_select_icon_background_color">图标背景色</string>
 </resources>
