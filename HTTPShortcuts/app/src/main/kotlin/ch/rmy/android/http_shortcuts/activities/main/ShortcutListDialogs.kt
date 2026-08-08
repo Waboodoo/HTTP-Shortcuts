@@ -447,7 +447,7 @@ private fun PlaceOnHomeScreenBackgroundColorPickerDialog(
                     .padding(6.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                ShortcutIcon(shortcutIcon)
+                ShortcutIcon(shortcutIcon, useBackground = false)
             }
         },
         onColorSelected = { color ->

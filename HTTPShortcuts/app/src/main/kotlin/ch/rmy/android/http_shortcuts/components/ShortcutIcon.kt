@@ -41,6 +41,7 @@ import kotlinx.coroutines.withContext
 fun ShortcutIcon(
     shortcutIcon: ShortcutIcon,
     modifier: Modifier = Modifier,
+    useBackground: Boolean = true,
     contentDescription: String? = null,
     size: Dp = 44.dp,
 ) {
@@ -65,19 +66,21 @@ fun ShortcutIcon(
     var background by remember {
         mutableStateOf<Color?>(null)
     }
-    LaunchedEffect(shortcutIcon, isDarkMode) {
-        background = withContext(Dispatchers.Default) {
-            val iconLuminance = when (shortcutIcon) {
-                is ShortcutIcon.CustomIcon -> shortcutIcon.tint ?: shortcutIcon.singleColor
-                else -> shortcutIcon.tint
-            }
-                ?.let(::Color)
-                ?.luminance()
-                ?: return@withContext null
-            when {
-                iconLuminance > 0.7f && !isDarkMode -> Color.Black.copy(alpha = 0.7f)
-                iconLuminance < 0.07f && isDarkMode -> Color.White.copy(alpha = 0.9f)
-                else -> null
+    if (useBackground) {
+        LaunchedEffect(shortcutIcon, isDarkMode) {
+            background = withContext(Dispatchers.Default) {
+                val iconLuminance = when (shortcutIcon) {
+                    is ShortcutIcon.CustomIcon -> shortcutIcon.tint ?: shortcutIcon.singleColor
+                    else -> shortcutIcon.tint
+                }
+                    ?.let(::Color)
+                    ?.luminance()
+                    ?: return@withContext null
+                when {
+                    iconLuminance > 0.7f && !isDarkMode -> Color.Black.copy(alpha = 0.7f)
+                    iconLuminance < 0.07f && isDarkMode -> Color.White.copy(alpha = 0.9f)
+                    else -> null
+                }
             }
         }
     }
