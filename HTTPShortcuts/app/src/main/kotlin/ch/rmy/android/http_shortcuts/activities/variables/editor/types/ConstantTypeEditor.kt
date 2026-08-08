@@ -95,7 +95,6 @@ fun ConstantTypeEditor(
             maxLines = 12,
             keyboardOptions = KeyboardOptions(
                 keyboardType = if (viewState.isSecret) KeyboardType.Password else KeyboardType.Unspecified,
-                imeAction = ImeAction.Done,
             ),
         )
     }
