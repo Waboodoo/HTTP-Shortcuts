@@ -2,11 +2,13 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor.types
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.Spacing
@@ -41,6 +43,9 @@ fun DateTypeEditor(
             null
         },
         singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+        ),
     )
 
     Checkbox(

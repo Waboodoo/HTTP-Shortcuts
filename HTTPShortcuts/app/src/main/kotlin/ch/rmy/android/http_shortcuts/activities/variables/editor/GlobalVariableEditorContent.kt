@@ -22,6 +22,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.framework.utils.localization.Localizable
@@ -53,6 +54,7 @@ fun GlobalVariableEditorContent(
     shareSupportVisible: Boolean,
     excludeValueCheckboxVisible: Boolean,
     excludeValueFromExports: Boolean,
+    typeSpecificContentStartsWithTextField: Boolean,
     onVariableKeyChanged: (String) -> Unit,
     onDialogTitleChanged: (String) -> Unit,
     onDialogMessageChanged: (String) -> Unit,
@@ -78,12 +80,22 @@ fun GlobalVariableEditorContent(
                 VariableKey(
                     key = variableKey,
                     error = variableKeyInputError?.localize(),
+                    imeAction = if (dialogTitleVisible || dialogMessageVisible || typeSpecificContentStartsWithTextField) {
+                        ImeAction.Next
+                    } else {
+                        ImeAction.Done
+                    },
                     onKeyChanged = onVariableKeyChanged,
                 )
 
                 if (dialogTitleVisible) {
                     DialogTitle(
                         title = dialogTitle,
+                        imeAction = if (dialogMessageVisible || typeSpecificContentStartsWithTextField) {
+                            ImeAction.Next
+                        } else {
+                            ImeAction.Done
+                        },
                         onTitleChanged = onDialogTitleChanged,
                     )
                 }
@@ -159,6 +171,7 @@ fun GlobalVariableEditorContent(
 private fun VariableKey(
     key: String,
     error: String?,
+    imeAction: ImeAction,
     onKeyChanged: (String) -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -188,6 +201,7 @@ private fun VariableKey(
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
+            imeAction = imeAction,
         ),
         singleLine = true,
         isError = error != null,
@@ -200,7 +214,11 @@ private fun VariableKey(
 }
 
 @Composable
-private fun DialogTitle(title: String, onTitleChanged: (String) -> Unit) {
+private fun DialogTitle(
+    title: String,
+    imeAction: ImeAction,
+    onTitleChanged: (String) -> Unit,
+) {
     TextField(
         modifier = Modifier
             .padding(horizontal = Spacing.MEDIUM)
@@ -213,6 +231,9 @@ private fun DialogTitle(title: String, onTitleChanged: (String) -> Unit) {
             onTitleChanged(it.take(20))
         },
         singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = imeAction,
+        ),
     )
 }
 

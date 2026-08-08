@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.SavedStateHandle
@@ -158,6 +159,7 @@ private fun UrlField(
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
+            imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Uri,
         ),
         value = url,
@@ -214,7 +216,11 @@ private fun MacAddressField(
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
+            imeAction = ImeAction.Next,
         ),
+        textFilter = { text ->
+            text.filter { it != '\n' && it != ' ' }
+        },
         value = macAddress,
         onValueChange = onMacAddressChanged,
         maxLines = 12,
@@ -235,10 +241,13 @@ private fun PortField(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next,
         ),
         value = port,
         onValueChange = { text ->
-            onPortChanged(text.filter { it.isDigit() }.take(6))
+            text.filter { it.isDigit() }
+                .takeIf { it.length <= 6 }
+                ?.let(onPortChanged)
         },
         singleLine = true,
     )
@@ -257,6 +266,7 @@ private fun BroadcastAddressField(
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
+            imeAction = ImeAction.Done,
         ),
         value = broadcastAddress,
         onValueChange = onBroadcastAddressChanged,

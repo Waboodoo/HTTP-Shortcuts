@@ -6,6 +6,7 @@
 - The app is now translated into Bulgarian
 - The language picker now shows the translation progress
 - There are now alternative app icons to choose from, in case you're tired of the blue
+- The soft keyboard now shows a more appropriate enter/submit option on most input fields
 
 ### Bugfixes
 - Files shared into the app can now be properly forwarded to another shortcut via the `enqueueShortcut` Scripting function

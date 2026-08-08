@@ -14,6 +14,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.SavedStateHandle
@@ -193,6 +194,11 @@ fun AdvancedSettingsContent(
 
                         ProxyPortField(
                             modifier = Modifier.fillMaxWidth(),
+                            imeAction = if (proxyType?.supportsAuthentication == true) {
+                                ImeAction.Next
+                            } else {
+                                ImeAction.Unspecified
+                            },
                             port = proxyPort,
                             onPortChanged = onProxyPortChanged,
                         )
@@ -237,6 +243,7 @@ fun AdvancedSettingsContent(
                     enabled = hostVerificationEnabled,
                     label = stringResource(R.string.label_host_verification_certificate_fingerprint),
                     placeholder = stringResource(R.string.hint_host_verification_certificate_fingerprint),
+                    imeAction = ImeAction.Done,
                     value = certificateFingerprint,
                     onValueChanged = onCertificateFingerprintChanged,
                 )
@@ -282,7 +289,11 @@ private fun ProxyHostField(
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
+            imeAction = ImeAction.Next,
         ),
+        textFilter = { text ->
+            text.filter { it != '\n' }
+        },
         value = host,
         onValueChange = onHostChanged,
         maxLines = 2,
@@ -292,6 +303,7 @@ private fun ProxyHostField(
 @Composable
 private fun ProxyPortField(
     modifier: Modifier = Modifier,
+    imeAction: ImeAction,
     port: String,
     onPortChanged: (String) -> Unit,
 ) {
@@ -304,10 +316,13 @@ private fun ProxyPortField(
             capitalization = KeyboardCapitalization.None,
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Number,
+            imeAction = imeAction,
         ),
         value = port,
         onValueChange = { text ->
-            onPortChanged(text.filter { it.isDigit() }.take(6))
+            text.filter { it.isDigit() }
+                .takeIf { it.length <= 6 }
+                ?.let(onPortChanged)
         },
         singleLine = true,
     )

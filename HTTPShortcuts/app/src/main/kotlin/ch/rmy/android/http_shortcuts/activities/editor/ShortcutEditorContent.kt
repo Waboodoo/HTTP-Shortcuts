@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
@@ -25,6 +26,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.Constants
 import ch.rmy.android.http_shortcuts.R
@@ -236,6 +238,9 @@ private fun ShortcutNameField(
         onValueChange = {
             onNameChanged(it.take(Constants.SHORTCUT_NAME_MAX_LENGTH))
         },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next,
+        ),
         singleLine = true,
     )
 }
@@ -255,5 +260,8 @@ private fun ShortcutDescriptionField(
         onValueChange = {
             onDescriptionChanged(it.take(Constants.SHORTCUT_DESCRIPTION_MAX_LENGTH))
         },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+        ),
     )
 }

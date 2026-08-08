@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.components
 
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -7,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
@@ -18,6 +21,8 @@ fun CertificateFingerprintTextField(
     placeholder: String,
     modifier: Modifier,
     enabled: Boolean = true,
+    imeAction: ImeAction,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChanged: (String) -> Unit,
 ) {
     TextField(
@@ -38,6 +43,10 @@ fun CertificateFingerprintTextField(
             fontSize = FontSize.SMALL,
             fontFamily = FontFamily.Monospace,
         ),
+        keyboardOptions = KeyboardOptions(
+            imeAction = imeAction,
+        ),
+        keyboardActions = keyboardActions,
         minLines = 5,
         visualTransformation = {
             TransformedText(

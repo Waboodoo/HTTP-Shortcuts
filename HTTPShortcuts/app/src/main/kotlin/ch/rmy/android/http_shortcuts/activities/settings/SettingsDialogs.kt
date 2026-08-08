@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
@@ -134,6 +135,7 @@ private fun ChangeUserAgentDialog(
         transformValue = {
             it.filter(Validation::isValidInHeaderValue).take(300)
         },
+        imeAction = ImeAction.Go,
         onDismissRequest = { text ->
             if (text != null) {
                 onConfirm(text)

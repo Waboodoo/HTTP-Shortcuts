@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.FontSize
@@ -109,6 +112,12 @@ private fun EditHeaderDialog(
                         textStyle = TextStyle(
                             fontSize = FontSize.SMALL,
                         ),
+                        keyboardOptions = KeyboardOptions(
+                            imeAction = ImeAction.Next,
+                        ),
+                        textFilter = { text ->
+                            text.filter { it != '\n' }
+                        },
                         maxLines = 4,
                         isError = invalidCharacterInKey != null,
                         supportingText = invalidCharacterInKey?.let {
@@ -142,6 +151,19 @@ private fun EditHeaderDialog(
                     textStyle = TextStyle(
                         fontSize = FontSize.SMALL,
                     ),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done,
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            if (key.isNotEmpty() && invalidCharacterInKey == null && invalidCharacterInValue == null) {
+                                onConfirmed(key, value)
+                            }
+                        },
+                    ),
+                    textFilter = { text ->
+                        text.filter { it != '\n' }
+                    },
                     maxLines = 4,
                     isError = invalidCharacterInValue != null,
                     supportingText = invalidCharacterInValue?.let {

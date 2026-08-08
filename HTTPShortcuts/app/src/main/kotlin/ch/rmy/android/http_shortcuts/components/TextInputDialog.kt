@@ -58,6 +58,7 @@ fun TextInputDialog(
     dismissButton: @Composable (() -> Unit)? = null,
     singleLine: Boolean = false,
     placeholder: String? = null,
+    imeAction: ImeAction? = null,
     bottomContent: (@Composable () -> Unit)? = null,
     onDismissRequest: (newValue: String?) -> Unit,
 ) {
@@ -113,7 +114,7 @@ fun TextInputDialog(
                     },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = keyboardType,
-                        imeAction = if (singleLine) ImeAction.Go else ImeAction.Default,
+                        imeAction = imeAction ?: if (singleLine) ImeAction.Go else ImeAction.Default,
                     ),
                     keyboardActions = KeyboardActions {
                         if (confirmButtonEnabled) {

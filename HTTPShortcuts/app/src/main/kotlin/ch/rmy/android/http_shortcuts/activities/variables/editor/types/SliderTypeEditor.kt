@@ -8,6 +8,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.Checkbox
@@ -37,6 +38,7 @@ fun SliderTypeEditor(
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Decimal,
+            imeAction = ImeAction.Next,
         ),
         singleLine = true,
     )
@@ -59,6 +61,7 @@ fun SliderTypeEditor(
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Decimal,
+            imeAction = ImeAction.Next,
         ),
         isError = viewState.isMaxValueInvalid,
         supportingText = if (viewState.isMaxValueInvalid) {
@@ -89,6 +92,7 @@ fun SliderTypeEditor(
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
             keyboardType = KeyboardType.Decimal,
+            imeAction = ImeAction.Next,
         ),
         isError = viewState.isStepSizeInvalid,
         supportingText = if (viewState.isStepSizeInvalid) {
@@ -118,6 +122,9 @@ fun SliderTypeEditor(
             )
         },
         singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next,
+        ),
     )
 
     TextField(
@@ -136,6 +143,9 @@ fun SliderTypeEditor(
             )
         },
         singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+        ),
     )
 
     Checkbox(

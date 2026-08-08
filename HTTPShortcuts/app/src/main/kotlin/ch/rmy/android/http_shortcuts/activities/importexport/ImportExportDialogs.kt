@@ -44,6 +44,7 @@ private fun ImportFromUrlDialog(initialValue: String, onImportFromUrl: (String) 
         allowEmpty = false,
         initialValue = initialValue,
         keyboardType = KeyboardType.Uri,
+        singleLine = true,
         onDismissRequest = { newValue ->
             if (newValue != null) {
                 onImportFromUrl(newValue)
