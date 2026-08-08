@@ -2,10 +2,18 @@
 
 ### Improvements
 - You can now install shortcuts as lightweight apps (thanks [@weifengiii](https://github.com/weifengiii))
+- When placing a shortcut onto the homescreen that has transparency in its icon, you can now pick the background color for the icon
+- The app is now translated into Bulgarian
+- The language picker now shows the translation progress
+- There are now alternative app icons to choose from, in case you're tired of the blue
 
 ### Bugfixes
+- Files shared into the app can now be properly forwarded to another shortcut via the `enqueueShortcut` Scripting function
+- Pending shortcuts now also show the hourglass icon in list mode, not just in grid mode
+- Fixed a bug where under certain circumstances an icon's custom color was not applied
 
 ### Miscellaneous
+- Slight adjustment of padding on the variable widget
 
 ## Version 4.6.0
 
