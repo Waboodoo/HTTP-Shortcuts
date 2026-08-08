@@ -13,6 +13,7 @@ fun <T> SettingsSelection(
     icon: Painter,
     selectedKey: T,
     items: List<Pair<T, String>>,
+    extraButton: (@Composable () -> Unit)? = null,
     onItemSelected: (T) -> Unit,
 ) {
     var dialogVisible by remember {
@@ -34,6 +35,7 @@ fun <T> SettingsSelection(
 
     SelectDialog(
         title = title,
+        extraButton = extraButton,
         onDismissRequest = {
             dialogVisible = false
         },

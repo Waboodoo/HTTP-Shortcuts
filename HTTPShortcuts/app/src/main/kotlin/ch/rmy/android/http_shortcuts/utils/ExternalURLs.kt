@@ -21,7 +21,7 @@ object ExternalURLs {
     const val PLAY_STORE = "https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"
     const val F_DROID = "https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"
     const val GITHUB = "https://github.com/Waboodoo/HTTP-Shortcuts"
-    const val TRANSLATION = "https://crowdin.com/project/http-shortcuts"
+    const val TRANSLATION = "https://http-shortcuts.rmy.ch/support-me#translate"
     const val REDDIT = "https://www.reddit.com/r/HTTP_Shortcuts/"
 
     fun getScriptingDocumentation(docRef: String) =

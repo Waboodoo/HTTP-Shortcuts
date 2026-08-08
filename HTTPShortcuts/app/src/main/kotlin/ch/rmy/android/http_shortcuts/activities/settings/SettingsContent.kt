@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -51,6 +53,7 @@ fun SettingsContent(
     onCrashReportingChanged: (Boolean) -> Unit,
     onColorThemeChanged: (String) -> Unit,
     onShowHiddenShortcutsChanged: (Boolean) -> Unit,
+    onTranslateButtonClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -102,6 +105,11 @@ fun SettingsContent(
                             languageName
                         }
                     },
+                extraButton = {
+                    TextButton(onClick = onTranslateButtonClicked) {
+                        Text(stringResource(R.string.settings_help_translate))
+                    }
+                },
                 onItemSelected = onLanguageSelected,
             )
 

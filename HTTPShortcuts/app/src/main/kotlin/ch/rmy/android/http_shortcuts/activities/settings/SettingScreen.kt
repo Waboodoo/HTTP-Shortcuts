@@ -42,6 +42,7 @@ fun SettingsScreen() {
             onColorThemeChanged = viewModel::onColorThemeChanged,
             onShowHiddenShortcutsChanged = viewModel::onShowHiddenShortcutsChanged,
             onRememberActiveCategoryChanged = viewModel::onRememberActiveCategoryChanged,
+            onTranslateButtonClicked = viewModel::onTranslateButtonClicked,
         )
     }
 

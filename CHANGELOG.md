@@ -4,7 +4,7 @@
 - You can now install shortcuts as lightweight apps (thanks [@weifengiii](https://github.com/weifengiii))
 - When placing a shortcut onto the homescreen that has transparency in its icon, you can now pick the background color for the icon
 - The app is now translated into Bulgarian
-- The language picker now shows the translation progress
+- The language picker now shows the translation progress and includes a button to become a translator
 - There are now alternative app icons to choose from, in case you're tired of the blue
 - The soft keyboard now shows a more appropriate enter/submit option on most input fields
 

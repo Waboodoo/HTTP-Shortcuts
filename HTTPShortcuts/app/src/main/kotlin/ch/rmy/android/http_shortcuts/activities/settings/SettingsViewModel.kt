@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
+import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LocaleHelper
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
@@ -325,5 +326,9 @@ constructor(
         updateViewState {
             copy(rememberActiveCategory = remember)
         }
+    }
+
+    fun onTranslateButtonClicked() = runAction {
+        openURL(ExternalURLs.TRANSLATION)
     }
 }
