@@ -64,7 +64,7 @@ object IconUtil {
                         // Icons with transparency are well suited to be used in adaptive icons, so we can go with 66dp as recommended by the
                         // guidelines minus some extra padding. Icons without transparency will look weird, so we scale them up a little
                         // so the cropping is less obvious.
-                        val innerSize = ((if (icon.isUsableAsSilhouette) 58 else 76) * density).toInt()
+                        val innerSize = ((if (icon.isUsableAsSilhouette) 56 else 76) * density).toInt()
                         val offset = (outerSize - innerSize) / 2f
                         val scaledBitmap = originalBitmap.scale(innerSize, innerSize, false)
                             .runIf(icon.isCircular) {
