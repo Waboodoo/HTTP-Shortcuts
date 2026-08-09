@@ -198,18 +198,28 @@ constructor() {
         }
     }
 
-    private fun OkHttpClient.Builder.configureTLS(
-        context: Context,
-        hostVerificationConfig: HostVerificationConfig,
-        clientCertParams: ClientCertParams?,
-    ): OkHttpClient.Builder =
-        run {
-            val trustManager = hostVerificationConfig.getTrustManager()
-            val sslContext = SSLContext.getInstance("TLS", "Conscrypt")
+private fun OkHttpClient.Builder.configureTLS(
+    context: Context,
+    hostVerificationConfig: HostVerificationConfig,
+    clientCertParams: ClientCertParams?,
+): OkHttpClient.Builder =
+    run {
+        val trustManager = hostVerificationConfig.getTrustManager()
+        val sslContext = SSLContext.getInstance("TLSv1.2", "Conscrypt")
 
-            val keyManagers = clientCertParams?.getKeyManagers(context)
-            sslContext.init(keyManagers, arrayOf(trustManager), null)
-            sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
+        val keyManagers = clientCertParams?.getKeyManagers(context)
+        sslContext.init(keyManagers, arrayOf(trustManager), null)
+        sslSocketFactory(TLSEnabledSSLSocketFactory(sslContext.socketFactory), trustManager)
+    }
+        .run {
+            when (hostVerificationConfig) {
+                HostVerificationConfig.Default -> this
+                is HostVerificationConfig.SelfSigned,
+                HostVerificationConfig.TrustAll,
+                -> {
+                    hostnameVerifier { _, _ -> true }
+                }
+            }
         }
             .run {
                 when (hostVerificationConfig) {
