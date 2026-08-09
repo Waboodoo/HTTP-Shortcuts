@@ -121,6 +121,7 @@ fun ShortcutListContent(
             hiddenLabels = category.hiddenLabels,
             isLongClickingEnabled = state.isLongClickingEnabled,
             showEmptySectionText = state.showEmptySectionText,
+            includeSpacerAtBottom = state.includeSpacingAtBottom,
             onShortcutClicked = viewModel::onShortcutClicked,
             onShortcutLongClicked = viewModel::onShortcutLongClicked,
         )

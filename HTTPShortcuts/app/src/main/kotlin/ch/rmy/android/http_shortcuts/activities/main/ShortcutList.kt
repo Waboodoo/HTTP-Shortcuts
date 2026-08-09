@@ -71,6 +71,7 @@ fun ShortcutList(
     useTextShadows: Boolean,
     scale: Float,
     hiddenLabels: Boolean,
+    includeSpacerAtBottom: Boolean,
     isLongClickingEnabled: Boolean,
     showEmptySectionText: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
@@ -120,6 +121,7 @@ fun ShortcutList(
             lesserScale = lesserScale,
             isLongClickingEnabled = isLongClickingEnabled,
             showEmptySectionText = showEmptySectionText,
+            includeSpacerAtBottom = includeSpacerAtBottom,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
         )
@@ -140,6 +142,7 @@ fun ShortcutList(
             hiddenLabels = hiddenLabels,
             isLongClickingEnabled = isLongClickingEnabled,
             showEmptySectionText = showEmptySectionText,
+            includeSpacerAtBottom = includeSpacerAtBottom,
             onShortcutClicked = onShortcutClicked,
             onShortcutLongClicked = onShortcutLongClicked,
         )
@@ -157,6 +160,7 @@ private fun ShortcutLinearList(
     lesserScale: Float,
     isLongClickingEnabled: Boolean,
     showEmptySectionText: Boolean,
+    includeSpacerAtBottom: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
 ) {
@@ -225,7 +229,7 @@ private fun ShortcutLinearList(
             key = "spacer",
             contentType = "spacer",
         ) {
-            VerticalSpacer(Spacing.HUGE)
+            VerticalSpacer(if (includeSpacerAtBottom) Spacing.HUGE else Spacing.SMALL)
         }
     }
 }
@@ -363,6 +367,7 @@ private fun ShortcutGrid(
     hiddenLabels: Boolean,
     isLongClickingEnabled: Boolean,
     showEmptySectionText: Boolean,
+    includeSpacerAtBottom: Boolean,
     onShortcutClicked: (ShortcutId) -> Unit,
     onShortcutLongClicked: (ShortcutId) -> Unit,
 ) {
@@ -443,7 +448,7 @@ private fun ShortcutGrid(
                 GridItemSpan(maxLineSpan)
             },
         ) {
-            VerticalSpacer(Spacing.HUGE)
+            VerticalSpacer(if (includeSpacerAtBottom) Spacing.HUGE else Spacing.SMALL)
         }
     }
 }

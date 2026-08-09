@@ -14,4 +14,7 @@ data class ShortcutListViewState(
 ) {
     val isLongClickingEnabled
         get() = !isAppLocked
+
+    val includeSpacingAtBottom
+        get() = !isAppLocked
 }
