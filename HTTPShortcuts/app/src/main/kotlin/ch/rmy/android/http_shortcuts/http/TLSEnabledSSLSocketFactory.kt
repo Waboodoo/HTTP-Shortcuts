@@ -30,7 +30,17 @@ class TLSEnabledSSLSocketFactory(private val sslSocketFactory: SSLSocketFactory)
     override fun createSocket(address: InetAddress, port: Int, localAddress: InetAddress, localPort: Int) =
         withTLS(sslSocketFactory.createSocket(address, port, localAddress, localPort))
 
-    private fun withTLS(socket: Socket) = socket.apply {
-        (socket as? SSLSocket)?.enabledProtocols = arrayOf("TLSv1", "TLSv1.1", "TLSv1.2", "TLSv1.3")
+    private fun withTLS(socket: Socket): Socket {
+        (socket as? SSLSocket)?.let { sslSocket ->
+            sslSocket.enabledProtocols =
+                sslSocket.enabledProtocols
+                    .filterNot { it in DEPRECATED_PROTOCOLS }
+                    .toTypedArray()
+        }
+        return socket
+    }
+
+    companion object {
+        private val DEPRECATED_PROTOCOLS = setOf("SSLv3", "TLSv1", "TLSv1.0", "TLSv1.1")
     }
 }
