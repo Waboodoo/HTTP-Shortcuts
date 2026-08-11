@@ -92,7 +92,7 @@ Please note that there is a limited number of shortcuts that can be shown on the
 ## Install shortcuts as apps
 For certain automation setups, it is not possible to directly target a shortcut. As a solution for those situations, you have the option to generate and install a lightweight app that triggers a particular shortcut when launched. You will find this option in the context menu when long-pressing on a shortcut in the app.
 
-Please note that these apps are essentially just a link to the original shortcut and as such still require the HTTP Shortcuts app itself to remain installed and the shortcut for which they were generated to exist. If you change the shortcut's name or icon, the installed app will not update automatically, but you can reinstall it to get the update. Uninstalling the generated app is safe and will not impact the shortcut itself.
+Please note that these apps are essentially just a link to the original shortcut and as such still require the HTTP Shortcuts app itself to remain installed and the shortcut for which they were generated to exist. If you change the shortcut's name or icon, the installed app will not update automatically, but you can reinstall it to get the update. Uninstalling the generated app is safe and will not impact the original shortcut itself.
 
 <a id="integrate-with-tasker"></a>
 ## Integrating with Tasker

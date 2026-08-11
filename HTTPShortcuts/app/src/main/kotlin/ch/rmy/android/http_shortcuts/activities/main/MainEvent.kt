@@ -5,4 +5,5 @@ import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 
 abstract class MainEvent : ViewModelEvent() {
     data class Restart(val activeCategoryId: CategoryId) : MainEvent()
+    data class PickFileForApk(val fileName: String) : MainEvent()
 }

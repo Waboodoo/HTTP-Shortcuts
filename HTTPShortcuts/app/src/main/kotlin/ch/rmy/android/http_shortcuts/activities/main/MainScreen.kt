@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
@@ -12,7 +13,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
+import ch.rmy.android.framework.extensions.consume
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
@@ -48,6 +51,10 @@ fun MainScreen(
         ),
     )
 
+    val openFilePickerForApk = rememberLauncherForActivityResult(PickFileForApkContract) { fileUri ->
+        fileUri?.let(viewModel::onFilePickedForApk)
+    }
+
     val activity = LocalActivity.current!!
     LaunchedEffect(Unit) {
         if (activity.intent.action == Intent.ACTION_APPLICATION_PREFERENCES) {
@@ -57,6 +64,15 @@ fun MainScreen(
 
     BackHandler(state != null) {
         viewModel.onBackButtonPressed()
+    }
+
+    EventHandler { event ->
+        when (event) {
+            is MainEvent.PickFileForApk -> consume {
+                openFilePickerForApk.launch(event.fileName)
+            }
+            else -> false
+        }
     }
 
     ResultHandler(savedStateHandle) { result ->
@@ -184,7 +200,7 @@ fun MainScreen(
         onRecoveryConfirmed = viewModel::onRecoveryConfirmed,
         onRecoveryDiscarded = viewModel::onRecoveryDiscarded,
         onShortcutPlacementConfirmed = viewModel::onShortcutPlacementConfirmed,
-        onShellApkPermissionConfirmed = viewModel::onShellApkPermissionConfirmed,
+        onShellApkPermissionConfirmed = viewModel::onShellApkInfoConfirmed,
         onNetworkRestrictionsWarningHidden = viewModel::onNetworkRestrictionsWarningHidden,
         onUnlockDialogSubmitted = viewModel::onUnlockDialogSubmitted,
         onEditCategoryClicked = viewModel::onEditCategoryClicked,

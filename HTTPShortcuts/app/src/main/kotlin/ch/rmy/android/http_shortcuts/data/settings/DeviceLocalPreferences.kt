@@ -85,6 +85,10 @@ constructor(
         get() = getBoolean(KEY_AWARE_OF_MATERIAL_ICONS_INFO)
         set(value) = putBoolean(KEY_AWARE_OF_MATERIAL_ICONS_INFO, value)
 
+    var isAwareOfShellApks: Boolean
+        get() = getBoolean(KEY_AWARE_OF_SHELL_APKS)
+        set(value) = putBoolean(KEY_AWARE_OF_SHELL_APKS, value)
+
     var isAwareOfAppIconChange: Boolean
         get() = getBoolean(KEY_AWARE_OF_APP_ICON_CHANGE)
         set(value) = putBoolean(KEY_AWARE_OF_APP_ICON_CHANGE, value)
@@ -100,10 +104,6 @@ constructor(
     var syncTooManyErrors: Boolean
         get() = getBoolean(KEY_SYNC_TOO_MANY_ERRORS)
         set(value) = putBoolean(KEY_SYNC_TOO_MANY_ERRORS, value)
-
-    var pendingShellApkInstallation: String?
-        get() = getString(KEY_PENDING_SHELL_APK_INSTALLATION)
-        set(value) = putString(KEY_PENDING_SHELL_APK_INSTALLATION, value)
 
     companion object {
         private const val KEY_DEVICE_ID = "device_id_v2"
@@ -123,10 +123,10 @@ constructor(
         private const val KEY_AWARE_OF_SECTION_POPULATION = "aware_of_section_population"
         private const val KEY_AWARE_OF_MATERIAL_ICONS_INFO = "aware_of_material_icons_info"
         private const val KEY_AWARE_OF_APP_ICON_CHANGE = "aware_of_app_icon_change"
+        private const val KEY_AWARE_OF_SHELL_APKS = "aware_of_shell_apks"
         private const val KEY_LAST_ACTIVE_CATEGORY_ID = "last_active_category_id"
         private const val KEY_SYNC_ERROR_COUNT = "sync_error_count"
         private const val KEY_SYNC_TOO_MANY_ERRORS = "sync_too_many_errors"
-        private const val KEY_PENDING_SHELL_APK_INSTALLATION = "pending_apk_install"
 
         // Intentionally excluding I and O to avoid mixing them up with 1 and 0
         private const val DEVICE_ID_CHARACTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789"

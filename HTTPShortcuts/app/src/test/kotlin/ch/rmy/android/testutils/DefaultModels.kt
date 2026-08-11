@@ -22,6 +22,7 @@ object DefaultModels {
         name = "",
         description = "",
         icon = ShortcutIcon.NoIcon,
+        iconBackground = null,
         hidden = false,
         method = HttpMethod.GET,
         url = "",

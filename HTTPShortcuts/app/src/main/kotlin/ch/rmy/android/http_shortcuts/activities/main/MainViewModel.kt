@@ -2,8 +2,8 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.app.Activity
 import android.app.Application
-import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.createIntent
@@ -41,8 +41,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
-import ch.rmy.android.http_shortcuts.shell_apk.InvalidShellApkException
-import ch.rmy.android.http_shortcuts.shell_apk.ShellApkInstaller
+import ch.rmy.android.http_shortcuts.shell_apk.ShellApkBuilder
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
@@ -57,9 +56,11 @@ import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
 import ch.rmy.android.http_shortcuts.widget.WidgetsUtil
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.net.URLEncoder
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -101,7 +102,7 @@ constructor(
     private val navigationArgStore: NavigationArgStore,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
     private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
-    private val shellApkInstaller: ShellApkInstaller,
+    private val shellApkBuilder: ShellApkBuilder,
 ) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -110,9 +111,9 @@ constructor(
         get() = initData.selectionMode
 
     private var activeShortcutId: ShortcutId? = null
-    private var pendingShellApkPermissionIntent: Intent? = null
     private var settingsRequestHandled: Boolean = false
     private var switchedAwayFromInitialCategory = false
+    private var shortcutForApkExport: ShortcutPlaceholder? = null
 
     override suspend fun initialize(data: InitData): MainViewState {
         logInfo("Init with mode=${data.selectionMode}")
@@ -643,34 +644,61 @@ constructor(
 
     fun onInstallShortcutAsApp(shortcut: ShortcutPlaceholder) = runAction {
         withProgressTracking {
-            try {
-                val result = shellApkInstaller.prepareInstall(
-                    shortcutId = shortcut.id,
-                    shortcutName = shortcut.name,
-                    shortcutIcon = shortcut.icon,
+            if (deviceLocalPreferences.isAwareOfShellApks) {
+                openPickerForApk(shortcut)
+            } else {
+                deviceLocalPreferences.isAwareOfShellApks = true
+                updateDialogState(
+                    MainDialogState.ShellApkInfo(shortcut),
                 )
-                when (result) {
-                    is ShellApkInstaller.Result.PermissionRequired -> {
-                        pendingShellApkPermissionIntent = result.intent
-                        updateDialogState(MainDialogState.ShellApkUnknownSourcesPermissionRequired)
-                    }
-                    is ShellApkInstaller.Result.ReadyToInstall -> {
-                        sendIntent(result.intent)
-                    }
-                }
-            } catch (e: InvalidShellApkException) {
-                showSnackbar(R.string.error_shell_apk_invalid, long = true)
-            } catch (e: Exception) {
-                handleUnexpectedError(e)
             }
         }
     }
 
-    fun onShellApkPermissionConfirmed() = runAction {
-        val intent = pendingShellApkPermissionIntent ?: skipAction()
-        pendingShellApkPermissionIntent = null
+    private suspend fun openPickerForApk(shortcut: ShortcutPlaceholder) {
+        shortcutForApkExport = shortcut
+        emitEvent(MainEvent.PickFileForApk(fileName = generateApkName(shortcut.name)))
+    }
+
+    private fun generateApkName(shortcutName: String): String =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            URLEncoder.encode(shortcutName, Charsets.UTF_8)
+        } else {
+            URLEncoder.encode(shortcutName)
+        }
+            .trim()
+            .plus(".apk")
+
+    fun onShellApkInfoConfirmed() = runAction {
+        val shortcut = (getCurrentViewState().dialogState as? MainDialogState.ShellApkInfo)?.shortcut ?: skipAction()
         updateDialogState(null)
-        sendIntent(intent)
+        openPickerForApk(shortcut)
+    }
+
+    fun onFilePickedForApk(fileUri: Uri) = runAction {
+        try {
+            updateDialogState(MainDialogState.Progress)
+            val shortcut = shortcutForApkExport ?: skipAction()
+            val apkFile = shellApkBuilder.build(
+                shortcutId = shortcut.id,
+                appName = shortcut.name,
+                icon = shortcut.icon,
+            )
+            withContext(Dispatchers.IO) {
+                apkFile.inputStream().use { inputStream ->
+                    context.contentResolver.openOutputStream(fileUri)?.use { outputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
+                }
+            }
+            showSnackbar(R.string.message_shell_apk_saved)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            handleUnexpectedError(e)
+        } finally {
+            updateDialogState(null)
+        }
     }
 
     fun onRemoveShortcutFromHomeScreen(shortcut: ShortcutPlaceholder) = runAction {
@@ -689,9 +717,6 @@ constructor(
                 MainDialogState.NetworkRestrictionsWarning,
             )
         } else {
-            if (viewState.dialogState is MainDialogState.ShellApkUnknownSourcesPermissionRequired) {
-                pendingShellApkPermissionIntent = null
-            }
             updateDialogState(null)
         }
     }

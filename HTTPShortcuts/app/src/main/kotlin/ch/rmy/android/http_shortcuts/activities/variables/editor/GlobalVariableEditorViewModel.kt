@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.variables.editor
 
 import android.app.Application
 import androidx.lifecycle.viewModelScope
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.framework.utils.localization.StringResLocalizable
 import ch.rmy.android.framework.viewmodel.BaseViewModel
@@ -179,8 +178,7 @@ constructor(
             throw e
         } catch (e: Exception) {
             isSaving = false
-            showSnackbar(R.string.error_generic)
-            logException(e)
+            handleUnexpectedError(e)
         }
     }
 

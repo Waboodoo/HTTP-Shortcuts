@@ -6,7 +6,6 @@ import android.net.Uri
 import androidx.compose.runtime.Stable
 import androidx.lifecycle.viewModelScope
 import ch.rmy.android.framework.extensions.context
-import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.utils.ClipboardUtil
@@ -198,8 +197,7 @@ constructor(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                showSnackbar(R.string.error_generic)
-                logException(e)
+                handleUnexpectedError(e)
             } finally {
                 updateViewState {
                     copy(isSaving = false)

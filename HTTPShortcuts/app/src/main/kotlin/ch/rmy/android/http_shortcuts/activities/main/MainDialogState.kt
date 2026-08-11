@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import androidx.compose.runtime.Stable
 import ch.rmy.android.http_shortcuts.activities.main.models.RecoveryInfo
+import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 
 @Stable
@@ -22,7 +23,7 @@ sealed class MainDialogState {
     data object ShortcutPlacement : MainDialogState()
 
     @Stable
-    data object ShellApkUnknownSourcesPermissionRequired : MainDialogState()
+    data class ShellApkInfo(val shortcut: ShortcutPlaceholder) : MainDialogState()
 
     @Stable
     data class Unlock(

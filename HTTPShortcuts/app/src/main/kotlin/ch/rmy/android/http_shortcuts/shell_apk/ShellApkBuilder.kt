@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import java.io.File
+import java.util.Locale
 import java.util.zip.CRC32
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
@@ -23,11 +24,11 @@ constructor(
 ) {
     suspend fun build(
         shortcutId: ShortcutId,
-        packageName: String,
         appName: String,
         icon: ShortcutIcon,
     ): File =
         withContext(Dispatchers.IO) {
+            val packageName = createPackageName(shortcutId)
             val workDir = File(context.cacheDir, "shell-apk/$packageName")
             workDir.deleteRecursively()
             workDir.mkdirs()
@@ -53,6 +54,13 @@ constructor(
             validateApk(signedApk)
             signedApk
         }
+
+    private fun createPackageName(shortcutId: ShortcutId): String =
+        "$PACKAGE_PREFIX${shortcutId.normalizedForPackageName()}"
+
+    private fun ShortcutId.normalizedForPackageName(): String =
+        lowercase(Locale.US)
+            .filter(Char::isLetterOrDigit)
 
     private fun rewriteTemplateApk(
         templateBytes: ByteArray,
@@ -166,7 +174,7 @@ constructor(
         private const val MANIFEST_ENTRY = "AndroidManifest.xml"
         private const val RESOURCES_ENTRY = "resources.arsc"
         private const val FALLBACK_ICON_ENTRY = "res/drawable/ic_launcher_shell.png"
-
+        private const val PACKAGE_PREFIX = "ch.rmy.android.http_shortcuts.app_"
         private const val TEMPLATE_PACKAGE_NAME = "ch.rmy.android.http_shortcuts.shelltemplate"
         private const val TEMPLATE_APP_NAME = "HTTP Shortcuts Shell"
         private const val TEMPLATE_TARGET_URI = "http-shortcuts://shell-template-placeholder"

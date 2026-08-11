@@ -66,5 +66,3 @@ Used to perform cleanup tasks, such as deleting obsolete cache files after a sho
 ## run at startup
 Used for making sure that scheduled tasks (such as periodic shortcut execution and cleanup) can be re-scheduled when the device restarts.
 
-## request to install packages
-Used by the "Install as App" feature, which generates a lightweight app for a specific shortcut and asks the user to install it. This permission needs to be granted explicitly by the user if they wish to make use of this feature.

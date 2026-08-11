@@ -224,7 +224,7 @@ android {
     }
 }
 
-val shellApkTemplateAssetDir = layout.buildDirectory.dir("generated/assets/shell-apk-template").get().asFile
+val shellApkTemplateAssetDir = layout.projectDirectory.dir("src/main/assets").asFile
 
 val copyShellApkTemplate by tasks.registering(Copy::class) {
     dependsOn(":shell_apk_template:assembleRelease")
@@ -233,8 +233,6 @@ val copyShellApkTemplate by tasks.registering(Copy::class) {
     }
     into(shellApkTemplateAssetDir)
 }
-
-android.sourceSets.getByName("main").assets.srcDir(shellApkTemplateAssetDir)
 
 tasks.configureEach {
     if (name.startsWith("merge") && name.endsWith("Assets")) {
