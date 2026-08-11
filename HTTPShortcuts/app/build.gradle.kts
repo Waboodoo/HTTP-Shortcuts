@@ -87,6 +87,7 @@ android {
             "de-rCH",
             "es",
             "es-rMX",
+            "eu",
             "fr",
             "in",
             "it",

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="language_english" translatable="false">English</string>
+    <string name="language_basque" translatable="false">Euskera</string>
     <string name="language_bulgarian" translatable="false">български</string>
     <string name="language_catalan" translatable="false">Català</string>
     <string name="language_czech" translatable="false">Čeština</string>

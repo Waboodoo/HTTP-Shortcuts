@@ -6,13 +6,14 @@ de:100
 el:61
 es:76
 es-rMX:19
+eu:23
 fa:63
 fr:80
 iw:70
 hu:61
 in:51
 it:78
-ja:99
+ja:98
 ko:71
 nl:77
 pl:77

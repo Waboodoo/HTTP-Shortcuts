@@ -396,17 +396,9 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">「%1$s」ホーム画面に配置しました</string>
     <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission. %s is a placeholder for the app's name. -->
-    <string name="message_shell_apk_intro">この機能を使用すると、起動時にこのショートカットをトリガーする軽量なアプリを生成してインストールできます。 これは主に、他のアプリを起動することができるがショートカットを直接処理することができない自動化アプリと統合した使用方法に便利です。\n\n続行するには、 %s に「不明なアプリのインストールを許可」してから、ショートカットを再度インストールしてください。</string>
-    <!-- Error shown when the generated shell APK could not be parsed by Android -->
-    <string name="error_shell_apk_invalid">生成されたAPKは無効のためインストールできません。</string>
-    <!-- Message shown when the generated shell APK was handed to Android's package installer -->
-    <string name="message_shell_apk_install_started">インストーラーを開きます…</string>
-    <!-- Message shown when the generated shell APK was installed successfully -->
-    <string name="message_shell_apk_installed">アプリのインストール完了</string>
     <!-- Message shown by a generated shell APK when HTTP Shortcuts can no longer handle its deep link -->
     <string name="message_shell_apk_shortcut_not_found">ショートカットが見つかりません。このアプリをアンインストールしてください。</string>
-    <!-- Error shown when Android reports that the generated shell APK installation failed. %1$s is the system-provided reason. -->
-    <string name="error_shell_apk_install_failed">インストール失敗：%1$s</string>
+    <!-- Message shown when the generated shell APK was saved to a file successfully -->
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">削除</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->

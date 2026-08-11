@@ -1,505 +1,591 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- The name of the app -->
+    <string name="app_name">HTTP Shortcuts</string>
     <!-- The name of the default category -->
-    <string name="shortcuts">Atajos</string>
+    <string name="shortcuts">Nire lasterbideak</string>
     <!-- The name used as a fallback for shortcuts without a name -->
-    <string name="shortcut_safe_name">Atajo</string>
+    <string name="shortcut_safe_name">Lasterbidea</string>
     <!-- Title in editor when editing a shortcut -->
-    <string name="edit_shortcut">Editar Atajo</string>
+    <string name="edit_shortcut">Editatu lasterbidea</string>
     <!-- Title in editor when creating a new shortcut -->
-    <string name="create_shortcut">Crear Atajo</string>
+    <string name="create_shortcut">Sortu lasterbidea</string>
     <!-- Content description of icon image, accessibility information -->
-    <string name="icon_description">Icono</string>
+    <string name="icon_description">Ikonoa</string>
     <!-- Label above input field in editor, for shortcut name -->
-    <string name="label_name">Nombre del atajo</string>
+    <string name="label_name">Lasterbidearen izena</string>
     <!-- Label above input field in editor, for shortcut description -->
-    <string name="label_description">Descripción</string>
+    <string name="label_description">Deskripzioa</string>
     <!-- Label above input field in editor, for shortcut URL -->
+    <string name="label_url">URLa</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's MAC address -->
+    <string name="label_mac_address">MAC helbidea</string>
     <!-- Label above input field in editor, for wake-on-lan shortcut's broadcast address -->
-    <string name="label_broadcast_address">Transmitir Dirección</string>
+    <string name="label_broadcast_address">Igorpen helbidea</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="label_browser_package_name">Buscador</string>
+    <string name="label_browser_package_name">Nabigatzailea</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
-    <string name="placeholder_browser_package_name">Usar buscador predeterminado</string>
+    <string name="placeholder_browser_package_name">Erabili nabigatzaile lehenetsia</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
+    <string name="option_browser_custom_tab">Erabili fitxa pertsonalizatua</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
+    <string name="option_custom_browser_in_custom_tab">%s (fitxa pertsonalizatua)</string>
     <!-- Button to save changes made to shortcut/variable -->
-    <string name="save_button">Guardar</string>
+    <string name="save_button">Gorde</string>
     <!-- Button to test changes made to shortcut -->
-    <string name="test_button">Probar</string>
+    <string name="test_button">Probatu</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
-    <string name="label_method">Metodo</string>
+    <string name="label_method">Metodoa</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
-    <string name="label_username">Nombre de usuario</string>
+    <string name="label_username">Erabiltzaile-izena</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
-    <string name="label_password">Contraseña</string>
+    <string name="label_password">Pasahitza</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
+    <string name="label_auth_token">Tokena</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
+    <string name="label_response_on_success">Arrakastan</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
-    <string name="label_response_type_selection">Tipo de respuesta</string>
+    <string name="label_response_type_selection">Erantzun mota</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
+    <string name="label_response_message_type_selection">Mezu tipoa</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
+    <string name="label_response_on_failure">Porrotan</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="label_include_meta_information">Erakutsi metadatuak</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="label_enable_javascript_in_webview">Gaitu JavaScript (esperimentala)</string>
     <!-- Subtitle for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
+    <string name="subtitle_enable_javascript_in_webview">Bistaratzen den HTML erantzunaren gorputzean JavaScript erabiltzeko aukera ematen du. Baliteke honek web orri batzuetan ez funtzionatzea.</string>
     <!-- Label for checkbox in editor, to select whether the HTTP response (if it is text) should be displayed using a monospace font -->
+    <string name="label_monospace_response">Bistaratu testua espazio bakarreko letra-tipoa erabiliz</string>
     <!-- Subtitle for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
+    <string name="subtitle_include_meta_information">Bistaratu goiburuak, egoera kodea…</string>
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
-    <string name="action_place">Agregar a la pantalla de inicio</string>
+    <string name="action_place">Kokatu lasterbidea hasierako pantailan</string>
     <!-- Shortcut dropdown option: Install the shortcut as a separate launcher app -->
+    <string name="action_install_as_app">Instalatu aplikazio gisa</string>
     <!-- Category dropdown option: Place category on home screen -->
-    <string name="action_place_category">Agregar a la pantalla principal</string>
+    <string name="action_place_category">Kokatu lasterbidea hasierako pantailan</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
-    <string name="action_run">Ejecutar</string>
+    <string name="action_run">Exekutatu</string>
     <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
-    <string name="action_select">Seleccionar</string>
+    <string name="action_select">Hautatu</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
-    <string name="action_edit">Editar</string>
+    <string name="action_edit">Editatu</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
+    <string name="action_manage_sections">Kudeatu atalak</string>
     <!-- Shortcut dropdown option: Duplicate the shortcut/variable -->
-    <string name="action_duplicate">Duplicar</string>
+    <string name="action_duplicate">Bikoiztu</string>
     <!-- Shortcut dropdown option: Delete the shortcut/variable -->
-    <string name="action_delete">Eliminar</string>
+    <string name="action_delete">Ezabatu</string>
     <!-- Shortcut dropdown option: export the shortcut -->
-    <string name="action_export">Exportar</string>
+    <string name="action_export">Esportatu</string>
     <!-- Menu button: Confirm exporting the selected shortcuts -->
-    <string name="dialog_button_export">Exportar</string>
+    <string name="dialog_button_export">Esportatu</string>
     <!-- Shortcut dropdown option: display information about the shortcut -->
-    <string name="action_shortcut_information">Mostrar Información</string>
+    <string name="action_shortcut_information">Erakutsi informazioa</string>
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
-    <string name="action_move">Mover</string>
+    <string name="action_move">Mugitu</string>
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
+    <string name="message_moving_enabled">Berrantolatu lasterbideak arrastatuz.</string>
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->
-    <string name="title_export_shortcut_as">Exportar como...</string>
+    <string name="title_export_shortcut_as">Esportatu honela…</string>
     <!-- Dialog option, for exporting a single shortcut as a cURL command -->
-    <string name="action_export_as_curl">Comando cURL</string>
+    <string name="action_export_as_curl">cURL komandoa</string>
     <!-- Dialog option, for exporting a single shortcut as a file -->
-    <string name="action_export_as_file">Archivo</string>
+    <string name="action_export_as_file">Fitxategia</string>
     <!-- Empty state, shown in list when there are no shortcuts yet -->
-    <string name="empty_state_shortcuts">Aún no cuenta con ningún atajo creado</string>
+    <string name="empty_state_shortcuts">Oraindik ez daukazu lasterbiderik.</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">Un atajo le permite enviar solicitudes individuales HTTP, opcionalmente se puede mostrar y procesar las respuestas (request).\n\nHaga clic en el botón + de la pantalla principal para comenzar o consulte la [documentación].</string>
+    <string name="empty_state_shortcuts_instructions">Lasterbide batez HTTP eskaera bat egin dezakezu, aukeran erantzuna prozesatu eta bistaratu.\n\nHasteko, egin klik + botoian edo begiratu [Dokumentazioa].</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
+    <string name="empty_state_no_shortcuts_in_category">oraindik ez dago lasterbiderik kategoria honetan</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts">Oraindik ez duzu lasterbiderik gehitu abiarazteko.</string>
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
+    <string name="empty_state_trigger_shortcuts_instructions">Gehitu lasterbide anitz honen zati gisa abiarazi nahi dituzun zerrenda honetara.\n\nHasteko, egin klik + botoian.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">Aún no has creado ninguna variables</string>
+    <string name="empty_state_variables">Oraindik ez duzu aldagai globalik.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
-    <string name="empty_state_variables_instructions">Las variables permiten insertar valores dinámicamente en los accesos directos, por ejemplo, al editar un atajo encontrará en todos los lugares donde se puede insertar una variableen la URL, encabezados o cuerpo de la solicitud. Agregue variables pulsando el botón {}, al editar un acceso directo para encontrar todos los lugares donde se puede insertar un marcador de posición variable.\n\n Haga clic en el botón + para agregar una variable.</string>
+    <string name="empty_state_variables_instructions">Aldagaiek zure lasterbideetan balioak dinamikoki txertatzeko aukera ematen dute, adibidez, URLan, goiburuetan edo eskaeraren gorputzean. Bilatu \“{}\” botoia lasterbide bat editatzerakoan, leku-marka aldagai bat txertatu daitekeen leku guztiak aurkitzeko.\n\nSakatu + botoian aldagai global berri bat gehitzeko.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
-    <string name="confirm_delete_shortcut_message">Eliminara este atajo?</string>
+    <string name="confirm_delete_shortcut_message">Ezabatu lasterbidea?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
-    <string name="confirm_discard_changes_message">Tienes cambios sin guardar, ¿descartar cambios?</string>
+    <string name="confirm_discard_changes_message">Gorde gabeko aldaketak dituzu. Aldaketak baztertu?</string>
     <!-- Dialog option: Discard (unsaved changes) -->
-    <string name="dialog_discard">Descartar</string>
+    <string name="dialog_discard">Baztertu</string>
     <!-- Title of fullscreen window when shortcut is executed/run -->
-    <string name="title_activity_execute">Ejecutar Atajo</string>
+    <string name="title_activity_execute">Exekutatu lasterbidea</string>
     <!-- Confirmation message shown in Toast when a shortcut was executed. %s is a placeholder for the shortcut's name -->
-    <string name="executed">%s ejecutado.</string>
+    <string name="executed">%s exekutatuta.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
-    <string name="shortcut_not_found">Atajo no encontrado.  Es posible que deba volver a agregarlo a la pantalla de inicio.</string>
+    <string name="shortcut_not_found">Ez da lasterbidea aurkitu. Baliteke hasierako pantailan berriro gehitu behar izatea.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <string name="error_shortcut_deleted">Lasterbidea ezabatu da.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
-    <string name="validation_name_not_empty">Ingresé un nombre porfavor.</string>
+    <string name="validation_name_not_empty">Sartu izen bat.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
-    <string name="validation_url_invalid">Porfavor ingresé una url HTTP(S).</string>
+    <string name="validation_url_invalid">Sartu HTTP(S) url bat.</string>
     <!-- Validation error, shown when user tries to save a wake-on-lan shortcut without a valid MAC address set -->
+    <string name="validation_mac_address_invalid">Sartu baliozko MAC helbide bat.</string>
     <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
+    <string name="validation_mqtt_server_url_invalid">Sartu baliozko MQTT zerbitzariaren URL bat.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">%1$s falló con el código de estado %2$d (%3$s).</string>
+    <string name="error_http">%1$s-k huts egin du %2$d (%3$s) egoera-kodearekin.</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
-    <string name="error_other">%1$s falló: %2$s</string>
+    <string name="error_other">%1$s-k huts egin du: %2$s</string>
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
-    <string name="error_response_too_large">Respuesta demasiado larga para mostrar (el límite es %s)</string>
+    <string name="error_response_too_large">Erantzuna handiegia bistaratzeko (muga %s da)</string>
     <!-- Error shown when a selected image cannot be used as an icon -->
-    <string name="error_set_image">Fallo el uso de la imagen como icono.</string>
+    <string name="error_set_image">Ezin izan da irudia ikono gisa erabili.</string>
     <!-- Name template for a duplicated shortcut. %1$s is a placeholder for the name of the original shortcut -->
-    <string name="template_shortcut_name_copy">%1$s (copiar)</string>
+    <string name="template_shortcut_name_copy">%1$s (kopia)</string>
     <!-- Title of "Change Icon" dialog, where user can pick source/type of new icon for shortcut -->
-    <string name="change_icon">Cambiar ícono</string>
+    <string name="change_icon">Aldatu ikonoa</string>
     <!-- Option in "Change Icon" dialog, allows user to select a custom image to use as a shortcut icon -->
-    <string name="choose_image">Imagen Personalizada</string>
+    <string name="choose_image">Irudi pertsonalizatua</string>
     <!-- Option in "Change Icon" dialog, allows user to fetch the favicon of the shortcut's URL to use as a shortcut icon -->
+    <string name="choose_page_favicon">Eskuratu orriaren faviconoa</string>
     <!-- Option in "Change Icon" dialog, allows user to select one of the built-in icons to use as a shortcut icon -->
-    <string name="choose_icon">Icono Incorporado</string>
+    <string name="choose_icon">Ikono integratua</string>
     <!-- Title of dialog that allows user to pick an icon from the built-in icons -->
-    <string name="title_choose_icon">Elegir Icono Incorporado</string>
+    <string name="title_choose_icon">Aukeratu ikono integratua</string>
     <!-- Title of window for managing and selecting custom icons -->
-    <string name="title_custom_icons">Iconos Personalizados</string>
+    <string name="title_custom_icons">Ikono pertsonalizatuak</string>
     <!-- Title of dialog to edit a parameter on a shortcut -->
-    <string name="title_post_param_edit">Editar parámetro</string>
+    <string name="title_post_param_edit">Editatu parametroa</string>
     <!-- Title of dialog to edit a file parameter on a shortcut -->
-    <string name="title_post_param_edit_file">Editar Parámetro del Archivo</string>
+    <string name="title_post_param_edit_file">Editatu fitxategiaren parametroa</string>
     <!-- Title of dialog to add a new parameter to a shortcut -->
-    <string name="title_post_param_add">Agregar Parámetro</string>
+    <string name="title_post_param_add">Gehitu parametroa</string>
     <!-- Title of dialog to add a new file parameter to a shortcut -->
-    <string name="title_post_param_add_file">Agregar parametro del Archivo</string>
+    <string name="title_post_param_add_file">Gehitu fitxategi parametroa</string>
     <!-- Label of input field to provide the name/key of a parameter of a shortcut -->
-    <string name="label_post_param_key">Nombre del Parametro</string>
+    <string name="label_post_param_key">Parametroaren izena</string>
     <!-- Label of input field to provide the file name for a file parameter of a shortcut -->
-    <string name="label_post_param_file_name">Nombre del Archivo (opcional)</string>
+    <string name="label_post_param_file_name">Fitxategi-izena (aukeran)</string>
     <!-- Label of input field to provide the value of a parameter of a shortcut -->
-    <string name="label_post_param_value">Valor</string>
+    <string name="label_post_param_value">Balioa</string>
     <!-- Generic dialog button: OK -->
-    <string name="dialog_ok">Ok</string>
+    <string name="dialog_ok">Ados</string>
     <!-- Generic button: Cancel -->
-    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_cancel">Utzi</string>
     <!-- Generic button: remove -->
-    <string name="dialog_remove">Remover</string>
+    <string name="dialog_remove">Kendu</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the headers of the HTTP request -->
-    <string name="section_request_headers">Encabeza de la Solicitud</string>
+    <string name="section_request_headers">Eskaeraren goiburuak</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the messages sent by an MQTT shortcut -->
+    <string name="section_mqtt_messages">Mezuak</string>
     <!-- Section title in shortcut editor, for section that contains options to specify the body of the HTTP request -->
-    <string name="section_request_body">Cuerpo de Respuesta / Parámetros</string>
+    <string name="section_request_body">Eskaeraren edukia / parametroak</string>
     <!-- Title of dialog to edit a custom header of a shortcut -->
-    <string name="title_custom_header_edit">Editar Encabezado</string>
+    <string name="title_custom_header_edit">Editatu goiburua</string>
     <!-- Title of dialog to add a custom header to a shortcut -->
-    <string name="title_custom_header_add">Agregar Encabezado</string>
+    <string name="title_custom_header_add">Gehitu goiburua</string>
     <!-- Label of input field to provide name of custom header -->
-    <string name="label_custom_header_key">Encabezado</string>
+    <string name="label_custom_header_key">Goiburua</string>
     <!-- Label of input field to provide value of custom header -->
-    <string name="label_custom_header_value">Valor</string>
+    <string name="label_custom_header_value">Balioa</string>
     <!-- Label of input field to provide request body of a shortcut -->
-    <string name="label_custom_body">Cuerpo de la respuesta.</string>
+    <string name="label_custom_body">Eskaeraren edukia</string>
     <!-- Label of input field to provide topic of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_topic">Gaia</string>
     <!-- Label of input field to provide payload of MQTT message, for MQTT shortcut -->
+    <string name="label_mqtt_payload">Karga erabilgarria</string>
     <!-- Title of dialog to edit an MQTT message of an MQTT shortcut -->
+    <string name="title_mqtt_message_edit">Editatu mezua</string>
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
+    <string name="title_mqtt_message_add">Gehitu mezua</string>
     <!-- Instruction text for MQTT shortcut URL field -->
+    <string name="instructions_mqtt_url">URLak tcp:// edo ssl://-rekin hasi behar du</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
-    <string name="title_settings">Configuraciones</string>
+    <string name="title_settings">Ezarpenak</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
+    <string name="title_about">Informazioa</string>
     <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
-    <string name="menu_action_unlock_app">Desbloquear configuraciónes</string>
+    <string name="menu_action_unlock_app">Desblokeatu</string>
     <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
+    <string name="menu_action_lock_app">Blokeatu</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
-    <string name="settings_title_basic">Configuración Basica</string>
+    <string name="settings_title_basic">Oinarrizko ezarpenak</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
+    <string name="settings_appearance">Itxura</string>
     <!-- Name of setting that allows the user to pick what should happen when a shortcut is clicked -->
-    <string name="settings_click_behavior">Acción al Hacer Click al Atajo</string>
+    <string name="settings_click_behavior">Lasterbidea klikatzean</string>
     <!-- Name of setting that allows the user to change the app's language -->
-    <string name="settings_language">Idioma</string>
+    <string name="settings_language">Hizkuntza</string>
     <!-- Name of button in settings screen that allows to clear all HTTP cookies -->
-    <string name="settings_clear_cookies">Borrar Cookies</string>
+    <string name="settings_clear_cookies">Ezabatu cookiak</string>
     <!-- Name of button in settings screen that allows to cancel all scheduled shortcuts executions -->
+    <string name="settings_cancel_all_pending_executions">Bertan behera utzi zain dauden exekuzio guztiak</string>
     <!-- Name of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
-    <string name="settings_allow_overlay">Permitir Mostrar Sobre Otras Aplicaciones</string>
+    <string name="settings_allow_overlay">Baimendu beste aplikazio batzuen gainean bistaratzea</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
+    <string name="settings_allow_overlay_summary">Aktibatu lasterbideak funtzionatzen ez badu Ezarpen bizkorreko fitxatik edo hirugarrenen aplikaziotik abiarazten denean</string>
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi">Baimendu popup leihoak bistaratzea atzeko planoan dagoenean</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
+    <string name="settings_allow_overlay_xiaomi_summary">Aktibatu lasterbideak funtzionatzen ez badu hasierako pantailatik abiarazten denean</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: execute the shortcut (i.e., send request) -->
-    <string name="settings_click_behavior_run">Ejecutar el Atajo</string>
+    <string name="settings_click_behavior_run">Exekutatu lasterbidea</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: edit the shortcut -->
-    <string name="settings_click_behavior_edit">Editar el Atajo</string>
+    <string name="settings_click_behavior_edit">Editatu lasterbidea</string>
     <!-- Option in dialog that lets user choose what should happen when a shortcut is clicked: show options / context menu -->
-    <string name="settings_click_behavior_menu">Mostrar Menú de Opciones</string>
+    <string name="settings_click_behavior_menu">Erakutsi aukeren menua</string>
     <!-- Option in category editor to choose the shortcut click behavior, to set it to the global default -->
+    <string name="settings_click_behavior_global_default">Erabili lehenespen orokorra</string>
     <!-- Title of import/export page, for importing and exporting shortcuts and variables -->
-    <string name="title_import_export">Importar/ Exportar</string>
+    <string name="title_import_export">Inportatu / Esportatu</string>
     <!-- Section title on settings screen for privacy related settings -->
-    <string name="settings_title_privacy">Privacidad</string>
+    <string name="settings_title_privacy">Pribatutasuna</string>
     <!-- Section title on settings screen for options shared by all shortcuts -->
+    <string name="settings_title_global_shortcut_settings">Lasterbideen ezarpen orokorrak</string>
     <!-- Setting title for crash reporting settings, as part of privacy settings (opt-in/opt-out) -->
+    <string name="settings_crash_reporting">Hutsegiteen txostenak</string>
     <!-- Option for crash reporting opt in -->
+    <string name="settings_crash_reporting_allow">Bidali hutsegiteen txostenak aplikazioa hobetzen laguntzeko</string>
     <!-- Option for crash reporting opt out -->
+    <string name="settings_crash_reporting_disallow">Ez bidali hutsegiteen txostenik</string>
     <!-- Button in settings page to start import of shortcuts from a file -->
-    <string name="settings_import_from_file">Importar desde Archivo</string>
+    <string name="settings_import_from_file">Inportatu fitxategitik</string>
     <!-- Button in settings page to start import of shortcuts from a url -->
-    <string name="settings_import_from_url">Importar desde URL</string>
+    <string name="settings_import_from_url">Inportatu URLtik</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts into a file -->
+    <string name="settings_export_to_file">Esportatu fitxategira</string>
     <!-- Button on Import&Export screen to lets the user export shortcuts via the share dialog -->
+    <string name="settings_export_via_share">Esportatu Partekatu elkarrizketa-koadroaren bidez</string>
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
+    <string name="settings_remote_edit">Editatu ordenagailuan</string>
     <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <string name="title_import_export_advanced_settings">Aurreratua</string>
     <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <string name="settings_automatic_import_export">Inportatu / Esportatu automatikoki</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <string name="fab_automatic_import_now">Inportatu orain</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
+    <string name="fab_automatic_export_now">Esportatu orain</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
-    <plurals name="shortcut_export_success">
-        <item quantity="one">atajo exportado</item>
-        <item quantity="other">atajos exportados</item>
-    </plurals>
     <!-- Status message shown while shortcuts & variables are being exported, shown on progress dialog -->
-    <string name="export_in_progress">Exportando...</string>
+    <string name="export_in_progress">Esportatzen…</string>
     <!-- Error message: Shown in dialog when import of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="import_failed_with_reason">Fallo al importar los atajos:\n%s</string>
+    <string name="import_failed_with_reason">Ezin izan dira lasterbideak inportatu:\n%s</string>
     <!-- Error message: Shown in dialog when export of shortcuts & variables failed. %s is a placeholder for a message describing the reason for the failure -->
-    <string name="export_failed_with_reason">Fallo al exportar los atajos: %s</string>
+    <string name="export_failed_with_reason">Ezin izan dira lasterbideak esportatu: %s</string>
     <!-- Error message: Import failed due to invalid JSON syntax in the import file -->
-    <string name="import_failure_reason_invalid_json">JSON Invalid</string>
+    <string name="import_failure_reason_invalid_json">JSON baliogabea</string>
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
+    <string name="import_failure_reason_data_version_mismatch">Hautatutako fitxategia aplikazioaren bertsio berriago batek esportatu du. Mesedez, ziurtatu aplikazioaren azken bertsioa instalatuta duzula.</string>
     <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
+    <string name="import_failure_invalid_file">Ezin izan da inportatu. Ematen du formatua ez dela egokia edo hondatuta dagoela.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
-        <item quantity="one">atajo importado.</item>
-        <item quantity="other">%d atajos importados.tiempo</item>
+        <item quantity="one">Lasterbide 1 inportatu da.</item>
+        <item quantity="other">%d lasterbide inportatu dira.</item>
     </plurals>
     <!-- Message shown in progress dialog while shortcuts are being imported -->
-    <string name="import_in_progress">Importando...</string>
+    <string name="import_in_progress">Inportatzen…</string>
     <!-- Label, for option to pick the timeout of a shortcut. clicking it opens a picker dialog -->
-    <string name="label_timeout">Tiempo finalizado</string>
+    <string name="label_timeout">Denbora-muga</string>
     <!-- Label, for dropdown picker, allowing to select the Internet Protocol version used for hostname resolution by a shortcut -->
+    <string name="label_ip_version">Internet Protokoloaren bertsioa</string>
     <!-- Label, for dropdown picker, allowing to select the proxy type of a shortcut -->
+    <string name="label_proxy_type">Proxy Mota</string>
     <!-- Label, for option to set the proxy hostname for a shortcut -->
-    <string name="label_proxy_host">Proxy del Hostname / Dirección IP</string>
+    <string name="label_proxy_host">Proxy ostalariaren izena / IP helbidea</string>
     <!-- Label, for option to set the proxy port for a shortcut -->
-    <string name="label_proxy_port">Puerto Proxy</string>
+    <string name="label_proxy_port">Proxy ataka</string>
     <!-- Label, for option to set the proxy username for a shortcut -->
+    <string name="label_proxy_username">Proxyaren erabiltzaile-izena</string>
     <!-- Label, for option to set the proxy password for a shortcut -->
+    <string name="label_proxy_password">Proxyaren pasahitza</string>
     <!-- Label, for option to set the UDP port for a wake-on-lan shortcut -->
+    <string name="label_wake_on_lan_port">Ataka</string>
     <!-- Label, for option to set a client certificate for a shortcut (TLS client auth cert) -->
-    <string name="label_client_cert">Certificado de autentificación del cliente</string>
+    <string name="label_client_cert">Bezeroaren ziurtagiriaren autentifikazioa</string>
     <!-- Subtitle for button to select a client certificate, when no certificate has been selected yet -->
-    <string name="label_subtitle_no_client_cert">Click para seleccionar un certificado.</string>
+    <string name="label_subtitle_no_client_cert">Egin klik ziurtagiri bat hautatzeko.</string>
     <!-- Subtitle for button to select a client certificate, when a certificate been selected. %s is a placeholder for the certificate alias (i.e., its name) -->
-    <string name="label_subtitle_client_cert_in_use">Usando certificado \"%s\". Click para remover.</string>
+    <string name="label_subtitle_client_cert_in_use">\“%s\” ziurtagiria erabiltzen. Egin klik kentzeko.</string>
     <!-- Subtitle for button to select a client certificate, when a file based certificate has been selected -->
-    <string name="label_subtitle_client_cert_file_in_use">Archivo del certificado en uso. Click para remover.</string>
+    <string name="label_subtitle_client_cert_file_in_use">Ziurtagiri fitxategia erabiliz. Egin klik kentzeko.</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
+    <string name="label_subtitle_not_applicable_for_http">HTTPS erabiltzean soilik aplikagarria</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the (MQTT) shortcut uses plain TCP instead of SSL -->
+    <string name="label_subtitle_not_applicable_for_ssl">SSL erabiltzean soilik aplikagarria</string>
     <!-- Title for dialog, when selecting a client certificate -->
-    <string name="title_client_cert">Certificado del Cliente</string>
+    <string name="title_client_cert">Bezero ziurtagiria</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os">Sistemak kudeatuta</string>
     <!-- Subtitle for Label, for option in dialog to pick a client certificate managed by the operating system -->
+    <string name="label_client_cert_from_os_subtitle">Gomendagarria, seguruagoa</string>
     <!-- Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file">Inportatu .p12 fitxategitik</string>
     <!-- Subtitle for Label, for option in dialog to pick a client certificate from a .p12 file -->
+    <string name="label_client_cert_from_file_subtitle">Fitxategiaren eta pasahitzaren kopia bat aplikazioaren barruan gordeko da babes berezirik gabe. Erabili zure ardurapean.</string>
     <!-- Title of dialog, for entering the password for a client cert file -->
+    <string name="title_client_cert_file_password">Pasahitza</string>
     <!-- Used in various places to indicate a number of seconds, e.g. for a delay. %d is a placeholder for the actual number. -->
     <plurals name="seconds">
         <item quantity="one">%d segundo</item>
-        <item quantity="other">%d segundos</item>
+        <item quantity="other">%d segundo</item>
     </plurals>
     <!-- Used in various places to indicate a number of milliseconds, e.g. for a delay. %d is a placeholder for the actual number. -->
     <plurals name="milliseconds">
-        <item quantity="one">%d milisegundo</item>
-        <item quantity="other">%d milisegundos</item>
+        <item quantity="one">%d millisegundo</item>
+        <item quantity="other">%d millisegundo</item>
     </plurals>
     <!-- Used in various places to indicate a number of minutes, e.g. for a delay. %d is a placeholder for the actual number. -->
-    <plurals name="minutes">
-        <item quantity="one">%d minuto</item>
-        <item quantity="other">%d minutos</item>
-    </plurals>
     <!-- Pattern: Combines an indication of minutes (first %s) with an indication of seconds (second %s), e.g. 1 minute, 24 seconds -->
+    <string name="pattern_minutes_seconds">%1$s, %2$s</string>
     <!-- Section title in app settings. Section contains options for analyzing and fixing problems with the app -->
+    <string name="settings_troubleshooting">Arazoak konpontzen</string>
     <!-- Title of option in settings to show change changelog of current and past versions -->
-    <string name="settings_changelog">Registro de cambios</string>
+    <string name="settings_changelog">Aldaketen erregistroa</string>
     <!-- Subtitle/summary of "Changelog" option in settings, showing the current app version number -->
-    <string name="settings_changelog_summary">Versión %1$s</string>
+    <string name="settings_changelog_summary">%1$s bertsioa</string>
     <!-- Button title, for option to contact the app developer (via email) -->
-    <string name="settings_mail">Contactar al Desarrollador</string>
+    <string name="settings_mail">Jarri harremanetan garatzailearekin</string>
     <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Reddit komunitatea</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">Aplikazioaren subreddit ofiziala, eztabaidak eta ideiak trukatzeko</string>
     <!-- Button title, for option to go to the app's official website -->
+    <string name="settings_go_to_website">Ikusi webgunea</string>
     <!-- Button subtitle, for option to go to the app's official website -->
+    <string name="settings_go_to_website_summary">Aurkitu informazio gehiago aplikazioaren webgune ofizialean</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
-    <string name="settings_mail_summary">Preguntas, solicitud de características, retroalimentación, ...</string>
+    <string name="settings_mail_summary">Galderak, funtzioen eskaerak, iritziak…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
-    <string name="settings_github">Ver en GitHub</string>
+    <string name="settings_github">Ikusi GitHub-en</string>
     <!-- Button subtitle for "View on GitHub" button -->
-    <string name="settings_github_summary">Es correcto, está aplicación es de codigo-abierto</string>
+    <string name="settings_github_summary">Horrela da, aplikazio hau kode irekikoa da</string>
     <!-- Button title, for option to open the app's Donate page in a browser, for users who wish to support the app -->
-    <string name="settings_donate">Donar</string>
+    <string name="settings_donate">Dohaintza eman / Babestu</string>
     <!-- Button subtitle, for option to open the app's Donate page in a browser, for users who wish to support the app -->
+    <string name="settings_donate_summary">Erakutsi zure estimua edari bat ordainduz edo nire lana babestuz</string>
     <!-- Dialog title, for changelog, shown when a new version of the app is released -->
-    <string name="changelog_title_whats_new">Que hay de nuevo?</string>
+    <string name="changelog_title_whats_new">Zer berri?</string>
     <!-- Dialog title, for changelog, showing what's new in a release -->
-    <string name="changelog_title">Registro de cambios</string>
+    <string name="changelog_title">Aldaketen erregistroa</string>
     <!-- Checkbox label, shown on Changelog dialog, allowing user to enable that the dialog shows when the app is started -->
-    <string name="changelog_checkbox_show_at_startup">Mostrar al inicio</string>
+    <string name="changelog_checkbox_show_at_startup">Erakutsi abiaraztean</string>
     <!-- Message displayed when the shortcut cannot be executed because there is no internet connection. %1$s is a placeholder for the shortcut name. -->
-    <string name="execution_delayed">%1$s se ejecutará una vez que haya una conexión a Internet disponible.</string>
+    <string name="execution_delayed">%1$s exekutatuko da Internet konexioa erabilgarri dagoenean.</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
-    <string name="label_wait_for_connection">Esperar conexión cuando esté fuera de línea</string>
+    <string name="label_wait_for_connection">Itxaron konektatu arte</string>
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
-    <string name="label_delay_execution">Dilatar Ejecución</string>
+    <string name="label_delay_execution">Atzeratu exekuzioa</string>
     <!-- Button, shown on About page, to allow opening the app's Play Store page -->
-    <string name="settings_play_store">Ver en Playa Store</string>
+    <string name="settings_play_store">Ikusi Play Store-n</string>
     <!-- Button subtitle for "View in Play Store" button -->
-    <string name="settings_play_store_summary">Gracias por tus valoraciones y opiniones.</string>
+    <string name="settings_play_store_summary">Eskerrik asko zure balorazio eta iritziengatik</string>
     <!-- Button, shown on About page, to allow opening the app's F-Droid page -->
-    <string name="settings_f_droid">Ver en F-Droid</string>
+    <string name="settings_f_droid">Ikusi F-Droid-en</string>
     <!-- Button subtitle for "View in F-Droid" button -->
-    <string name="settings_f_droid_summary">Verificar actualizaciónes</string>
+    <string name="settings_f_droid_summary">Egiaztatu eguneratzeak dauden</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation">Dokumentazioa</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
+    <string name="settings_documentation_summary">Ohiko galderak, erreferentziak, adibideak…</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_duplicated">\"%1$s\" duplicado.</string>
+    <string name="shortcut_duplicated">\“%1$s\” bikoiztuta.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was deleted. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_deleted">\"%1$s\" eliminado.</string>
+    <string name="shortcut_deleted">\“%1$s\” ezabatuta.</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
-    <string name="shortcut_placed">\"%1$s\" agregado en pantalla de inicio</string>
+    <string name="shortcut_placed">\“%1$s\” hasierako pantailan kokatua.</string>
     <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission. %s is a placeholder for the app's name. -->
+    <string name="message_shell_apk_intro">Funtzio honekin lasterbide hau abiarazten duen aplikazio arin bat sortu eta instalatu dezakezu. Batez ere erabilgarria aplikazio batzuk abiarazi ditzaketen baina zuzenean lasterbideak kudeatu ezin dituzten automatizazio-aplikazioekin integratzeko.\n\nAurrera egiteko, baimendu %s aplikazio ezezagunak instalatzeko eta saiatu berriro lasterbidea instalatzen.</string>
     <!-- Message shown by a generated shell APK when HTTP Shortcuts can no longer handle its deep link -->
+    <string name="message_shell_apk_shortcut_not_found">Ez da lasterbidea aurkitu. Mesedez, desinstalatu aplikazio hau.</string>
     <!-- Message shown when the generated shell APK was saved to a file successfully -->
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
-    <string name="dialog_delete">Eliminar</string>
+    <string name="dialog_delete">Ezabatu</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
-    <string name="section_basic_request">Configuración Basica de la solicitud</string>
+    <string name="section_basic_request">Eskaeraren oinarrizko ezarpenak</string>
     <!-- Section title, shown in shortcut editor for non-HTTP shortcuts, for section containing basic settings (e.g. URL) -->
+    <string name="section_basic_settings">Oinarrizko ezarpenak</string>
     <!-- Section title, shown in variable editor, for section containing advanced settings -->
-    <string name="section_advanced_settings">Configuración Avanzada</string>
+    <string name="section_advanced_settings">Ezarpen aurreratuak</string>
     <!-- Section title, shown in shortcut editor, for section containing authentication settings -->
-    <string name="section_authentication">Autentificación</string>
+    <string name="section_authentication">Autentifikazioa</string>
     <!-- Label, for dropdown picker, allowing to select the authentication method (i.e., how to authenticate) of a shortcut -->
-    <string name="label_authentication_method">Método de Autentificación</string>
+    <string name="label_authentication_method">Autentifikazio metodoa</string>
     <!-- Checkbox label, used in varies dialogs, to allow user to hide the dialog forever -->
-    <string name="dialog_checkbox_do_not_show_again">No mostrar de nuevo</string>
+    <string name="dialog_checkbox_do_not_show_again">Ez erakutsi berriro</string>
     <!-- Checkbox label in editor, if enabled user will be prompted to confirm before a shortcut is executed -->
-    <string name="label_require_execution_confirmation">Requiere confirmación antes de ejecutar.</string>
+    <string name="label_require_execution_confirmation">Eskatu berrespena exekutatu aurretik</string>
     <!-- Page title, for page listing all the libraries and 3rd party assets used in the app -->
-    <string name="title_licenses">Agradecimientos</string>
+    <string name="title_licenses">Esker onak</string>
     <!-- Button, for opening page listing all the libraries and 3rd party assets used in the app -->
-    <string name="settings_licenses">Agradecimientos</string>
+    <string name="settings_licenses">Esker onak</string>
     <!-- Button subtitle, for "Acknowledgements" button -->
-    <string name="settings_licenses_summary">Librerías y recursos usados</string>
+    <string name="settings_licenses_summary">Itzultzaileak, kode laguntzaileak, liburutegiak eta baliabideak</string>
     <!-- Page title, for page showing all configured categories -->
-    <string name="title_categories">Categorias</string>
+    <string name="title_categories">Kategoriak</string>
     <!-- Page title, for editing a category -->
-    <string name="title_edit_category">Editar Categoría</string>
+    <string name="title_edit_category">Editatu kategoriak</string>
     <!-- Action, shown on dropdown when editing a category, for allowing to hide a category -->
-    <string name="action_hide_category">Ocultar</string>
+    <string name="action_hide_category">Ezkutatu</string>
     <!-- Action, shown on dropdown when editing a category, for allowing to show a hidden category -->
-    <string name="action_show_category">Mostrar</string>
+    <string name="action_show_category">Erakutsi</string>
     <!-- Option when picking the layout for a category: Show shortcuts in a list -->
-    <string name="layout_type_linear_list">Lista</string>
+    <string name="layout_type_linear_list">Zerrenda</string>
     <!-- Option when picking the layout for a category: Show shortcuts in a dense grid -->
+    <string name="layout_type_dense_grid">Sare trinkoa</string>
     <!-- Option when picking the layout for a category: Show shortcuts in a medium grid -->
+    <string name="layout_type_medium_grid">Tarteko sarea</string>
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
+    <string name="layout_type_wide_grid">Sare zabala</string>
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
-    <string name="category_background_type_default">Predeterminado</string>
+    <string name="category_background_type_default">Lehenetsia</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
+    <string name="category_background_type_color">Kolorea</string>
     <!-- Dialog prompt/placeholder in input field, asking user to enter a name for a category -->
-    <string name="placeholder_category_name">Ingresa un Nombre de Categoría...</string>
+    <string name="placeholder_category_name">Sartu kategoriaren izena…</string>
     <!-- Placeholder in input field, asking user to enter a value. Used in varies places -->
-    <string name="placeholder_value">Valor</string>
+    <string name="placeholder_value">Balioa</string>
     <!-- Page title, shown in editor when creating a new category -->
-    <string name="title_create_category">Crear Categoría</string>
+    <string name="title_create_category">Sortu kategoria</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a category and all shortcuts within -->
-    <string name="confirm_delete_category_message">¿Eliminar esta Categoría?\n\nTodos los atajos dentro de esta se eliminaran también.</string>
+    <string name="confirm_delete_category_message">Kategoria hau ezabatu?\n\nLasterbide guztiak ezabatu egingo dira.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was hidden -->
-    <string name="message_category_hidden">Categoría Oculta.</string>
+    <string name="message_category_hidden">Kategoria ezkutatu da.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category is no longer hidden and visible again -->
-    <string name="message_category_visible">Categoría no oculta.</string>
+    <string name="message_category_visible">Kategoria jada ez dago ezkutatuta.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was created -->
-    <string name="message_category_created">Categoría creada.</string>
+    <string name="message_category_created">Kategoria sortu da.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category's changes were saved -->
-    <string name="message_category_edited">Categoría actualizada.</string>
+    <string name="message_category_edited">Kategoria eguneratu da.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a category was deleted -->
-    <string name="message_category_deleted">Categoría eliminada.</string>
+    <string name="message_category_deleted">Kategoria ezabatu da.</string>
     <!-- Shows numerical count of shortcuts, used to show how many shortcuts are in a given category -->
-    <plurals name="shortcut_count">
-        <item quantity="one">%d atajo</item>
-        <item quantity="other">%d atajos</item>
-    </plurals>
     <!-- Shows numerical count of sections, used to show how many sections are in a given category -->
     <!-- Pattern used to determine the subtitle of a category in the categories screen. %1$s is a placeholder for the number of shortcuts, %2$s is a placeholder for the number of sections -->
+    <string name="shortcut_section_count_pattern">%1$s, %2$s</string>
     <!-- Label/title used in category editor for hidden categories (%s is the placeholder for the category's name) -->
-    <string name="label_category_hidden">%s (oculta)</string>
+    <string name="label_category_hidden">%s (ezkutuan)</string>
     <!-- Title for screen that allows to move shortcuts within a category or into different categories -->
+    <string name="title_move_shortcuts">Mugitu lasterbideak</string>
     <!-- Name/title to describe what the plugin action does, used by external plugins, e.g. Tasker -->
-    <string name="plugin_name">Ejecutar Atajo HTTP</string>
+    <string name="plugin_name">Exekutatu HTTP Shortcut</string>
     <!-- Button/page title, for viewing list of variables -->
+    <string name="title_variables">Aldagai orokorrak</string>
     <!-- Button, to edit a variable -->
-    <string name="edit_variable">Editar Variable</string>
+    <string name="edit_variable">Editatu aldagaia</string>
     <!-- Button, to create a new variable -->
-    <string name="create_variable">Crear Variable</string>
+    <string name="create_variable">Sortu aldagaia</string>
     <!-- dialog title, shown when creating new variable and user is prompted to select the type of the variable -->
-    <string name="title_select_variable_type">Seleccione el tipo de Variable</string>
+    <string name="title_select_variable_type">Hautatu aldagai mota</string>
     <!-- label, to allow the user to enter the name for a variable -->
-    <string name="label_variable_name">Nombre</string>
+    <string name="label_variable_name">Izena</string>
     <!-- label, displayed next to variable in variables list when a variable is not used anywhere -->
-    <string name="label_variable_unused">sin usar</string>
+    <string name="label_variable_unused">erabili gabe</string>
     <!-- label, shown in variable editor, to allow the user to enter a dialog title that will be shown when the variable is evaluated -->
-    <string name="label_variable_title">Título del diálogo (opcional)</string>
+    <string name="label_variable_title">Elkarrizketa-izenburua (aukerakoa)</string>
     <!-- label, shown in variable editor, to allow the user to enter a dialog text that will be shown when the variable is evaluated -->
+    <string name="label_variable_text">Elkarrizketa-testua (aukerakoa)</string>
     <!-- label, shown in variable editor for Date Input variable, to allow the user to specify a date format -->
-    <string name="label_variable_date_format">Formato de Fecha</string>
+    <string name="label_variable_date_format">Data-formatua</string>
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
-    <string name="label_variable_time_format">Formato de Tiempo</string>
+    <string name="label_variable_time_format">Denbora-formatua</string>
     <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <string name="label_variable_timestamp_timezone">Ordu-eremua</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <string name="label_variable_timestamp_local_timezone">Lokala</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
+    <string name="label_variable_timestamp_local_utc">UTC</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
-    <string name="label_select_variable_separator">Separador</string>
+    <string name="label_select_variable_separator">Bereizlea</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
-    <string name="variable_type_constant">Variable Estática</string>
+    <string name="variable_type_constant">Aldagai estatikoa</string>
     <!-- Description for type of variable: Constant, i.e., a variable that always has the same value -->
+    <string name="variable_type_constant_description">Balio konstante bat gordetzen du. Balioa era programatuan alda daiteke \“Scripting\” funtzioaren bidez</string>
     <!-- Type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text">Entrada de Texto</string>
+    <string name="variable_type_text">Testu-sarrera</string>
     <!-- Description for type of variable: Text Input, i.e., a dialog that asks user to enter a piece of text -->
-    <string name="variable_type_text_description">Mostrar un diálogo con un campo tipo entrada de texto</string>
+    <string name="variable_type_text_description">Testua idazteko eremu bat duen elkarrizketa-koadroa erakusten du</string>
     <!-- Type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number">Entrada numérica</string>
+    <string name="variable_type_number">Zenbaki-sarrera</string>
     <!-- Description for type of variable: Number Input, i.e., a dialog that asks user to enter a number -->
-    <string name="variable_type_number_description">Mostrar un diálogo con un campo tipo entrada numérico</string>
+    <string name="variable_type_number_description">Zenbakia sartzeko eremu bat duen elkarrizketa-koadroa erakusten du</string>
     <!-- Type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
-    <string name="variable_type_slider">Número deslizable</string>
+    <string name="variable_type_slider">Zenbaki graduatzailea</string>
     <!-- Description for type of variable: Slider, i.e. a horizontal bar that allows to pick a number by sliding a knob left or right -->
+    <string name="variable_type_slider_description">Ezarritako gutxieneko eta gehienezko balioa duen zenbaki graduatzailea duen elkarrizketa-koadroa erakusten du</string>
     <!-- Type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
-    <string name="variable_type_password">Entrada de Contraseña</string>
+    <string name="variable_type_password">Pasahitza-sarrera</string>
     <!-- Description type of variable: Password Input, i.e., a dialog that asks user to enter a password -->
     <!-- Type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
-    <string name="variable_type_select">Selección de Opción Múltiple</string>
+    <string name="variable_type_select">Aukera anitzeko hautaketa</string>
     <!-- Description for type of variable: Section, i.e., a dialog that asks user to pick one of multiple options -->
+    <string name="variable_type_select_description">Balio bat edo bat baino gehiago hautatzeko aukeraketa-koadroa erakusten du</string>
     <!-- Type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle">Aldatu</string>
     <!-- Description for type of variable: Toggle, i.e., a variable that toggles/switches/iterates between multiple values when invoked -->
+    <string name="variable_type_toggle_description">Balio ezberdin batera aldatzen da erabiltzen denean</string>
     <!-- Type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment">Kontagailu gehigarria</string>
     <!-- Description for type of variable: Increment, i.e., a variable that increases a counter by 1 and return the new value when invoked -->
+    <string name="variable_type_increment_description">Zenbaki bat handitzen du erabiltzen denean</string>
     <!-- Type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid">UUID</string>
     <!-- Description for type of variable: UUID, i.e., a variable which will generate a random UUID (Universally Unique Identifier) as its value when used -->
+    <string name="variable_type_uuid_description">Ausazko UUID berri bat sortzen du exekuzio bakoitzean</string>
     <!-- Type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp">Denbora-zigilua</string>
     <!-- Description for type of variable: Timestamp, i.e., a variable which will use the current date and time as its value when used -->
+    <string name="variable_type_timestamp_description">Uneko data/ordua formatu zehatz bat erabiliz</string>
     <!-- Type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
-    <string name="variable_type_clipboard">Contenido del Portapapeles</string>
+    <string name="variable_type_clipboard">Arbelaren edukia</string>
     <!-- Description for type of variable: Clipboard Content, i.e., a variable which will assume the value of the last piece of text that was copied to the device's clipboard -->
+    <string name="variable_type_clipboard_description">Arbelean azken aldiz kopiatu den balioa hartzen du</string>
     <!-- Type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
-    <string name="variable_type_date">Entrada de Fecha</string>
+    <string name="variable_type_date">Data-sarrera</string>
     <!-- Description for type of variable: Date Input, i.e., a dialog that asks user to pick a date in a calendar -->
+    <string name="variable_type_date_description">Data hautatzailea duen elkarrizketa-koadroa erakusten du</string>
     <!-- Type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
-    <string name="variable_type_time">Entrada de tiempo</string>
+    <string name="variable_type_time">Denbora-sarrera</string>
     <!-- Description for type of variable: Time Input, i.e., a dialog that asks user to pick a time in a clock -->
+    <string name="variable_type_time_description">Denbora-hautatzailea duen elkarrizketa-koadro bat erakusten du</string>
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
-    <string name="variable_type_color">Entrada de color</string>
+    <string name="variable_type_color">Kolore-sarrera</string>
     <!-- Description for type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
+    <string name="variable_type_color_description">Kolore-hautatzailea duen elkarrizketa-koadroa erakusten du</string>
     <!-- Error message, information user that the variable name they entered is not valid -->
+    <string name="warning_invalid_variable_key">Aldagaien izenek ingelesezko alfabetoko azpimarra, digitu eta letrak soilik izan ditzakete.</string>
     <!-- Dialog message, asking user to confirm the deletion of a variable -->
-    <string name="confirm_delete_variable_message">¿Eliminar esta variable?</string>
+    <string name="confirm_delete_variable_message">Ezabatu aldagai hau?</string>
     <!-- Message, shown in snackbar, confirming to user that a variable was deleted. %1$s is a placeholder for the variable name -->
-    <string name="variable_deleted">\"%1$s\" eliminado.</string>
+    <string name="variable_deleted">\“%1$s\” ezabatu da.</string>
     <!-- Checkbox label, for option to enable URL encoding of a variable -->
-    <string name="label_url_encode">Codificación URL</string>
+    <string name="label_url_encode">URL kodetzea</string>
     <!-- Checkbox label, for option to enable JSON encoding of a variable -->
-    <string name="label_json_encode">Codificación Json</string>
+    <string name="label_json_encode">JSON kodetzea</string>
     <!-- Checkbox label, for option to enable/disable the exclusion of a variable's value in exports -->
+    <string name="label_exclude_variable_value_from_exports">Baztertu gordetako balioa esportazioetatik</string>
     <!-- Instructions shown below the "IExclude stored value from exports" checkbox in the variable editor -->
+    <string name="message_exclude_variable_value_from_exports_instructions">Gaitu hau ez baduzu nahi aldagai honen gordetako balioa (baldin badago) esportazioetan sartzea.</string>
     <!-- Section title, for section containing basic settings for a shortcut -->
-    <string name="section_basic_variable_settings">Configuraciónes Basicas</string>
+    <string name="section_basic_variable_settings">Oinarrizko ezarpenak</string>
     <!-- Error message, informing user that the entered variable name is empty -->
-    <string name="validation_key_non_empty">El nombre de la variable no puede quedar vacío.</string>
+    <string name="validation_key_non_empty">Aldagaiaren izenak ez du hutsik egon behar.</string>
     <!-- Error message, informing user that the entered variable name already exists -->
-    <string name="validation_key_already_exists">Ya existe otra variable con este nombre.</string>
+    <string name="validation_key_already_exists">Izen hau duen beste aldagai bat badago jada.</string>
     <!-- Dialog title, to add another value to the list of values in a variable of Toggle type -->
-    <string name="title_add_toggle_option">Agregar Valor</string>
+    <string name="title_add_toggle_option">Gehitu balioa</string>
     <!-- Button, to edit an existing value in the list of values in a variable of Toggle type -->
-    <string name="title_edit_toggle_option">Editar Valor</string>
+    <string name="title_edit_toggle_option">Editatu balioa</string>
     <!-- Button, to add another value to the list of values in a variable of Toggle type -->
-    <string name="button_add_toggle_option">Agregar Valor</string>
+    <string name="button_add_toggle_option">Gehitu balioa</string>
     <!-- Section title, for section that lists all values of a variable of Toggle type -->
+    <string name="section_toggle_options">Trukatu balioak</string>
     <!-- Title, for dialog that allows user to add an option to a Selection variable -->
-    <string name="title_add_select_option">Agregar Opción</string>
     <!-- Title, for dialog that allows user to edit an existing option of a Selection variable -->
-    <string name="title_edit_select_option">Editar Opción</string>
     <!-- Button, to allow a user to add an option to a Selection variable -->
-    <string name="button_add_select_option">Agregar Opción</string>
     <!-- Section title, for section that lists all selectable options of a Selection variable -->
-    <string name="section_select_options">Opciones Seleccionables</string>
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Label" -->
-    <string name="label_select_label">Etiqueta</string>
     <!-- Label, for dialog that allows adding/editing an option for a Selection variable, for specifying the option's "Value" -->
-    <string name="label_select_value">Valor</string>
     <!-- Button, for opening help article page -->
-    <string name="button_show_help">Mostrar Ayuda</string>
     <!-- Instructions shown in dialog when user clicks the variables button in the shortcut editor but doesn't have any variables configured yet -->
     <!-- Instructions shown in dialog when user clicks the variables button in the variable editor but doesn't have any variables configured yet -->
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
@@ -509,90 +595,85 @@
     <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
-    <string name="label_edit_variables">Editar varíables</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_toggle_values">Porfavor agregue por lo menos dos valores.</string>
     <!-- Error message, shown in variable editor when the user didn't add enough options -->
-    <string name="error_not_enough_select_values">Agregue al menos una opción seleccionable.</string>
     <!-- Error message, shown in variable editor when an invalid date format is entered -->
-    <string name="error_invalid_date_format">Formato de Fecha no válido.</string>
     <!-- Error message, shown in variable editor when an invalid time format is entered -->
-    <string name="error_invalid_time_format">Formato de tiempo no válido.</string>
     <!-- Dialog button, allowing the user to share a text snippet with other apps -->
-    <string name="share_button">Compartir</string>
     <!-- Title on Share dialog -->
-    <string name="share_title">Compartir...</string>
     <!-- Menu button shown on response window, allows the user to execute the current shortcut again -->
     <!-- Menu button shown on response window, allows the user to copy the response into the clipboard -->
-    <string name="action_copy_response">Copiar</string>
     <!-- Menu button, allows saving a response as a file -->
-    <string name="button_save_response_as_file">Guardar como archivo</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
-    <string name="label_remember_value">Recordar valor</string>
     <!-- Checkbox value, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
     <!-- Checkbox subtitle, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
-    <string name="label_select_variable_multi_select">Permitir seleccionar una o más opciones</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
     <!-- Action, allows the user to cancel a pending shortcut execution -->
-    <string name="action_cancel_pending">Cancelar ejecuciones pendientes</string>
     <!-- Message, shown in snackbar to confirm when the user cancelled a pending shortcut execution (%1$s is a placeholder for the shortcut name) -->
-    <string name="pending_shortcut_execution_cancelled">%1$s cancelada.</string>
     <!-- Feature label for sharing text into the app, to be used in a specific variable for a configured shortcut -->
-    <string name="action_send_to">Enviar a...</string>
     <!-- Error message, shown when user tries to share text into the app but there are no shortcuts configured to receive it -->
     <!-- Checkbox label, for enabling a variable to accept data sent to it via Android's "Share" feature -->
     <!-- Instructions shown below the "Allow Share…" checkbox in the variable editor -->
     <!-- Instructions shown below the "JSON encode" checkbox in the variable editor -->
     <!-- Instructions shown below the "URL encode" checkbox in the variable editor -->
     <!-- Dialog title, for dialog with options allowing user to pick where to export shortcuts to -->
-    <string name="title_export">Exportar a...</string>
     <!-- Dialog option on Export dialog, for exporting by storing in a file -->
-    <string name="button_export_to_general">Documentos (Archivo Almacenado)</string>
     <!-- Dialog option on Export dialog, for exporting by sharing text to another app -->
-    <string name="button_export_send_to">Otra aplicación (Compartir)</string>
     <!-- Instruction text, shown at the top of the screen when creating a new shortcut, shows options below -->
     <!-- Option in dialog to create new shortcut: from scratch (i.e., start with a blank editor) -->
-    <string name="button_create_new">Atajo HTTP Regular</string>
     <!-- Button in shortcut creation screen, to select the type of shortcut: from scratch (i.e., start with a blank editor) -->
     <!-- Section title, shown on shortcut creation screen, above the section that lets the user pick advanced shortcut types -->
     <!-- Option in dialog to create new shortcut: from cURL command (i.e., parse a cURL command and prepopulate editor) -->
-    <string name="button_curl_import">Importar desde Comando cURL</string>
+    <string name="button_curl_import">Inportatu cURL komandotik</string>
     <!-- Option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_create_browser_shortcut">Buscar Atajo</string>
+    <string name="button_create_browser_shortcut">Nabigatzaile-lasterbidea</string>
     <!-- Option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_create_mqtt_shortcut">MQTT-lasterbidea</string>
     <!-- Option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_create_wol_shortcut">Wake-on-LAN lasterbidea</string>
     <!-- Description for option in dialog to create new shortcut: create a browser shortcut, i.e., a shortcut that will open the external browser -->
-    <string name="button_description_create_browser_shortcut">Abrir la URL en el explorador</string>
+    <string name="button_description_create_browser_shortcut">URL bat irekitzen du nabigatzailean</string>
     <!-- Description for option in dialog to create new shortcut: create an mqtt shortcut, i.e., a shortcut that will send mqtt messages -->
+    <string name="button_description_create_mqtt_shortcut">MQTT mezuak bidaltzen ditu</string>
     <!-- Description for option in dialog to create new shortcut: create a wake-on-lan shortcut, i.e., a shortcut that will try to turn on a computer on the network -->
+    <string name="button_description_create_wol_shortcut">Sareko ordenagailu bat esnatzen du</string>
     <!-- Option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_create_scripting_shortcut">Atajo de secuencia de comandos</string>
+    <string name="button_create_scripting_shortcut">Lasterbidearen scripta egitea</string>
     <!-- Description for option in dialog to create new shortcut: create a scripting shortcut, i.e., a shortcut that will only run JavaScript code without making an HTTP request -->
-    <string name="button_description_create_scripting_shortcut">Escribe código JavaScript para flujos de trabajo avanzados</string>
+    <string name="button_description_create_scripting_shortcut">JavaScript kodea bakarrik exekutatzen du, lan-fluxu aurreratuetarako</string>
     <!-- Option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
-    <string name="button_create_trigger_shortcut">Atajos Múltiples</string>
+    <string name="button_create_trigger_shortcut">Lasterbide sekuentzia</string>
     <!-- Description for option in dialog to create new shortcut: create a multi shortcut, i.e., a shortcut that will trigger one or more other shortcuts -->
+    <string name="button_description_create_trigger_shortcut">Hainbat lasterbide abiarazten ditu sekuentzian exekutatzeko</string>
     <!-- Window title for cURL import -->
-    <string name="title_curl_import">Importar cURL</string>
+    <string name="title_curl_import">cURL inportazioa</string>
     <!-- Instruction text for shortcut import from cURL format -->
+    <string name="instructions_curl_import">Idatzi edo itsatsi cURL komando bat behean lasterbide berri bat sortzeko.</string>
     <!-- Text on button to start shortcut import from a cURL command -->
-    <string name="curl_import_button">Importar</string>
+    <string name="curl_import_button">Inportatu</string>
     <!-- Dropdown option for "Authentication" of a shortcut: no authentication -->
-    <string name="authentication_none">Sin autentificación</string>
+    <string name="authentication_none">Autentifikaziorik ez</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Basic Authentication", aka. BasicAuth (username & password) -->
-    <string name="authentication_basic">Autentificación Basica</string>
+    <string name="authentication_basic">Oinarrizko autentifikazioa</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
-    <string name="authentication_digest">Autentificación Profunda</string>
+    <string name="authentication_digest">Digest autentifikazioa</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
-    <string name="authentication_bearer">Autentificación Bearer</string>
+    <string name="authentication_bearer">Bearer autentifikazioa</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
+    <string name="label_launcher_shortcut">Erakutsi aplikazioaren lasterbide gisa abiarazlean</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut">Honek lasterbidea erabiltzea ahalbidetuko du hirugarrenen aplikazioen bidez, hala nola Google Assistant edo Bixby Routines.</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
+    <string name="subtitle_launcher_shortcut_with_direct_share">Honek lasterbidea Direct Share edo Google Assistant edo Bixby Routines bezalako hirugarrenen aplikazioen bidez erabiltzea ere ahalbidetuko du.</string>
     <!-- Label for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="label_secondary_launcher_shortcut">Baimendu bigarren abiarazte-aplikazioaren bidez abiarazteko</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause a secondary app to appear in the device's launcher. This app will trigger the shortcut -->
+    <string name="subtitle_secondary_launcher_shortcut">Hau erabilgarria da, batez ere, hasierako pantailako trepeta arruntak erabili ezin diren kasuetan.</string>
     <!-- Label for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="label_shortcut_as_file_share_target">Baimendu fitxategiak partekatzeko elkarrizketa-koadrotik jasotzea</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
+    <string name="subtitle_shortcut_as_file_share_target">Hau gaituz gero, beste aplikazio batzuetako fitxategiak partekatzeko eta lasterbide honen eskaeraren gorputzaren edo inprimakiaren parametroetarako erabil ditzakezu.</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
     <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
@@ -601,20 +682,13 @@
     <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
     <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
-    <string name="error_share_failed">Ocurrió un error al compartir.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
-    <string name="error_not_supported">Esta característica no es soportada por tu dispositivo.</string>
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
     <!-- Generic error shown when something went wrong and there is no better error message available -->
-    <string name="error_generic">Algo salió mal...</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy">Política de Privacidad</string>
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
-    <string name="settings_privacy_policy_summary">No, no robar tus datos</string>
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_title">Ajustes bloqueados</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_summary">Prevenir cambios a los atajos y ajustes.</string>
     <!-- Summary/subtitle of section in settings that allows user to change or remove the app lock that prevents changes to settings -->
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
@@ -625,66 +699,38 @@
     <!-- Title of section in settings that allows the user to change the icon of the app -->
     <!-- Summary/subtitle of section in settings that allows the user to change the icon of the app -->
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_min">Mínimo</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_max">Máximo</string>
     <!-- Label above input box, for step size (numeric) value of a horizontal slider -->
-    <string name="label_variable_slider_step">intervalo</string>
     <!-- Label above input box, for prefix text displayed in front of the number in a number slider (input dialog) -->
     <!-- Label above input box, for suffix text displayed after the number in a number slider (input dialog) -->
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
-    <string name="error_slider_max_not_greater_than_min">El máximo debe de ser mayor que el mínimo.</string>
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
-    <string name="error_slider_step_size_must_be_positive">El intervalo debe de ser un número positivo.</string>
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
     <!-- Blurb/short description of plugin action (for Tasker integration), where %1$s is a placeholder for the shortcut name. -->
-    <string name="plugin_blurb_execute_task">Ejecutar el atajo \"%1$s\"</string>
     <!-- Label of dropdown to select the request body type in shortcut editor -->
-    <string name="label_request_body_type">Tipo de cuerpo de la solicitud</string>
     <!-- Dropdown option for request body: form-data (i.e. list of parameters) -->
-    <string name="request_body_option_form_data">Parámetros (form-data)</string>
     <!-- Dropdown option for request body: x-www-form-urlencoded (i.e. list of parameters) -->
-    <string name="request_body_option_x_www_form_urlencoded">Parametros (x-www-form-urlencoded)</string>
     <!-- Dropdown option for request body: custom text (i.e. enter a custom Content-Type and a request body as text) -->
-    <string name="request_body_option_custom_text">Texto Personalizado</string>
     <!-- Dropdown option for request body: file (i.e., user gets to pick a file which is used as the request body) -->
     <!-- Label above input box for Request Content-Type -->
     <!-- Button to copy the cURL export of a shortcut to the clipboard -->
-    <string name="button_copy_curl_export">Copiar</string>
     <!-- Section title in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling">Manejo de Respuesta</string>
     <!-- Section subtitle in shortcut editor: "Response handling", contains settings for controlling how the shortcut response should be handled -->
-    <string name="label_response_handling_subtitle">Define como manejar la respuesta</string>
     <!-- Section title in shortcut editor: "Scripting", allows to write scripts for advanced workflows -->
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before or after shortcut execution -->
-    <string name="label_scripting_subtitle">Ejecutar código JavaScript antes o después de ejecutar</string>
     <!-- Section title in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger -->
-    <string name="label_trigger_shortcuts">Atajos</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
-    <string name="label_trigger_shortcuts_subtitle_none">No se ha seleccionado ningún Atajo</string>
-    <plurals name="label_trigger_shortcuts_subtitle">
-        <item quantity="one">Atajo %d seleccionado</item>
-        <item quantity="other">Atajos %d seleccionados</item>
-    </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
-    <string name="label_scripting_browser_shortcuts_subtitle">Correr código JavaScript antes de ejecutar</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
-    <string name="label_scripting_scripting_shortcuts_subtitle">Correr código JavaScript</string>
     <!-- Section title in shortcut editor, groups together settings related to triggering, scheduling and executing a shortcut -->
     <!-- Section subtitle, shown underneath "Trigger & Execution Settings" -->
-    <string name="label_execution_settings_subtitle">Defina cuando y como se ejecutará el tajo.</string>
     <!-- Section title in shortcut editor, groups together technical settings -->
-    <string name="label_advanced_technical_settings">Configuración técnica avanzada</string>
     <!-- Section subtitle in shortcut editor, shown below "Advanced Technical Settings" -->
-    <string name="label_advanced_technical_settings_subtitle">Para personas que saben lo que están haciendo</string>
     <!-- Shortcut Action Title: Show Toast (small popup message) -->
     <!-- Shortcut Action Title: Show Dialog -->
-    <string name="action_type_dialog_title">Mostrar Diálogo</string>
     <!-- Shortcut Action Title: Show fullscreen window -->
     <!-- Shortcut Action Title: Show Selection (i.e., show a popup with multiple-choice option) -->
-    <string name="action_type_selection_title">Mostrar Selección (Opción-Multiple)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input text -->
-    <string name="action_type_prompt_title">Solicitud de texto</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
@@ -692,28 +738,21 @@
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a color -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a password -->
     <!-- Shortcut Action Title: Show Dialog that asks the user to confirm something -->
-    <string name="action_type_confirm_title">Preguntar por confirmación</string>
     <!-- Shortcut Action Title: Action that allows to copy strings to the device's clipboard -->
-    <string name="action_copy_to_clipboard_title">Copiar al Portapapeles</string>
     <!-- Shortcut Action Title: Action that allows to share text to another app -->
     <!-- Shortcut Action Title: Action that allows to retrieve the latest item from the device's clipboard -->
-    <string name="action_get_clipboard_content_title">Obtener el Contenido del Portapapeles</string>
     <!-- Shortcut Action Title: Action that allows to read a snippet of text out load (text-to-speech) -->
     <!-- Shortcut Action Title: Action that allows to display a notification -->
     <!-- Shortcut Action Title: Action that allows to play a (notification) sound effect -->
     <!-- Shortcut Action Title: Vibrate -->
-    <string name="action_type_vibrate_title">Vibrar</string>
     <!-- Shortcut Action Title: Scan Barcode (e.g. QR Code) -->
     <!-- Shortcut Action Description: Scan Barcode (e.g. QR Code) -->
     <!-- Shortcut Action Title: Change Shortcut Name -->
-    <string name="action_type_rename_shortcut_title">Renombrar Atajo</string>
     <!-- Shortcut Action Title: Change Shortcut Icon -->
-    <string name="action_type_change_icon_title">Cambiar Ícono del Atajo</string>
     <!-- Shortcut Action Title: Change Shortcut Description -->
     <!-- Shortcut Action Title: Change Shortcut Visibility -->
     <!-- Shortcut Action Title: Change Category Visibility -->
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
-    <string name="action_type_trigger_shortcut_title">Poner en Cola el  Atajo</string>
     <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -729,7 +768,6 @@
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails because on an invalid MAC address -->
-    <string name="error_action_type_send_wol_invalid_mac_address">Dirección MAC Invalida: %s</string>
     <!-- Shortcut Action Title: Trigger a task in Tasker -->
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <!-- Shortcut Action Title: Run a command in the Termux app -->
@@ -741,79 +779,51 @@
     <!-- Shortcut Action Title: Send an HTTP request -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
-    <string name="action_type_abort_execution">Abortar Ejecución</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut and instead run the steps as if the request had failed -->
     <!-- Shortcut Action Title: Wait for a number of milliseconds before continuing with the script execution -->
-    <string name="action_type_wait">Espera</string>
     <!-- Shortcut Action Title: Get the IP Address of the current Wi-Fi -->
-    <string name="action_type_get_wifi_ip_address">Obtener dirección IP del Wi-Fi</string>
     <!-- Shortcut Action Title: Get the SSID of the current Wi-Fi -->
-    <string name="action_type_get_wifi_ssid">Obtener el SSID del Wi-Fi</string>
     <!-- Shortcut error message: Maximum recursion depth reached, i.e., a potential infinite loop was detected and stopped -->
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid URL -->
-    <string name="error_invalid_url">URL inválido (%s).</string>
     <!-- error message: Shown in toast when the user tries to execute a shortcut with invalid proxy settings -->
-    <string name="error_invalid_proxy">Proxy (%s) Inválido</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid content type -->
-    <string name="error_invalid_content_type">Content-Type (%s) inválido.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid header -->
-    <string name="error_invalid_header">Header (%s) Inválido.</string>
     <!-- Error message: Shown in toast when the user tries to execute a shortcut with an invalid bearer auth token configured -->
     <!-- Error message: Shown when a request that uses Digest Authentication fails. %s is a placeholder for the detailed error message. -->
-    <string name="error_digest_auth_failed">Autentificación Profunda falló: %s</string>
     <!-- Title: Dialog title when selecting how to place a shortcut on the homescreen -->
-    <string name="title_select_placement_method">Método de colocación</string>
     <!-- Description: Dialog text when selecting how to place a shortcut on the homescreen -->
     <!-- Label: Preferred option in dialog for selecting how to place the shortcut on the homescreen: Default (method) -->
-    <string name="label_placement_method_default">Predeterminado</string>
     <!-- Label: Alternative option in dialog for selecting how to place the shortcut on the homescreen: Legacy (method) -->
     <!-- Dialog message to prompt user to confirm execution of shortcut -->
-    <string name="dialog_message_confirm_shortcut_execution">¿Ejecutar este atajo?</string>
     <!-- Dialog title: Unlock the app (after it was locked. user is required to enter a password) -->
-    <string name="dialog_title_unlock_app">Desbloquear App</string>
     <!-- Dialog button: Unlock the app (after entering a password) -->
-    <string name="button_unlock_app">desbloquear</string>
     <!-- Dialog text: Asks user to enter a password to unlock the app's settings -->
-    <string name="dialog_text_unlock_app">Ingresa tu password para desbloquear los ajustes de la app.</string>
     <!-- Dialog text: Asks user to enter the password to unlock the app's settings again, after an incorrect try -->
-    <string name="dialog_text_unlock_app_retry">Contraseña equivocada. Porfavor intenté nuevamente.</string>
     <!-- Dialog title: Asks user to enter a password to lock the app's settings -->
-    <string name="dialog_title_lock_app">App bloqueada</string>
     <!-- Dialog text: Asks user to enter a password to lock the app's settings -->
     <!-- Dialog button: Lock the app (by entering a password) -->
-    <string name="button_lock_app">Bloquear</string>
     <!-- Snackbar message: App was locked (settings can no longer be changed) -->
-    <string name="message_app_locked">App bloqueada.</string>
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
-    <string name="message_app_unlocked">App desbloqueada.</string>
     <!-- Snackbar message: App lock was fully removed -->
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
-    <string name="message_variable_duplicated">\"%1$s\" duplicada.</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Browser Shortcut", i.e., one that only opens the browser without making an HTTP request of its own -->
-    <string name="subtitle_editor_toolbar_browser_shortcut">Buscar Atajo</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Scripting Shortcut", i.e., one that only allows JavaScript for execution and doesn't actually make an HTTP request -->
-    <string name="subtitle_editor_toolbar_scripting_shortcut">Atajo de secuencia de comandos</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Multi-Shortcut", i.e., one that only allows triggering one or more other shortcuts -->
-    <string name="subtitle_editor_toolbar_trigger_shortcut">Múltiples atajos</string>
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is an "MQTT Shortcut" -->
     <!-- Subtitle: Shown in toolbar in shortcut editor to indicate that the current shortcut is a "Wake-on-LAN Shortcut" -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no mqtt server set yet for an MQTT shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no MAC address and port set yet for a Wake-on-LAN shortcut -->
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings" button when there is no URL yet and methods are not supported -->
-    <string name="subtitle_basic_request_settings_url_only_prompt">Establecer la URL del atajo</string>
     <!-- Subtitle: Shown in shortcut editor underneath "Basic Settings". Pattern for Method and URL -->
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
-    <string name="subtitle_authentication_none">Sin autentificación</string>
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
     <!-- Section subtitle, shown in shortcut editor when no Basic Authentication is enabled -->
-    <string name="subtitle_authentication_basic">Autentificación basica con usuario y contraseña</string>
     <!-- Section subtitle, shown in shortcut editor when Digest Authentication is enabled -->
     <!-- Section subtitle, shown in shortcut editor when Bearer Authentication is enabled -->
-    <string name="subtitle_authentication_bearer">Autentificación bearer con token</string>
     <!-- Section subtitle, shown in shortcut editor when a username and password was set (used for MQTT shortcuts only) -->
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
@@ -830,41 +840,27 @@
     <!-- Empty state, shown in list when there are no request parameters yet -->
     <!-- Empty state instructions, shown in list when there are no parameters yet -->
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP request should follow redirects -->
-    <string name="label_follow_redirects">Seguir redireccionamientos</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether cookies should be stored for the HTTP request -->
-    <string name="label_accept_cookies">Almacenar cookies</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
-    <string name="label_pre_request_script">Correr antes de Ejecutar</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
-    <string name="label_post_request_failure_script">Correr al fallar.</string>
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern">Error JavaScript:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
-    <string name="error_js_pattern_with_line_number">Error JavaScript (en la línea %1$d):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
-    <string name="dialog_code_snippet_shortcut_info">Información del atajo</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
-    <string name="dialog_code_snippet_files">Archivos Seleccionados</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
-    <string name="dialog_code_snippet_handle_response">Manejo de respuesta</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
     <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, …) -->
-    <string name="dialog_code_snippet_user_interaction">La interacción del usuario</string>
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
-    <string name="dialog_code_snippet_modify_shortcuts">Modificar Atajos</string>
     <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, …) -->
-    <string name="dialog_code_snippet_control_flow">Control de Flujo</string>
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, …) -->
-    <string name="dialog_code_snippet_text_processing">Procesando Texto</string>
     <!-- Dialog option: shown in code snippet picker, shows options that don't belong in any of the other categories -->
-    <string name="dialog_code_snippet_misc">Misceláneos</string>
     <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
@@ -878,20 +874,14 @@
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
-    <string name="dialog_code_snippet_response_body">Obtener el cuerpo de la respuesta como cadena de texto.</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response headers -->
-    <string name="dialog_code_snippet_response_headers">Obtener los encabezados de la Respuesta</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response header -->
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response status code -->
-    <string name="dialog_code_snippet_response_status_code">Obtener el Código de Estado de la Respuesta</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response cookies -->
-    <string name="dialog_code_snippet_response_cookies">Obtener Cookies de la Respuesta</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get a specific HTTP response cookie -->
     <!-- Dialog option: shown in code snippet picker, option allows to get the network error message (if any) -->
-    <string name="dialog_code_snippet_response_network_error">Obtener error de la Red</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the value of a variable -->
-    <string name="dialog_code_snippet_get_variable">Obtener el valor de una Variable</string>
     <!-- Dialog option: shown in code snippet picker, option allows to set the value of a variable -->
     <!-- Error message: Shown in toast when "Trigger Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown in toast when "Rename Shortcut" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -903,78 +893,50 @@
     <!-- Error message: Shown when user tries to use an unsupported hmac function -->
     <!-- Error message: Shown when the user tries to use the 'scanBarcode' function but doesn't have the required app installed -->
     <!-- Settings option for dark mode: when selected the app will always use Dark Mode -->
-    <string name="settings_dark_theme_options_on">Siempre obscuro</string>
     <!-- Settings option for dark mode: when selected the app will never use Dark Mode -->
-    <string name="settings_dark_theme_options_off">Siempre claro</string>
     <!-- Settings option for dark mode: when selected the app will use Dark Mode according to the system settings (i.e., automatically switch) -->
-    <string name="settings_dark_theme_options_auto">Seguir Ajustes del Sistema</string>
     <!-- Title of dark mode theme settings (which allows user to pick how/when the app should use dark mode) -->
-    <string name="settings_dark_theme">Modo obscuro</string>
     <!-- Message: Shown as a placeholder when the HTTP response has no content that could be displayed -->
-    <string name="message_blank_response">respuesta vacía</string>
     <!-- Message shown in snackbar when the title on the main title bar was changed. -->
-    <string name="message_title_changed">Título cambiado.</string>
     <!-- Dialog title: Shown in dialog title when changing the title of the main screen of the app -->
-    <string name="title_set_title">Cambiar Título</string>
     <!-- Dialog title: Shown in dialog title when entering the URL to import shortcuts from -->
-    <string name="dialog_title_import_from_url">Importar desde URL</string>
     <!-- Error: Shown when user tries to import shortcuts from an invalid URL -->
     <!-- Action Label: Shown on Quick Settings Title that allows the user to quickly trigger a shortcut without opening the app -->
     <!-- Instructions: Shown in dialog to instruct user on how to enable shortcuts for use in the Quick Settings Tile -->
     <!-- Label: Status code, shows the HTTP status code of the response -->
-    <string name="label_status_code">Código de estado</string>
     <!-- Label: URL, shows the HTTP request's URL alongside the response -->
     <!-- Label: Response time, shows how long the HTTP request took -->
-    <string name="label_response_timing">Tiempo de Respuesta</string>
     <!-- Label: Shown above section that lists general information about the HTTP response, e.g. status code -->
     <!-- Label: Shown above section that lists HTTP response headers -->
-    <string name="label_response_headers">Encabezados</string>
     <!-- Dialog title: Shown in dialog when adding a new request parameter and user has to pick its type -->
-    <string name="dialog_title_parameter_type">Tipo de Parámetro</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for string parameter -->
-    <string name="option_parameter_type_string">Texto</string>
     <!-- Dialog option: Shown in dialog when adding a new request parameter, option for file parameter -->
-    <string name="option_parameter_type_file">Un solo Archivo</string>
     <!-- Subtitle: Shown in request parameter editor underneath every file parameter to indicate their type -->
-    <string name="subtitle_parameter_value_file">Archivo</string>
     <!-- Subtitle: Shown in request parameter editor underneath every image parameter to indicate their type -->
-    <string name="subtitle_parameter_value_image">Imagen</string>
     <!-- Subtitle: Shown in request parameter editor underneath every files parameter to indicate their type -->
-    <string name="subtitle_parameter_value_files">Archivos</string>
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
-    <string name="language_default">Predeterminado del Sistema</string>
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
-    <string name="label_widget">Widget Personalizable</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
-    <string name="label_show_widget_label">Mostrar Etiqueta</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
-    <string name="action_create_widget">Crear Widget</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
-    <string name="title_configure_widget">Configurar Widget</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
-    <string name="label_widget_label_color">Color de Etiqueta</string>
     <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
-    <string name="error_invalid_character">Carácter Inválido: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
-    <string name="label_insert_action_code_for_current_shortcut">Atajo Actual</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
-    <string name="placeholder_javascript_code_generic">Agregar código JavaScript aquí</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
     <!-- Dialog title: Shown in dialog when picking one or multiple shortcuts to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_add_trigger_shortcut">Agregar Atajos</string>
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
-    <string name="title_remove_trigger_shortcut">Remover Atajo</string>
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
@@ -982,27 +944,16 @@
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
-    <string name="option_response_handling_type_dialog">Ventana de Diálogo</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
-    <string name="option_response_handling_type_window">Pantalla en Tamaño completa</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
-    <string name="option_response_handling_success_output_response">Mostrar Respuesta</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
-    <string name="option_response_handling_success_output_message">Mostrar como mensaje</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
-    <string name="option_response_handling_success_output_none">No mostrar nada (correr silenciosamente)</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
-    <string name="option_response_handling_failure_output_detailed">Mostrar un mensaje de error detallado</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
-    <string name="option_response_handling_failure_output_simple">Mostrar un mensaje de error simple</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
-    <string name="option_response_handling_failure_output_none">No mostrar nada (correr silenciosamente)</string>
     <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
-    <string name="label_response_handling_success_message">Mensaje</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
-    <string name="confirm_clear_cookies_message">¿Eliminar todas las cookies almacenadas?</string>
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
-    <string name="message_cookies_cleared">Cookies eliminadas.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
@@ -1023,38 +974,27 @@
     <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
     <!-- Dialog title: allows to change the remote editing server -->
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
-    <string name="dialog_reset">Resetear</string>
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <!-- Button in settings page to open editor for configuring certificate pinning -->
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
-    <string name="action_save_global_scripting">Guardar Cambios</string>
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
-    <string name="error_shortcut_not_found_for_deep_link">Atajo \"%s\" no encontrado</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
-    <string name="placeholder_deleted_shortcut">Atajo eliminado</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
-    <string name="label_ssid">Requiere el SSID del Wi-Fi</string>
     <!-- Dialog title: Permission request for Wi-Fi/SSID check -->
-    <string name="title_permission_dialog">Permisos requeridos</string>
     <!-- Message: Rational given for location permission in Wi-Fi/SSID check  -->
     <!-- Message: Shown to the user when connected to a different Wi-Fi network than the one given in the config -->
     <!-- Action label: Shown on wifi check dialog to open the Wi-Fi picker -->
-    <string name="action_label_select">Seleccionar</string>
     <!-- Error message, shown when user declines location permission for Wi-Fi check -->
     <!-- Message: Success message shown when a response was saved to a file -->
-    <string name="message_response_saved_to_file">Respuesta guardada como archivo.</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
     <!-- Section title on import/export screen for options related to importing -->
-    <string name="settings_title_import">Importar</string>
     <!-- Section title on import/export screen for options related to exporting -->
-    <string name="settings_title_export">Exportar</string>
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
-    <string name="settings_title_remote_edit">Editando Remotamente</string>
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
     <!-- Label shown above a text field showing a shortcut's ID -->
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
@@ -1079,30 +1019,23 @@
     <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
-    <string name="confirm_delete_custom_icon_message">¿Eliminar este icono?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
-    <string name="button_delete_all_unused_icons">Eliminar iconos si usar</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
-    <string name="confirm_delete_all_unused_custom_icons_message">¿Eliminar todos los iconos sin usar?</string>
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
     <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
     <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
     <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
-    <string name="label_share_support">Datos a recibir por compartir</string>
     <!-- Label of an option in the share dialog, for receiving only the text -->
-    <string name="label_share_support_option_text">Solo texto</string>
     <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
     <!-- Label above input field in category editor, for category name -->
-    <string name="label_category_name">Nombre de la Categoría</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
     <!-- Label above dropdown input field for selecting the background for a category -->
-    <string name="label_category_background">Fondo</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <!-- Description for the "Variable Widget", shown in Android's widget picker -->
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
@@ -1115,20 +1048,13 @@
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
     <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
-    <string name="button_sort_variables">Orden</string>
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
-    <string name="message_variables_sorted">Variables ordenadas.</string>
     <!-- Button label on menu, for searching. Used in Code Snippet picker and for Documentation screens -->
-    <string name="menu_action_search">Buscar</string>
     <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
-    <string name="instructions_search_no_results">Sin resultados</string>
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
-    <string name="generic_processing_in_progress">Procesando</string>
     <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
     <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
-    <string name="title_documentation">Documentación</string>
     <!-- Button text: Shown on Documentation screen, allows to view the current page in the external browser -->
-    <string name="button_open_documentation_in_browser">Abrir en el explorador</string>
     <!-- Option in dropdown menu for selecting the main action available on a dialog that displays the HTTP response, allows to show no action -->
     <!-- Error message: Shown when the user tries to open a file via a browser shortcut -->
     <!-- Error message: Shown when the user tries to parse XML using the parseXML JS function, but the XML is invalid. %s is a placeholder for a more detailed description of the error -->
