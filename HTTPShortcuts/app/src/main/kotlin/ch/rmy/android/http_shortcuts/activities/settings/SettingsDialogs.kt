@@ -166,6 +166,7 @@ private fun LockAppDialog(
         allowEmpty = false,
         monospace = true,
         singleLine = true,
+        imeAction = ImeAction.Go,
         keyboardType = KeyboardType.Password,
         transformValue = {
             it.take(50)
