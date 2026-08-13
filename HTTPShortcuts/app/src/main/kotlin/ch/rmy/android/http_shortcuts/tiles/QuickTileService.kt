@@ -9,6 +9,7 @@ import android.service.quicksettings.TileService
 import androidx.appcompat.app.AlertDialog
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
@@ -110,14 +111,16 @@ class QuickTileService : TileService() {
                     }
                 ) {
                     setTheme(com.google.android.material.R.style.Theme_MaterialComponents_DayNight_NoActionBar)
-                    showDialog(
-                        AlertDialog.Builder(context)
-                            .setItems(shortcuts.map { it.name }.toTypedArray()) { _, index ->
-                                val shortcut = shortcuts[index]
-                                executeShortcut(shortcut, headersByShortcutId[shortcut.id], parametersByShortcutId[shortcut.id])
-                            }
-                            .create(),
-                    )
+                    tryOrLog {
+                        showDialog(
+                            AlertDialog.Builder(context)
+                                .setItems(shortcuts.map { it.name }.toTypedArray()) { _, index ->
+                                    val shortcut = shortcuts[index]
+                                    executeShortcut(shortcut, headersByShortcutId[shortcut.id], parametersByShortcutId[shortcut.id])
+                                }
+                                .create(),
+                        )
+                    }
                 } else {
                     QuickSettingsTileActivity.IntentBuilder()
                         .build(context)

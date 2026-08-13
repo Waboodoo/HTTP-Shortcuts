@@ -208,9 +208,9 @@ constructor(
         @WorkerThread
         internal fun cacheSharedFiles(context: Context, fileUris: List<Uri>): List<Uri> =
             fileUris
-                .map { fileUri ->
-                    context.contentResolver.openInputStream(fileUri)!!
-                        .use { inputStream ->
+                .mapNotNull { fileUri ->
+                    context.contentResolver.openInputStream(fileUri)
+                        ?.use { inputStream ->
                             FileUtil.createCacheFile(context, createCacheFileName())
                                 .also { file ->
                                     FileUtil.getFileName(context.contentResolver, fileUri)
