@@ -58,7 +58,11 @@ Used by the [`runTermuxCommand()`](scripting.md#run-termux-command) function to 
 Used by the [`setWireguardTunnelState()`](scripting.md#set-wireguard-tunnel-state) function to allow enabling or disabling a Wireguard tunnel from Scripting. This permission needs to be granted explicitly by the user if they wish to make use of this feature.
 
 ## use biometric hardware / use fingerprint hardware
-The app allows to configure a shortcut in a way that it requires biometric confirmation before running, for extra security. This requires a permission.
+There are two features, which require this permission:
+- The app allows to configure a shortcut in a way that it requires biometric confirmation before running, for extra security.
+- The app can be locked to prevent editing of shortcuts, variables, and settings. The app may then be unlocked via biometrics, such as a fingerprint.
+
+Both of these features are non-essential for using the app.
 
 ## prevent phone from sleeping
 Used to perform cleanup tasks, such as deleting obsolete cache files after a shortcut was run.
