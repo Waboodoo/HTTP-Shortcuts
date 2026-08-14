@@ -19,6 +19,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -97,7 +98,7 @@ private fun ExecuteDialog(
     onResult: (Any) -> Unit,
     onDismissed: () -> Unit,
 ) {
-    LaunchedEffect(dialogState) {
+    SideEffect(dialogState) {
         logInfo("ExecuteDialogs", "Dialog State: $dialogState")
     }
     when (dialogState) {

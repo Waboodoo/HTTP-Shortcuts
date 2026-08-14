@@ -26,7 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -179,9 +179,8 @@ private fun ColumnScope.BodyTextEditor(
             ),
         )
     }
-    DisposableEffect(bodyContent) {
+    SideEffect(bodyContent) {
         textFieldValue = textFieldValue.copy(text = bodyContent)
-        onDispose { }
     }
 
     Column(

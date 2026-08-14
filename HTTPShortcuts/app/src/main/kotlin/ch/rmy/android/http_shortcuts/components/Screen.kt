@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.components
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,9 +19,8 @@ inline fun <D, VS, reified VM : BaseViewModel<D, VS>> bindViewModel(
     val viewModel = hiltViewModel<VM>(key = key)
     val state by viewModel.viewStateFlow.collectAsStateWithLifecycle()
     val eventHandler = LocalEventinator.current
-    DisposableEffect(Unit) {
+    SideEffect(Unit) {
         viewModel.init(initData)
-        onDispose { }
     }
     LaunchedEffect(Unit) {
         viewModel.events.collect(eventHandler::onEvent)

@@ -14,6 +14,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -60,7 +61,7 @@ fun MainContent(
         }
     }
 
-    LaunchedEffect(pagerState.settledPage) {
+    SideEffect(pagerState.settledPage) {
         onActiveCategoryIdChanged(categoryItems[pagerState.settledPage].categoryId)
     }
     Column(

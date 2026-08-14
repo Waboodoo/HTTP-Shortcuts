@@ -8,7 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.core.net.toUri
@@ -35,7 +35,7 @@ private const val RESULT_KEY = "result"
 @Composable
 fun ResultHandler(savedStateHandle: SavedStateHandle, onResult: (result: Any) -> Unit) {
     val result by savedStateHandle.getStateFlow(RESULT_KEY, null as Any?).collectAsStateWithLifecycle()
-    LaunchedEffect(result) {
+    SideEffect(result) {
         result?.let {
             onResult(it)
             savedStateHandle[RESULT_KEY] = null

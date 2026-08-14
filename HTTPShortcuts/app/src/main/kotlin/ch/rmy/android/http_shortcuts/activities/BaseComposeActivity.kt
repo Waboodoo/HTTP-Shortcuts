@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.remember
 import ch.rmy.android.http_shortcuts.components.AppTheme
 import ch.rmy.android.http_shortcuts.components.Eventinator
@@ -18,7 +18,7 @@ abstract class BaseComposeActivity : BaseActivity() {
     override fun onCreated(savedState: Bundle?) {
         setContent {
             val darkTheme = isSystemInDarkTheme()
-            DisposableEffect(darkTheme) {
+            SideEffect(darkTheme) {
                 enableEdgeToEdge(
                     statusBarStyle = SystemBarStyle.auto(
                         android.graphics.Color.TRANSPARENT,
@@ -29,7 +29,6 @@ abstract class BaseComposeActivity : BaseActivity() {
                         darkScrim,
                     ) { darkTheme },
                 )
-                onDispose {}
             }
 
             val eventinator = remember {

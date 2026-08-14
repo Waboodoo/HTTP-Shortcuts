@@ -16,6 +16,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -70,7 +71,7 @@ fun TextInputDialog(
     var showPassword by rememberSaveable {
         mutableStateOf(false)
     }
-    LaunchedEffect(initialValue) {
+    SideEffect(initialValue) {
         value = TextFieldValue(initialValue, selection = TextRange(initialValue.length))
     }
     val confirmButtonEnabled by remember {

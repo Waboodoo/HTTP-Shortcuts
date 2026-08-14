@@ -6,6 +6,7 @@ import android.webkit.WebView
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
@@ -36,7 +37,7 @@ fun DocumentationBrowser(
     }
 
     if (webView == null) {
-        LaunchedEffect(onLoadingStateChanged) {
+        SideEffect(onLoadingStateChanged) {
             onLoadingStateChanged(false)
         }
         NoWebViewError(modifier)
@@ -55,7 +56,7 @@ fun DocumentationBrowser(
             webView.loadUrl(internalUrl)
         }
     }
-    LaunchedEffect(webView) {
+    SideEffect(webView) {
         webView.setFindListener { activeMatchOrdinal, numberOfMatches, _ ->
             onSearchResults(activeMatchOrdinal + if (numberOfMatches > 0) 1 else 0, numberOfMatches)
         }
