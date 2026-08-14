@@ -116,6 +116,7 @@ open class MainActivity : BaseComposeActivity() {
                             importer.importFromUri(it, importMode = ImportMode.MERGE)
                             RealmMigrator.setMigrated(context)
                             showToast(R.string.message_data_restored)
+                            logException(RuntimeException("Realm migrated from import"))
                             recreate()
                         } catch (e: CancellationException) {
                             throw e
@@ -138,6 +139,7 @@ open class MainActivity : BaseComposeActivity() {
                             importer.importFromUri(it, importMode = ImportMode.MERGE)
                             RealmMigrator.setMigrated(context)
                             showToast(R.string.message_data_restored)
+                            logException(RuntimeException("Realm migrated from Restore app"))
                             recreate()
                         } catch (e: CancellationException) {
                             throw e
@@ -172,6 +174,7 @@ open class MainActivity : BaseComposeActivity() {
                 DeletionWarning(
                     onConfirm = {
                         RealmMigrator.deleteRealmFile(context)
+                        logException(RuntimeException("Realm file deleted"))
                         recreate()
                     },
                     onDismissed = {

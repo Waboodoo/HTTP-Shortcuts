@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import ch.rmy.android.framework.extensions.GlobalLogger
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
@@ -28,6 +29,9 @@ class Application : android.app.Application(), Configuration.Provider {
     @Inject
     lateinit var userPreferences: UserPreferences
 
+    @Inject
+    lateinit var deviceLocalPreferences: DeviceLocalPreferences
+
     override val workManagerConfiguration: Configuration by lazy {
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -44,7 +48,11 @@ class Application : android.app.Application(), Configuration.Provider {
         GlobalLogger.registerLogging(Logging)
 
         if (!RealmMigrator.check(context)) {
-            logException(RuntimeException("Unmigrated Realm found"))
+            val errorCount = deviceLocalPreferences.realmErrorCount
+            if (errorCount < 10) {
+                deviceLocalPreferences.realmErrorCount = errorCount + 1
+                logException(RuntimeException("Unmigrated Realm found"))
+            }
             unmigratedRealmFound = true
         }
 
