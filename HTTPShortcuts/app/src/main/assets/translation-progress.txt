@@ -1,12 +1,12 @@
 ar:76
 bg:97
 ca:51
-cs:77
+cs:76
 de:100
 el:61
 es:76
 es-rMX:19
-eu:23
+eu:45
 fa:63
 fr:80
 iw:70

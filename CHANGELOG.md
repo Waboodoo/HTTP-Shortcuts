@@ -5,7 +5,8 @@
 - When placing a shortcut onto the homescreen that has transparency in its icon, you can now pick the background color for the icon
 - Bulgarian and Basque translations were added
 - The language picker now shows the translation progress and includes a button to become a translator
-- There are now alternative app icons to choose from, in case you're tired of the blue
+- There are now alternative app icons to choose from, in case you're tired of the blue one
+- You can now configure categories to align their shortcuts to the center or bottom
 - The soft keyboard now shows a more appropriate enter/submit option on most input fields
 
 ### Bugfixes

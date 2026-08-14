@@ -427,6 +427,9 @@
     <string name="layout_type_medium_grid">중간 바둑판</string>
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
     <string name="layout_type_wide_grid">넓은 바둑판</string>
+    <!-- Option when picking the vertical alignment for a category: align to the top -->
+    <!-- Option when picking the vertical alignment for a category: align to the center -->
+    <!-- Option when picking the vertical alignment for a category: align to the bottom -->
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
     <string name="category_background_type_default">기본값</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
@@ -1410,6 +1413,7 @@
     <string name="label_category_name">카테고리 이름</string>
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">레이아웃 종류</string>
+    <!-- Label above dropdown input field for selecting the vertical alignment (top, center, bottom) for a category -->
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">표시 크기(배율)</string>
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
