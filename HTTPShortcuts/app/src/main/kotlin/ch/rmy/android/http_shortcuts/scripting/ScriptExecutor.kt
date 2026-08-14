@@ -230,8 +230,10 @@ constructor(
             "_runAction",
             object : JsFunction {
                 override fun invoke(args: JsFunctionArgs): Any? {
-                    val actionTypeName = args.getString(0)!!
-                    val data = args.getJsFunctionArgs(1)!!
+                    val actionTypeName = args.getString(0)
+                        ?: return null
+                    val data = args.getJsFunctionArgs(1)
+                        ?: return null
                     logInfo("Running action of type: $actionTypeName")
 
                     val actionType = actionFactory.getType(actionTypeName)
