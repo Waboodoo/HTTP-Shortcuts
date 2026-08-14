@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
@@ -118,13 +119,14 @@ constructor(
             Category(
                 id = categoryId,
                 name = category.name!!.truncate(Constants.CATEGORY_NAME_MAX_LENGTH),
-                icon = category.iconName?.let { ShortcutIcon.fromName(it) },
-                layoutType = category.layoutType?.let { CategoryLayoutType.parse(it) } ?: CategoryLayoutType.LINEAR_LIST,
-                background = category.background?.let { CategoryBackgroundType.parse(it) } ?: CategoryBackgroundType.Default,
+                icon = category.iconName?.let(ShortcutIcon::fromName),
+                layoutType = category.layoutType?.let(CategoryLayoutType::parse) ?: CategoryLayoutType.LINEAR_LIST,
+                alignment = category.alignment?.let(CategoryAlignment::parse) ?: CategoryAlignment.TOP,
+                background = category.background?.let(CategoryBackgroundType::parse) ?: CategoryBackgroundType.Default,
                 hidden = category.hidden == true,
                 hiddenLabels = category.hiddenLabels == true,
                 scale = category.scale?.coerceIn(0.5f, 4f) ?: 1f,
-                shortcutClickBehavior = category.shortcutClickBehavior?.let { ShortcutClickBehavior.parse(it) },
+                shortcutClickBehavior = category.shortcutClickBehavior?.let(ShortcutClickBehavior::parse),
                 sortingOrder = index,
             )
         }

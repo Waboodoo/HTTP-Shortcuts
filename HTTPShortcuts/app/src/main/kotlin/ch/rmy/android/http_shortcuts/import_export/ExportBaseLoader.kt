@@ -15,6 +15,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
@@ -111,6 +112,7 @@ constructor(
                     name = category.name,
                     iconName = category.icon?.toString()?.takeUnlessEmpty(),
                     layoutType = category.layoutType.takeIf { it != CategoryLayoutType.LINEAR_LIST }?.type,
+                    alignment = category.alignment?.takeIf { it != CategoryAlignment.TOP }?.value,
                     background = category.background.takeIf { it != CategoryBackgroundType.Default }?.serialize(),
                     hidden = category.hidden.trueOrNull(),
                     hiddenLabels = category.hiddenLabels.trueOrNull(),

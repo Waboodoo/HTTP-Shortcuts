@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.import_export
 
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
@@ -20,6 +21,7 @@ constructor() {
         categories = base.categories?.map { category ->
             category.copy(
                 layoutType = category.layoutType ?: CategoryLayoutType.LINEAR_LIST.type,
+                alignment = category.alignment ?: CategoryAlignment.TOP.value,
                 background = category.background ?: CategoryBackgroundType.Default.serialize(),
                 scale = category.scale ?: 1f,
                 sections = category.sections ?: emptyList(),

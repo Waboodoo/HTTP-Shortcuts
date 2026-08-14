@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.data.domains.categories
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -48,6 +49,7 @@ constructor(
     suspend fun createCategory(
         name: String,
         layoutType: CategoryLayoutType,
+        alignment: CategoryAlignment,
         background: CategoryBackgroundType,
         clickBehavior: ShortcutClickBehavior?,
         scale: Float,
@@ -59,6 +61,7 @@ constructor(
                 id = newUUID(),
                 name = name,
                 layoutType = layoutType,
+                alignment = alignment,
                 background = background,
                 shortcutClickBehavior = clickBehavior,
                 hiddenLabels = hiddenLabels,
@@ -92,6 +95,7 @@ constructor(
         categoryId: CategoryId,
         name: String,
         layoutType: CategoryLayoutType,
+        alignment: CategoryAlignment,
         background: CategoryBackgroundType,
         clickBehavior: ShortcutClickBehavior?,
         scale: Float,
@@ -102,6 +106,7 @@ constructor(
                 category.copy(
                     name = name,
                     layoutType = layoutType,
+                    alignment = alignment,
                     background = background,
                     shortcutClickBehavior = clickBehavior,
                     hiddenLabels = hiddenLabels,

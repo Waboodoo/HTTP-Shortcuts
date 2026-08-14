@@ -26,6 +26,7 @@ import ch.rmy.android.http_shortcuts.activities.categories.editor.models.Categor
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 
@@ -34,6 +35,7 @@ fun CategoryEditorContent(
     colorButtonVisible: Boolean,
     categoryName: String,
     categoryLayoutType: CategoryLayoutType,
+    categoryAlignment: CategoryAlignment,
     categoryBackgroundType: CategoryBackground,
     backgroundColor: Int,
     backgroundColorAsText: String,
@@ -42,6 +44,7 @@ fun CategoryEditorContent(
     hiddenLabels: Boolean,
     onCategoryNameChanged: (String) -> Unit,
     onLayoutTypeSelected: (CategoryLayoutType) -> Unit,
+    onAlignmentChanged: (CategoryAlignment) -> Unit,
     onBackgroundTypeSelected: (CategoryBackground) -> Unit,
     onColorButtonClicked: () -> Unit,
     onClickActionOptionSelected: (ShortcutClickBehavior?) -> Unit,
@@ -56,13 +59,18 @@ fun CategoryEditorContent(
         verticalArrangement = Arrangement.spacedBy(Spacing.SMALL),
     ) {
         CategoryName(
-            categoryName,
-            onCategoryNameChanged,
+            name = categoryName,
+            onNameChanged = onCategoryNameChanged,
         )
 
         CategoryLayoutTypeSelection(
-            categoryLayoutType,
-            onLayoutTypeSelected,
+            categoryLayoutType = categoryLayoutType,
+            onLayoutTypeSelected = onLayoutTypeSelected,
+        )
+
+        CategoryAlignmentSelection(
+            categoryAlignment = categoryAlignment,
+            onAlignmentSelected = onAlignmentChanged,
         )
 
         CategoryHiddenLabelsSelection(
@@ -72,31 +80,31 @@ fun CategoryEditorContent(
         )
 
         CategoryScaleSelection(
-            scale,
-            onScaleChanged,
+            scale = scale,
+            onScaleChanged = onScaleChanged,
         )
 
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
             CategoryBackgroundTypeSelection(
-                categoryBackgroundType,
-                onBackgroundTypeSelected,
+                categoryBackgroundType = categoryBackgroundType,
+                onBackgroundTypeSelected = onBackgroundTypeSelected,
             )
             AnimatedVisibility(visible = colorButtonVisible) {
                 Box(modifier = Modifier.padding(top = Spacing.SMALL)) {
                     BackgroundColorButton(
-                        backgroundColor,
-                        backgroundColorAsText,
-                        onColorButtonClicked,
+                        backgroundColor = backgroundColor,
+                        backgroundColorAsText = backgroundColorAsText,
+                        onColorButtonClicked = onColorButtonClicked,
                     )
                 }
             }
         }
 
         ClickActionSelection(
-            selectedClickActionOption,
-            onClickActionOptionSelected,
+            selectedClickActionOption = selectedClickActionOption,
+            onClickActionOptionSelected = onClickActionOptionSelected,
         )
     }
 }
@@ -135,6 +143,23 @@ private fun CategoryLayoutTypeSelection(
             CategoryLayoutType.WIDE_GRID to stringResource(R.string.layout_type_wide_grid),
         ),
         onItemSelected = onLayoutTypeSelected,
+    )
+}
+
+@Composable
+private fun CategoryAlignmentSelection(
+    categoryAlignment: CategoryAlignment,
+    onAlignmentSelected: (CategoryAlignment) -> Unit,
+) {
+    SelectionField(
+        title = stringResource(R.string.label_category_vertical_alignment),
+        selectedKey = categoryAlignment,
+        items = listOf(
+            CategoryAlignment.TOP to stringResource(R.string.category_vertical_alignment_top),
+            CategoryAlignment.CENTER to stringResource(R.string.category_vertical_alignment_center),
+            CategoryAlignment.BOTTOM to stringResource(R.string.category_vertical_alignment_bottom),
+        ),
+        onItemSelected = onAlignmentSelected,
     )
 }
 

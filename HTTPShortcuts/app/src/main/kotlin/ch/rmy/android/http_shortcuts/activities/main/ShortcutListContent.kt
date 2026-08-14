@@ -115,6 +115,7 @@ fun ShortcutListContent(
             highlightedShortcutId = highlightedShortcutId,
             shortcutListItems = state.shortcutListItems,
             layoutType = category.layoutType,
+            alignment = category.alignment,
             textColor = category.background.textColor(),
             useTextShadows = category.background.useTextShadow,
             scale = category.scale,

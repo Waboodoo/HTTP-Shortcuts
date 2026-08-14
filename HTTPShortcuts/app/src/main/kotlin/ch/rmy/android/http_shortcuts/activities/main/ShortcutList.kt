@@ -57,6 +57,7 @@ import ch.rmy.android.http_shortcuts.components.ShortcutIcon
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 
 private const val HIDDEN_ALPHA = 0.4f
@@ -67,6 +68,7 @@ fun ShortcutList(
     highlightedShortcutId: ShortcutId?,
     shortcutListItems: List<ShortcutListItemModel>,
     layoutType: CategoryLayoutType,
+    alignment: CategoryAlignment,
     textColor: Color?,
     useTextShadows: Boolean,
     scale: Float,
@@ -111,10 +113,17 @@ fun ShortcutList(
         .copy(fontSize = FontSize.SMALL * lesserScale)
         .runIf(useTextShadows) { copy(shadow = DefaultTextShadow) }
 
+    val verticalArrangement = when (alignment) {
+        CategoryAlignment.TOP -> Arrangement.Top
+        CategoryAlignment.CENTER -> Arrangement.Center
+        CategoryAlignment.BOTTOM -> Arrangement.Bottom
+    }
+
     if (layoutType == CategoryLayoutType.LINEAR_LIST) {
         ShortcutLinearList(
             shortcutListItems = shortcutListItems,
             highlightedShortcutId = highlightedShortcutId,
+            verticalArrangement = verticalArrangement,
             textColor = textColor,
             textStyle = textStyle,
             scale = scale,
@@ -129,11 +138,11 @@ fun ShortcutList(
         ShortcutGrid(
             shortcutListItems = shortcutListItems,
             highlightedShortcutId = highlightedShortcutId,
+            verticalArrangement = verticalArrangement,
             minColumnWidth = when (layoutType) {
                 CategoryLayoutType.DENSE_GRID -> 78.dp
                 CategoryLayoutType.MEDIUM_GRID -> 120.dp
                 CategoryLayoutType.WIDE_GRID -> 180.dp
-                else -> error("This can not be reached, but the compiler is not smart enough to understand that")
             } * lesserScale,
             textColor = textColor,
             textStyle = textStyle,
@@ -154,6 +163,7 @@ fun ShortcutList(
 private fun ShortcutLinearList(
     shortcutListItems: List<ShortcutListItemModel>,
     highlightedShortcutId: ShortcutId?,
+    verticalArrangement: Arrangement.Vertical,
     textColor: Color?,
     textStyle: TextStyle,
     scale: Float,
@@ -166,6 +176,7 @@ private fun ShortcutLinearList(
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
+        verticalArrangement = verticalArrangement,
     ) {
         shortcutListItems.forEachIndexed { index, item ->
             when (item) {
@@ -359,6 +370,7 @@ private fun ShortcutListItem(
 private fun ShortcutGrid(
     shortcutListItems: List<ShortcutListItemModel>,
     highlightedShortcutId: ShortcutId?,
+    verticalArrangement: Arrangement.Vertical,
     minColumnWidth: Dp,
     textColor: Color?,
     textStyle: TextStyle,
@@ -378,6 +390,7 @@ private fun ShortcutGrid(
             .padding(
                 horizontal = 2.dp * lesserScale,
             ),
+        verticalArrangement = verticalArrangement,
     ) {
         shortcutListItems.forEach { item ->
             when (item) {

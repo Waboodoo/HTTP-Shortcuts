@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -20,6 +21,8 @@ data class Category(
     val icon: ShortcutIcon?,
     @ColumnInfo(name = "layout_type")
     val layoutType: CategoryLayoutType,
+    @ColumnInfo(name = "alignment")
+    val alignment: CategoryAlignment? = null,
     @ColumnInfo(name = "background")
     val background: CategoryBackgroundType,
     @ColumnInfo(name = "hidden")

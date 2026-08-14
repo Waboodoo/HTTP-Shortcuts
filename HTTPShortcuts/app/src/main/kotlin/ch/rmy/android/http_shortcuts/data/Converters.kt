@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.room.TypeConverter
 import ch.rmy.android.framework.extensions.toCharset
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ClientCertParams
@@ -81,6 +82,14 @@ class Converters {
     @TypeConverter
     fun serializeCategoryLayoutType(categoryLayoutType: CategoryLayoutType?): String? =
         categoryLayoutType?.type
+
+    @TypeConverter
+    fun deserializeCategoryAlignment(value: String?): CategoryAlignment? =
+        value?.let { CategoryAlignment.parse(value) }
+
+    @TypeConverter
+    fun serializeCategoryAlignment(categoryAlignment: CategoryAlignment?): String? =
+        categoryAlignment?.value
 
     @TypeConverter
     fun deserializeCategoryBackgroundType(value: String?): CategoryBackgroundType? =

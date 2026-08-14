@@ -30,6 +30,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -256,6 +257,7 @@ constructor(
                     categoryId = category.id,
                     name = category.name,
                     layoutType = category.layoutType,
+                    alignment = category.alignment ?: CategoryAlignment.TOP,
                     background = category.background,
                     scale = category.scale,
                     hiddenLabels = category.hiddenLabels,

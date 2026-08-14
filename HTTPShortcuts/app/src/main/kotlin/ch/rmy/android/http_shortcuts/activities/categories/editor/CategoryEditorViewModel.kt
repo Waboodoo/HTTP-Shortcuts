@@ -6,6 +6,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.activities.categories.editor.models.CategoryBackground
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.CategoryLayoutType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -52,6 +53,7 @@ constructor(
         return CategoryEditorViewState(
             categoryName = category.name,
             categoryLayoutType = category.layoutType,
+            categoryAlignment = category.alignment ?: CategoryAlignment.TOP,
             categoryBackgroundType = category.background,
             categoryClickBehavior = category.shortcutClickBehavior,
             scale = category.scale,
@@ -68,6 +70,12 @@ constructor(
     fun onLayoutTypeChanged(categoryLayoutType: CategoryLayoutType) = runAction {
         updateViewState {
             copy(categoryLayoutType = categoryLayoutType)
+        }
+    }
+
+    fun onAlignmentChanged(categoryAlignment: CategoryAlignment) = runAction {
+        updateViewState {
+            copy(categoryAlignment = categoryAlignment)
         }
     }
 
@@ -125,6 +133,7 @@ constructor(
             categoryRepository.createCategory(
                 name = viewState.categoryName,
                 layoutType = viewState.categoryLayoutType,
+                alignment = viewState.categoryAlignment,
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
                 scale = viewState.scale,
@@ -135,6 +144,7 @@ constructor(
                 category.id,
                 name = viewState.categoryName,
                 layoutType = viewState.categoryLayoutType,
+                alignment = viewState.categoryAlignment,
                 background = viewState.categoryBackgroundType,
                 clickBehavior = viewState.categoryClickBehavior,
                 scale = viewState.scale,
