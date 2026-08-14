@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.components
 import android.graphics.Color
 import android.view.LayoutInflater
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,7 +49,7 @@ fun ColorPicker(
         mutableStateOf(true)
     }
 
-    SideEffect(color) {
+    LaunchedEffect(color) {
         if (applyColor) {
             colorPickerView.selectByHsvColor(color)
         } else {
