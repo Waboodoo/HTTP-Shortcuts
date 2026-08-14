@@ -261,7 +261,7 @@ private fun ColumnScope.BodyTextEditor(
                 },
             )
 
-            AnimatedVisibility(visible = contentType == FileTypeUtil.TYPE_JSON) {
+            AnimatedVisibility(visible = contentType.startsWith(FileTypeUtil.TYPE_JSON)) {
                 Row(
                     modifier = Modifier.padding(top = Spacing.TINY),
                     horizontalArrangement = Arrangement.spacedBy(Spacing.SMALL),

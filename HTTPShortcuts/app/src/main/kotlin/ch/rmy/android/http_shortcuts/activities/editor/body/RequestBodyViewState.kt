@@ -25,12 +25,10 @@ data class RequestBodyViewState(
             requestBodyType == RequestBodyType.X_WWW_FORM_URLENCODE
 
     val syntaxHighlightingLanguage: String?
-        get() = when (contentType) {
-            FileTypeUtil.TYPE_JSON -> "json"
-            FileTypeUtil.TYPE_XML,
-            FileTypeUtil.TYPE_XML_ALT,
-            -> "xml"
-            FileTypeUtil.TYPE_HTML -> "html"
+        get() = when {
+            contentType.startsWith(FileTypeUtil.TYPE_JSON) -> "json"
+            contentType.startsWith(FileTypeUtil.TYPE_XML) || contentType.startsWith(FileTypeUtil.TYPE_XML_ALT) -> "xml"
+            contentType.startsWith(FileTypeUtil.TYPE_HTML) -> "html"
             else -> null
         }
 }
