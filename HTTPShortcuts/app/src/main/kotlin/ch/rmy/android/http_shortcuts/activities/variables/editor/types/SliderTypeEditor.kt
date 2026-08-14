@@ -37,7 +37,7 @@ fun SliderTypeEditor(
         },
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Decimal,
+            keyboardType = KeyboardType.DecimalSigned,
             imeAction = ImeAction.Next,
         ),
         singleLine = true,
@@ -60,7 +60,7 @@ fun SliderTypeEditor(
         },
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Decimal,
+            keyboardType = KeyboardType.DecimalSigned,
             imeAction = ImeAction.Next,
         ),
         isError = viewState.isMaxValueInvalid,
@@ -91,7 +91,7 @@ fun SliderTypeEditor(
         },
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
-            keyboardType = KeyboardType.Decimal,
+            keyboardType = KeyboardType.DecimalSigned,
             imeAction = ImeAction.Next,
         ),
         isError = viewState.isStepSizeInvalid,

@@ -149,7 +149,7 @@ private fun ExecuteDialog(
                     ExecuteDialogState.TextInput.Type.TEXT,
                     ExecuteDialogState.TextInput.Type.MULTILINE_TEXT,
                     -> KeyboardType.Text
-                    ExecuteDialogState.TextInput.Type.NUMBER -> KeyboardType.Decimal
+                    ExecuteDialogState.TextInput.Type.NUMBER -> KeyboardType.DecimalSigned
                     ExecuteDialogState.TextInput.Type.PASSWORD -> KeyboardType.Password
                 },
                 onDismissRequest = { value ->
