@@ -22,7 +22,7 @@ plugins {
 val bugsnagAPIKey = LocalProperties.getString("bugsnag_api_key") ?: ""
 val autoBuildDocs = LocalProperties.getBoolean("autobuild_docs") ?: false
 val useBugsnag = bugsnagAPIKey.isNotEmpty()
-val buildDate = System.currentTimeMillis() / (24 * 60 * 60 * 1000L)
+val buildDate = (System.currentTimeMillis() / (24 * 60 * 60 * 1000L)).toInt()
 
 class OutputFileNameVariantAction : Action<ApplicationVariant> {
     override fun execute(variant: ApplicationVariant) {
@@ -63,7 +63,7 @@ android {
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "4.7.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1104070004
+        versionCode = 1104070005
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("int", "BUILD_DATE", buildDate.toString())

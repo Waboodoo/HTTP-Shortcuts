@@ -510,7 +510,7 @@ constructor(
             SelectionMode.PLUGIN -> returnForPlugin(shortcutId)
             SelectionMode.VARIABLE_WIDGET_PLACEMENT,
             SelectionMode.NORMAL,
-            -> Unit
+                -> Unit
         }
     }
 
@@ -678,6 +678,7 @@ constructor(
     }
 
     fun onFilePickedForApk(fileUri: Uri) = runAction {
+        logInfo("Building shell APK")
         try {
             updateDialogState(MainDialogState.Progress)
             val shortcut = shortcutForApkExport ?: skipAction()

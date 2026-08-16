@@ -7,11 +7,11 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.activities.misc.host.HostActivity
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Singleton
 class ActivityProvider

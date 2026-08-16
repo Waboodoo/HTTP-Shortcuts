@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.shell_apk
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import androidx.annotation.WorkerThread
@@ -19,7 +20,7 @@ constructor(
 
     @WorkerThread
     fun createIconPng(icon: ShortcutIcon): ByteArray {
-        val bitmap = loadBitmap(icon) ?: throw InvalidShellApkException()
+        val bitmap = loadBitmap(icon)
         return try {
             ByteArrayOutputStream().use { output ->
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
@@ -30,15 +31,16 @@ constructor(
         }
     }
 
-    private fun loadBitmap(icon: ShortcutIcon): Bitmap? =
+    private fun loadBitmap(icon: ShortcutIcon): Bitmap =
         try {
             // Reuse the existing shortcut icon pipeline so custom icons, built-in icons, and external resource icons
             // are rasterized the same way as home-screen shortcuts.
             IconUtil.getIcon(context, icon, adaptive = false)
                 ?.loadDrawable(context)
                 ?.toBitmap()
-        } catch (_: Exception) {
-            null
+                ?: BitmapFactory.decodeResource(context.resources, ShortcutIcon.NoIcon.iconResource)
+        } catch (e: Exception) {
+            throw InvalidShellApkException(e)
         }
 
     private fun Drawable.toBitmap(): Bitmap {
