@@ -510,7 +510,7 @@ constructor(
             SelectionMode.PLUGIN -> returnForPlugin(shortcutId)
             SelectionMode.VARIABLE_WIDGET_PLACEMENT,
             SelectionMode.NORMAL,
-                -> Unit
+            -> Unit
         }
     }
 

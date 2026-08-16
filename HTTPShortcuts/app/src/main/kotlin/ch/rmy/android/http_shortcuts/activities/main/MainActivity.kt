@@ -408,6 +408,16 @@ open class MainActivity : BaseComposeActivity() {
         fun cancelPendingExecutions() = also {
             intent.putExtra(EXTRA_CANCEL_PENDING_EXECUTIONS, true)
         }
+
+        override fun build(context: Context): Intent {
+            val intent = super.build(context)
+            context.packageManager.getLaunchIntentForPackage(context.packageName)
+                ?.component
+                ?.let {
+                    intent.setComponent(it)
+                }
+            return intent
+        }
     }
 
     companion object {
