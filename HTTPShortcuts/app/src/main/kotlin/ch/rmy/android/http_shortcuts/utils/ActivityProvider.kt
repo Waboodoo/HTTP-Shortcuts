@@ -7,6 +7,8 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.activities.misc.host.HostActivity
 import ch.rmy.android.http_shortcuts.exceptions.NoActivityAvailableException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,7 +20,9 @@ constructor(
     private val context: Context,
 ) {
     suspend fun <T> withActivity(action: suspend (FragmentActivity) -> T): T {
-        val activeActivity = activeActivities.lastOrNull()?.get()
+        val activeActivity = withContext(Dispatchers.Main) {
+            activeActivities.lastOrNull()?.get()
+        }
         if (activeActivity != null) {
             return action(activeActivity)
         }
