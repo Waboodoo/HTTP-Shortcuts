@@ -281,7 +281,7 @@ private fun AppIconOption(
 ) {
     Image(
         modifier = Modifier
-            .padding(Spacing.TINY)
+            .padding(8.dp)
             .size(56.dp)
             .aspectRatio(1f)
             .runIf(selected) {
