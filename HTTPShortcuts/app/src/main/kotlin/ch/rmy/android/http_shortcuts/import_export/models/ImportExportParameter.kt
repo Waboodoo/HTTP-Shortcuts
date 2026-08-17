@@ -11,7 +11,7 @@ data class ImportExportParameter(
     val fileUploadOptions: ImportExportFileUploadOptions? = null,
 ) {
     fun validate() {
-        require(key != null && key.isNotEmpty()) {
+        require(!key.isNullOrEmpty()) {
             "Parameter without a key found"
         }
         require(fileName == null || !fileName.contains("/")) {

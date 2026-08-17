@@ -4,7 +4,7 @@ import ch.rmy.android.http_shortcuts.data.enums.IpVersion
 import java.io.IOException
 
 class NoIpAddressException(val hostname: String, val ipVersion: IpVersion) : IOException() {
-    override val message: String? =
+    override val message: String =
         buildString {
             append("No ")
             append(

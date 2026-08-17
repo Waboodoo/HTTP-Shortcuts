@@ -9,7 +9,7 @@ data class ImportExportHeader(
     val value: String? = null,
 ) {
     fun validate() {
-        require(key != null && key.isNotEmpty()) {
+        require(!key.isNullOrEmpty()) {
             "Header without a key found"
         }
         require(key.none { !Validation.isValidInHeaderName(it) }) {

@@ -67,7 +67,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -122,7 +121,7 @@ constructor(
         this.categories = categoriesFlow.first()
         if (categories.isEmpty()) {
             categoryRepository.createInitialCategory(context.getString(R.string.shortcuts))
-            this.categories = categoriesFlow.filter { it.isNotEmpty() }.first()
+            this.categories = categoriesFlow.first { it.isNotEmpty() }
         }
 
         viewModelScope.launch(Dispatchers.Default) {

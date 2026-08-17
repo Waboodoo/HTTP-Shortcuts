@@ -16,8 +16,8 @@ import ch.rmy.android.http_shortcuts.variables.Variables
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 
 class TextToSpeechAction
@@ -34,7 +34,7 @@ constructor(
         var tts: TextToSpeech? = null
         try {
             withContext(Dispatchers.Main) {
-                suspendCoroutine<Unit> { continuation ->
+                suspendCancellableCoroutine { continuation ->
                     val id = newUUID()
                     val handler = Handler(Looper.getMainLooper())
 
@@ -45,24 +45,26 @@ constructor(
                         }
 
                         handler.post {
-                            tts!!.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                                override fun onDone(utteranceId: String?) {
-                                    continuation.resume()
-                                }
-
-                                override fun onError(utteranceId: String?, errorCode: Int) {
-                                    if (utteranceId == id) {
-                                        continuation.resumeWithException(ActionException { getString(R.string.error_tts_failed) })
+                            tts!!.setOnUtteranceProgressListener(
+                                object : UtteranceProgressListener() {
+                                    override fun onDone(utteranceId: String?) {
+                                        continuation.resume()
                                     }
-                                }
 
-                                @Deprecated("Deprecated in Java")
-                                override fun onError(utteranceId: String?) {
-                                }
+                                    override fun onError(utteranceId: String?, errorCode: Int) {
+                                        if (utteranceId == id) {
+                                            continuation.resumeWithException(ActionException { getString(R.string.error_tts_failed) })
+                                        }
+                                    }
 
-                                override fun onStart(utteranceId: String?) {
-                                }
-                            })
+                                    @Deprecated("Deprecated in Java")
+                                    override fun onError(utteranceId: String?) {
+                                    }
+
+                                    override fun onStart(utteranceId: String?) {
+                                    }
+                                },
+                            )
                             if (language.isNotEmpty()) {
                                 tryOrIgnore {
                                     tts!!.setLanguage(Locale.forLanguageTag(language))

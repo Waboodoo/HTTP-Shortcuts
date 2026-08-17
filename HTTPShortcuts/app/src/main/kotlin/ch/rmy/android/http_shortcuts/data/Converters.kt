@@ -160,7 +160,7 @@ class Converters {
         value?.let { ParameterType.parse(value) }
 
     @TypeConverter
-    fun serializeParameterType(parameterType: ParameterType): String? =
+    fun serializeParameterType(parameterType: ParameterType): String =
         parameterType.type
 
     @TypeConverter
@@ -200,7 +200,7 @@ class Converters {
         value?.let { TargetBrowser.parse(value) }
 
     @TypeConverter
-    fun serializeTargetBrowser(targetBrowser: TargetBrowser): String? =
+    fun serializeTargetBrowser(targetBrowser: TargetBrowser): String =
         targetBrowser.serialize()
 
     @TypeConverter

@@ -9,6 +9,9 @@ import java.net.InetAddress
 import java.net.Socket
 import java.nio.charset.Charset
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -95,11 +98,12 @@ constructor() : Action<SendTCPPacketAction.Params> {
             ?.let(Charset::forName)
             ?: Charsets.UTF_8
 
-    private fun Map<String, Any?>.getTimeout(): Long =
+    private fun Map<String, Any?>.getTimeout(): Duration =
         get("timeout")
             ?.let { (it as? Long) ?: (it as? Int)?.toLong() }
             ?.takeIf { it in 1L..60_000L }
-            ?: 3000L
+            ?.milliseconds
+            ?: 3.seconds
 
     data class Params(
         val data: ByteArray,

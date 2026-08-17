@@ -36,11 +36,11 @@ fun ActivityResultLauncher<Unit?>.launch(options: ActivityOptionsCompat? = null)
 }
 
 @Suppress("DEPRECATION")
-inline fun <reified T : Any?> Intent.getParcelable(key: String): T? =
+inline fun <reified T> Intent.getParcelable(key: String): T? =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) getParcelableExtra(key, T::class.java) else getParcelableExtra(key)
 
 @Suppress("DEPRECATION")
-inline fun <reified T : Any?> Intent.getParcelableList(key: String): List<T>? =
+inline fun <reified T> Intent.getParcelableList(key: String): List<T>? =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) getParcelableArrayListExtra(key, T::class.java) else getParcelableArrayListExtra(key)
 
 @Suppress("DEPRECATION")

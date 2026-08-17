@@ -15,7 +15,7 @@ data class ImportExportCertificatePin(
         require(id == null || id.isUUID()) {
             "Invalid certificate pin ID found, must be UUID: $id"
         }
-        require(pattern != null && pattern.isNotEmpty()) {
+        require(!pattern.isNullOrEmpty()) {
             "Certificate pin without host pattern found"
         }
         require(hash?.isValidCertificateFingerprint() == true) {

@@ -11,7 +11,7 @@ data class ImportExportSection(
 ) {
     fun validate() {
         require(id == null || id.isUUID()) { "Invalid section ID found, must be UUID: $id" }
-        require(name != null && name.isNotBlank()) { "Section without a name found" }
+        require(!name.isNullOrBlank()) { "Section without a name found" }
     }
 }
 

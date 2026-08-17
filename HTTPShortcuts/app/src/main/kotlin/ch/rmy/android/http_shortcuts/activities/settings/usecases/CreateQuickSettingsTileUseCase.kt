@@ -11,7 +11,7 @@ import androidx.core.content.getSystemService
 import ch.rmy.android.http_shortcuts.R
 import javax.inject.Inject
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 class CreateQuickSettingsTileUseCase
 @Inject
@@ -19,7 +19,7 @@ constructor(
     private val context: Context,
 ) {
     suspend operator fun invoke(): Boolean =
-        suspendCoroutine { continuation ->
+        suspendCancellableCoroutine { continuation ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 context.getSystemService<StatusBarManager>()!!.requestAddTileService(
                     ComponentName.createRelative(context, "ch.rmy.android.http_shortcuts.tiles.QuickTileService"),

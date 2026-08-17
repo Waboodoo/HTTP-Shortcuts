@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.components.SelectDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.extensions.isValidCertificateFingerprint
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 
 @Composable
@@ -114,7 +115,7 @@ private fun EditorDialog(
     val keyboard = LocalSoftwareKeyboardController.current
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
-        delay(50)
+        delay(50.milliseconds)
         keyboard?.show()
     }
 

@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +35,7 @@ class HostActivity : BaseComposeActivity() {
         lifecycleScope.launch {
             activeClients.collectLatest {
                 if (it <= 0) {
-                    delay(500)
+                    delay(500.milliseconds)
                     finishWithoutAnimation()
                 }
             }

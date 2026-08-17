@@ -14,7 +14,7 @@ data class ImportExportWorkingDirectory(
         require(id == null || id.isUUID()) {
             "Invalid directory ID found, must be UUID: $id"
         }
-        require(name != null && name.isNotEmpty()) {
+        require(!name.isNullOrEmpty()) {
             "Invalid directory name for working directory"
         }
         require(directory?.startsWith("content://", ignoreCase = true) == true) {

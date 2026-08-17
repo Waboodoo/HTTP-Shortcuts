@@ -97,7 +97,7 @@ constructor(
         }
 
         override fun hashCode(): Int =
-            topic.hashCode() + payload.hashCode()
+            topic.hashCode() + payload.contentHashCode()
     }
 
     class MqttUtilException(override val message: String?) : Exception()

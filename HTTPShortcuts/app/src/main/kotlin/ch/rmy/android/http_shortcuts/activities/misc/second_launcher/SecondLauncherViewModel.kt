@@ -29,11 +29,11 @@ constructor(
                 executeShortcut(it.id)
                 terminateInitialization()
             }
-            ?: return SecondLauncherViewState(
-                dialogState = SecondLauncherDialogState.PickShortcut(
-                    shortcuts.map { it.toShortcutPlaceholder() },
-                ),
-            )
+        return SecondLauncherViewState(
+            dialogState = SecondLauncherDialogState.PickShortcut(
+                shortcuts.map { it.toShortcutPlaceholder() },
+            ),
+        )
     }
 
     private fun executeShortcut(shortcutId: ShortcutId) {

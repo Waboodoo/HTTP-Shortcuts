@@ -42,6 +42,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.insertAtCursor
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.utils.SyntaxHighlighter
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 
 @Composable
@@ -221,7 +222,7 @@ private fun CodeSection(
 
     LaunchedEffect(Unit) {
         if (autoFocus) {
-            delay(50)
+            delay(50.milliseconds)
             focusRequester.requestFocus()
             keyboard?.show()
         }
