@@ -91,7 +91,7 @@ fun SliderTypeEditor(
         },
         keyboardOptions = KeyboardOptions(
             autoCorrectEnabled = false,
-            keyboardType = KeyboardType.DecimalSigned,
+            keyboardType = KeyboardType.Decimal,
             imeAction = ImeAction.Next,
         ),
         isError = viewState.isStepSizeInvalid,

@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import ch.rmy.android.framework.extensions.toLocalizable
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
+import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.exceptions.DialogCancellationException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import javax.inject.Inject
@@ -12,6 +14,16 @@ class PromptNumberSliderAction
 constructor() : Action<PromptNumberSliderAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): Double? =
         try {
+            if (max <= min) {
+                throw ActionException {
+                    getString(R.string.error_slider_max_not_greater_than_min)
+                }
+            }
+            if (stepSize <= 0) {
+                throw ActionException {
+                    getString(R.string.error_slider_step_size_must_be_positive)
+                }
+            }
             executionContext.dialogHandle.showDialog(
                 ExecuteDialogState.NumberSlider(
                     message = message.toLocalizable(),
