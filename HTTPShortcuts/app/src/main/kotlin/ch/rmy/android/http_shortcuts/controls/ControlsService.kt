@@ -11,6 +11,7 @@ import android.service.controls.templates.StatelessTemplate
 import androidx.annotation.RequiresApi
 import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.runIfNotNull
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.activities.execute.ExecutionStarter
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
@@ -46,7 +47,7 @@ class ControlsService : ControlsProviderService() {
         }
 
     private fun createPublisher(filter: ((Pair<Category, Shortcut>) -> Boolean)? = null): Flow.Publisher<Control?> =
-        flowPublish<Control?> {
+        flowPublish {
             val categories = categoryRepository.getCategories()
             val shortcutsByCategoryId = shortcutRepository.getShortcutsByCategoryId()
 
@@ -77,7 +78,9 @@ class ControlsService : ControlsProviderService() {
                         .build()
                 }
                 .forEach { control ->
-                    send(control)
+                    tryOrIgnore {
+                        send(control)
+                    }
                 }
         }
 
