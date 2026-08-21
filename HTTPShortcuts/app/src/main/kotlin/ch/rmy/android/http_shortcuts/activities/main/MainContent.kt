@@ -62,7 +62,8 @@ fun MainContent(
     }
 
     SideEffect(pagerState.settledPage) {
-        onActiveCategoryIdChanged(categoryItems[pagerState.settledPage].categoryId)
+        categoryItems.getOrNull(pagerState.settledPage)?.categoryId
+            ?.let(onActiveCategoryIdChanged)
     }
     Column(
         modifier = Modifier.fillMaxSize(),

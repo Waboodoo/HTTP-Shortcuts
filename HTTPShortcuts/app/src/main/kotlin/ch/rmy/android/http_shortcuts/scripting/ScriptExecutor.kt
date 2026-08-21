@@ -2,6 +2,7 @@ package ch.rmy.android.http_shortcuts.scripting
 
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.resume
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -37,10 +38,12 @@ constructor(
 ) {
     private val scriptingEngine: ScriptingEngine by lazy(LazyThreadSafetyMode.NONE) {
         scriptingEngineFactory.create()
-            .also {
-                registerActionAliases(it, actionFactory.getAliases())
-                registerAbort(it)
-                destroyer = it::destroy
+            .also { scriptingEngine ->
+                registerActionAliases(scriptingEngine, actionFactory.getAliases())
+                registerAbort(scriptingEngine)
+                destroyer = {
+                    tryOrLog { scriptingEngine.destroy() }
+                }
             }
     }
     private var destroyer: (() -> Unit)? = null

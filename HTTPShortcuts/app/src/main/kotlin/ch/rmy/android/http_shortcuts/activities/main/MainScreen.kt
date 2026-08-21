@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.main
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
@@ -10,10 +11,12 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.consume
+import ch.rmy.android.framework.extensions.showToast
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FloatingAddButton
@@ -66,10 +69,15 @@ fun MainScreen(
         viewModel.onBackButtonPressed()
     }
 
+    val context = LocalContext.current
     EventHandler { event ->
         when (event) {
             is MainEvent.PickFileForApk -> consume {
-                openFilePickerForApk.launch(event.fileName)
+                try {
+                    openFilePickerForApk.launch(event.fileName)
+                } catch (_: ActivityNotFoundException) {
+                    context.showToast(R.string.error_generic)
+                }
             }
             else -> false
         }
