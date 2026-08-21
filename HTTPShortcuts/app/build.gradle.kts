@@ -58,7 +58,7 @@ android {
     defaultConfig {
         applicationId = "ch.rmy.android.http_shortcuts"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
 
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "4.7.0"

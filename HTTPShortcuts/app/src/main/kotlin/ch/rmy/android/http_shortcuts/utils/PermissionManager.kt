@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.Context
@@ -46,6 +47,13 @@ constructor(
     fun hasNotificationPermission(): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             hasPermission(POST_NOTIFICATIONS)
+        } else {
+            true
+        }
+
+    fun hasLocalNetworkPermission(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CINNAMON_BUN) {
+            hasPermission(Manifest.permission.ACCESS_LOCAL_NETWORK)
         } else {
             true
         }

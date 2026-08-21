@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.activities.troubleshooting
 
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -16,12 +17,14 @@ import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
 fun TroubleShootingContent(
-    batteryOptimizationButtonVisible: Boolean,
+    batteryOptimizationButtonEnabled: Boolean,
     allowXiaomiOverlayButtonVisible: Boolean,
     performanceOptimizationsEnabled: Boolean,
+    localNetworkAccessAllowed: Boolean,
     onEventHistoryClicked: () -> Unit,
     onClearCookiesButtonClicked: () -> Unit,
     onCancelAllPendingExecutionsButtonClicked: () -> Unit,
+    onAllowLocalNetworkAccessClicked: () -> Unit,
     onAllowOverlayButtonClicked: () -> Unit,
     onAllowXiaomiOverlayButtonClicked: () -> Unit,
     onBatteryOptimizationButtonClicked: () -> Unit,
@@ -52,6 +55,18 @@ fun TroubleShootingContent(
             onClick = onCancelAllPendingExecutionsButtonClicked,
         )
 
+        HorizontalDivider()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CINNAMON_BUN) {
+            SettingsButton(
+                icon = painterResource(R.drawable.outline_local_network_24),
+                title = stringResource(R.string.settings_allow_local_network_access),
+                subtitle = stringResource(R.string.settings_allow_local_network_access_summary),
+                enabled = !localNetworkAccessAllowed,
+                onClick = onAllowLocalNetworkAccessClicked,
+            )
+        }
+
         SettingsButton(
             icon = painterResource(R.drawable.outline_layers_24),
             title = stringResource(R.string.settings_allow_overlay),
@@ -68,14 +83,13 @@ fun TroubleShootingContent(
             )
         }
 
-        if (batteryOptimizationButtonVisible) {
-            SettingsButton(
-                icon = painterResource(R.drawable.outline_battery_android_frame_full_24),
-                title = stringResource(R.string.settings_ignore_battery_optimizations),
-                subtitle = stringResource(R.string.settings_ignore_battery_optimizations_summary),
-                onClick = onBatteryOptimizationButtonClicked,
-            )
-        }
+        SettingsButton(
+            icon = painterResource(R.drawable.outline_battery_android_frame_full_24),
+            title = stringResource(R.string.settings_ignore_battery_optimizations),
+            subtitle = stringResource(R.string.settings_ignore_battery_optimizations_summary),
+            enabled = batteryOptimizationButtonEnabled,
+            onClick = onBatteryOptimizationButtonClicked,
+        )
 
         SettingsSelection(
             icon = painterResource(R.drawable.outline_speed_24),

@@ -222,6 +222,10 @@
     <string name="settings_allow_overlay">Allow Displaying Over Other Apps</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Enable if shortcuts are not working when triggered from Quick Settings Tile or 3rd party app</string>
+    <!-- Name of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access">Allow Access to Local Network</string>
+    <!-- Subtitle of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access_summary">Enable if you encounter problems interacting with other devices on your network</string>
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi">Allow Displaying Pop-Up Windows While in Background</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->

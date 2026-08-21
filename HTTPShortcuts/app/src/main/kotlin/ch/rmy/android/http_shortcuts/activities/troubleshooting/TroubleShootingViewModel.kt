@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.troubleshooting
 
 import android.app.Application
+import androidx.lifecycle.application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.pending_executions.PendingExecutionsRepository
@@ -10,6 +11,7 @@ import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
+import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import ch.rmy.android.http_shortcuts.utils.RestrictionsUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -26,9 +28,11 @@ constructor(
     private val cookieManager: CookieManager,
     private val appOverlayUtil: AppOverlayUtil,
     private val restrictionsUtil: RestrictionsUtil,
+    private val permissionManager: PermissionManager,
 ) : BaseViewModel<Unit, TroubleShootingViewState>(application) {
 
     override suspend fun initialize(data: Unit) = TroubleShootingViewState(
+        localNetworkAccessAllowed = permissionManager.hasLocalNetworkPermission(),
         privacySectionVisible = Logging.supportsCrashReporting,
         quickSettingsTileButtonVisible = restrictionsUtil.canCreateQuickSettingsTiles(),
         selectedLanguage = userPreferences.language,
@@ -36,7 +40,7 @@ constructor(
         selectedClickActionOption = userPreferences.clickBehavior,
         crashReportingAllowed = userPreferences.isCrashReportingAllowed,
         colorTheme = userPreferences.colorTheme,
-        batteryOptimizationButtonVisible = !restrictionsUtil.isIgnoringBatteryOptimizations(),
+        batteryOptimizationButtonEnabled = !restrictionsUtil.isIgnoringBatteryOptimizations(),
         allowXiaomiOverlayButtonVisible = restrictionsUtil.hasPermissionEditor(),
         performanceOptimizationsEnabled = !userPreferences.isHeadlessModeDisabled,
     )
@@ -91,6 +95,12 @@ constructor(
 
     fun onDialogDismissalRequested() = runAction {
         updateDialogState(null)
+    }
+
+    fun onAllowLocalNetworkAccessChanged() = runAction {
+        updateViewState {
+            copy(localNetworkAccessAllowed = true)
+        }
     }
 
     private suspend fun updateDialogState(dialogState: TroubleShootingDialogState?) {
