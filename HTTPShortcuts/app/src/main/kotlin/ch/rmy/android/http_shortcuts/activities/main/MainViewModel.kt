@@ -680,7 +680,7 @@ constructor(
         logInfo("Building shell APK")
         try {
             updateDialogState(MainDialogState.Progress)
-            val shortcut = shortcutForApkExport ?: skipAction()
+            val shortcut = shortcutForApkExport ?: return@runAction
             val apkFile = shellApkBuilder.build(
                 shortcutId = shortcut.id,
                 appName = shortcut.name,

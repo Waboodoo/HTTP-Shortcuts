@@ -116,7 +116,7 @@ abstract class BaseViewModel<InitData : Any, ViewState : Any>(application: Appli
                 with(scope) {
                     action()
                 }
-            } catch (e: ViewModelCancellationException) {
+            } catch (_: ViewModelCancellationException) {
                 logInfo("Action skipped")
             }
         }
