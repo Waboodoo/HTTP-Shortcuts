@@ -144,6 +144,9 @@ android {
             isShrinkResources = true
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            optimization.keepRules {
+                ignoreFrom("com.github.franmontiel:PersistentCookieJar")
+            }
 
             buildConfigField("String", "BUILD_TYPE", "\"RELEASE\"")
         }
@@ -155,6 +158,9 @@ android {
             ndk.debugSymbolLevel = "SYMBOL_TABLE"
 
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            optimization.keepRules {
+                ignoreFrom("com.github.franmontiel:PersistentCookieJar")
+            }
 
             buildConfigField("String", "BUILD_TYPE", "\"RELEASE_FULL\"")
         }
