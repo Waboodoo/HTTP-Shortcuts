@@ -765,8 +765,8 @@
     <string name="error_share_failed">An error occurred while sharing.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">This feature is not supported on your device.</string>
-    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">Browser with package name “%s” not found</string>
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed), or because it can not handle the given URL -->
+    <string name="error_browser_not_found_or_cannot_handle_url">Browser “%s” not found, or it can\'t handle this URL</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">An unexpected error has occurred.</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->

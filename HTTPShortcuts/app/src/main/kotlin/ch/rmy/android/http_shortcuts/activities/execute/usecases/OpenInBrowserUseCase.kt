@@ -10,7 +10,6 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
-import ch.rmy.android.http_shortcuts.exceptions.BrowserNotFoundException
 import ch.rmy.android.http_shortcuts.exceptions.InvalidUrlException
 import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
@@ -58,11 +57,12 @@ constructor(
                 }
             }
         } catch (_: ActivityNotFoundException) {
-            targetBrowser.packageName?.let {
-                throw BrowserNotFoundException(it)
-            }
             userError {
-                getString(R.string.error_no_app_found_for_url, url)
+                if (targetBrowser.packageName != null) {
+                    getString(R.string.error_browser_not_found_or_cannot_handle_url, targetBrowser.packageName)
+                } else {
+                    getString(R.string.error_no_app_found_for_url, url)
+                }
             }
         } catch (_: SecurityException) {
             userError {
