@@ -70,18 +70,22 @@ constructor(
                 client.disconnect()
                 client.close()
             } catch (e: MqttException) {
-                val message = if (e.cause is UnknownHostException) {
-                    "Could not find host at $serverUri"
-                } else if (e.cause is SocketException) {
-                    e.cause!!.message
-                } else {
-                    if (e !is MqttSecurityException) {
-                        logException(e)
+                val message = when (e.cause) {
+                    is UnknownHostException -> {
+                        "Could not find host at $serverUri"
                     }
-                    e.message
-                        ?.takeUnless { it == "MqttException" }
-                        ?: (e.cause?.toString())
-                        ?: (e.toString().removePrefix("MqttException "))
+                    is SocketException -> {
+                        e.cause!!.message
+                    }
+                    else -> {
+                        if (e.shouldLog()) {
+                            logException(e)
+                        }
+                        e.message
+                            ?.takeUnless { it == "MqttException" }
+                            ?: (e.cause?.toString())
+                            ?: (e.toString().removePrefix("MqttException "))
+                    }
                 }
                 throw MqttUtilException(message)
             } catch (e: IllegalArgumentException) {
@@ -89,6 +93,10 @@ constructor(
             }
         }
     }
+
+    private fun MqttException.shouldLog(): Boolean =
+        this !is MqttSecurityException &&
+            reasonCode.toShort() == MqttException.REASON_CODE_UNEXPECTED_ERROR
 
     data class Message(val topic: String, val payload: ByteArray) {
         override fun equals(other: Any?): Boolean {

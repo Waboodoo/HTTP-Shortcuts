@@ -89,6 +89,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             e is CancellationException ||
             e is InflateException ||
             e is DeadObjectException ||
+            e.cause is DeadObjectException ||
             e.stackTrace.any { it.className.contains("Miui") }
 
     override fun logInfo(origin: String?, message: String) {
