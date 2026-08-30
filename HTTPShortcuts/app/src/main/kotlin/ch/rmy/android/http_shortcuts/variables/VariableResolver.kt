@@ -99,7 +99,9 @@ constructor(
         ): Set<VariableKeyOrId> =
             buildSet {
                 addAll(Variables.findResolvableVariableIdentifiers(shortcut.url))
-                if (shortcut.authenticationType?.usesUsernameAndPassword == true) {
+                if (shortcut.authenticationType?.usesUsernameAndPassword == true ||
+                    shortcut.executionType == ShortcutExecutionType.MQTT
+                ) {
                     addAll(Variables.findResolvableVariableIdentifiers(shortcut.authUsername))
                     addAll(Variables.findResolvableVariableIdentifiers(shortcut.authPassword))
                 }
