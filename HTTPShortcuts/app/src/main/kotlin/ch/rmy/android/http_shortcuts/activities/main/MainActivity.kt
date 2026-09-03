@@ -370,7 +370,7 @@ open class MainActivity : BaseComposeActivity() {
 
     object SelectShortcut : ActivityResultContract<Unit, SelectShortcut.Result?>() {
         override fun createIntent(context: Context, input: Unit): Intent =
-            Intent(context, MainActivity::class.java)
+            IntentBuilder().build(context)
                 .setAction(ACTION_SELECT_SHORTCUT_FOR_PLUGIN)
 
         override fun parseResult(resultCode: Int, intent: Intent?): Result? =
