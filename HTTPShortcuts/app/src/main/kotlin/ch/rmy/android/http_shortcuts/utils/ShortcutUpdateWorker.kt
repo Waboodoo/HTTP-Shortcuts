@@ -62,16 +62,18 @@ constructor(
         private val context: Context,
     ) {
         operator fun invoke(shortcutId: ShortcutId? = null) {
-            with(WorkManager.getInstance(context)) {
-                enqueue(
-                    OneTimeWorkRequestBuilder<ShortcutUpdateWorker>()
-                        .setInputData(
-                            Data.Builder()
-                                .putString(DATA_SHORTCUT_ID, shortcutId)
-                                .build(),
-                        )
-                        .build(),
-                )
+            tryOrLog {
+                with(WorkManager.getInstance(context)) {
+                    enqueue(
+                        OneTimeWorkRequestBuilder<ShortcutUpdateWorker>()
+                            .setInputData(
+                                Data.Builder()
+                                    .putString(DATA_SHORTCUT_ID, shortcutId)
+                                    .build(),
+                            )
+                            .build(),
+                    )
+                }
             }
         }
     }
