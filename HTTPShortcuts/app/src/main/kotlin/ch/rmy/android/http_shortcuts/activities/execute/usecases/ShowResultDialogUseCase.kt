@@ -21,7 +21,9 @@ import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.FileTypeUtil
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 
 class ShowResultDialogUseCase
 @Inject
@@ -35,7 +37,11 @@ constructor(
 
     suspend operator fun invoke(shortcut: Shortcut, response: ShortcutResponse?, output: String?, dialogHandle: DialogHandle) = coroutineScope {
         val shortcutName = shortcut.getSafeName(context)
-        val text = output ?: response?.getContentAsString(context) ?: ""
+        val text = output
+            ?: withContext(Dispatchers.IO) {
+                response?.getContentAsString(context)
+            }
+            ?: ""
         val action = shortcut.responseDisplayActions.firstOrNull()
             ?.takeIf {
                 when (it) {
@@ -56,8 +62,7 @@ constructor(
                         )
                     } else {
                         ExecuteDialogState.ShowResult.Content.Text(
-                            text = (output ?: response?.getContentAsString(context) ?: "")
-                                .ifBlank { context.getString(R.string.message_blank_response) },
+                            text = text.ifBlank { context.getString(R.string.message_blank_response) },
                             allowHtml = shortcut.responseContentType == ResponseContentType.HTML,
                         )
                     },
@@ -65,7 +70,7 @@ constructor(
                     fontSize = shortcut.responseFontSize,
                 ),
             )
-        } catch (e: DialogCancellationException) {
+        } catch (_: DialogCancellationException) {
             return@coroutineScope
         }
 
@@ -115,7 +120,7 @@ constructor(
     }
 
     companion object {
-        private const val MAX_SHARE_LENGTH = 300000
-        private const val MAX_COPY_LENGTH = 300000
+        private const val MAX_SHARE_LENGTH = 300_000
+        private const val MAX_COPY_LENGTH = 300_000
     }
 }
