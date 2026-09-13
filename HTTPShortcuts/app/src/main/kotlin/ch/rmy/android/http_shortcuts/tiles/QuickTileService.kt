@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import androidx.appcompat.app.AlertDialog
 import ch.rmy.android.framework.extensions.context
@@ -36,16 +37,25 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class QuickTileService : TileService() {
 
-    private val job = SupervisorJob()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
+    private var _scope: CoroutineScope? = null
+    private val scope: CoroutineScope
+        get() = synchronized(this) {
+            val scope = _scope
+            if (scope != null && scope.isActive) {
+                return scope
+            }
+            _scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+            return _scope!!
+        }
 
     @Inject
     lateinit var shortcutRepository: ShortcutRepository
@@ -63,20 +73,6 @@ class QuickTileService : TileService() {
     lateinit var checkHeadlessExecution: CheckHeadlessExecutionUseCase
 
     override fun onClick() {
-        if (!scope.isActive) {
-            val shortcuts = runBlocking {
-                getShortcuts()
-            }
-            val shortcutIds = shortcuts.ids()
-            val headersByShortcutId = runBlocking {
-                requestHeaderRepository.getRequestHeadersByShortcutIds(shortcutIds)
-            }
-            val parametersByShortcutIds = runBlocking {
-                requestParameterRepository.getRequestParametersByShortcutIds(shortcutIds)
-            }
-            handleShortcuts(shortcuts, headersByShortcutId, parametersByShortcutIds)
-            return
-        }
         scope.launch {
             val shortcuts = getShortcuts()
             val shortcutIds = shortcuts.ids()
@@ -112,14 +108,13 @@ class QuickTileService : TileService() {
                 ) {
                     setTheme(com.google.android.material.R.style.Theme_MaterialComponents_DayNight_NoActionBar)
                     tryOrLog {
-                        showDialog(
-                            AlertDialog.Builder(context)
-                                .setItems(shortcuts.map { it.name }.toTypedArray()) { _, index ->
-                                    val shortcut = shortcuts[index]
-                                    executeShortcut(shortcut, headersByShortcutId[shortcut.id], parametersByShortcutId[shortcut.id])
-                                }
-                                .create(),
-                        )
+                        if (isLocked) {
+                            unlockAndRun {
+                                showDialog(shortcuts, headersByShortcutId, parametersByShortcutId)
+                            }
+                        } else {
+                            showDialog(shortcuts, headersByShortcutId, parametersByShortcutId)
+                        }
                     }
                 } else {
                     QuickSettingsTileActivity.IntentBuilder()
@@ -130,6 +125,21 @@ class QuickTileService : TileService() {
                         }
                 }
             }
+    }
+
+    private fun showDialog(
+        shortcuts: List<Shortcut>,
+        headersByShortcutId: Map<ShortcutId, List<RequestHeader>>,
+        parametersByShortcutId: Map<ShortcutId, List<RequestParameter>>,
+    ) {
+        showDialog(
+            AlertDialog.Builder(context)
+                .setItems(shortcuts.map { it.name }.toTypedArray()) { _, index ->
+                    val shortcut = shortcuts[index]
+                    executeShortcut(shortcut, headersByShortcutId[shortcut.id], parametersByShortcutId[shortcut.id])
+                }
+                .create(),
+        )
     }
 
     @Suppress("DEPRECATION")
@@ -204,27 +214,41 @@ class QuickTileService : TileService() {
 
     override fun onStartListening() {
         super.onStartListening()
+        updateIcon()
+    }
+
+    override fun onTileAdded() {
+        super.onTileAdded()
+        updateIcon()
+    }
+
+    private fun updateIcon() {
         scope.launch {
+            val qsTile = qsTile ?: return@launch
             val shortcuts = getShortcuts()
             val shortcut = shortcuts.singleOrNull()
             if (shortcut != null) {
-                qsTile?.label = shortcut.name
-                qsTile?.icon = shortcut.icon
+                qsTile.label = shortcut.name
+                qsTile.icon = shortcut.icon
                     .takeIf { it.isUsableAsSilhouette }
                     ?.let {
-                        IconUtil.getIcon(context, it, adaptive = false)
+                        withContext(Dispatchers.IO) {
+                            IconUtil.getIcon(context, it, adaptive = false)
+                        }
                     }
                     ?: Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
             } else {
-                qsTile?.label = getString(R.string.action_quick_settings_tile_trigger)
-                qsTile?.icon = Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
+                qsTile.label = getString(R.string.action_quick_settings_tile_trigger)
+                qsTile.icon = Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
             }
-            qsTile?.updateTile()
+            qsTile.state = Tile.STATE_ACTIVE
+            qsTile.updateTile()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        job.cancel()
+        _scope?.cancel()
+        _scope = null
     }
 }
