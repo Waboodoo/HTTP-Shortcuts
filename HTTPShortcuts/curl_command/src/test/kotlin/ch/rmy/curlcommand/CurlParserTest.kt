@@ -129,6 +129,50 @@ class CurlParserTest {
     }
 
     @Test
+    fun `JSON data-raw body with ampersands is not split into form parameters`() {
+        val json = """{"id":"TMFlgZwkOD","listId":"uGTXxbdoJ0","checkInLink":"https://www.onetapcheckin.com/p/checkin-preview/VzqugIReQP?listId=uGTXxbdoJ0&profileId=VzqugIReQP&uniqueId=AM2CwnZ7LyuKHYeIR0By3","sendVisitorAlert":true}"""
+        val target = """curl 'https://api.example.com/checkin' -X POST -H 'Content-Type: application/json' --data-raw '$json'"""
+        val command = CurlParser.parse(target)
+
+        assertEquals("https://api.example.com/checkin", command.url)
+        assertEquals("POST", command.method)
+        assertEquals("application/json", command.headers["Content-Type"])
+        assertEquals(listOf(json), command.data)
+    }
+
+    @Test
+    fun `JSON data body with ampersands is not split into form parameters`() {
+        val json = """{"url":"https://example.com?foo=1&bar=2"}"""
+        val target = """curl example.com -d '$json'"""
+        val command = CurlParser.parse(target)
+
+        assertEquals(listOf(json), command.data)
+        assertEquals("POST", command.method)
+    }
+
+    @Test
+    fun `JSON array data-binary body with ampersands is not split into form parameters`() {
+        val json = """[{"name":"a&b"},{"name":"c=d"}]"""
+        val target = """curl example.com --data-binary '$json'"""
+        val command = CurlParser.parse(target)
+
+        assertEquals(listOf(json), command.data)
+    }
+
+    @Test
+    fun `pretty-printed JSON data-raw body with ampersands is not split into form parameters`() {
+        val json = """
+            {
+              "url": "https://example.com?foo=1&bar=2"
+            }
+        """.trimIndent()
+        val target = "curl example.com --data-raw '$json'"
+        val command = CurlParser.parse(target)
+
+        assertEquals(listOf(json), command.data)
+    }
+
+    @Test
     fun testHeaders() {
         val target = "curl foo -H 'My-Header: abcd efgh' --header Space:less"
         val command = CurlParser.parse(target)
