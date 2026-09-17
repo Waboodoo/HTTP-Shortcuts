@@ -52,7 +52,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 ### And More
 - Display variable values in widgets on your home screen
 - Integrations with 3rd-party apps, for example:
-  - [Tasker](dvanced.md#integrate-with-tasker)
+  - [Tasker](advanced.md#integrate-with-tasker)
   - [MacroDroid](advanced.md#integrate-with-macrodroid)
   - [Termux](scripting.md#run-termux-command)
   - [Wireguard](scripting.md#set-wireguard-tunnel-state)
