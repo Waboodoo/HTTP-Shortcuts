@@ -57,7 +57,12 @@ class CurlParser private constructor(arguments: List<String>) {
                     }
                     "-d", "--data", "--data-binary", "--data-urlencode", "--data-raw" -> {
                         builder.methodIfNotYetSet("POST")
-                        var dataItems = iterator.next().split("&")
+                        val rawData = iterator.next()
+                        var dataItems = if (isStructuredBody(rawData)) {
+                            listOf(rawData)
+                        } else {
+                            rawData.split("&")
+                        }
                         if (argument == "--data-urlencode") {
                             dataItems = dataItems.map { data ->
                                 if (data.contains("=")) {
@@ -169,6 +174,11 @@ class CurlParser private constructor(arguments: List<String>) {
 
         fun isSupportedOption(option: String) =
             option in SUPPORTED_OPTIONS
+
+        private fun isStructuredBody(data: String): Boolean {
+            val trimmed = data.trimStart()
+            return trimmed.startsWith("{") || trimmed.startsWith("[")
+        }
 
         private val SUPPORTED_OPTIONS = setOf(
             "-X",
