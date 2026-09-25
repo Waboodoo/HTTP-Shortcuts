@@ -130,7 +130,8 @@ class CurlParserTest {
 
     @Test
     fun `JSON data-raw body with ampersands is not split into form parameters`() {
-        val json = """{"id":"TMFlgZwkOD","listId":"uGTXxbdoJ0","checkInLink":"https://www.onetapcheckin.com/p/checkin-preview/VzqugIReQP?listId=uGTXxbdoJ0&profileId=VzqugIReQP&uniqueId=AM2CwnZ7LyuKHYeIR0By3","sendVisitorAlert":true}"""
+        val json = """{"id":"TMFlgZwkOD","listId":"uGTXxbdoJ0","checkInLink":"https://www.onetapcheckin.com/p/checkin-preview/VzqugIReQP""" +
+            """?listId=uGTXxbdoJ0&profileId=VzqugIReQP&uniqueId=AM2CwnZ7LyuKHYeIR0By3","sendVisitorAlert":true}"""
         val target = """curl 'https://api.example.com/checkin' -X POST -H 'Content-Type: application/json' --data-raw '$json'"""
         val command = CurlParser.parse(target)
 

@@ -176,8 +176,9 @@ class CurlParser private constructor(arguments: List<String>) {
             option in SUPPORTED_OPTIONS
 
         private fun isStructuredBody(data: String): Boolean {
-            val trimmed = data.trimStart()
-            return trimmed.startsWith("{") || trimmed.startsWith("[")
+            val trimmed = data.trim()
+            return (trimmed.startsWith("{") && trimmed.endsWith("}")) ||
+                (trimmed.startsWith("[") && trimmed.endsWith("]"))
         }
 
         private val SUPPORTED_OPTIONS = setOf(
