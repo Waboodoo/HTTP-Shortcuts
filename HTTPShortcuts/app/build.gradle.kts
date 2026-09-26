@@ -11,7 +11,6 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
     alias(libs.plugins.ksp)
     id("com.bugsnag.android.gradle")
     id("de.mobilej.unmock")
@@ -208,13 +207,13 @@ android {
     }
 
     sourceSets.getByName("debug") {
-        java.setSrcDirs(listOf("src/withoutCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
+        kotlin.directories.addAll(listOf("src/withoutCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
     }
     sourceSets.getByName("release") {
-        java.setSrcDirs(listOf("src/withoutCrashLogging/kotlin", "src/withoutGoogleServices/kotlin"))
+        kotlin.directories.addAll(listOf("src/withoutCrashLogging/kotlin", "src/withoutGoogleServices/kotlin"))
     }
     sourceSets.getByName("releaseFull") {
-        java.setSrcDirs(listOf("src/withCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
+        kotlin.directories.addAll(listOf("src/withCrashLogging/kotlin", "src/withGoogleServices/kotlin"))
     }
 
     if (autoBuildDocs) {
