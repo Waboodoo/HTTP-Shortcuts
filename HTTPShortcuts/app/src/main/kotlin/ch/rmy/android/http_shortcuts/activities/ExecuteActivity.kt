@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
 import ch.rmy.android.framework.extensions.getParcelableList
 import ch.rmy.android.framework.extensions.getSerializable
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.R
@@ -137,12 +138,14 @@ class ExecuteActivity : BaseComposeActivity() {
     }
 
     private fun excludeFromRecents() {
-        getSystemService<ActivityManager>()
-            ?.let { activityManager ->
-                activityManager.appTasks
-                    .firstOrNull()
-                    ?.setExcludeFromRecents(true)
-            }
+        tryOrIgnore {
+            getSystemService<ActivityManager>()
+                ?.let { activityManager ->
+                    activityManager.appTasks
+                        .firstOrNull()
+                        ?.setExcludeFromRecents(true)
+                }
+        }
     }
 
     private fun initViewModelBindings() {
