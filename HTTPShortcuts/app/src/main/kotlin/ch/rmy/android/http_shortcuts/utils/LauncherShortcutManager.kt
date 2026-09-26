@@ -135,6 +135,7 @@ constructor(
         logInfo("Pinning shortcut")
         val shortcutInfo = createShortcutInfo(shortcut, trigger = ShortcutTriggerType.HOME_SCREEN_SHORTCUT)
         try {
+            shortcutManager.updateShortcuts(listOf(shortcutInfo))
             shortcutManager.requestPinShortcut(shortcutInfo, null)
         } catch (_: IllegalArgumentException) {
             // If the shortcut already exists but is disabled, we'll land here, so we'll just try to enable the shortcut
