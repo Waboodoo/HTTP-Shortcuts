@@ -26,6 +26,7 @@ constructor(
         shortcutId: ShortcutId,
         appName: String,
         icon: ShortcutIcon,
+        supportTextSharing: Boolean,
     ): File =
         withContext(Dispatchers.IO) {
             val packageName = createPackageName(shortcutId)
@@ -48,6 +49,7 @@ constructor(
                     appName = appName.ifEmpty { "-" },
                     targetUri = targetUri,
                     iconBytes = iconBytes,
+                    supportTextSharing = supportTextSharing,
                 )
             }
             shellApkSigner.sign(unsignedApk, signedApk)
@@ -69,6 +71,7 @@ constructor(
         appName: String,
         targetUri: String,
         iconBytes: ByteArray,
+        supportTextSharing: Boolean,
     ) {
         val entries = buildList {
             var iconWritten = false
@@ -85,11 +88,14 @@ constructor(
                             // its string pool instead of trying to parse it as text.
                             binaryXmlStringPoolEditor.replaceStrings(
                                 zipInput.readBytes(),
-                                mapOf(
-                                    TEMPLATE_PACKAGE_NAME to packageName,
-                                    TEMPLATE_APP_NAME to appName,
-                                    TEMPLATE_TARGET_URI to targetUri,
-                                ),
+                                buildMap {
+                                    put(TEMPLATE_PACKAGE_NAME, packageName)
+                                    put(TEMPLATE_APP_NAME, appName)
+                                    put(TEMPLATE_TARGET_URI, targetUri)
+                                    if (!supportTextSharing) {
+                                        put(TEMPLATE_SEND_INTENT, INTENT_ACTION_DUMMY_VALUE)
+                                    }
+                                },
                             )
                         }
                         entry.name.isTemplateIconEntry() -> {
@@ -104,7 +110,10 @@ constructor(
                         TemplateEntry(
                             name = entry.name,
                             bytes = newBytes,
-                            method = entry.method.takeIf { it == ZipEntry.STORED } ?: ZipEntry.DEFLATED,
+                            method = when (entry.method) {
+                                ZipEntry.STORED -> ZipEntry.STORED
+                                else -> ZipEntry.DEFLATED
+                            },
                             time = entry.time,
                         ),
                     )
@@ -178,5 +187,7 @@ constructor(
         private const val TEMPLATE_PACKAGE_NAME = "ch.rmy.android.http_shortcuts.shelltemplate"
         private const val TEMPLATE_APP_NAME = "HTTP Shortcuts Shell"
         private const val TEMPLATE_TARGET_URI = "http-shortcuts://shell-template-placeholder"
+        private const val TEMPLATE_SEND_INTENT = "android.intent.action.SEND"
+        private const val INTENT_ACTION_DUMMY_VALUE = "ch.rmy.android.http_shortcuts.dummy"
     }
 }

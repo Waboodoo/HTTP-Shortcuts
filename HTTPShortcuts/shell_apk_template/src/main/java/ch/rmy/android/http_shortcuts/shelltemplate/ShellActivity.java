@@ -26,6 +26,14 @@ public class ShellActivity extends Activity {
 
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(targetUri));
+            String title = getIntent().getStringExtra(Intent.EXTRA_TITLE);
+            String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+            if (title != null) {
+                intent.putExtra(Intent.EXTRA_TITLE, title);
+            }
+            if (text != null) {
+                intent.putExtra(Intent.EXTRA_TEXT, text);
+            }
             startActivity(intent);
         } catch (ActivityNotFoundException | SecurityException e) {
             showShortcutNotFoundMessage();

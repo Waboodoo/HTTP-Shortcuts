@@ -7,10 +7,14 @@ import ch.rmy.android.http_shortcuts.components.bindViewModel
 @Composable
 fun DeepLinkScreen(
     url: Uri?,
+    title: String?,
+    text: String?,
 ) {
     val (viewModel, state) = bindViewModel<DeepLinkViewModel.InitData, DeepLinkViewState, DeepLinkViewModel>(
         DeepLinkViewModel.InitData(
             url = url,
+            title = title,
+            text = text,
         ),
     )
 

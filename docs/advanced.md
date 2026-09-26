@@ -96,6 +96,8 @@ For certain automation setups, it is not possible to directly target a shortcut.
 
 Please note that these apps are essentially just a link to the original shortcut and as such still require the HTTP Shortcuts app itself to remain installed and the shortcut for which they were generated to exist. If you change the shortcut's name or icon, the installed app will not update automatically, but you can reinstall it to get the update. Uninstalling the generated app is safe and will not impact the original shortcut itself.
 
+> If the shortcut makes use of a global variable that is configured to allow receiving shared text, then the lightweight app will also function as a share target. Sharing files, however, is not supported.
+
 <a id="integrate-with-tasker"></a>
 ## Integrating with Tasker
 

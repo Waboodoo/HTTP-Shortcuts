@@ -9,8 +9,10 @@ import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
+import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -21,6 +23,8 @@ constructor(
     application: Application,
     private val shortcutRepository: ShortcutRepository,
     private val executionStarter: ExecutionStarter,
+    private val globalVariableRepository: GlobalVariableRepository,
+    private val shareUtil: ShareUtil,
 ) : BaseViewModel<DeepLinkViewModel.InitData, DeepLinkViewState>(application) {
     override suspend fun initialize(data: InitData): DeepLinkViewState {
         val deepLinkUrl = initData.url
@@ -48,13 +52,41 @@ constructor(
         val shortcutIdOrName = deepLinkUrl.getShortcutNameOrId()
         try {
             val shortcut = shortcutRepository.getShortcutByNameOrId(shortcutIdOrName)
-            executeShortcut(shortcut.id, deepLinkUrl.getVariableValues())
+            executeShortcut(
+                shortcutId = shortcut.id,
+                variableValues = determineVariableValues(deepLinkUrl, initData.title, initData.text),
+            )
             terminateInitialization()
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             return DeepLinkViewState(
                 dialogState = DeepLinkDialogState.ShortcutNotFound(shortcutIdOrName),
             )
         }
+    }
+
+    private suspend fun determineVariableValues(deepLinkUrl: Uri, title: String?, text: String?): Map<VariableKeyOrId, String> = buildMap {
+        if (title != null || text != null) {
+            val variables = globalVariableRepository.getGlobalVariables()
+            val globalVariables = shareUtil.getTextShareGlobalVariables(variables)
+
+            globalVariables.forEach { variable ->
+                when {
+                    variable.isShareText && variable.isShareTitle && title != null && text != null -> "$title - $text"
+                    variable.isShareTitle && title != null -> title
+                    text != null -> text
+                    else -> null
+                }
+                    ?.let {
+                        put(VariableKeyOrId(variable.key), it)
+                    }
+            }
+        }
+
+        deepLinkUrl.queryParameterNames
+            .filterNot { it.isEmpty() }
+            .forEach { key ->
+                put(VariableKeyOrId(key), (deepLinkUrl.getQueryParameter(key) ?: ""))
+            }
     }
 
     private fun executeShortcut(shortcutId: ShortcutId, variableValues: Map<VariableKeyOrId, String>) {
@@ -81,18 +113,13 @@ constructor(
             ?: lastPathSegment
             ?: ""
 
-    private fun Uri.getVariableValues(): Map<VariableKeyOrId, String> =
-        queryParameterNames
-            .filterNot { it.isEmpty() }
-            .associate { key ->
-                VariableKeyOrId(key) to (getQueryParameter(key) ?: "")
-            }
-
     fun onDialogDismissed() = runAction {
         finish(skipAnimation = true)
     }
 
     data class InitData(
         val url: Uri?,
+        val title: String?,
+        val text: String?,
     )
 }

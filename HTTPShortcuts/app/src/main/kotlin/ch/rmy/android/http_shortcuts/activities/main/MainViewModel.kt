@@ -17,6 +17,7 @@ import ch.rmy.android.http_shortcuts.activities.main.models.CategoryItem
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowChangeLogDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowNetworkRestrictionDialogUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.ShouldShowRecoveryDialogUseCase
+import ch.rmy.android.http_shortcuts.activities.main.usecases.SupportsTextSharingUseCase
 import ch.rmy.android.http_shortcuts.activities.main.usecases.UnlockAppUseCase
 import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
@@ -86,6 +87,7 @@ constructor(
     private val shouldShowRecoveryDialog: ShouldShowRecoveryDialogUseCase,
     private val shouldShowChangeLogDialog: ShouldShowChangeLogDialogUseCase,
     private val shouldShowNetworkRestrictionDialog: ShouldShowNetworkRestrictionDialogUseCase,
+    private val supportsTextSharing: SupportsTextSharingUseCase,
     private val executionScheduler: ExecutionScheduler,
     private val launcherShortcutManager: LauncherShortcutManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
@@ -687,6 +689,7 @@ constructor(
                 shortcutId = shortcut.id,
                 appName = shortcut.name,
                 icon = shortcut.icon,
+                supportTextSharing = supportsTextSharing(shortcut.id),
             )
             withContext(Dispatchers.IO) {
                 apkFile.inputStream().use { inputStream ->
