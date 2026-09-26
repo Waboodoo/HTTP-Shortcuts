@@ -23,7 +23,6 @@ import androidx.compose.ui.semantics.Role
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.sync.components.DirectoryButton
 import ch.rmy.android.http_shortcuts.activities.sync.components.PasswordProtection
-import ch.rmy.android.http_shortcuts.activities.sync.components.SyncScheduleSelector
 import ch.rmy.android.http_shortcuts.activities.sync.models.SyncCategory
 import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SelectionField
@@ -78,7 +77,6 @@ fun SyncExportContent(
 
         SyncScheduleSelector(
             modifier = Modifier.fillMaxWidth(),
-            label = stringResource(R.string.label_export_schedule),
             syncSchedule = viewState.schedule,
             onSyncScheduleChanged = onScheduleChanged,
         )
@@ -220,4 +218,23 @@ private fun CategoryItem(
             text = category.name,
         )
     }
+}
+
+@Composable
+private fun SyncScheduleSelector(
+    modifier: Modifier,
+    syncSchedule: SyncSchedule,
+    onSyncScheduleChanged: (SyncSchedule) -> Unit,
+) {
+    SelectionField(
+        modifier = modifier,
+        title = stringResource(R.string.label_export_schedule),
+        selectedKey = syncSchedule,
+        items = listOf(
+            SyncSchedule.ON_CHANGE to stringResource(R.string.sync_schedule_on_change),
+            SyncSchedule.DAILY to stringResource(R.string.sync_schedule_every_day),
+            SyncSchedule.WEEKLY to stringResource(R.string.sync_schedule_every_week),
+        ),
+        onItemSelected = onSyncScheduleChanged,
+    )
 }

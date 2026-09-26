@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ImportExport.RESULT_CATEGORIES_CHANGED_FROM_IMPORT
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,6 +45,7 @@ constructor(
     private val importer: Importer,
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
     private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<ImportExportViewModel.InitData, ImportExportViewState>(application) {
 
     private var currentJob: Job? = null
@@ -153,6 +155,7 @@ constructor(
                 )
 
                 shortcutUpdateWorkerStarter.invoke()
+                syncScheduler.syncSoonOnChangesIfNeeded()
 
                 categoriesChanged = true
             } catch (e: CancellationException) {

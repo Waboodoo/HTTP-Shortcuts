@@ -6,6 +6,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
 import javax.inject.Inject
@@ -16,6 +17,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val shortcutWidgetManager: ShortcutWidgetManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
+    private val syncScheduler: SyncScheduler,
 ) : Action<ChangeIconAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) =
         changeIcon(this.shortcutNameOrId ?: executionContext.shortcutId)
@@ -29,11 +31,13 @@ constructor(
                 getString(R.string.error_shortcut_not_found_for_changing_icon, shortcutNameOrId)
             }
         }
-
+        if (newIcon == shortcut.icon) {
+            return
+        }
         shortcutRepository.setIcon(shortcut.id, newIcon)
-
         launcherShortcutUpdater.updatePinnedShortcut(shortcut.id)
         shortcutWidgetManager.updateWidgets(shortcut.id)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     data class Params(

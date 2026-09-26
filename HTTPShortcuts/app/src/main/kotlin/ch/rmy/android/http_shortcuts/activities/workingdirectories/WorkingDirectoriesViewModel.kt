@@ -14,6 +14,7 @@ import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDir
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.WorkingDirectoryUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,6 +33,7 @@ constructor(
     application: Application,
     private val workingDirectoryRepository: WorkingDirectoryRepository,
     private val workingDirectoryUtil: WorkingDirectoryUtil,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<WorkingDirectoriesViewModel.InitData, WorkingDirectoriesViewState>(application) {
 
     private lateinit var workingDirectories: List<WorkingDirectory>
@@ -129,6 +131,7 @@ constructor(
                     showSnackbar(R.string.message_working_directory_mounted)
                 }
             }
+            syncScheduler.syncSoonOnChangesIfNeeded()
 
             updateViewState {
                 copy(workingDirectories = this@WorkingDirectoriesViewModel.workingDirectories.map { it.toListItem() })
@@ -157,6 +160,7 @@ constructor(
         withProgressTracking {
             workingDirectoryRepository.renameWorkingDirectory(workingDirectoryId, newName)
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     private fun WorkingDirectoriesViewState.getWorkingDirectoryIdFromContextMenu(): WorkingDirectoryId? =
@@ -189,6 +193,7 @@ constructor(
             }
             workingDirectoryRepository.deleteWorkingDirectory(workingDirectoryId)
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
         findWorkingDirectory(workingDirectoryId)
             ?.let { workingDirectory ->
                 showSnackbar(StringResLocalizable(R.string.working_directory_deleted, workingDirectory.name))

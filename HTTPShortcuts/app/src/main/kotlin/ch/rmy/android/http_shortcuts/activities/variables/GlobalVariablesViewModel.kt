@@ -23,6 +23,7 @@ import ch.rmy.android.http_shortcuts.extensions.getGlobalVariables
 import ch.rmy.android.http_shortcuts.extensions.getRequestParametersForShortcuts
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -44,6 +45,7 @@ constructor(
     private val requestParameterRepository: RequestParameterRepository,
     private val getUsedGlobalVariableIdsUseCase: GetUsedGlobalVariableIdsUseCase,
     private val generateVariableKey: GenerateVariableKeyUseCase,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<InitData, VariablesViewState>(application) {
 
     private var activeGlobalVariableId: GlobalVariableId? = null
@@ -105,6 +107,7 @@ constructor(
         withProgressTracking {
             globalVariableRepository.moveVariable(globalVariableId1, globalVariableId2)
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onCreateButtonClicked() = runAction {
@@ -156,6 +159,7 @@ constructor(
             globalVariableRepository.duplicateVariable(variableId, newKey)
             showSnackbar(StringResLocalizable(R.string.message_variable_duplicated, variable.key))
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDeletionOptionSelected() = runAction {
@@ -206,6 +210,7 @@ constructor(
             showSnackbar(StringResLocalizable(R.string.variable_deleted, variable.key))
             recomputeUsedVariableIds()
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onBackPressed() = runAction {
@@ -226,6 +231,7 @@ constructor(
             globalVariableRepository.sortVariablesAlphabetically()
             showSnackbar(R.string.message_variables_sorted)
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDialogDismissed() = runAction {

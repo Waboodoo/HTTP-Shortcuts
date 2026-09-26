@@ -2040,6 +2040,8 @@
     <string name="label_import_schedule">Schedule</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
     <string name="sync_schedule_every_day">Once per day</string>
+    <!-- Option in dropdown for the schedule for the automatic export feature, to run after changes were made (to shortcuts, variables, ...) -->
+    <string name="sync_schedule_on_change">Whenever there are changes</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
     <string name="sync_schedule_every_week">Once per week</string>
     <!-- Label above input field in automatic export, to protect the file with a password -->

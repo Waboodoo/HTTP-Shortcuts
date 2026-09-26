@@ -18,7 +18,10 @@ constructor(
             ?: SyncConfig(
                 id = syncType.value,
                 type = syncType,
-                schedule = SyncSchedule.WEEKLY,
+                schedule = when (syncType) {
+                    SyncType.IMPORT -> SyncSchedule.WEEKLY
+                    SyncType.EXPORT -> SyncSchedule.ON_CHANGE
+                },
             )
     }
 

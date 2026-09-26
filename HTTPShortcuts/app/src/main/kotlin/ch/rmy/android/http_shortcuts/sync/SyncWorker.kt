@@ -13,6 +13,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.await
+import ch.rmy.android.framework.extensions.applyIf
 import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
@@ -341,7 +342,7 @@ constructor(
             }
         }
 
-        suspend fun scheduleNow() {
+        suspend fun scheduleOnce(delay: Duration, requiresNetwork: Boolean? = null) {
             with(WorkManager.getInstance(context)) {
                 pruneWork().await()
                 cancelAllWorkByTag(SINGLE_TAG)
@@ -349,6 +350,15 @@ constructor(
                     OneTimeWorkRequestBuilder<SyncWorker>()
                         .addTag(TAG)
                         .addTag(SINGLE_TAG)
+                        .setInitialDelay(delay.toJavaDuration())
+                        .applyIf(requiresNetwork != null) {
+                            Constraints.Builder()
+                                .setRequiresBatteryNotLow(true)
+                                .runIf(requiresNetwork == true) {
+                                    setRequiredNetworkType(NetworkType.CONNECTED)
+                                }
+                                .build()
+                        }
                         .build(),
                 )
             }

@@ -56,6 +56,7 @@ import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.AlarmScheduler
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.colorIntToHexString
 import ch.rmy.android.http_shortcuts.utils.ColorUtil.hexStringToColorInt
@@ -102,6 +103,7 @@ constructor(
     private val shareUtil: ShareUtil,
     private val executionStarter: ExecutionStarter,
     private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<ShortcutListViewModel.InitData, ShortcutListViewState>(application) {
 
     private lateinit var category: Category
@@ -314,6 +316,7 @@ constructor(
             ?.copy(iconBackground = iconBackground)
             ?: skipAction()
         emitEvent(ShortcutListEvent.PlaceShortcutOnHomeScreen(shortcut.toShortcutPlaceholder()))
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onInstallAsAppOptionSelected() = runAction {
@@ -374,6 +377,7 @@ constructor(
         val shortcutId = activeShortcutId ?: skipAction()
         shortcutRepository.setHidden(shortcutId, false)
         showSnackbar(R.string.message_shortcut_visible)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onHideSelected() = runAction {
@@ -386,6 +390,7 @@ constructor(
         val shortcutId = activeShortcutId ?: skipAction()
         shortcutRepository.setHidden(shortcutId, true)
         showSnackbar(R.string.message_shortcut_hidden)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     private suspend fun ViewModelScope<*>.duplicateShortcut(shortcutId: ShortcutId) {
@@ -398,6 +403,7 @@ constructor(
             showSnackbar(StringResLocalizable(R.string.shortcut_duplicated, name))
         }
         shortcutUpdateWorkerStarter.invoke()
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDeleteOptionSelected() = runAction {
@@ -594,6 +600,7 @@ constructor(
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toShortcutPlaceholder()))
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDialogDismissed() = runAction {

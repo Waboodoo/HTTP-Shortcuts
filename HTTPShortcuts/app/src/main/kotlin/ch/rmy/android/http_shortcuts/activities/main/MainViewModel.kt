@@ -44,6 +44,7 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scheduling.ExecutionScheduler
 import ch.rmy.android.http_shortcuts.shell_apk.ShellApkBuilder
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.IntentUtil
@@ -103,6 +104,7 @@ constructor(
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
     private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
     private val shellApkBuilder: ShellApkBuilder,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<MainViewModel.InitData, MainViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -801,6 +803,7 @@ constructor(
             withContext(Dispatchers.Default) {
                 launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, icon)
                 launcherShortcutManager.pinCategory(category.id, category.name, icon)
+                syncScheduler.syncSoonOnChangesIfNeeded()
             }
         }
     }

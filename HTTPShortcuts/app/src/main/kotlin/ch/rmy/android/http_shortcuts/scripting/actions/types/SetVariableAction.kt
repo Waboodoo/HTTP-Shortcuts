@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
 import javax.inject.Inject
 
@@ -16,6 +17,7 @@ class SetVariableAction
 constructor(
     private val globalVariableRepository: GlobalVariableRepository,
     private val variableWidgetManager: VariableWidgetManager,
+    private val syncScheduler: SyncScheduler,
 ) : Action<SetVariableAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         logInfo("Setting variable value (${value.length} characters)")
@@ -25,6 +27,9 @@ constructor(
             globalVariableRepository.setVariableValue(variable.id, value.truncate(MAX_VARIABLE_LENGTH))
             if (variable.type == VariableType.CONSTANT) {
                 variableWidgetManager.updateWidgets(variable.id)
+                if (!variable.isExcludeValueFromExport) {
+                    syncScheduler.syncSoonOnChangesIfNeeded()
+                }
             }
         } else if (variableKeyOrId.globalVariableId != null) {
             throw ActionException {

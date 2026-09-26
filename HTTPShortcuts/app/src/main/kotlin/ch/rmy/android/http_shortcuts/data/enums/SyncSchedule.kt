@@ -6,6 +6,7 @@ import androidx.compose.runtime.Stable
 enum class SyncSchedule(val value: String) {
     DAILY("daily"),
     WEEKLY("weekly"),
+    ON_CHANGE("on_change"),
     ;
 
     companion object {

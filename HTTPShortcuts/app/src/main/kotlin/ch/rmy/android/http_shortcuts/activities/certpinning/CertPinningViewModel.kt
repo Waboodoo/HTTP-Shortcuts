@@ -8,6 +8,7 @@ import ch.rmy.android.http_shortcuts.activities.certpinning.models.Pin
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinId
 import ch.rmy.android.http_shortcuts.data.domains.certificate_pins.CertificatePinRepository
 import ch.rmy.android.http_shortcuts.data.models.CertificatePin
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -20,6 +21,7 @@ class CertPinningViewModel
 constructor(
     application: Application,
     private val certificatePinRepository: CertificatePinRepository,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<Unit, CertPinningViewState>(application) {
 
     private lateinit var pins: List<CertificatePin>
@@ -84,6 +86,7 @@ constructor(
                 certificatePinRepository.updateCertificatePin(pinId, pattern, hash)
             }
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDeleteOptionSelected() = runAction {
@@ -97,6 +100,7 @@ constructor(
             certificatePinRepository.deleteCertificatePinning(id)
             showSnackbar(R.string.message_certificate_pinning_deleted)
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDialogDismissed() = runAction {

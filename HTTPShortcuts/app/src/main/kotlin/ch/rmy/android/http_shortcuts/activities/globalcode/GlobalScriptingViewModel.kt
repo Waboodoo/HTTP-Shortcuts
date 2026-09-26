@@ -5,6 +5,7 @@ import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.CodeTransformer
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -18,6 +19,7 @@ constructor(
     application: Application,
     private val appConfigRepository: AppConfigRepository,
     private val codeTransformer: CodeTransformer,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<Unit, GlobalScriptingViewState>(application) {
     private var previousGlobalCode = ""
 
@@ -58,6 +60,7 @@ constructor(
                     }
             },
         )
+        syncScheduler.syncSoonOnChangesIfNeeded()
         closeScreen()
     }
 

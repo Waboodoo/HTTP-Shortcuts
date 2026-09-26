@@ -27,6 +27,7 @@ import ch.rmy.android.http_shortcuts.data.enums.VariableType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Companion.RESULT_CHANGES_DISCARDED
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.GlobalVariableEditor.VariableCreatedResult
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.variables.Variables
 import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
@@ -44,6 +45,7 @@ constructor(
     private val globalVariableRepository: GlobalVariableRepository,
     private val temporaryGlobalVariableRepository: TemporaryGlobalVariableRepository,
     private val variableWidgetManager: VariableWidgetManager,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<GlobalVariableEditorViewModel.InitData, GlobalVariableEditorViewState>(application) {
 
     private val globalVariableId: GlobalVariableId?
@@ -165,6 +167,7 @@ constructor(
             globalVariableId?.let {
                 variableWidgetManager.updateWidgets(it)
             }
+            syncScheduler.syncSoonOnChangesIfNeeded()
             closeScreen(
                 result = if (globalVariableId == null) {
                     VariableCreatedResult(

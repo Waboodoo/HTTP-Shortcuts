@@ -16,6 +16,7 @@ import ch.rmy.android.http_shortcuts.import_export.Exporter
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.Importer
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.RemoteEdit.RESULT_CHANGES_IMPORTED
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import ch.rmy.android.http_shortcuts.utils.Validation
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,6 +41,7 @@ constructor(
     private val importer: Importer,
     private val httpClientFactory: HttpClientFactory,
     private val shortcutUpdateWorkerStarter: ShortcutUpdateWorker.Starter,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<Unit, RemoteEditViewState>(application) {
 
     private var currentJob: Job? = null
@@ -146,6 +148,7 @@ constructor(
                 changesImported = true
                 showSnackbar(R.string.message_remote_edit_download_successful)
                 shortcutUpdateWorkerStarter.invoke()
+                syncScheduler.syncSoonOnChangesIfNeeded()
             } catch (e: CancellationException) {
                 throw e
             } catch (e: ImportException) {

@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories.RESULT_CATEGORIES_CHANGED
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,6 +40,7 @@ constructor(
     private val sectionRepository: SectionRepository,
     private val shortcutRepository: ShortcutRepository,
     private val launcherShortcutManager: LauncherShortcutManager,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<Unit, CategoriesViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -119,6 +121,7 @@ constructor(
             hasChanged = true
             showSnackbar(if (visible) R.string.message_category_visible else R.string.message_category_hidden)
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onCategoryDeletionConfirmed() = runAction {
@@ -133,6 +136,7 @@ constructor(
             hasChanged = true
             showSnackbar(R.string.message_category_deleted)
         }
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDeleteClicked() = runAction {
@@ -171,6 +175,7 @@ constructor(
             withContext(Dispatchers.Default) {
                 launcherShortcutManager.updatePinnedCategoryShortcut(category.id, category.name, icon)
                 launcherShortcutManager.pinCategory(category.id, category.name, icon)
+                syncScheduler.syncSoonOnChangesIfNeeded()
             }
         }
     }
@@ -191,11 +196,13 @@ constructor(
     fun onCategoryCreated() = runAction {
         hasChanged = true
         showSnackbar(R.string.message_category_created)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onCategoryEdited() = runAction {
         hasChanged = true
         showSnackbar(R.string.message_category_edited)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onDialogDismissed() = runAction {

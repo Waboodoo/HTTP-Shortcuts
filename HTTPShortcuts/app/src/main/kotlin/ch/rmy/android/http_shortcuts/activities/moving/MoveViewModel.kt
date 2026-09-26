@@ -21,6 +21,7 @@ import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.extensions.ids
 import ch.rmy.android.http_shortcuts.extensions.toShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.MoveShortcuts.RESULT_SHORTCUTS_MOVED
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +45,7 @@ constructor(
     private val sectionRepository: SectionRepository,
     private val shortcutRepository: ShortcutRepository,
     private val deviceLocalPreferences: DeviceLocalPreferences,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<Unit, Unit>(application) {
 
     private val _categorySections = MutableStateFlow<List<CategorySectionItem>>(emptyList())
@@ -197,6 +199,7 @@ constructor(
             )
         }
         hasChanged = true
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     private fun CategorySectionItem.contains(shortcutId: ShortcutId) =

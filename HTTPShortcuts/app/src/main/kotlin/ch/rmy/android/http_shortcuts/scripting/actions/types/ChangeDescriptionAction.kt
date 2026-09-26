@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
 import javax.inject.Inject
@@ -15,6 +16,7 @@ class ChangeDescriptionAction
 @Inject
 constructor(
     private val shortcutRepository: ShortcutRepository,
+    private val syncScheduler: SyncScheduler,
 ) : Action<ChangeDescriptionAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         changeDescription(
@@ -33,12 +35,16 @@ constructor(
 
         val shortcut = try {
             shortcutRepository.getShortcutByNameOrId(shortcutNameOrId)
-        } catch (e: NoSuchElementException) {
+        } catch (_: NoSuchElementException) {
             throw ActionException {
                 getString(R.string.error_shortcut_not_found_for_changing_description, shortcutNameOrId)
             }
         }
+        if (newDescription == shortcut.description) {
+            return
+        }
         shortcutRepository.setDescription(shortcut.id, newDescription)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     data class Params(

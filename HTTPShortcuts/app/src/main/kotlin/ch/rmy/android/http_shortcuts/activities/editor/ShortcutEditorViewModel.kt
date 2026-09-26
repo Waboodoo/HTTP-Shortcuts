@@ -43,6 +43,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationArgStore
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.scripting.shortcuts.TriggerShortcutManager
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.MqttUtil
 import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
 import ch.rmy.android.http_shortcuts.utils.Validation.isAcceptableHttpUrl
@@ -77,6 +78,7 @@ constructor(
     private val executionStarter: ExecutionStarter,
     private val navigationArgStore: NavigationArgStore,
     private val deviceLocalPreferences: DeviceLocalPreferences,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<ShortcutEditorViewModel.InitData, ShortcutEditorViewState>(application) {
 
     private val isSaving = MutableStateFlow(false)
@@ -484,6 +486,7 @@ constructor(
         isFinishing = true
         waitForOperationsToFinish()
         shortcutUpdateWorkerStarter.invoke(shortcutId)
+        syncScheduler.syncSoonOnChangesIfNeeded()
         closeScreen(
             result = if (this@ShortcutEditorViewModel.shortcutId == null) {
                 NavigationDestination.ShortcutEditor.ShortcutCreatedResult(shortcutId)

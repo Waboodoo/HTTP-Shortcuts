@@ -7,6 +7,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutNameOrId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutUpdater
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -19,6 +20,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val shortcutWidgetManager: ShortcutWidgetManager,
     private val launcherShortcutUpdater: LauncherShortcutUpdater,
+    private val syncScheduler: SyncScheduler,
 ) : Action<RenameShortcutAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
         renameShortcut(
@@ -42,10 +44,13 @@ constructor(
                 getString(R.string.error_shortcut_not_found_for_renaming, shortcutNameOrId)
             }
         }
+        if (newName == shortcut.name) {
+            return
+        }
         shortcutRepository.setName(shortcut.id, newName)
-
         launcherShortcutUpdater.updatePinnedShortcut(shortcut.id)
         shortcutWidgetManager.updateWidgets(shortcut.id)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     data class Params(

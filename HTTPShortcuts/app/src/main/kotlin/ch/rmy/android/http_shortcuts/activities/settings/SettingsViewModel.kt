@@ -20,6 +20,7 @@ import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
+import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -58,6 +59,7 @@ constructor(
     private val observeSyncReplace: ObserveSyncReplaceUseCase,
     private val getTranslationProgress: GetTranslationProgressUseCase,
     private val setAppIcon: SetAppIconUseCase,
+    private val syncScheduler: SyncScheduler,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): SettingsViewState {
@@ -197,6 +199,7 @@ constructor(
         updateDialogState(null)
         appConfigRepository.setToolbarTitle(newTitle)
         showSnackbar(R.string.message_title_changed)
+        syncScheduler.syncSoonOnChangesIfNeeded()
     }
 
     fun onUserAgentChangeConfirmed(newUserAgent: String) = runAction {
