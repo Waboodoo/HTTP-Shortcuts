@@ -36,6 +36,7 @@ import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
@@ -357,7 +358,12 @@ class Execution(
     }
 
     private suspend fun handleFiles(loadMetaData: Boolean): FileUploadManager.Result? = coroutineScope {
-        if (!shortcut.usesRequestParameters() && !shortcut.usesGenericFileBody()) {
+        val isScriptingShortcutWithFiles = shortcut.executionType == ShortcutExecutionType.SCRIPTING && !shortcut.excludeFromFileSharing
+        if (
+            !shortcut.usesRequestParameters() &&
+            !shortcut.usesGenericFileBody() &&
+            !isScriptingShortcutWithFiles
+        ) {
             return@coroutineScope null
         }
 
@@ -391,6 +397,14 @@ class Execution(
                     )
                 }
             }
+            .runIf(isScriptingShortcutWithFiles) {
+                addFileRequest(
+                    multiple = true,
+                    fromCamera = false,
+                    fromFile = null,
+                    withImageEditor = false,
+                )
+            }
             .withMetaData(loadMetaData)
             .withTransformation(::processFileIfNeeded)
             .build()
@@ -411,6 +425,9 @@ class Execution(
                 fileRequest.fromCamera -> {
                     logInfo("Fulfilling file request from the camera")
                     externalRequests.openCamera()
+                }
+                isScriptingShortcutWithFiles -> {
+                    emptyList()
                 }
                 else -> {
                     logInfo("Fulfilling file request from the file picker")

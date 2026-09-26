@@ -269,7 +269,7 @@ data class Shortcut(
                 proxyPort = null,
                 proxyUsername = null,
                 proxyPassword = null,
-                excludeFromFileSharing = false,
+                excludeFromFileSharing = executionType == ShortcutExecutionType.SCRIPTING,
                 runInForegroundService = false,
                 wolMacAddress = "",
                 wolPort = if (executionType == ShortcutExecutionType.WAKE_ON_LAN) 9 else 0,

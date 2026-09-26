@@ -245,6 +245,15 @@ constructor() {
                     }
                 }
             }
+            92L -> { // 4.8.0
+                for (category in base.getObjectArray("categories")) {
+                    for (shortcut in category.getObjectArray("shortcuts")) {
+                        if (shortcut.getString("executionType") == "scripting") {
+                            shortcut.addProperty("excludeFromFileSharing", true)
+                        }
+                    }
+                }
+            }
         }
     }
 }

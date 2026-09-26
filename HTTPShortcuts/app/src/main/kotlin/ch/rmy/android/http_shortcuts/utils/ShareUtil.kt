@@ -9,6 +9,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableId
 import ch.rmy.android.http_shortcuts.data.enums.FileUploadType.CAMERA
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType.FILE
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
@@ -60,6 +61,9 @@ constructor() {
     fun isFileShareTarget(shortcut: Shortcut, parameters: List<RequestParameter>, forImage: Boolean? = null): Boolean {
         if (shortcut.excludeFromFileSharing) {
             return false
+        }
+        if (shortcut.executionType == ShortcutExecutionType.SCRIPTING) {
+            return true
         }
         return (parameters.any { it.parameterType == FILE && (it.fileUploadType != CAMERA || forImage != false) }) ||
             shortcut.usesGenericFileBody() ||

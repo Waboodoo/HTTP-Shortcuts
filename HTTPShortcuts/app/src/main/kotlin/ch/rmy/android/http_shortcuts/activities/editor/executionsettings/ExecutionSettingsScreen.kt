@@ -42,6 +42,7 @@ fun ExecutionSettingsScreen() {
         title = stringResource(R.string.label_execution_settings),
     ) { viewState ->
         ExecutionSettingsContent(
+            executionType = viewState.executionType,
             runInBackground = viewState.runInBackground,
             delay = viewState.delay,
             waitForConnection = viewState.waitForConnection,

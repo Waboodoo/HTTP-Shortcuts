@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableDao
 import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetDao
 import ch.rmy.android.http_shortcuts.data.domains.widgets.VariableWidgetDao
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryDao
+import ch.rmy.android.http_shortcuts.data.migrations.Migration14
 import ch.rmy.android.http_shortcuts.data.migrations.Migration4
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import ch.rmy.android.http_shortcuts.data.models.AppLock
@@ -56,7 +57,7 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
         VariableWidget::class,
         WorkingDirectory::class,
     ],
-    version = 13,
+    version = 14,
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3),
@@ -70,6 +71,7 @@ import ch.rmy.android.http_shortcuts.data.models.WorkingDirectory
         AutoMigration(from = 10, to = 11),
         AutoMigration(from = 11, to = 12),
         AutoMigration(from = 12, to = 13),
+        AutoMigration(from = 13, to = 14, spec = Migration14::class),
     ],
     exportSchema = true,
 )

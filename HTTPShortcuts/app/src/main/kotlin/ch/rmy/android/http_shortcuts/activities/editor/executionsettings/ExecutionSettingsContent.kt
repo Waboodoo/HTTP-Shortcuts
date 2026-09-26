@@ -22,12 +22,14 @@ import ch.rmy.android.http_shortcuts.components.SettingsButton
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VerticalSpacer
 import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.extensions.localize
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun ExecutionSettingsContent(
+    executionType: ShortcutExecutionType,
     runInBackground: Boolean,
     delay: Duration,
     waitForConnection: Boolean,
@@ -107,9 +109,13 @@ fun ExecutionSettingsContent(
         if (canUseFiles) {
             Checkbox(
                 label = stringResource(R.string.label_shortcut_as_file_share_target),
-                subtitle = stringResource(R.string.subtitle_shortcut_as_file_share_target),
+                subtitle = if (executionType == ShortcutExecutionType.SCRIPTING) {
+                    stringResource(R.string.subtitle_scripting_shortcut_as_file_share_target)
+                } else {
+                    stringResource(R.string.subtitle_shortcut_as_file_share_target)
+                },
                 checked = !excludeFromFileSharing,
-                enabled = usesFiles,
+                enabled = usesFiles || executionType == ShortcutExecutionType.SCRIPTING,
                 onCheckedChange = {
                     onExcludeFromFileSharingChanged(!it)
                 },
@@ -213,6 +219,7 @@ private val REPETITION_TYPES = listOf(null to StringResLocalizable(R.string.labe
 @Composable
 private fun ExecutionSettingsContent_Preview() {
     ExecutionSettingsContent(
+        executionType = ShortcutExecutionType.HTTP,
         runInBackground = false,
         delay = 0.seconds,
         waitForConnection = false,

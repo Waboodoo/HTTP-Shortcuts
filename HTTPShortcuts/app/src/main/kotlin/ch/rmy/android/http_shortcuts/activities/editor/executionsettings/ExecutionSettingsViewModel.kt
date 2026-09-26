@@ -9,7 +9,6 @@ import ch.rmy.android.http_shortcuts.data.enums.ConfirmationType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut.Companion.TEMPORARY_ID
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
-import ch.rmy.android.http_shortcuts.extensions.canUseFiles
 import ch.rmy.android.http_shortcuts.extensions.canWaitForConnection
 import ch.rmy.android.http_shortcuts.utils.AppOverlayUtil
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
@@ -48,6 +47,7 @@ constructor(
             false
         }
         return ExecutionSettingsViewState(
+            executionType = shortcut.executionType,
             runInBackground = shortcut.runInForegroundService,
             directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
             waitForConnection = shortcut.isWaitForNetwork,
@@ -61,7 +61,6 @@ constructor(
             repetitionInterval = shortcut.repetitionInterval,
             canUseBiometrics = biometricUtil.canUseBiometrics(),
             excludeFromFileSharing = shortcut.excludeFromFileSharing,
-            canUseFiles = shortcut.executionType.canUseFiles,
             usesFiles = shortcut.usesGenericFileBody() || hasFileParameter,
         )
     }

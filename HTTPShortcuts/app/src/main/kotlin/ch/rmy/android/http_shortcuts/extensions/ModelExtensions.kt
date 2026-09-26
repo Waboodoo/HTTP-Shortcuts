@@ -110,7 +110,16 @@ val ShortcutExecutionType.canWaitForConnection: Boolean
 
 @Stable
 val ShortcutExecutionType.canUseFiles: Boolean
-    get() = isHttpShortcut
+    get() = when (this) {
+        ShortcutExecutionType.HTTP,
+        ShortcutExecutionType.SCRIPTING,
+        -> true
+        ShortcutExecutionType.BROWSER,
+        ShortcutExecutionType.MQTT,
+        ShortcutExecutionType.WAKE_ON_LAN,
+        ShortcutExecutionType.TRIGGER,
+        -> false
+    }
 
 @Stable
 val ShortcutExecutionType.usesScriptingEditor: Boolean

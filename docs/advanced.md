@@ -16,7 +16,7 @@ Headless mode is automatically enabled for a shortcut if all of the following co
 - Battery Saver and Data Saver modes are disabled, or the app is excluded from them
 - The shortcut does not use any variables with large values (i.e., multiple KB)
 
-On some devices, headless mode does not work reliably, which is why you also have the option to completely disable this feature. To do so, look for *Troubleshooting* in the app's main menu and then on that screen disable the *Performance Optimizations*.
+On some devices, headless mode does not work reliably, which is why you also have the option to completely disable this feature. To do so, look for "Troubleshooting" in the app's main menu and then on that screen disable the "Performance Optimizations".
 
 <a id="share-text"></a>
 ## Share text into a shortcut
@@ -36,7 +36,9 @@ See also the [variables documentation](variables.md#sharing) for more informatio
 <a id="share-files"></a>
 ## Share files into a shortcut
 
-If you want to share a file, you can do so by opening the *Request Body / Parameters* section in the shortcut editor and there either set the *Request Body Type* to *File (Picker)* or set it to *Parameters (form-data)* and then add a parameter of type *Single File* or *Multiple Files*. After that save your changes. You should now be able to share files into the HTTP Shortcuts app (the option is called "Send to...") and it will allow you to pick the shortcut as a target. This will execute the shortcut and it will use the content of the shared file as the request body or as a form parameter.
+If you want to share a file, you can do so by opening the "Request Body / Parameters" section in the shortcut editor and there either set the "Request Body Type" to "File (Picker)" or set it to "Parameters (form-data)" and then add a parameter of type "Single File" or "Multiple Files". After that save your changes. You should now be able to share files into the HTTP Shortcuts app (the option is called "Send to...") and it will allow you to pick the shortcut as a target. This will execute the shortcut and it will use the content of the shared file as the request body or as a form parameter.
+
+If your shortcut is a [Scripting Shortcut](shortcuts.md#scripting-shortcut), you can enable the receiving of shared files for further processing through Scripting by enabling the "Allow receiving files from share dialog" checkbox on the "Trigger & Execution Settings" screen.
 
 If you have multiple shortcuts that use files in their body, you'll be prompted to select which shortcut should receive the shared file.
 
@@ -98,7 +100,7 @@ Please note that these apps are essentially just a link to the original shortcut
 ## Integrating with Tasker
 
 ### Trigger a shortcut from Tasker
-You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) to trigger a shortcut. To pass a value from Tasker to HTTP Shortcuts you need to add a local variable to your shortcut, or create a global variable of type *Static Variable* and add it to your shortcut. Afterwards, create a global variable with the same name in Tasker. Make sure to do so *before* you select the shortcut from Tasker. All of Tasker's global variables that have matching local or global variables in HTTP Shortcuts are automatically passed over.
+You can use [Tasker](https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm) to trigger a shortcut. To pass a value from Tasker to HTTP Shortcuts you need to add a local variable to your shortcut, or create a global variable of type "Static Variable" and add it to your shortcut. Afterwards, create a global variable with the same name in Tasker. Make sure to do so *before* you select the shortcut from Tasker. All of Tasker's global variables that have matching local or global variables in HTTP Shortcuts are automatically passed over.
 
 You can use the [setResult()](scripting.md#set-result) function (part of the [Scripting feature](scripting.md)) to pass data back to Tasker.
 
