@@ -1,8 +1,6 @@
 package ch.rmy.android.http_shortcuts.utils
 
-import android.content.ComponentName
 import android.content.Context
-import android.service.quicksettings.TileService
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.Data
@@ -12,7 +10,7 @@ import androidx.work.WorkerParameters
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
-import ch.rmy.android.http_shortcuts.tiles.QuickTileService
+import ch.rmy.android.http_shortcuts.tiles.QuickTileUpdater
 import ch.rmy.android.http_shortcuts.widget.ShortcutWidgetManager
 import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
 import dagger.assisted.Assisted
@@ -31,6 +29,7 @@ constructor(
     private val variableWidgetManager: VariableWidgetManager,
     private val shortcutRepository: ShortcutRepository,
     private val secondaryLauncherManager: SecondaryLauncherManager,
+    private val quickTileUpdater: QuickTileUpdater,
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
         val shortcutId = inputData.getString(DATA_SHORTCUT_ID)
@@ -54,9 +53,7 @@ constructor(
             tryOrLog {
                 variableWidgetManager.updateAllWidgets()
             }
-            tryOrLog {
-                TileService.requestListeningState(context, ComponentName(context, QuickTileService::class.java))
-            }
+            quickTileUpdater.update()
         }
         secondaryLauncherManager.setSecondaryLauncherVisibility(shortcutRepository.hasSecondaryLauncherShortcuts())
         return Result.success()

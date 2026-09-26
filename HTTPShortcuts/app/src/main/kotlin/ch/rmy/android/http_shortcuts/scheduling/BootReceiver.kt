@@ -1,14 +1,11 @@
 package ch.rmy.android.http_shortcuts.scheduling
 
 import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.service.quicksettings.TileService
 import ch.rmy.android.framework.extensions.logInfo
-import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.sync.SyncScheduler
-import ch.rmy.android.http_shortcuts.tiles.QuickTileService
+import ch.rmy.android.http_shortcuts.tiles.QuickTileUpdater
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +21,9 @@ class BootReceiver : BroadcastReceiver() {
     @Inject
     lateinit var syncScheduler: SyncScheduler
 
+    @Inject
+    lateinit var quickTileUpdater: QuickTileUpdater
+
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != Intent.ACTION_BOOT_COMPLETED) {
             return
@@ -33,9 +33,7 @@ class BootReceiver : BroadcastReceiver() {
             logInfo("Device rebooted")
             executionScheduler.schedule()
             syncScheduler.schedule()
-            tryOrLog {
-                TileService.requestListeningState(context, ComponentName(context, QuickTileService::class.java))
-            }
+            quickTileUpdater.update()
         }
     }
 }
