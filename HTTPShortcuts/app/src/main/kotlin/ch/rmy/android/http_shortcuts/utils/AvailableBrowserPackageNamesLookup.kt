@@ -1,14 +1,14 @@
-package ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases
+package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.compose.runtime.Stable
 import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.runIf
-import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 import javax.inject.Inject
 
-class GetAvailableBrowserPackageNamesUseCase
+class AvailableBrowserPackageNamesLookup
 @Inject
 constructor(
     private val context: Context,
@@ -30,4 +30,10 @@ constructor(
                 }
             }
             .sortedBy { it.appName ?: it.packageName }
+
+    @Stable
+    data class InstalledBrowser(
+        val packageName: String,
+        val appName: String? = null,
+    )
 }

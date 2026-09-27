@@ -89,6 +89,8 @@ constructor(
             .update { oldAppConfig ->
                 var newTitle = oldAppConfig.title
                 var newGlobalCode = oldAppConfig.globalCode
+                var newUserAgent = oldAppConfig.userAgent
+                var newDefaultBrowser = oldAppConfig.defaultBrowser
                 when (mode) {
                     ImportMode.MERGE -> {
                         if (!importBase.title.isNullOrEmpty() && oldAppConfig.title.isEmpty()) {
@@ -97,15 +99,25 @@ constructor(
                         if (!importBase.globalCode.isNullOrEmpty() && oldAppConfig.globalCode.isEmpty()) {
                             newGlobalCode = importBase.globalCode
                         }
+                        if (!importBase.userAgent.isNullOrEmpty() && oldAppConfig.userAgent.isNullOrEmpty()) {
+                            newUserAgent = importBase.userAgent
+                        }
+                        if (!importBase.defaultBrowser.isNullOrEmpty() && oldAppConfig.defaultBrowser?.serialize().isNullOrEmpty()) {
+                            newDefaultBrowser = importBase.defaultBrowser.let { TargetBrowser.parse(it) }
+                        }
                     }
                     ImportMode.REPLACE -> {
                         newTitle = importBase.title ?: ""
                         newGlobalCode = importBase.globalCode ?: ""
+                        newUserAgent = importBase.userAgent
+                        newDefaultBrowser = importBase.defaultBrowser?.let { TargetBrowser.parse(it) }
                     }
                 }
                 oldAppConfig.copy(
                     title = newTitle,
                     globalCode = newGlobalCode,
+                    userAgent = newUserAgent,
+                    defaultBrowser = newDefaultBrowser,
                 )
             }
     }

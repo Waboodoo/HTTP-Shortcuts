@@ -19,10 +19,12 @@ import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
 import ch.rmy.android.http_shortcuts.components.SettingsSwitch
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_AUTO
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_OFF
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_ON
+import ch.rmy.android.http_shortcuts.utils.AvailableBrowserPackageNamesLookup
 
 @Composable
 fun SettingsContent(
@@ -39,6 +41,8 @@ fun SettingsContent(
     rememberActiveCategoryEnabled: Boolean,
     translationProgress: Map<String, Int>,
     selectedClickActionOption: ShortcutClickBehavior,
+    defaultBrowser: TargetBrowser.Browser,
+    browserPackageNameOptions: List<AvailableBrowserPackageNamesLookup.InstalledBrowser>,
     onLanguageSelected: (String?) -> Unit,
     onDarkModeOptionSelected: (String) -> Unit,
     onRememberActiveCategoryChanged: (Boolean) -> Unit,
@@ -54,6 +58,7 @@ fun SettingsContent(
     onColorThemeChanged: (String) -> Unit,
     onShowHiddenShortcutsChanged: (Boolean) -> Unit,
     onTranslateButtonClicked: () -> Unit,
+    onDefaultBrowserChanged: (TargetBrowser.Browser) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -219,6 +224,19 @@ fun SettingsContent(
                 icon = painterResource(R.drawable.outline_badge_24),
                 title = stringResource(R.string.settings_user_agent),
                 onClick = onUserAgentButtonClicked,
+            )
+
+            SettingsSelection(
+                icon = painterResource(R.drawable.outline_open_in_browser_24),
+                title = stringResource(R.string.label_browser_shortcut_default_browser),
+                selectedKey = defaultBrowser,
+                items = listOf(
+                    TargetBrowser.Browser(packageName = null) to stringResource(R.string.placeholder_browser_system_default),
+                ) +
+                    browserPackageNameOptions.map {
+                        TargetBrowser.Browser(it.packageName) to (it.appName ?: it.packageName)
+                    },
+                onItemSelected = onDefaultBrowserChanged,
             )
 
             SettingsButton(

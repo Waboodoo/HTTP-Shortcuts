@@ -28,6 +28,8 @@ fun SettingsScreen() {
             rememberActiveCategory = viewState.rememberActiveCategory,
             rememberActiveCategoryEnabled = viewState.rememberActiveCategoryEnabled,
             translationProgress = viewState.translationProgress,
+            browserPackageNameOptions = viewState.browserPackageNameOptions,
+            defaultBrowser = viewState.defaultBrowser,
             onLanguageSelected = viewModel::onLanguageSelected,
             onDarkModeOptionSelected = viewModel::onDarkModeOptionSelected,
             onClickActionOptionSelected = viewModel::onClickActionOptionSelected,
@@ -43,6 +45,7 @@ fun SettingsScreen() {
             onShowHiddenShortcutsChanged = viewModel::onShowHiddenShortcutsChanged,
             onRememberActiveCategoryChanged = viewModel::onRememberActiveCategoryChanged,
             onTranslateButtonClicked = viewModel::onTranslateButtonClicked,
+            onDefaultBrowserChanged = viewModel::onDefaultBrowserChanged,
         )
     }
 

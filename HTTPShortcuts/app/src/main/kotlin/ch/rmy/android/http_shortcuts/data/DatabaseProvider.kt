@@ -18,6 +18,7 @@ constructor(
             context = context,
             klass = Database::class.java,
             name = "main-db",
-        ).build()
+        )
+            .build()
     }
 }

@@ -2,11 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.editor.basicsettings
 
 import android.app.Application
 import ch.rmy.android.framework.viewmodel.BaseViewModel
-import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.usecases.GetAvailableBrowserPackageNamesUseCase
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.TemporaryShortcutRepository
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.utils.AvailableBrowserPackageNamesLookup
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ class BasicRequestSettingsViewModel
 constructor(
     application: Application,
     private val temporaryShortcutRepository: TemporaryShortcutRepository,
-    private val getAvailableBrowserPackageNames: GetAvailableBrowserPackageNamesUseCase,
+    private val availableBrowserPackageNamesLookup: AvailableBrowserPackageNamesLookup,
 ) : BaseViewModel<Unit, BasicRequestSettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): BasicRequestSettingsViewState {
@@ -32,7 +32,7 @@ constructor(
             url = shortcut.url,
             targetBrowser = shortcut.targetBrowser,
             browserPackageNameOptions = if (type == ShortcutExecutionType.BROWSER) {
-                getAvailableBrowserPackageNames(shortcut.targetBrowser.packageName)
+                availableBrowserPackageNamesLookup(shortcut.targetBrowser.packageName)
             } else {
                 emptyList()
             },

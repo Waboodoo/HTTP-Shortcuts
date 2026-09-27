@@ -372,6 +372,8 @@ constructor(
                 },
             title = appConfig.title.takeUnlessEmpty(),
             globalCode = appConfig.globalCode.takeUnlessEmpty(),
+            userAgent = appConfig.userAgent?.takeUnlessEmpty(),
+            defaultBrowser = appConfig.defaultBrowser?.serialize()?.takeUnlessEmpty(),
         )
     }
 }

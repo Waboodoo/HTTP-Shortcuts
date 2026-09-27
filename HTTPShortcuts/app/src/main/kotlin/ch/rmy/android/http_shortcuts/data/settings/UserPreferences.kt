@@ -47,10 +47,6 @@ constructor(
         get() = getString(KEY_REMOTE_EDIT_PASSWORD)?.takeUnlessEmpty()
         set(value) = putString(KEY_REMOTE_EDIT_PASSWORD, value ?: "")
 
-    var userAgent: String?
-        get() = getString(KEY_USER_AGENT)?.takeUnlessEmpty()
-        set(value) = putString(KEY_USER_AGENT, value ?: "")
-
     var colorTheme: String
         get() = getString(KEY_COLOR_THEME) ?: "default"
         set(value) {
@@ -99,7 +95,6 @@ constructor(
         private const val KEY_REMOTE_EDIT_SERVER = "remote_edit_server"
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"
         private const val KEY_DARK_THEME = "dark_theme"
-        private const val KEY_USER_AGENT = "user_agent"
         private const val KEY_COLOR_THEME = "color_theme"
         private const val KEY_HISTORY_USE_RELATIVE_TIMES = "history_relative_times"
         private const val KEY_HEADLESS_MODE_DISABLED = "headless_mode_disabled"

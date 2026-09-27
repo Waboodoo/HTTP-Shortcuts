@@ -4,6 +4,8 @@ import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.activities.execute.usecases.OpenInBrowserUseCase
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
+import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
@@ -18,6 +20,7 @@ import kotlinx.coroutines.flow.flow
 class BrowserExecutionType
 @Inject
 constructor(
+    private val appConfigRepository: AppConfigRepository,
     private val openInBrowser: OpenInBrowserUseCase,
 ) : ExecutionType() {
     override fun invoke(
@@ -40,7 +43,12 @@ constructor(
             )
             openInBrowser(
                 url = injectVariables(shortcut.url, variableManager),
-                targetBrowser = shortcut.targetBrowser,
+                targetBrowser = getTargetBrowser(shortcut),
             )
         }
+
+    private suspend fun getTargetBrowser(shortcut: Shortcut): TargetBrowser =
+        shortcut.targetBrowser.takeUnless { it == TargetBrowser.Browser(null) }
+            ?: appConfigRepository.getAppConfig().defaultBrowser
+            ?: TargetBrowser.Browser(null)
 }

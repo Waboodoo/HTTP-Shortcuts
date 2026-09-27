@@ -16,6 +16,8 @@ data class ImportExportBase(
     val workingDirectories: List<ImportExportWorkingDirectory>? = null,
     val title: String? = null,
     val globalCode: String? = null,
+    val userAgent: String? = null,
+    val defaultBrowser: String? = null,
 ) {
     fun validate() {
         require(version != null && version > 0L) {

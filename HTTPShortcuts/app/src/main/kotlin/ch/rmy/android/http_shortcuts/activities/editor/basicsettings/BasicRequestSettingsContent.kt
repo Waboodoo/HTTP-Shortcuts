@@ -19,13 +19,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.SavedStateHandle
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.http_shortcuts.R
-import ch.rmy.android.http_shortcuts.activities.editor.basicsettings.models.InstalledBrowser
 import ch.rmy.android.http_shortcuts.components.HelpText
 import ch.rmy.android.http_shortcuts.components.SelectionField
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.VariablePlaceholderTextField
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.HttpMethod
+import ch.rmy.android.http_shortcuts.utils.AvailableBrowserPackageNamesLookup
 
 @Composable
 fun HttpSettingsContent(
@@ -52,7 +52,7 @@ fun BrowserSettingsContent(
     savedStateHandle: SavedStateHandle,
     url: String,
     targetBrowser: TargetBrowser,
-    browserPackageNameOptions: List<InstalledBrowser>,
+    browserPackageNameOptions: List<AvailableBrowserPackageNamesLookup.InstalledBrowser>,
     onUrlChanged: (String) -> Unit,
     onTargetBrowserChanged: (TargetBrowser) -> Unit,
 ) {
@@ -177,7 +177,7 @@ private fun UrlField(
 @Composable
 private fun TargetBrowserSelection(
     targetBrowser: TargetBrowser,
-    browserPackageNameOptions: List<InstalledBrowser>,
+    browserPackageNameOptions: List<AvailableBrowserPackageNamesLookup.InstalledBrowser>,
     onTargetBrowserChanged: (TargetBrowser) -> Unit,
 ) {
     val resources = LocalResources.current

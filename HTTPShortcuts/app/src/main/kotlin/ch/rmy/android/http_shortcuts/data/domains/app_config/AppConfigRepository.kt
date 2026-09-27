@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.data.domains.app_config
 
+import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.data.Database
 import ch.rmy.android.http_shortcuts.data.domains.BaseRepository
+import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.models.AppConfig
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
@@ -49,10 +51,30 @@ constructor(
             }
     }
 
+    suspend fun getUserAgent(): String? = query {
+        appConfigDao()
+            .getAppConfig()
+            ?.userAgent
+    }
+
+    suspend fun setUserAgent(userAgent: String?) = query {
+        appConfigDao()
+            .update {
+                it.copy(userAgent = userAgent?.takeUnlessEmpty())
+            }
+    }
+
     suspend fun setGlobalCode(globalCode: String) = query {
         appConfigDao()
             .update {
                 it.copy(globalCode = globalCode)
+            }
+    }
+
+    suspend fun setDefaultBrowser(defaultBrowser: TargetBrowser.Browser) = query {
+        appConfigDao()
+            .update {
+                it.copy(defaultBrowser = defaultBrowser)
             }
     }
 }

@@ -2,18 +2,23 @@ package ch.rmy.android.http_shortcuts.utils
 
 import android.content.Context
 import ch.rmy.android.http_shortcuts.BuildConfig
-import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
+import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
 
 object UserAgentProvider {
 
     fun getUserAgent(context: Context): String =
         EntryPointAccessors.fromApplication<UserAgentProviderEntryPoint>(context)
-            .userPreferences()
-            .userAgent
+            .appConfigRepository()
+            .run {
+                runBlocking {
+                    getUserAgent()
+                }
+            }
             ?: getDefaultUserAgent()
 
     fun getDefaultUserAgent(): String {
@@ -33,6 +38,6 @@ object UserAgentProvider {
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface UserAgentProviderEntryPoint {
-        fun userPreferences(): UserPreferences
+        fun appConfigRepository(): AppConfigRepository
     }
 }

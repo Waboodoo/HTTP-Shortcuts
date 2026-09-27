@@ -40,6 +40,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        appContext = this
         localeHelper.applyLocaleFromSettings()
 
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
@@ -61,5 +62,6 @@ class Application : android.app.Application(), Configuration.Provider {
 
     companion object {
         var unmigratedRealmFound = false
+        lateinit var appContext: Context
     }
 }

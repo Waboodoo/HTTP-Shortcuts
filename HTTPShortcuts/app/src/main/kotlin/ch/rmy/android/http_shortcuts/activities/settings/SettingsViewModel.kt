@@ -12,6 +12,7 @@ import ch.rmy.android.http_shortcuts.activities.settings.usecases.SetAppIconUseC
 import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
+import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.AppIconType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
@@ -21,6 +22,7 @@ import ch.rmy.android.http_shortcuts.logging.Logging
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.sync.SyncScheduler
+import ch.rmy.android.http_shortcuts.utils.AvailableBrowserPackageNamesLookup
 import ch.rmy.android.http_shortcuts.utils.BiometricUtil
 import ch.rmy.android.http_shortcuts.utils.DarkThemeHelper
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
@@ -60,6 +62,7 @@ constructor(
     private val getTranslationProgress: GetTranslationProgressUseCase,
     private val setAppIcon: SetAppIconUseCase,
     private val syncScheduler: SyncScheduler,
+    private val availableBrowserPackageNamesLookup: AvailableBrowserPackageNamesLookup,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): SettingsViewState {
@@ -87,6 +90,8 @@ constructor(
             }
         }
 
+        val appConfig = appConfigRepository.getAppConfig()
+
         return SettingsViewState(
             privacySectionVisible = Logging.supportsCrashReporting,
             quickSettingsTileButtonVisible = restrictionsUtil.canCreateQuickSettingsTiles(),
@@ -99,6 +104,8 @@ constructor(
             showHiddenShortcuts = userPreferences.showHiddenShortcuts,
             rememberActiveCategory = userPreferences.isRememberActiveCategory,
             rememberActiveCategoryEnabled = categoryRepository.getCategories().count { !it.hidden } > 1,
+            browserPackageNameOptions = availableBrowserPackageNamesLookup(appConfig.defaultBrowser?.packageName),
+            defaultBrowser = (appConfig.defaultBrowser as? TargetBrowser.Browser) ?: TargetBrowser.Browser(null),
             isInSyncReplaceMode = isInSyncReplaceMode,
             translationProgress = getTranslationProgress(),
         )
@@ -204,7 +211,7 @@ constructor(
 
     fun onUserAgentChangeConfirmed(newUserAgent: String) = runAction {
         updateDialogState(null)
-        userPreferences.userAgent = newUserAgent
+        appConfigRepository.setUserAgent(newUserAgent)
         showSnackbar(R.string.message_user_agent_changed)
     }
 
@@ -273,7 +280,7 @@ constructor(
     fun onUserAgentButtonClicked() = runAction {
         updateDialogState(
             SettingsDialogState.ChangeUserAgent(
-                oldUserAgent = userPreferences.userAgent ?: "",
+                oldUserAgent = appConfigRepository.getUserAgent() ?: "",
                 placeholder = UserAgentProvider.getDefaultUserAgent(),
             ),
         )
@@ -333,5 +340,12 @@ constructor(
 
     fun onTranslateButtonClicked() = runAction {
         openURL(ExternalURLs.TRANSLATION)
+    }
+
+    fun onDefaultBrowserChanged(defaultBrowser: TargetBrowser.Browser) = runAction {
+        appConfigRepository.setDefaultBrowser(defaultBrowser)
+        updateViewState {
+            copy(defaultBrowser = defaultBrowser)
+        }
     }
 }
