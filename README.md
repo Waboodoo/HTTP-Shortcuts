@@ -13,6 +13,7 @@ An Android app that lets you to create shortcuts that can be placed on your home
 
 <a href="https://play.google.com/store/apps/details?id=ch.rmy.android.http_shortcuts"><img alt="Get it on Google Play" src="/assets/play_store.svg" height="80" /></a>
 <a href="https://f-droid.org/en/packages/ch.rmy.android.http_shortcuts/"><img alt="Get it on F-Droid" src="/assets/f_droid.svg" height="80" /></a>
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22ch.rmy.android.http_shortcuts%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2FWaboodoo%2FHTTP-Shortcuts%22%2C%22author%22%3A%22Waboodoo%22%2C%22name%22%3A%22HTTP%20Shortcuts%22%7D%0A"><img alt="Get it on Obtainium" src="/assets/obtainium.png" height="80" /></a>
 
 
 or [download the latest APK](https://github.com/Waboodoo/HTTP-Shortcuts/releases) directly.
