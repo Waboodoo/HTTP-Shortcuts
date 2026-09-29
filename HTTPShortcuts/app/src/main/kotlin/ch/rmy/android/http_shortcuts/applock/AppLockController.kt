@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.applock
 
+import at.favre.lib.crypto.bcrypt.BCrypt
 import ch.rmy.android.framework.utils.ElapsedTime
 import ch.rmy.android.framework.utils.ElapsedTimeProvider
 import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
@@ -15,7 +16,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import org.mindrot.jbcrypt.BCrypt
 
 @Singleton
 class AppLockController
@@ -53,14 +53,17 @@ constructor(
     }
 
     suspend fun setLock(password: String, useBiometrics: Boolean) {
-        appLockRepository.setLock(BCrypt.hashpw(password, BCrypt.gensalt()), useBiometrics)
+        appLockRepository.setLock(
+            passwordHash = BCrypt.withDefaults().hashToString(10, password.toCharArray()),
+            useBiometrics = useBiometrics,
+        )
         lock()
     }
 
     suspend fun isPasswordCorrect(password: String): Boolean {
         val lock = appLockRepository.getLock()
             ?: return true
-        return BCrypt.checkpw(password, lock.passwordHash)
+        return BCrypt.verifyer().verify(password.toCharArray(), lock.passwordHash).verified
     }
 
     suspend fun removeLock() {

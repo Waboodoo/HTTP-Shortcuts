@@ -27,7 +27,7 @@ gson = "2.14.0"
 hilt = "2.60.1"
 hiltNavigationCompose = "1.4.0"
 hiltWork = "1.4.0"
-jbcrypt = "0.4"
+jbcrypt = "0.10.2"
 jsoup = "1.23.2"
 ktlint = "14.2.0"
 kotlin = "2.4.20"
@@ -95,7 +95,7 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
+jbcrypt = { module = "at.favre.lib:bcrypt", version.ref = "jbcrypt" }
 jetbrains-markdown = { module = "org.jetbrains:markdown", version.ref = "markdown" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
