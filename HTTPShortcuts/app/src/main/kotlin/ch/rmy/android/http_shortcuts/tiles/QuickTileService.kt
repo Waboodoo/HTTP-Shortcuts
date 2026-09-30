@@ -241,7 +241,7 @@ class QuickTileService : TileService() {
                 qsTile.label = getString(R.string.action_quick_settings_tile_trigger)
                 qsTile.icon = Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
             }
-            qsTile.state = Tile.STATE_ACTIVE
+            qsTile.state = Tile.STATE_INACTIVE
             qsTile.updateTile()
         }
     }
