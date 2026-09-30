@@ -50,7 +50,7 @@ Find more information and documentation on the [official website](https://http-s
   - show toast message or message dialogs
   - vibrate or play notification sounds
   - trigger other shortcuts to chain multiple HTTP requests 
-  - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
+  - interact with other devices and services by sending TCP or UDP packets, SSH commands, MQTT messages or using Wake-on-LAN
 - Support for non-HTTP use-cases:
   - [Browser Shortcuts](https://http-shortcuts.rmy.ch/shortcuts#browser-shortcut) allow opening a URL in a browser
   - [MQTT Shortcuts](https://http-shortcuts.rmy.ch/shortcuts#mqtt-shortcut) allow sending MQTT messages

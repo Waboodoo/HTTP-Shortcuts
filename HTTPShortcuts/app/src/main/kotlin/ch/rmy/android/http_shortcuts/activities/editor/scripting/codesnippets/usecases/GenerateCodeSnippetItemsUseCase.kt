@@ -574,6 +574,17 @@ constructor(
                     )
                 }
                 item(
+                    R.string.action_type_send_ssh_command,
+                    docRef = "send-ssh-command",
+                    keywords = setOf("network", "client", "shell", "remote", "host", "execute"),
+                ) {
+                    insertText(
+                        "sendSSHCommand(\n  \"<host>\",\n  {\n    username: \"\",\n    password: \"\",\n    privateKey: \"\"\n" +
+                            "    verifyHost: \"<algorithm> <public-key>\",\n  },\n  \"<command>",
+                        "\",\n);\n",
+                    )
+                }
+                item(
                     R.string.action_type_send_mqtt_message,
                     docRef = "send-mqtt-message",
                     keywords = setOf("network", "client", "publish"),

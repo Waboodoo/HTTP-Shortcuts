@@ -15,7 +15,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
 - Open-source
 - No ads
 - No enshitification (I try)
-- [(Almost) no tracking](privacy-policy.md)
+- No tracking (except for crash reporting, see [Privacy Policy](privacy-policy.md))
 - Runs on Android 8 (Oreo) or newer. See below for older versions.
 
 ### Technical
@@ -39,7 +39,7 @@ If you like this app, please consider [supporting my work](https://http-shortcut
   - vibrate or play notification sounds
   - read and write files
   - trigger other shortcuts to chain multiple HTTP requests 
-  - interact with other devices and services by sending TCP or UDP packets, MQTT messages or using Wake-on-LAN
+  - interact with other devices and services by sending TCP or UDP packets, SSH commands, MQTT messages or using Wake-on-LAN
 
 ### Quality of Life
 - Dark Mode support

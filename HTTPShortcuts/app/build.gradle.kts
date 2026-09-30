@@ -359,6 +359,9 @@ dependencies {
     /* MQTT */
     implementation(libs.paho.mqtt)
 
+    /* SSH */
+    implementation(libs.sshlib)
+
     /* Password hashing (for password lock) */
     implementation(libs.jbcrypt)
 

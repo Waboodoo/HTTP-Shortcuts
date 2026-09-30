@@ -42,6 +42,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.SelectionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendHttpRequestActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendIntentActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendMQTTMessagesActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.SendSSHCommandActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendTCPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SendUDPPacketActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.SetCategoryHiddenActionType
@@ -110,6 +111,7 @@ constructor(
     sendHttpRequestActionType: SendHttpRequestActionType,
     sendIntentActionType: SendIntentActionType,
     sendMQTTMessagesActionType: SendMQTTMessagesActionType,
+    sendSSHCommandActionType: SendSSHCommandActionType,
     sendTCPPacketActionType: SendTCPPacketActionType,
     sendUDPPacketActionType: SendUDPPacketActionType,
     setCategoryHiddenActionType: SetCategoryHiddenActionType,
@@ -183,6 +185,7 @@ constructor(
             sendHttpRequestActionType,
             sendIntentActionType,
             sendMQTTMessagesActionType,
+            sendSSHCommandActionType,
             sendTCPPacketActionType,
             sendUDPPacketActionType,
             setCategoryHiddenActionType,
