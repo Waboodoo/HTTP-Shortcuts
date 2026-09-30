@@ -19,12 +19,26 @@ android {
 
     compileSdk = 37
 
+    enableKotlin = false
+
     defaultConfig {
         applicationId = "ch.rmy.android.http_shortcuts.shelltemplate"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
+    }
+
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+        }
+    }
+
+    dependenciesInfo {
+        includeInApk = false
     }
 }
 

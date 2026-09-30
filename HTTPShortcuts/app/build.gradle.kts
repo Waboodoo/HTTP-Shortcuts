@@ -62,7 +62,7 @@ android {
         // Version name and code must remain as literals so that F-Droid can read them
         versionName = "4.8.0"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1104080000
+        versionCode = 1104080001
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("int", "BUILD_DATE", buildDate.toString())
@@ -389,7 +389,9 @@ dependencies {
     implementation(libs.apksig)
 
     /* Google Assistant integration */
-    "releaseFullImplementation"(libs.androidx.googleShortcuts)
+    "releaseFullImplementation"(libs.androidx.googleShortcuts) {
+        exclude("com.google.crypto.tink")
+    }
 
     /* Testing */
     testImplementation(libs.kotlin.test.junit5)
