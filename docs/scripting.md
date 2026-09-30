@@ -889,7 +889,7 @@ With the `sendSSHCommand` function you can connect to a remote host over SSH and
 |verifyHost|The expected public key of the host, in the form of "algorithm base64(public_key)", similar to how it might appear in a known_hosts file. May be set to the empty string to opt out of host verification, though this is strongly discouraged.|string|
 
 
-> It is recommended to store passwords, private and public keys in a global variable, or possibly even files, as that makes it easier to change their value later and makes the code more readable.
+> It is recommended to store passwords, private and public keys in a global variable, or possibly even files, as that makes it easier to change and reuse their value later and also makes the code more readable.
 
 The return value is an object which includes the fields `stdout`, `stderr` and `code`, which give you the response from the remote host. All values may be null, as the host may not return anything.
 

@@ -18,6 +18,8 @@ Unfortunately, this icon overlay is added by the Android system itself, not the 
 
 Alternatively, you can use the *"Customizable Widget"* from your home screen's widgets menu. This widget looks a bit different from a regular shortcut and offers a few customization options.
 
+Also, in the app's settings you will find an option to choose a different icon for the app itself, which will also affect the overlay added to your shortcuts. Note however that this depends heavily on your launcher. There may be a delay or shortcut may need to be re-added to the homescreen for the change to apply.
+
 <a id="trigger-from-other-app"></a>
 ## Can I trigger a shortcut from another app?
 
@@ -101,6 +103,8 @@ If you go to the app's Settings screen, you'll find an option in the "Appearance
 The easiest way to get more details about the shortcuts that you're executing in the app is by going to the *Event History* screen. You will find it in the app's main menu under *Troubleshooting*. The Event History shows all recently triggered shortcuts, the HTTP requests that were sent out and the HTTP responses that were received, as well as all the (network) errors that have occurred.
 
 Another way to get more information about the request and the response is by opening the *Response Handling* section when editing a shortcut and changing the *Display Type* to *Fullscreen Window* and then ticking the *Show Meta Information* checkbox. This will display the full response in a window, along with all response headers and some additional meta information.
+
+Starting with Android 17, apps that access devices on the local network require a new permission. If you find that all your HTTP requests fail on the local network, and you are on Android 17, try going to the *Troubleshooting* screen from the app's main menu and grant this permission.
 
 <a id="infinite-loops"></a>
 ## I accidentally created an infinite loop of shortcuts triggering other shortcuts, how do I stop it?
