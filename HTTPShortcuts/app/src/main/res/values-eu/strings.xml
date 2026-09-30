@@ -24,8 +24,10 @@
     <string name="label_broadcast_address">Igorpen helbidea</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Nabigatzailea</string>
+    <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Erabili nabigatzaile lehenetsia</string>
+    <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">Erabili fitxa pertsonalizatua</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -222,6 +224,10 @@
     <string name="settings_allow_overlay">Baimendu beste aplikazio batzuen gainean bistaratzea</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Aktibatu lasterbideak funtzionatzen ez badu Ezarpen bizkorreko fitxatik edo hirugarrenen aplikaziotik abiarazten denean</string>
+    <!-- Name of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access">Baimendu sare lokalera sartzea</string>
+    <!-- Subtitle of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access_summary">Gaitu zure sareko beste gailu batzuekin elkarreragiteko arazoak aurkitzen badituzu</string>
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi">Baimendu popup leihoak bistaratzea atzeko planoan dagoenean</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
@@ -438,8 +444,11 @@
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
     <string name="layout_type_wide_grid">Sare zabala</string>
     <!-- Option when picking the vertical alignment for a category: align to the top -->
+    <string name="category_vertical_alignment_top">Goian</string>
     <!-- Option when picking the vertical alignment for a category: align to the center -->
+    <string name="category_vertical_alignment_center">Erdian</string>
     <!-- Option when picking the vertical alignment for a category: align to the bottom -->
+    <string name="category_vertical_alignment_bottom">Behean</string>
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
     <string name="category_background_type_default">Lehenetsia</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
@@ -732,6 +741,7 @@
     <string name="label_shortcut_as_file_share_target">Baimendu fitxategiak partekatzeko elkarrizketa-koadrotik jasotzea</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <string name="subtitle_shortcut_as_file_share_target">Hau gaituz gero, beste aplikazio batzuetako fitxategiak partekatzeko eta lasterbide honen eskaeraren gorputzaren edo inprimakiaren parametroetarako erabil ditzakezu.</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the scripting shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them for scripting purposes -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Baimendu ezarpen bizkorreko fitxaren bidez abiarazteko</string>
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
@@ -750,8 +760,8 @@
     <string name="error_share_failed">Errore bat gertatu da partekatzean.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Funtzio hau ez da onartzen zure gailuan.</string>
-    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">Ez da aurkitu \"%s\" pakete-izena duen nabigatzailea</string>
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed), or because it can not handle the given URL -->
+    <string name="error_browser_not_found_or_cannot_handle_url">Ez da \"%s\" nabigatzailea aurkitu, edo ezin du URL hau ireki</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Ustekabeko errorea gertatu da.</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
@@ -938,6 +948,7 @@
     <string name="action_type_send_tcp_packet">Bidali TCP paketea</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
     <string name="action_type_send_http_request">Bidali HTTP eskaera</string>
+    <!-- Shortcut Action Title: Send a command over an SSH connection and execute it on a remote host -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Bidali MQTT mezua</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1066,34 +1077,63 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor, to decide whether the HTTP connection should be kept open after a request is made -->
     <string name="label_keep_connection_open">Mantendu konexioa irekita eskaera egin ondoren</string>
     <!-- Label: shown above input box that lets user define JS code to be executed before shortcut -->
+    <string name="label_pre_request_script">Abiatu exekutatu aurretik</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut succeeds -->
+    <string name="label_post_request_success_script">Abiatu arrakastan</string>
     <!-- Label: shown above input box that lets user define JS code to be executed after shortcut fails -->
+    <string name="label_post_request_failure_script">Abiatu porrotean</string>
     <!-- Dialog title: Shown on dialog that shows an error message when something goes wrong while executing a shortcut (e.g. JS exception) -->
+    <string name="dialog_title_error">Errorea</string>
     <!-- Error message: Shown when a JS error occurs. %s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern">JavaScript errorea:\n%s</string>
     <!-- Error message: Shown when a JS error occurs. %1$d is a placeholder for the line number, %2$s is a placeholder for the more detailed error message. -->
+    <string name="error_js_pattern_with_line_number">JavaScript errorea (%1$d. lerroan):\n%2$s</string>
     <!-- Error message: Shown when a script tries to read from a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_read">Aldagai errorea: existitzen ez den aldagaiaren balioa lortzen saiatu da: %s</string>
     <!-- Error message: Shown when a script tries to write to a variable that does not exist. %s is a placeholder for the name of the variable. -->
+    <string name="error_variable_not_found_write">Aldagai errorea: existitzen ez den aldagaiaren balioa ezartzen saiatu da: %s</string>
     <!-- Button: Shown below JavaScript editor (for pre-request and post-request actions), allows to add snippets of JS code -->
+    <string name="button_add_code_snippet">Gehitu kode zatia</string>
     <!-- Title: Shown on menu dialog (for pre-request and post-request actions), allows to add snippets of JS code -->
+    <string name="title_add_code_snippet">Gehitu kode zatia</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the current shortcut itself -->
+    <string name="dialog_code_snippet_shortcut_info">Shortcut Informazioa</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the selected files and to interact with the file system -->
+    <string name="dialog_code_snippet_files">Fitxategiak</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get information about the HTTP response -->
+    <string name="dialog_code_snippet_handle_response">Kudeatu erantzuna</string>
     <!-- Dialog option: shown in code snippet picker, shows options to get or set variables -->
+    <string name="dialog_code_snippet_variables">Aldagaiak</string>
     <!-- Dialog option: shown in code snippet picker, shows options to interact with the user (show dialog, prompt for input, …) -->
+    <string name="dialog_code_snippet_user_interaction">Erabiltzaileen interakzioa</string>
     <!-- Dialog option: shown in code snippet picker, shows options to modify shortcuts -->
+    <string name="dialog_code_snippet_modify_shortcuts">Aldatu lasterbideak</string>
     <!-- Dialog option: shown in code snippet picker, shows options to control the flow of the script (abort, if-else, …) -->
+    <string name="dialog_code_snippet_control_flow">Kontrolatu fluxua</string>
     <!-- Dialog option: shown in code snippet picker, shows options to process text (e.g. encoding, hashing, …) -->
+    <string name="dialog_code_snippet_text_processing">Testuaren prozesamendua</string>
     <!-- Dialog option: shown in code snippet picker, shows options that don't belong in any of the other categories -->
+    <string name="dialog_code_snippet_misc">Denetarik</string>
     <!-- Dialog option: shown in code snippet picker, shows options for interacting with the network or querying its state -->
+    <string name="dialog_code_snippet_network">Sarea</string>
     <!-- Dialog option: shown in code snippet picker, option to get the ID of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_id">Lortu lasterbidearen IDa</string>
     <!-- Dialog option: shown in code snippet picker, option to read data from a file -->
+    <string name="dialog_code_snippet_read_from_file">Irakurri fitxategitik</string>
     <!-- Dialog option: shown in code snippet picker, option to write data to a file -->
+    <string name="dialog_code_snippet_write_to_file">Idatzi fitxategian</string>
     <!-- Dialog option: shown in code snippet picker, option to append data to a file -->
+    <string name="dialog_code_snippet_append_to_file">Erantsi fitxategiari</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of a selected file -->
+    <string name="dialog_code_snippet_get_file_name">Lortu hautatutako fitxategiaren izena</string>
     <!-- Dialog option: shown in code snippet picker, option to get the type of a selected file -->
+    <string name="dialog_code_snippet_get_file_type">Lortu hautatutako fitxategiaren mota</string>
     <!-- Dialog option: shown in code snippet picker, option to get the size of a selected file -->
+    <string name="dialog_code_snippet_get_file_size">Lortu hautatutako fitxategiaren tamaina (Byte)</string>
     <!-- Dialog option: shown in code snippet picker, option to get the meta data of a selected file -->
+    <string name="dialog_code_snippet_get_file_meta">Lortu hautatutako fitxategiaren metadatuak</string>
     <!-- Dialog option: shown in code snippet picker, option to get the name of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_name">Lortu lasterbidearen izena</string>
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_description">Lortu lasterbidearen deskribapena</string>
     <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
@@ -1183,98 +1223,191 @@
     <!-- Settings option: Used in language picker to allow user to pick the default language, i.e., the system language -->
     <string name="language_default">Sistemaren lehenetsia</string>
     <!-- Error: Shown in toast when user tries to add a variable placeholder to a text beyond its maximum size -->
+    <string name="error_text_too_long_for_variable">Testuak %d karaktereren muga gainditzen du. Ezin da aldagaiaren leku-marka txertatu.</string>
     <!-- Instructions: Shown in toast to inform user that they should select or create a shortcut to be placed on the home screen -->
+    <string name="instructions_select_shortcut_for_home_screen">Hautatu edo sortu lasterbide bat hasierako pantailan jartzeko.</string>
     <!-- Instructions: Shown in info text at the top of the screen to inform user that they should select or create a shortcut, which is then used as by the 3rd party app (e.g. Tasker) -->
+    <string name="instructions_select_shortcut_for_plugin">Hautatu edo sortu abiarazi beharreko lasterbide bat.</string>
     <!-- Label: Shown when user selects a widget to place on the home screen, shown for the customizable widget (as opposite to the generic shortcut) -->
+    <string name="label_widget">Trepeta pertsonalizagarria</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the label of a widget -->
+    <string name="label_show_widget_label">Erakutsi Etiketa</string>
     <!-- Label: Shown when configuring a widget, above a slider, to choose the size of the widget's icon -->
+    <string name="label_widget_icon_size">Ikonoaren tamaina</string>
     <!-- Label: Shown when configuring a widget, next to checkbox, allows to show/hide the icon of a widget -->
+    <string name="label_show_widget_icon">Erakutsi ikonoa</string>
     <!-- Action label: Shown on button to confirm the creation of a widget, after configuring it -->
+    <string name="action_create_widget">Sortu trepeta</string>
     <!-- Title: Configure Widget, shown when creating a widget and the user has some options to configure it -->
+    <string name="title_configure_widget">Konfiguratu trepeta</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
+    <string name="label_widget_label_color">Etiketaren kolorea</string>
     <!-- Label: Name of the "Variable" widget, i.e., the widget that lets the user display the value of a global variable on the homescreen -->
+    <string name="label_variable_widget">Aldagai-trepeta</string>
     <!-- Error: Generic error shown when the user enters an invalid character, e.g. for an HTTP header. %s is the placeholder for the character -->
+    <string name="error_invalid_character">Baliogabeko karakterea: %s</string>
     <!-- Warning: Shown to user when deleting a variable to inform them that it is still in use -->
+    <plurals name="warning_variable_still_in_use_in_shortcuts">
+        <item quantity="one">Aldagai global hau oraindik erabiltzen da lasterbide %2$dean: %1$s</item>
+        <item quantity="other">Aldagai global hau oraindik erabiltzen da %2$d lasterbidetan: %1$s</item>
+    </plurals>
     <!-- Error: Shown when the text-to-speech action fails to speak a piece of text -->
+    <string name="error_tts_failed">Ezin izan da testua irakurri</string>
     <!-- Label: Option shown in Code Snippet Picker when inserting an action that targets a shortcut, allows to target the current shortcut -->
+    <string name="label_insert_action_code_for_current_shortcut">Uneko lasterbidea</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code -->
+    <string name="placeholder_javascript_code_generic">Gehitu JavaScript kodea hemen</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the shortcut -->
+    <string name="placeholder_javascript_code_before">Gehitu JavaScript kodea hemen lasterbidea exekutatu aurretik exekutatzeko, adibidez, aldagai batzuk prestatzeko.</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs after the shortcut on success -->
+    <string name="placeholder_javascript_code_success">Gehitu JavaScript kodea hemen lasterbidea exekutatu ondoren exekutatzeko, adibidez, erantzuna prozesatzeko.</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs when execution fails -->
+    <string name="placeholder_javascript_code_failure">Gehitu JavaScript kodea hemen exekutatzeko, eskaerak huts egiten badu.</string>
     <!-- Dialog title: Shown in dialog when picking one or multiple shortcuts to be added to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_add_trigger_shortcut">Gehitu lasterbideak</string>
     <!-- Dialog error message: Shown in dialog when picking a shortcut to be added to the list of shortcuts that are triggered when a multi-shortcut is executed but the user doesn't have any shortcuts yet -->
+    <string name="error_add_trigger_shortcut_no_shortcuts">Ez dagogehitu daitekeen lasterbiderik. Lasterbide gehigarri batzuk sortu behar dituzu hemen hautatu aurretik.</string>
     <!-- Dialog title: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="title_remove_trigger_shortcut">Kendu lasterbidea</string>
     <!-- Dialog message: Shown in dialog when removing shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_trigger_shortcut">Aktibatutako lasterbideen zerrendatik \“%s\” lasterbidea kendu?</string>
     <!-- Dialog message: Shown in dialog when removing a deleted shortcut from to the list of shortcuts that are triggered when a multi-shortcut is executed -->
+    <string name="message_remove_deleted_trigger_shortcut">Ezabatutako lasterbidea abiarazitako lasterbideen zerrendatik kendu?</string>
     <!-- Label for dropdown in shortcut editor, for picking how the response should be displayed -->
+    <string name="label_response_handling_type">Bistaratze mota</string>
     <!-- Label for dropdown in shortcut editor, for picking the main action that should be displayed on the dialog that displays the HTTP response -->
+    <string name="label_dialog_action_dropdown">Elkarrizketa-ekintza</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Toast popup -->
+    <string name="option_response_handling_type_toast">Popup leihoa</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a notification -->
+    <string name="option_response_handling_type_notification">Jakinarazpena</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a Dialog -->
+    <string name="option_response_handling_type_dialog">Elkarrizketa leihoa</string>
     <!-- Option for dropdown in shortcut editor, for picking how the response should be displayed: as a fullscreen window -->
+    <string name="option_response_handling_type_window">Pantaila osoko leihoa</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show the (full) response -->
+    <string name="option_response_handling_success_output_response">Erakutsi erantzuna</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show a pre-defined message -->
+    <string name="option_response_handling_success_output_message">Erakutsi mezu pertsonalizatua</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request succeeds: show nothing -->
+    <string name="option_response_handling_success_output_none">Ez ezer erakutsi (isilik exekutatu)</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show the full/detailed error message -->
+    <string name="option_response_handling_failure_output_detailed">Erakutsi errore-mezu zehatza</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show a simplified error message -->
+    <string name="option_response_handling_failure_output_simple">Erakutsi errore-mezu sinplea</string>
     <!-- Option for dropdown in shortcut editor, for picking what should be displayed when the HTTP request fails: show nothing -->
+    <string name="option_response_handling_failure_output_none">Ez ezer erakutsi (isilik exekutatu)</string>
     <!-- Label for text area in shortcut editor that allows to enter a custom message which should be displayed when the request succeeds -->
+    <string name="label_response_handling_success_message">Mezua</string>
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of all cookies -->
+    <string name="confirm_clear_cookies_message">Bildutako cookie guztiak ezabatu?</string>
     <!-- Message, shown in snackbar as confirmation to the user that cookies have been deleted -->
+    <string name="message_cookies_cleared">Cookiak ezabatu dira.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all pending/scheduled shortcut executions were cancelled -->
+    <string name="message_pending_executions_cancelled">Zain dauden exekuzioak bertan behera utzi dira.</string>
     <!-- Message, shown in snackbar as confirmation to the user that all unsaved changes to the shortcut/category/variable/... were discarded -->
+    <string name="message_changes_discarded">Aldaketak baztertu dira.</string>
     <!-- Instructions on how to edit shortcuts remotely from a computer -->
+    <string name="instructions_remote_edit">Funtzio honi esker zure lasterbideak ordenagailu batean edita ditzakezu, nabigatzaile baten erosotasunarekin. Mesedez, irakurri aplikazioaren Pribatutasun Politika hasi baino lehen, eta jarraitu urrats hauek:</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: enter a password -->
+    <string name="instructions_remote_edit_step_1">Sartu pasahitz bat goiko eremuan.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: click the push button -->
+    <string name="instructions_remote_edit_step_2">Sakatu <pre>\”Push zerbitzarira\”</pre> botoian.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. %s is the URL that needs to be entered -->
+    <string name="instructions_remote_edit_step_3">Ireki %s zure ordenagailuko nabigatzaile batean, sartu zure gailuaren IDa eta pasahitza eta hasi editatzen.</string>
     <!-- Instruction step for editing shortcuts remotely from a computer: log in from computer. click the pull button -->
+    <string name="instructions_remote_edit_step_4">Editatzen amaitu eta zure aldaketak gordeta dituzunean, egin klik beheko <pre>\”Atera aldaketak\”</pre> botoian aldaketak aplikaziora berriro deskargatzeko.</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to push all shortcuts and variables to the editing server -->
+    <string name="button_remote_edit_upload">Bultzatu zerbitzarira</string>
     <!-- Button label: Shown in "Edit on Computer" feature, allows to pull all changes to shortcuts and variables from the editing server -->
+    <string name="button_remote_edit_download">Jaso aldaketak</string>
     <!-- Label: Shown above a textfield with the device's ID, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_device_id">Gailuaren IDa</string>
     <!-- Label: Shown above a textfield for entering a password, used to log in to edit server when editing shortcuts on a computer -->
+    <string name="label_remote_edit_password">Pasahitza</string>
     <!-- Status message shown while shortcuts & variables are being pushed to the remote server, shown on progress dialog -->
+    <string name="remote_edit_upload_in_progress">Zerbitzarira bidaltzen…</string>
     <!-- Status message shown while changes to shortcuts & variables are being pulled down from the remote server, shown on progress dialog -->
+    <string name="remote_edit_download_in_progress">Aldaketak jasotzen…</string>
     <!-- Message: Success message shown in snackbar when pushing shortcuts and variables to the editing server was successful -->
+    <string name="message_remote_edit_upload_successful">Arrakastaz bidali da zerbitzarira.</string>
     <!-- Message: Success message shown in snackbar when pulling changes to shortcuts and variables from the editing server was successful -->
+    <string name="message_remote_edit_download_successful">Arrakastaz jaso dira aldaketak.</string>
     <!-- Error message: shown in dialog when pushing shortcuts to the editing server failed -->
+    <string name="error_remote_edit_upload">Ezin izan da bidali zerbitzarira. Saia zaitez beranduago.</string>
     <!-- Error message: shown in dialog when pulling changes to shortcuts from the editing server failed -->
+    <string name="error_remote_edit_download">Ezin izan dira aldaketak zerbitzaritik jaso. Begiratu zure konexioa eta ziurtatu ez duzula pasahitza aldatu.</string>
     <!-- Option for dropdown menu in remote editor, allows to change the remote editing server -->
+    <string name="button_change_remote_server">Aldatu zerbitzariaren helbidea</string>
     <!-- Dialog title: allows to change the remote editing server -->
+    <string name="title_change_remote_server">Aldatu zerbitzariaren helbidea</string>
     <!-- Dialog button (generic): Allows to reset some setting to its original value -->
+    <string name="dialog_reset">Berrezarri</string>
     <!-- Title of code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="title_global_scripting">Scriptgintza orokorra</string>
     <!-- Button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting">Scriptgintza orokorra</string>
     <!-- Button in settings page to open editor for configuring certificate pinning -->
+    <string name="settings_certificate_pinning">Ziurtagiria finkatzea</string>
     <!-- Subtitle of button in settings page to open code editor for defining global scripting code (JS code that runs before every shortcut) -->
+    <string name="settings_global_scripting_summary">Exekutatu JavaScript kodea lasterbideen exekuzio bakoitzaren aurretik</string>
     <!-- Placeholder: Shown as placeholder/hint in scripting editor to prompt user to enter some code, which runs before the execution of every shortcut -->
+    <string name="placeholder_javascript_global_scripting">Gehitu JavaScript kodea hemen lasterbideen exekuzio bakoitzaren hasieran exekutatzeko, adibidez, aldagai batzuk prestatzeko edo lasterbide baten Scriptgintza atalean erabil daitezkeen funtzio batzuk definitzeko.</string>
     <!-- Action label: Shown on menu button to save changes in the Global Scripting editor -->
+    <string name="action_save_global_scripting">Gorde aldaketak</string>
     <!-- Error message: Shown when trying to trigger a shortcut by name via a voice command or deep-linking but the shortcut is not found -->
+    <string name="error_shortcut_not_found_for_deep_link">Ez da aurkitu \“%s\” lasterbidea</string>
     <!-- Instructions: Shown when the deep-linking feature is used but with an invalid URL -->
+    <string name="instructions_deep_linking">Lotura sakonen funtzioa erabiltzeko, ziurtatu formularioko baliozko URL bat erabiltzen duzula:\n\n%s</string>
     <!-- Placeholder: Shown in list of Multi Shortcut / Trigger Shortcut for shortcuts that have been deleted -->
+    <string name="placeholder_deleted_shortcut">Lasterbidea ezabatu da</string>
     <!-- Label: Wi-Fi network selection config in shortcut settings -->
+    <string name="label_ssid">Wi-Fi SSID behar da</string>
     <!-- Dialog title: Permission request for Wi-Fi/SSID check -->
+    <string name="title_permission_dialog">Baimena behar da</string>
     <!-- Message: Rational given for location permission in Wi-Fi/SSID check  -->
+    <string name="message_permission_rational">Uneko Wi-Fi sarearen izena (SSID) egiaztatzeko, kokapen-zerbitzuak gaitu behar dira eta aplikazioari kokapen-baimena eman behar zaio. Hau Android OS-ek ezarritako baldintza bat da. Zure kokapen-datuak ez dira zuzenean atzematen. Ikusi Pribatutasun Politika xehetasunak lortzeko.</string>
     <!-- Message: Shown to the user when connected to a different Wi-Fi network than the one given in the config -->
+    <string name="message_wrong_wifi_network">Ez dago konektatuta \“%1$s\” lasterbide honetarako konfiguratutako Wi-Fi sarera. Beste Wi-Fi sare bat hautatu nahi duzu orain?</string>
     <!-- Action label: Shown on wifi check dialog to open the Wi-Fi picker -->
+    <string name="action_label_select">Hautatu</string>
     <!-- Error message, shown when user declines location permission for Wi-Fi check -->
+    <string name="error_missing_location_permission">Ezin izan da zehaztu uneko Wi-Fiaren SSID-a. Kokapen-baimena behar da.</string>
     <!-- Message: Success message shown when a response was saved to a file -->
+    <string name="message_response_saved_to_file">Erantzuna fitxategian gorde da.</string>
     <!-- Dialog title: Shown in progress dialog while a file is being saved -->
+    <string name="saving_in_progress">Gordetzen...</string>
     <!-- Error message: Shown in dialog when user tries to enter an invalid URL for the remote edit feature -->
+    <string name="error_invalid_remote_edit_host_url">URL baliogabea. http(s) izan behar du.</string>
     <!-- Section title on import/export screen for options related to importing -->
+    <string name="settings_title_import">Inportatu</string>
     <!-- Section title on import/export screen for options related to exporting -->
+    <string name="settings_title_export">Esportatu</string>
     <!-- Section title on import/export screen for options related to remote editing (i.e. editing on computer) -->
+    <string name="settings_title_remote_edit">Urrutiko edizioa</string>
     <!-- Error: Shown to the user when any error occurred while trying to execute a shortcut that uses a client certificate -->
+    <string name="error_failed_to_use_client_cert">Ezin izan da kargatu edo erabili bezeroaren ziurtagiria. Baliteke hau zure gailuak onartzen ez izatea edo lasterbidearen ezarpenetan berriro konfiguratu behar izatea.</string>
     <!-- Label shown above a text field showing a shortcut's ID -->
+    <string name="label_shortcut_id">Lasterbidearen IDa</string>
     <!-- Label shown above a text field showing a shortcut's deep link URL -->
+    <string name="label_deep_link_url">Lotura sakoneko URLa</string>
     <!-- Message: instructions shown below a shortcut's deep-linking URL -->
+    <string name="message_deep_link_instructions">Lasterbide hau abiarazi dezakezu beste aplikazio batetik URL hau deituz, adibidez, QR eskaner edo NFC irakurgailu baten bidez. Erantsi kontsulta-parametroak URLari balio aldagaiak pasatzeko.</string>
     <!-- Message: Hint to the user that additional/advanced options are available for response handling through scripting.  -->
+    <string name="message_response_handling_scripting_hint">Erantzuna prozesatzeko eta bistaratzeko aukera aurreratuagoak behar badituzu, begiratu \“%s\” atala, JavaScript kodea erabiliz logika pertsonalizatua definitzeko aukera ematen duena.</string>
     <!-- Message: Brief explanation of what a toast message is and what its limitations are  -->
     <!-- Shortcut Action Title: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
     <!-- Shortcut Action Title: Allows converting a byte array into a string using the Scripting feature -->
     <!-- Shortcut Action Description: Allows converting a byte array into a string of hexadecimal codes using the Scripting feature -->
+    <string name="action_type_to_hex_string_description">Uint8Array bat zifra hamaseitar kate batean bihurtzen du</string>
     <!-- Shortcut Action Description: Allows converting a byte array into a string using the Scripting feature -->
+    <string name="action_type_to_string_description">Uint8Array bat kate batean bihurtzen du</string>
     <!-- Description for Base64decode function in scripting -->
+    <string name="action_type_base64decode_description">Base64 kodetutako katea Unit8Array (byte array) bihurtzen du</string>
     <!-- Description for Base64encode function in scripting -->
+    <string name="action_type_base64encode_description">Katea edo Uint8Array (byte-matrizea) Base64 kodetutako kate batean bihurtzen du</string>
     <!-- Description for htmlEncode function in scripting -->
+    <string name="action_type_html_encode_description">Testu arrunteko kate bat kodetzen du HTML segurua izan dadin</string>
     <!-- Description for htmlDecode function in scripting -->
     <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
     <!-- Description for URL Encode function in scripting -->
@@ -1574,6 +1707,7 @@
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <!-- Option in dropdown for the schedule for the automatic export feature, to run after changes were made (to shortcuts, variables, ...) -->
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
     <!-- Label above input field in automatic export, to protect the file with a password -->
     <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->

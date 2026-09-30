@@ -24,8 +24,12 @@
     <string name="label_broadcast_address">Broadcast-Adresse</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Browser</string>
+    <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
+    <string name="label_browser_shortcut_default_browser">Standard-Browser für Browser-Shortcuts</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Standardbrowser verwenden</string>
+    <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
+    <string name="placeholder_browser_system_default">Systemstandard</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">Custom-Tabs verwenden</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -222,6 +226,10 @@
     <string name="settings_allow_overlay">Über anderen Apps einblenden</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Hilft falls Shortcuts nicht via Quick Settings Tile oder von anderen Apps aus gestartet werden können</string>
+    <!-- Name of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access">Zugriff auf lokales Netzwerk erlauben</string>
+    <!-- Subtitle of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access_summary">Aktivieren, wenn Probleme mit anderen Geräten im Netzwerk auftreten</string>
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi">Pop-Up Fenster erlauben wenn App im Hintergrund</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
@@ -747,6 +755,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="label_shortcut_as_file_share_target">”Teilen …” erlauben</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <string name="subtitle_shortcut_as_file_share_target">Ist diese Option aktiviert, so kannst du Dateien mit der App teilen und deren Inhalt als den Request-Body oder als einen Form-Parameter des Shortcuts verwenden.</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the scripting shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them for scripting purposes -->
+    <string name="subtitle_scripting_shortcut_as_file_share_target">Ist diese Option aktiviert, so kannst du Dateien mit der App teilen und diese für Scripting verwenden</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Auslösen via Quick Settings Tile erlauben</string>
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
@@ -765,8 +775,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="error_share_failed">Beim Teilen ist ein Fehler aufgetreten.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Diese Funktion wird von deinem Gerät nicht unterstützt.</string>
-    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">Browser mit Package-Name %s nicht gefunden</string>
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed), or because it can not handle the given URL -->
+    <string name="error_browser_not_found_or_cannot_handle_url">Browser “%s” nicht gefunden oder er unterstützt diese URL nicht</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Ein unbekannter Fehler ist aufgetreten…</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
@@ -957,6 +967,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="action_type_send_tcp_packet">TCP-Paket senden</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
     <string name="action_type_send_http_request">HTTP-Request senden</string>
+    <!-- Shortcut Action Title: Send a command over an SSH connection and execute it on a remote host -->
+    <string name="action_type_send_ssh_command">SSH-Befehl senden</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">MQTT-Nachricht senden</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -2041,6 +2053,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="label_import_schedule">Zeitplan</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
     <string name="sync_schedule_every_day">Täglich</string>
+    <!-- Option in dropdown for the schedule for the automatic export feature, to run after changes were made (to shortcuts, variables, ...) -->
+    <string name="sync_schedule_on_change">Wann immer es Änderungen gibt</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
     <string name="sync_schedule_every_week">Wöchentlich</string>
     <!-- Label above input field in automatic export, to protect the file with a password -->

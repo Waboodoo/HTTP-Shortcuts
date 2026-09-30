@@ -24,8 +24,10 @@
     <string name="label_broadcast_address">Indirizzo Di Trasmissione</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Browser</string>
+    <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Utilizzare il browser predefinito</string>
+    <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">Usa Scheda Personalizzata</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -218,6 +220,8 @@
     <string name="settings_allow_overlay">Consenti visualizzazione sopra altre app</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Abilita se le scorciatoie non funzionano quando vengono attivate dal riquadro impostazioni rapide o da un\'app di terze parti</string>
+    <!-- Name of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <!-- Subtitle of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi">Consenti la visualizzazione di finestre pop-up in background</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
@@ -718,6 +722,7 @@ Annulla l\'esecuzione in sospeso</string>
     <string name="label_shortcut_as_file_share_target">Consenti la ricezione di file dalla finestra di condivisione</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <string name="subtitle_shortcut_as_file_share_target">Abilitando questa opzione puoi condividere file da altre app e usarli per i parametri del corpo o del modulo di richiesta di questa scorciatoia.</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the scripting shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them for scripting purposes -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Consenti attivazione tramite Impostazioni Rapide</string>
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
@@ -730,8 +735,7 @@ Annulla l\'esecuzione in sospeso</string>
     <string name="error_share_failed">Si è verificato un errore durante la condivisione.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Questa funzionalità non è supportata dal tuo dispositivo.</string>
-    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">Browser con nome del pacchetto %s non trovato</string>
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed), or because it can not handle the given URL -->
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Qualcosa è andato storto…</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
@@ -912,6 +916,7 @@ Annulla l\'esecuzione in sospeso</string>
     <string name="action_type_send_tcp_packet">Inviare un pacchetto TCP</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
     <string name="action_type_send_http_request">Invia Richiesta HTTP</string>
+    <!-- Shortcut Action Title: Send a command over an SSH connection and execute it on a remote host -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Inviare il messaggio MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1933,6 +1938,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <!-- Option in dropdown for the schedule for the automatic export feature, to run after changes were made (to shortcuts, variables, ...) -->
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
     <!-- Label above input field in automatic export, to protect the file with a password -->
     <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->

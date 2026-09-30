@@ -24,8 +24,10 @@
     <string name="label_broadcast_address">Адрес за излъчване</string>
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Браузър</string>
+    <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Използвай браузъра по подразбиране</string>
+    <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">Използване на персонализиран раздел</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -222,6 +224,8 @@
     <string name="settings_allow_overlay">Разреши показване върху други приложения</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Активирайте тази опция, ако бързите команди не работят, когато се задействат от плочката „Бързи настройки“ или от приложение на трета страна</string>
+    <!-- Name of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <!-- Subtitle of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi">Разреши показването на изскачащи прозорци, когато приложението работи във фонов режим</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
@@ -743,6 +747,7 @@
     <string name="label_shortcut_as_file_share_target">Разрешаване на получаването на файлове от диалоговия прозорец за споделяне</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <string name="subtitle_shortcut_as_file_share_target">Активирането на тази опция ви позволява да споделяте файлове от други приложения и да ги използвате като тяло на заявката или като параметри на формуляра за този пряк път.</string>
+    <!-- Subtitle for option in shortcut editor, selecting it will enable the scripting shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them for scripting purposes -->
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Разрешаване на задействане чрез плочката „Бързи настройки“</string>
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
@@ -761,8 +766,7 @@
     <string name="error_share_failed">Възникна грешка по време на споделянето.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Тази функция не се поддържа на вашето устройство.</string>
-    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed) -->
-    <string name="error_browser_not_found">Не беше открит браузър с име на пакета „%s“</string>
+    <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed), or because it can not handle the given URL -->
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Възникна неочаквана грешка.</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
@@ -953,6 +957,7 @@
     <string name="action_type_send_tcp_packet">Изпращане на TCP пакет</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
     <string name="action_type_send_http_request">Изпращане на HTTP заявка</string>
+    <!-- Shortcut Action Title: Send a command over an SSH connection and execute it on a remote host -->
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Изпращане на MQTT съобщение</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -2037,6 +2042,7 @@
     <string name="label_import_schedule">Планиране</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
     <string name="sync_schedule_every_day">Веднъж на ден</string>
+    <!-- Option in dropdown for the schedule for the automatic export feature, to run after changes were made (to shortcuts, variables, ...) -->
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
     <string name="sync_schedule_every_week">Веднъж седмично</string>
     <!-- Label above input field in automatic export, to protect the file with a password -->
