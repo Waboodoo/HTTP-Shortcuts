@@ -1,9 +1,9 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.util.Base64
-import ch.rmy.android.framework.extensions.applyIf
-import ch.rmy.android.framework.extensions.applyIfNotNull
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.runIf
+import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
@@ -40,7 +40,7 @@ constructor() : Action<SendSSHCommandAction.Params> {
                 client.connectOrThrow(verifyHost)
 
                 try {
-                    client.authenticate(username, password, privateKey)
+                    client.authenticate(username, password, privateKey, passphrase)
 
                     val session = client.openSession()
                         ?: throw ActionException {
@@ -100,9 +100,9 @@ constructor() : Action<SendSSHCommandAction.Params> {
         }
     }
 
-    private suspend fun SshClient.authenticate(username: String, password: String?, privateKey: String?) {
+    private suspend fun SshClient.authenticate(username: String, password: String?, privateKey: String?, passphrase: String?) {
         val authResult = if (privateKey != null) {
-            authenticatePublicKey(username, privateKey.toByteArray())
+            authenticatePublicKey(username, privateKey.toByteArray(), passphrase)
         } else if (password != null) {
             authenticatePassword(username, password)
         } else {
@@ -111,7 +111,7 @@ constructor() : Action<SendSSHCommandAction.Params> {
         if (authResult !is AuthResult.Success || !isAuthenticated) {
             throw ActionException {
                 "SSH authentication failed"
-                    .applyIfNotNull((authResult as? AuthResult.Error)?.message) {
+                    .runIfNotNull((authResult as? AuthResult.Error)?.message) {
                         plus(": $it")
                     }
             }
@@ -122,7 +122,7 @@ constructor() : Action<SendSSHCommandAction.Params> {
         val code = when (val exitInfo = exitInfo.await()) {
             is SessionExit.Signal -> throw ActionException {
                 "SSH command failed with signal ${exitInfo.signalName}"
-                    .applyIf(exitInfo.errorMessage.isNotEmpty()) {
+                    .runIf(exitInfo.errorMessage.isNotEmpty()) {
                         plus(": ${exitInfo.errorMessage}")
                     }
             }
@@ -156,6 +156,7 @@ constructor() : Action<SendSSHCommandAction.Params> {
         val username: String,
         val password: String?,
         val privateKey: String?,
+        val passphrase: String?,
         val verifyHost: String?,
         val command: String,
     )

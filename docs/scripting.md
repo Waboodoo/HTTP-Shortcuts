@@ -885,11 +885,12 @@ With the `sendSSHCommand` function you can connect to a remote host over SSH and
 |port|The port to connect to. Will use the default of 22 if not specified.|int|
 |username|The username for authenticating with the host|string|
 |password|The password for authenticating with the host. May be set to null or omitted if `privateKey` is provided instead|string|
-|privateKey|The private key for authenticating with the host. May be set to null or omitted if `password` is provided instead|string|
+|privateKey|The private key for authenticating with the host, as you would find it in a key file. May be set to null or omitted if `password` is provided instead|string|
+|passphrase|The passphrase for decrypting the private key. May be set to null or omitted if the `privateKey` is not encrypted or when using `password` for authentication instead.|string|
 |verifyHost|The expected public key of the host, in the form of "algorithm base64(public_key)", similar to how it might appear in a known_hosts file. May be set to the empty string to opt out of host verification, though this is strongly discouraged.|string|
 
 
-> It is recommended to store passwords, private and public keys in a global variable, or possibly even files, as that makes it easier to change and reuse their value later and also makes the code more readable.
+> It is recommended to store passwords, private keys, public keys, and passphrases in global variables, or possibly even files. This makes it easier to change their values later, allows reusing them across shortcuts, and also makes the code more readable.
 
 The return value is an object which includes the fields `stdout`, `stderr` and `code`, which give you the response from the remote host. All values may be null, as the host may not return anything.
 
@@ -899,6 +900,7 @@ const result = sendSSHCommand(
   {
     username: "johndoe",
     privateKey: getVariable("johndoe_privatekey"),
+    passphrase: "my-private-key-passphrase",
     verifyHost: "ssh-ed25519 AAAAC3Nza...",
   },
   "ping -c 4 example.com",
