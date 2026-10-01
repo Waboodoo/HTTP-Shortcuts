@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import ch.rmy.android.framework.extensions.logInfo
+import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.sync.SyncScheduler
 import ch.rmy.android.http_shortcuts.tiles.QuickTileUpdater
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,9 +32,15 @@ class BootReceiver : BroadcastReceiver() {
 
         CoroutineScope(Dispatchers.Default).launch {
             logInfo("Device rebooted")
-            executionScheduler.schedule()
-            syncScheduler.schedule()
-            quickTileUpdater.update()
+            tryOrLog {
+                executionScheduler.schedule()
+            }
+            tryOrLog {
+                syncScheduler.schedule()
+            }
+            tryOrLog {
+                quickTileUpdater.update()
+            }
         }
     }
 }
