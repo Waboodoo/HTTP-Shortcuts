@@ -360,7 +360,9 @@ dependencies {
     implementation(libs.paho.mqtt)
 
     /* SSH */
-    implementation(libs.sshlib)
+    implementation(libs.sshlib) {
+        exclude("com.google.crypto.tink")
+    }
 
     /* Password hashing (for password lock) */
     implementation(libs.jbcrypt)
@@ -389,9 +391,7 @@ dependencies {
     implementation(libs.apksig)
 
     /* Google Assistant integration */
-    "releaseFullImplementation"(libs.androidx.googleShortcuts) {
-        exclude("com.google.crypto.tink")
-    }
+    "releaseFullImplementation"(libs.androidx.googleShortcuts)
 
     /* Testing */
     testImplementation(libs.kotlin.test.junit5)
