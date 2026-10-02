@@ -4,9 +4,7 @@ import buildSrc.syncChangeLog
 import buildSrc.syncDocumentation
 import buildSrc.syncIconKeywords
 import buildSrc.syncTranslationProgress
-import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.api.BaseVariantOutput
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
@@ -22,29 +20,15 @@ val bugsnagAPIKey = LocalProperties.getString("bugsnag_api_key") ?: ""
 val autoBuildDocs = LocalProperties.getBoolean("autobuild_docs") ?: false
 val useBugsnag = bugsnagAPIKey.isNotEmpty()
 val buildDate = (System.currentTimeMillis() / (24 * 60 * 60 * 1000L)).toInt()
-
-class OutputFileNameVariantAction : Action<ApplicationVariant> {
-    override fun execute(variant: ApplicationVariant) {
-        variant.outputs.all(VariantOutputAction())
-    }
-
-    class VariantOutputAction : Action<BaseVariantOutput> {
-        override fun execute(output: BaseVariantOutput) {
-            if (output is BaseVariantOutputImpl) {
-                output.outputFileName = output.outputFileName.replace("-releaseFull.apk", "-release.apk")
-            }
-        }
-    }
+val isBuildingBundle = gradle.startParameter.taskNames.any {
+    it.contains("bundle", ignoreCase = true)
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "ch.rmy.android.http_shortcuts"
 
     compileSdk = 37
 
-    kotlin {
-        jvmToolchain(17)
-    }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
     }
@@ -127,10 +111,6 @@ android {
     buildTypes {
         /* Used for development & testing */
         getByName("debug") {
-            isMinifyEnabled = false
-            isShrinkResources = false
-
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs["development"]
 
@@ -138,7 +118,7 @@ android {
         }
 
         /* Used for F-Droid */
-        getByName("release") {
+        val release = getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
 
@@ -152,20 +132,13 @@ android {
 
         /* Used for Play Store & GitHub release page */
         create("releaseFull") {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            initWith(release)
             ndk.debugSymbolLevel = "SYMBOL_TABLE"
-
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            optimization.keepRules {
-                ignoreFrom("com.github.franmontiel:PersistentCookieJar")
-            }
 
             buildConfigField("String", "BUILD_TYPE", "\"RELEASE_FULL\"")
         }
     }
 
-    val isBuildingBundle = gradle.startParameter.taskNames.any { it.contains("bundle", ignoreCase = true) }
     splits {
         abi {
             isEnable = !isBuildingBundle
@@ -221,13 +194,15 @@ android {
         project.tasks.preBuild.dependsOn("syncChangeLog")
     }
 
-    applicationVariants.all(OutputFileNameVariantAction())
-
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
         }
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 val shellApkTemplateAssetDir = layout.projectDirectory.dir("src/main/assets").asFile

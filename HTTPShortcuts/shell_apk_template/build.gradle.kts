@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.utils.forEach
 import java.awt.Color
 import java.awt.image.BufferedImage
@@ -14,7 +15,7 @@ plugins {
     id("com.android.application")
 }
 
-android {
+extensions.configure<ApplicationExtension> {
     namespace = "ch.rmy.android.http_shortcuts.shelltemplate"
 
     compileSdk = 37

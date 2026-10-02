@@ -20,3 +20,6 @@
 
 # Persistent CookieJar library (whose own rules are way too broad and are thus ignored)
 -keep class com.franmontiel.persistentcookiejar.persistence.SerializableCookie { *; }
+
+# For signing APKs. TODO: This rule should be optimized
+-keep class com.android.apksig.internal.** { *; }

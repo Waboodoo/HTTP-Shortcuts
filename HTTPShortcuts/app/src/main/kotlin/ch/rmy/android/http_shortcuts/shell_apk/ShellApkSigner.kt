@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.shell_apk
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import com.android.apksig.ApkSigner
+import com.android.apksig.KeyConfig
 import java.io.File
 import java.math.BigInteger
 import java.security.KeyPairGenerator
@@ -47,7 +48,7 @@ constructor() {
         }
         val privateKey = keyStore.getKey(KEY_ALIAS, null) as PrivateKey
         val certificate = keyStore.getCertificate(KEY_ALIAS) as X509Certificate
-        return ApkSigner.SignerConfig.Builder(KEY_ALIAS, privateKey, listOf(certificate))
+        return ApkSigner.SignerConfig.Builder(KEY_ALIAS, KeyConfig.Jca(privateKey), listOf(certificate))
             .build()
     }
 

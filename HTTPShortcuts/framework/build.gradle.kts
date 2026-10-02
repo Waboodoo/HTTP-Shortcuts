@@ -1,8 +1,10 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     id("com.android.library")
 }
 
-android {
+extensions.configure<LibraryExtension> {
     namespace = "ch.rmy.android.framework"
     compileSdk = 37
 
@@ -24,15 +26,16 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    kotlin {
-        jvmToolchain(17)
-    }
 
     testOptions {
         unitTests.all {
             it.useJUnitPlatform()
         }
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
