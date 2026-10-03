@@ -11,7 +11,15 @@ import ch.rmy.android.http_shortcuts.Application
 
 class Migration14 : AutoMigrationSpec {
     override fun onPostMigrate(db: SupportSQLiteDatabase) {
-        db.execSQL("UPDATE shortcut SET exclude_from_file_sharing = true WHERE execution_type = 'scripting'")
+        db.update(
+            table = "shortcut",
+            conflictAlgorithm = OnConflictStrategy.IGNORE,
+            values = ContentValues().apply {
+                put("exclude_from_file_sharing", true)
+            },
+            whereClause = "execution_type = ?",
+            whereArgs = arrayOf("scripting"),
+        )
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Application.appContext)
         sharedPreferences.getString(KEY_USER_AGENT, null)?.takeUnlessEmpty()
