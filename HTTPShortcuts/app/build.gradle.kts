@@ -5,6 +5,7 @@ import buildSrc.syncDocumentation
 import buildSrc.syncIconKeywords
 import buildSrc.syncTranslationProgress
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
@@ -378,6 +379,17 @@ dependencies {
 ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
     arg("room.incremental", "true")
+}
+
+extensions.configure<ApplicationAndroidComponentsExtension> {
+    onVariants(selector().withBuildType("releaseFull")) { variant ->
+        variant.outputs.forEach { output ->
+            val currentName = output.outputFileName.get()
+            if (currentName.contains("releaseFull")) {
+                output.outputFileName.set(currentName.replace("releaseFull", "release"))
+            }
+        }
+    }
 }
 
 tasks.register("syncChangeLog") {
