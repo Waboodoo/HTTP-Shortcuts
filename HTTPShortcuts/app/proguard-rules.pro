@@ -23,3 +23,8 @@
 
 # For signing APKs. TODO: This rule should be optimized
 -keep class com.android.apksig.internal.** { *; }
+
+# For MQTT, because Paho doesn't provide useful rules of its own # TODO: These rules should be optimized
+-keep class org.eclipse.paho.clent.mqttv3.** {*;}
+-keep class org.eclipse.paho.client.mqttv3.*$* { *; }
+-keep class org.eclipse.paho.client.mqttv3.logging.JSR47Logger { *; }

@@ -26,6 +26,8 @@ constructor(
     private val clipboardUtil: ClipboardUtil,
 ) : BaseViewModel<Unit, AboutViewState>(application) {
 
+    private var counter = 0
+
     override suspend fun initialize(data: Unit): AboutViewState =
         AboutViewState(
             versionNumber = getFormattedVersionNumber(),
@@ -89,6 +91,10 @@ constructor(
     }
 
     fun onDeviceIdButtonClicked() = runAction {
+        counter++
+        if (counter > 10) {
+            throw RuntimeException("Test Crash")
+        }
         clipboardUtil.copyToClipboard(deviceLocalPreferences.deviceId)
         showSnackbar(R.string.message_device_id_copied)
     }

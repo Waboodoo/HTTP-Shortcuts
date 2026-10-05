@@ -45,9 +45,9 @@ extensions.configure<ApplicationExtension> {
         targetSdk = 37
 
         // Version name and code must remain as literals so that F-Droid can read them
-        versionName = "4.8.0"
+        versionName = "4.8.1"
         // 11,(2 digits major),(2 digits minor),(2 digits patch),(2 digits build)
-        versionCode = 1104080003
+        versionCode = 1104080100
 
         buildConfigField("String", "BUGSNAG_API_KEY", "\"$bugsnagAPIKey\"")
         buildConfigField("int", "BUILD_DATE", buildDate.toString())

@@ -1,10 +1,15 @@
+## Version 4.8.1
+
+### Bugfixes
+- MQTT Shortcuts and the `sendMQTTMessages` function no longer fail internally
+
 ## Version 4.8.0
 
 ### Potentially Breaking Changes
 
 If you are on Android 17 and find that some or all of your shortcuts fail when connecting to devices on the local network, you may need to enable the newly added option "Allow Access to Local Network" from the Troubleshooting screen.
 
-## Improvements
+### Improvements
 - You can now execute commands over SSH via the newly added Scripting function [sendSSHCommand](https://http-shortcuts.rmy.ch/scripting#send-ssh-command).
 - Shortcuts installed as apps can now receive shared text. You will need to reinstall them after adding a variable that supports sharing. (File sharing is not supported)
 - Instead of running periodically, the automatic export feature can now be configured to run whenever there are any changes.
@@ -12,14 +17,14 @@ If you are on Android 17 and find that some or all of your shortcuts fail when c
 - You can now globally set the default browser used by browser shortcuts in the settings
 - The globally set User-Agent string is now part of the import & export format
 
-## Bugfixes
+### Bugfixes
 - When placing a shortcut with a transparent icon on the homescreen, the selected background color is now applied immediately instead of only after the app is reopened
 - Variable placeholders used in MQTT authentication are now properly resolved (thanks [@mueckinger](https://github.com/mueckinger))
 - Fixed an issue with the curl parser that would mangle data-raw (thanks [@eyal0](https://github.com/eyal0))
 - Fixed a crash that could occur when using the Tasker plugin in combination with a custom app icon
 - Various technical improvements to the quick settings tile, which should make it more reliable and prevent it from getting stuck in an inactive state
 
-## Miscellaneous
+### Miscellaneous
 - The error messages for browser shortcuts were made more accurate and meaningful
 
 ## Version 4.7.0
