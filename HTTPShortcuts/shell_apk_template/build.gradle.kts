@@ -67,12 +67,8 @@ val generateShellTemplateIcon by tasks.registering {
             val image = BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB)
             val graphics = image.createGraphics()
             try {
-                graphics.color = Color(0x2D, 0x6C, 0xDF)
+                graphics.color = Color(25, 133, 204)
                 graphics.fillRect(0, 0, size, size)
-                graphics.color = Color.WHITE
-                graphics.fillRect((size * 0.31f).toInt(), (size * 0.33f).toInt(), (size * 0.38f).toInt(), (size * 0.08f).toInt())
-                graphics.fillRect((size * 0.31f).toInt(), (size * 0.46f).toInt(), (size * 0.38f).toInt(), (size * 0.08f).toInt())
-                graphics.fillRect((size * 0.31f).toInt(), (size * 0.58f).toInt(), (size * 0.25f).toInt(), (size * 0.08f).toInt())
             } finally {
                 graphics.dispose()
             }
