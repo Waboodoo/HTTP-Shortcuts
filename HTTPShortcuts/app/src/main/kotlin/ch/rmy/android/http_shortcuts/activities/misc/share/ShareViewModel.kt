@@ -90,6 +90,9 @@ constructor(
                     startShareFlow()
                 } catch (e: CancellationException) {
                     throw e
+                } catch (_: SecurityException) {
+                    showToast(R.string.error_read_shared_file)
+                    finish(skipAnimation = true)
                 } catch (e: Exception) {
                     showToast(R.string.error_generic)
                     logException(e)

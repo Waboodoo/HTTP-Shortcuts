@@ -2116,4 +2116,6 @@
     <string name="message_apply_new_app_icon">Applying new app icon</string>
     <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
     <string name="dialog_title_select_icon_background_color">Icon Background Color</string>
+    <!-- Error shown when reading a file shared into the app fails -->
+    <string name="error_read_shared_file">Failed to receive shared file</string>
 </resources>
