@@ -11,10 +11,12 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 plugins {
     id("com.android.application")
     alias(libs.plugins.ksp)
-    id("com.bugsnag.android.gradle")
     id("de.mobilej.unmock")
     id("com.google.dagger.hilt.android")
     alias(libs.plugins.compose.compiler)
+
+    // Disabled because of https://github.com/bugsnag/bugsnag-gradle-plugin/issues/84
+    // alias(libs.plugins.bugsnag.gradle)
 }
 
 val bugsnagAPIKey = LocalProperties.getString("bugsnag_api_key") ?: ""
@@ -239,6 +241,9 @@ unMock {
     keepAndRename("java.nio.charset.Charsets").to("xjava.nio.charset.Charsets")
 }
 
+// Disabled because of https://github.com/bugsnag/bugsnag-gradle-plugin/issues/84
+// alias(libs.plugins.bugsnag.gradle)
+/*
 bugsnag {
     enabled.set(useBugsnag)
     uploadJvmMappings.set(useBugsnag)
@@ -246,6 +251,7 @@ bugsnag {
     uploadNdkUnityLibraryMappings.set(false)
     reportBuilds.set(useBugsnag)
 }
+*/
 
 dependencies {
     coreLibraryDesugaring(libs.desugar)

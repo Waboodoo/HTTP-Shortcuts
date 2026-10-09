@@ -11,8 +11,8 @@ appcompat = "1.8.0"
 biometric = "1.2.0-alpha05"
 brotli = "0.1.2"
 browser = "1.10.0"
-bugsnag = "8.2.0"
-bugsnagAndroid = "6.27.1"
+bugsnagAndroid = "6.28.0"
+bugsnagGradle = "1.2.0"
 coil = "3.6.3"
 colorpickerview = "2.5.0"
 composableTable = "1.3.1"
@@ -83,7 +83,6 @@ androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref
 apksig = { module = "com.android.tools.build:apksig", version.ref = "androidGradle" }
 brotli = { module = "org.brotli:dec", version.ref = "brotli" }
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
-bugsnag-gradle = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnag" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose-core", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
@@ -131,3 +130,4 @@ hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+bugsnag-gradle = { id = "com.bugsnag.gradle", version.ref = "bugsnagGradle" }

@@ -10,7 +10,6 @@ buildscript {
     dependencies {
         classpath(libs.kotlin.gradle.plugin)
         classpath(libs.android.gradle)
-        classpath(libs.bugsnag.gradle)
         classpath(libs.unmock)
     }
 }
