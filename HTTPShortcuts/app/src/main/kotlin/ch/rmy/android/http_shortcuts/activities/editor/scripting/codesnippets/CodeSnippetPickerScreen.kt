@@ -67,7 +67,7 @@ fun CodeSnippetPickerScreen(
                     pickRingtone.launch()
                 } catch (e: ActivityNotFoundException) {
                     logException("CodeSnippetPicker", e)
-                    context.showToast(R.string.error_generic)
+                    context.showToast(R.string.error_not_supported)
                 }
             }
             is CodeSnippetPickerEvent.OpenTaskerTaskPicker -> consume {
@@ -75,7 +75,7 @@ fun CodeSnippetPickerScreen(
                     pickTaskerTask.launch()
                 } catch (e: ActivityNotFoundException) {
                     logException("CodeSnippetPicker", e)
-                    context.showToast(R.string.error_generic)
+                    context.showToast(R.string.error_not_supported)
                 }
             }
             else -> false

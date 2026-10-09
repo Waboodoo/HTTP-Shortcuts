@@ -174,7 +174,7 @@ class Execution(
             }
             throw e
         } catch (e: Exception) {
-            logError("Unknown / unexpected error, please contact developer")
+            logError("Unknown / unexpected error, please contact developer with details")
             withContext(Dispatchers.Main) {
                 context.showToast(R.string.error_generic)
             }

@@ -61,7 +61,6 @@ abstract class BaseActivity : AppCompatActivity() {
                 showToast(event.message.localize(context).toString(), long = event.long)
             }
             else -> {
-                showToast(R.string.error_generic)
                 logException(IllegalArgumentException("Unhandled event: $event"))
             }
         }

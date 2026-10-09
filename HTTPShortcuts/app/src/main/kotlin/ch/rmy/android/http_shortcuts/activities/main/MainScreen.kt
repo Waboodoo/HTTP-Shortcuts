@@ -76,7 +76,7 @@ fun MainScreen(
                 try {
                     openFilePickerForApk.launch(event.fileName)
                 } catch (_: ActivityNotFoundException) {
-                    context.showToast(R.string.error_generic)
+                    context.showToast(R.string.error_not_supported)
                 }
             }
             else -> false
