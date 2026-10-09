@@ -1945,4 +1945,5 @@ No entanto, ainda não tem nenhuma variável configurada.</string>
     <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
     <!-- Message displayed in a toast when the user selects a different icon for the app -->
     <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
+    <!-- Error shown when reading a file shared into the app fails -->
 </resources>
