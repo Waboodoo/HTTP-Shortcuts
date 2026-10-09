@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.logging
 
 import android.content.Context
+import android.os.Build
 import android.os.DeadObjectException
 import android.view.InflateException
 import ch.rmy.android.framework.extensions.minus
@@ -90,7 +91,15 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             e is InflateException ||
             e is DeadObjectException ||
             e.cause is DeadObjectException ||
-            e.stackTrace.any { it.className.contains("Miui") }
+            e.stackTrace.any { it.className.contains("Miui") } ||
+            isCausedByBrokenDevice(e)
+
+    private fun isCausedByBrokenDevice(e: Throwable): Boolean {
+        if (Build.MODEL != "Pixel 8 Pro" || Build.VERSION.SDK_INT != Build.VERSION_CODES.CINNAMON_BUN) {
+            return false
+        }
+        return e is NoSuchMethodError || (e is IllegalStateException && e.message == "missing request Id intent flag")
+    }
 
     override fun logInfo(origin: String?, message: String) {
         if (initialized) {
