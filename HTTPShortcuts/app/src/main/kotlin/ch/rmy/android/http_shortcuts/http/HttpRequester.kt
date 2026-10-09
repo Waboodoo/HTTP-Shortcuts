@@ -34,6 +34,7 @@ import ch.rmy.android.http_shortcuts.http.HttpHeaders.Companion.CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_MULTIPART_CONTENT_TYPE
 import ch.rmy.android.http_shortcuts.http.RequestUtil.FORM_URLENCODE_CONTENT_TYPE_WITH_CHARSET
 import ch.rmy.android.http_shortcuts.utils.ErrorFormatter
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
 import ch.rmy.android.http_shortcuts.variables.Variables
@@ -63,6 +64,7 @@ constructor(
     private val cookieManager: CookieManager,
     private val historyEventLogger: HistoryEventLogger,
     private val errorFormatter: ErrorFormatter,
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
 ) {
 
     private val contentResolver: ContentResolver
@@ -93,6 +95,10 @@ constructor(
                 proxy = getProxyParams(shortcut, variableValues),
                 contentType = determineContentType(shortcut),
             )
+
+            requestData.uri.host?.let { host ->
+                localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(host)
+            }
 
             validateRequestData(requestData)
 

@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
 import android.content.Context
+import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.isSuccessfulOrRedirect
 import ch.rmy.android.framework.extensions.toCharset
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.exceptions.ResponseTooLargeException
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
@@ -12,6 +14,7 @@ import ch.rmy.android.http_shortcuts.http.ResponseFileStorageFactory
 import ch.rmy.android.http_shortcuts.http.ShortcutResponse
 import ch.rmy.android.http_shortcuts.http.buildRequest
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.scripting.JsObject
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -28,9 +31,17 @@ constructor(
     private val context: Context,
     private val httpClientFactory: HttpClientFactory,
     private val responseFileStorageFactory: ResponseFileStorageFactory,
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
 ) : Action<SendHttpRequestAction.Params> {
-    override suspend fun Params.execute(executionContext: ExecutionContext): JsObject =
-        try {
+    override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
+        tryOrIgnore {
+            url.toUri().host
+        }
+            ?.let { host ->
+                localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(host)
+            }
+
+        return try {
             val (response, shortcutResponse) = withContext(Dispatchers.IO) {
                 val client = httpClientFactory.getClient(
                     context,
@@ -105,6 +116,7 @@ constructor(
                 property("response", null as String?)
             }
         }
+    }
 
     private fun Params.hasHeader(headerName: String): Boolean =
         headers?.any { it.key.equals(headerName, ignoreCase = true) } == true

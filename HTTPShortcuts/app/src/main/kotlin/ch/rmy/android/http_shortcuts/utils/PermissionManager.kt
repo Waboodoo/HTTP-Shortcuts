@@ -58,6 +58,13 @@ constructor(
             true
         }
 
+    suspend fun requestLocalNetworkPermissionIfNeeded(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CINNAMON_BUN) {
+            requestPermissionIfNeeded(Manifest.permission.ACCESS_LOCAL_NETWORK)
+        } else {
+            true
+        }
+
     private fun hasPermission(permission: String) =
         ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 

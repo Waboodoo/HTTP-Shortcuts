@@ -7,6 +7,7 @@ import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import ch.rmy.android.scripting.JsObject
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
@@ -23,8 +24,12 @@ import org.connectbot.sshlib.SshSession
 
 class SendSSHCommandAction
 @Inject
-constructor() : Action<SendSSHCommandAction.Params> {
+constructor(
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
+) : Action<SendSSHCommandAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
+        localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(host)
+
         val result = withContext(Dispatchers.IO) {
             try {
                 val hostKeyVerifier = object : HostKeyVerifier {

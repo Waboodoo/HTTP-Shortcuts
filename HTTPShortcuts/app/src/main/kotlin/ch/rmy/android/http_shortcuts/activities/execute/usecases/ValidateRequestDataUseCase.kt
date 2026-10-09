@@ -42,7 +42,7 @@ constructor(
                                 },
                             ),
                         )
-                    } catch (e: DialogCancellationException) {
+                    } catch (_: DialogCancellationException) {
                         // Continue as normal
                     }
                 }

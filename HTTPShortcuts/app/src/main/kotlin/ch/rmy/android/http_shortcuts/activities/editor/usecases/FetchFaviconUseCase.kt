@@ -2,12 +2,15 @@ package ch.rmy.android.http_shortcuts.activities.editor.usecases
 
 import android.content.Context
 import android.graphics.BitmapFactory
+import androidx.core.net.toUri
 import ch.rmy.android.framework.extensions.logException
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.data.models.GlobalVariable
 import ch.rmy.android.http_shortcuts.http.HttpClientFactory
 import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.utils.IconUtil
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import ch.rmy.android.http_shortcuts.utils.UserAgentProvider
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import ch.rmy.android.http_shortcuts.variables.VariableResolver
@@ -26,6 +29,7 @@ class FetchFaviconUseCase
 constructor(
     private val context: Context,
     private val variableResolver: VariableResolver,
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
     httpClientFactory: HttpClientFactory,
 ) {
     private val client = httpClientFactory.getClient(context)
@@ -34,6 +38,13 @@ constructor(
         val variableManager = VariableManager(globalVariables)
         variableResolver.resolve(variableManager, Variables.findResolvableVariableIdentifiers(url), dialogHandle)
         val finalUrl = Variables.rawPlaceholdersToResolvedValues(url, variableManager.getVariableValues())
+
+        tryOrIgnore {
+            finalUrl.toUri().host
+        }
+            ?.let { host ->
+                localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(host)
+            }
 
         val iconSize = IconUtil.getIconSize(context)
         return withContext(Dispatchers.IO) {

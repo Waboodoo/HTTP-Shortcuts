@@ -4,6 +4,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import java.io.StringWriter
 import java.net.InetAddress
 import java.net.Socket
@@ -21,9 +22,13 @@ import okhttp3.internal.closeQuietly
 
 class SendTCPPacketAction
 @Inject
-constructor() : Action<SendTCPPacketAction.Params> {
-    override suspend fun Params.execute(executionContext: ExecutionContext): String? =
-        withContext(Dispatchers.IO) {
+constructor(
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
+) : Action<SendTCPPacketAction.Params> {
+    override suspend fun Params.execute(executionContext: ExecutionContext): String? {
+        localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(ipAddress)
+
+        return withContext(Dispatchers.IO) {
             try {
                 Socket(InetAddress.getByName(ipAddress), port).use { socket ->
                     executionContext.cleanupHandler.doFinally {
@@ -90,6 +95,7 @@ constructor() : Action<SendTCPPacketAction.Params> {
                 }
             }
         }
+    }
 
     private fun Map<String, Any?>.getCharset() =
         get("charset")

@@ -13,6 +13,7 @@ import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
+import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import ch.rmy.android.http_shortcuts.utils.WakeOnLanUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import javax.inject.Inject
@@ -24,6 +25,7 @@ class WakeOnLanExecutionType
 @Inject
 constructor(
     private val wakeOnLanUtil: WakeOnLanUtil,
+    private val permissionManager: PermissionManager,
 ) : ExecutionType() {
     override fun invoke(
         params: ExecutionParams,
@@ -37,6 +39,8 @@ constructor(
         scriptExecutor: ScriptExecutor,
     ): Flow<ExecutionStatus> =
         flow {
+            permissionManager.requestLocalNetworkPermissionIfNeeded()
+
             val macAddress = injectVariables(shortcut.wolMacAddress, variableManager)
             try {
                 wakeOnLanUtil.send(

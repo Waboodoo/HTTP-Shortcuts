@@ -1,5 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.execute.types
 
+import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.execute.DialogHandle
 import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionParams
@@ -11,6 +13,7 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.http.FileUploadManager
 import ch.rmy.android.http_shortcuts.scripting.ResultHandler
 import ch.rmy.android.http_shortcuts.scripting.ScriptExecutor
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import ch.rmy.android.http_shortcuts.utils.MqttUtil
 import ch.rmy.android.http_shortcuts.variables.VariableManager
 import javax.inject.Inject
@@ -21,6 +24,7 @@ class MqttExecutionType
 @Inject
 constructor(
     private val mqttUtil: MqttUtil,
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
 ) : ExecutionType() {
     override fun invoke(
         params: ExecutionParams,
@@ -37,9 +41,18 @@ constructor(
             val username = injectVariables(shortcut.authUsername, variableManager)
             val password = injectVariables(shortcut.authPassword, variableManager)
             val useAuthentication = username.isNotEmpty() || password.isNotEmpty()
+            val uri = injectVariables(shortcut.url, variableManager)
+
+            tryOrIgnore {
+                uri.toUri().host
+            }
+                ?.let { host ->
+                    localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(host)
+                }
+
             try {
                 mqttUtil.sendMessages(
-                    serverUri = injectVariables(shortcut.url, variableManager),
+                    serverUri = uri,
                     username = username.takeIf { useAuthentication },
                     password = password.takeIf { useAuthentication },
                     hostVerificationConfig = shortcut.getSSLConfig(),

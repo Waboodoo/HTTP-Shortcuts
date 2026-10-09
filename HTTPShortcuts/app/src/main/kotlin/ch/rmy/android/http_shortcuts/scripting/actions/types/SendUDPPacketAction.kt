@@ -4,6 +4,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -14,8 +15,12 @@ import kotlinx.coroutines.withContext
 
 class SendUDPPacketAction
 @Inject
-constructor() : Action<SendUDPPacketAction.Params> {
+constructor(
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
+) : Action<SendUDPPacketAction.Params> {
     override suspend fun Params.execute(executionContext: ExecutionContext) {
+        localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(ipAddress)
+
         withContext(Dispatchers.IO) {
             try {
                 sendPacket(
