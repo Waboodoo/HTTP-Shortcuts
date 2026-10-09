@@ -50,7 +50,7 @@ class Application : android.app.Application(), Configuration.Provider {
 
         if (!RealmMigrator.check(context)) {
             val errorCount = deviceLocalPreferences.realmErrorCount
-            if (errorCount < 10) {
+            if (errorCount < 5) {
                 deviceLocalPreferences.realmErrorCount = errorCount + 1
                 logException(RuntimeException("Unmigrated Realm found"))
             }
