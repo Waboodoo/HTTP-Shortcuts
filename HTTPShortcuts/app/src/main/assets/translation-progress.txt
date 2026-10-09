@@ -23,5 +23,5 @@ ru:88
 tr:61
 vi:51
 zh-rCN:95
-zh-rTW:87
+zh-rTW:100
 en:100

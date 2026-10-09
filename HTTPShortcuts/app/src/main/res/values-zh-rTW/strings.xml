@@ -25,9 +25,11 @@
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">瀏覽器</string>
     <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
+    <string name="label_browser_shortcut_default_browser">瀏覽器捷徑的預設瀏覽器</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">使用預設瀏覽器</string>
     <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
+    <string name="placeholder_browser_system_default">系統預設值</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">使用自訂索引標籤</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -65,7 +67,7 @@
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">放置於主畫面</string>
     <!-- Shortcut dropdown option: Install the shortcut as a separate launcher app -->
-    <string name="action_install_as_app">安裝為應用</string>
+    <string name="action_install_as_app">安裝成應用程式</string>
     <!-- Category dropdown option: Place category on home screen -->
     <string name="action_place_category">放置於主畫面</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
@@ -199,13 +201,15 @@
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
     <string name="title_mqtt_message_add">新增訊息</string>
     <!-- Instruction text for MQTT shortcut URL field -->
+    <string name="instructions_mqtt_url">URL 必須以 tcp:// 或 ssl:// 開首</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">設定</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
     <string name="title_about">資訊</string>
     <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
-    <string name="menu_action_unlock_app">解除鎖定設定</string>
+    <string name="menu_action_unlock_app">解除鎖定</string>
     <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
+    <string name="menu_action_lock_app">鎖定</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">基本設定</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
@@ -223,7 +227,9 @@
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">若捷徑從快速設定方塊或第三方應用程式觸發時未能運作，則啟用此選項</string>
     <!-- Name of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access">允許存取區域網路</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access_summary">若您與您的網路上其他裝置互動時遇到問題，則啟用此選項</string>
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi">允許在背景中顯示快顯視窗</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
@@ -259,9 +265,13 @@
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">在電腦上編輯</string>
     <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <string name="title_import_export_advanced_settings">進階</string>
     <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <string name="settings_automatic_import_export">自動匯入 / 匯出</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <string name="fab_automatic_import_now">立即匯入</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
+    <string name="fab_automatic_export_now">立即匯出</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="other">%d 個捷徑已匯出。</item>
@@ -277,6 +287,7 @@
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">選取的檔案乃由此應用程式較新的版本匯出。請確定您已安裝此應用程式的最新版本。</string>
     <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
+    <string name="import_failure_invalid_file">無法匯入。檔案格式似乎有誤，又或已損毀。</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="other">%d 個捷徑已匯入。</item>
@@ -310,6 +321,7 @@
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
     <string name="label_subtitle_not_applicable_for_http">僅限使用 HTTPS 時適用</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the (MQTT) shortcut uses plain TCP instead of SSL -->
+    <string name="label_subtitle_not_applicable_for_ssl">僅限使用 SSL 時適用</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">用戶端憑證</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -349,7 +361,9 @@
     <!-- Button subtitle, for option to go to the app's official subreddit -->
     <string name="settings_reddit_summary">此應用程式的官方 subreddit，方便集思廣益與交流意見</string>
     <!-- Button title, for option to go to the app's official website -->
+    <string name="settings_go_to_website">造訪網站</string>
     <!-- Button subtitle, for option to go to the app's official website -->
+    <string name="settings_go_to_website_summary">在應用程式的官方網站上盡覽更多資訊</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">發問、功能請求、意見回饋 …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -391,9 +405,11 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">「%1$s」已放置於主畫面。</string>
     <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission. %s is a placeholder for the app's name. -->
+    <string name="message_shell_apk_intro">此功能可讓您產生一個輕巧的應用程式，其啟動時則觸發此捷徑。當與自動化應用程式整合時，若其可啟動其他應用程式，惟未能直接處理捷徑，此功能則大派用場。\n\n請選擇所產生的 APK 檔案要儲存的位置。您將需要手動安裝。\n\n請注意：所產生的應用程式，仍需要 %s 以及此捷徑本身，方可運作。</string>
     <!-- Message shown by a generated shell APK when HTTP Shortcuts can no longer handle its deep link -->
-    <string name="message_shell_apk_shortcut_not_found">未找到對應的捷徑，請解除安裝此應用</string>
+    <string name="message_shell_apk_shortcut_not_found">找不到 HTTP 捷徑應用程式</string>
     <!-- Message shown when the generated shell APK was saved to a file successfully -->
+    <string name="message_shell_apk_saved">所產生的應用程式檔案已儲存。</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
     <string name="dialog_delete">刪除</string>
     <!-- Section title, shown in shortcut editor, for section containing basic settings (i.e., URL and HTTP method) -->
@@ -433,8 +449,11 @@
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
     <string name="layout_type_wide_grid">寬形網格</string>
     <!-- Option when picking the vertical alignment for a category: align to the top -->
+    <string name="category_vertical_alignment_top">靠上對齊</string>
     <!-- Option when picking the vertical alignment for a category: align to the center -->
+    <string name="category_vertical_alignment_center">垂直置中</string>
     <!-- Option when picking the vertical alignment for a category: align to the bottom -->
+    <string name="category_vertical_alignment_bottom">靠下對齊</string>
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
     <string name="category_background_type_default">預設值</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
@@ -494,8 +513,11 @@
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">時間格式</string>
     <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <string name="label_variable_timestamp_timezone">時區</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <string name="label_variable_timestamp_local_timezone">本地</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
+    <string name="label_variable_timestamp_local_utc">UTC</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">分隔字元</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
@@ -635,7 +657,9 @@
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">記住數值</string>
     <!-- Checkbox value, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="label_secret_variable_value">視數值為秘密</string>
     <!-- Checkbox subtitle, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="subtitle_secret_variable_value">啟用時，數值一經儲存將不再在此顯示。</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">允許選取多重選項</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
@@ -721,19 +745,27 @@
     <!-- Subtitle for option in shortcut editor, selecting it will enable the shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them as this shortcut's request body or as a parameter -->
     <string name="subtitle_shortcut_as_file_share_target">啟用此選項可讓您從其他應用程式分享檔案並用作此捷徑的請求內文或表單參數。</string>
     <!-- Subtitle for option in shortcut editor, selecting it will enable the scripting shortcut as a file sharing target, meaning it will be possible to share files from outside the app and use them for scripting purposes -->
+    <string name="subtitle_scripting_shortcut_as_file_share_target">啟用此選項可讓您從其他應用程式分享檔案並用作編寫指令碼</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">允許透過快速設定方塊觸發</string>
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
+    <string name="label_network_preference">網路喜好設定</string>
     <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
+    <string name="option_network_default">使用系統預設值</string>
     <!-- Dropdown option for network preference: prefer cellular, fall back to default if unavailable -->
+    <string name="option_network_prefer_cellular">喜好行動數據</string>
     <!-- Dropdown option for network preference: only cellular, fail if unavailable -->
+    <string name="option_network_only_cellular">僅限行動數據</string>
     <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
+    <string name="option_network_prefer_wifi">喜好 Wi-Fi</string>
     <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
+    <string name="option_network_only_wifi">僅限 Wi-Fi</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">分享時發生錯誤。</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">您的裝置不支援此功能。</string>
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed), or because it can not handle the given URL -->
+    <string name="error_browser_not_found_or_cannot_handle_url">找不到瀏覽器「%s」，又或其未能處理此 URL</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">發生未預期的錯誤。</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
@@ -741,22 +773,27 @@
     <!-- Summary/subtitle of section in settings that allows user to click to open privacy policy dialog -->
     <string name="settings_privacy_policy_summary">就是光明磊落，不做盜取您資料的匪</string>
     <!-- Title of section in settings that allows user to lock all settings with a passcode. -->
-    <string name="settings_lock_app_title">鎖定設定</string>
+    <string name="settings_lock_app_title">鎖定應用程式</string>
     <!-- Summary/subtitle of section in settings that allows user to lock all settings with a passcode. -->
     <string name="settings_lock_app_summary">防止變更捷徑與設定</string>
     <!-- Summary/subtitle of section in settings that allows user to change or remove the app lock that prevents changes to settings -->
+    <string name="settings_lock_app_with_lock_summary">按一下此處以變更您的鎖定密碼或移除鎖定</string>
     <!-- Title of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_title">快速設定方塊</string>
     <!-- Summary/subtitle of section in settings that allows user to add a quick settings tile. -->
     <string name="settings_add_quick_settings_tile_summary">新增方塊以便從通知欄快速觸發捷徑</string>
     <!-- Title of checkbox option on settings screen, that allows the user to enable the feature to remember and restore the last active category -->
+    <string name="settings_remember_category">記住類別</string>
     <!-- Subtitle of checkbox option on settings screen, for when the "Remember (last) category" option is enabled -->
+    <string name="settings_remember_category_subtitle">開啟應用程式時還原最後一次使用的類別</string>
     <!-- Title of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_title">應用程式標題</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">變更應用程式主頁面的標題</string>
     <!-- Title of section in settings that allows the user to change the icon of the app -->
+    <string name="settings_app_icon_title">應用程式圖示</string>
     <!-- Summary/subtitle of section in settings that allows the user to change the icon of the app -->
+    <string name="settings_app_icon_summary">變更應用程式的啟動器圖示</string>
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">最小值</string>
     <!-- Label above input box, for maximum (numeric) value of a horizontal slider -->
@@ -829,6 +866,7 @@
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a number -->
     <string name="action_type_prompt_number_title">提示輸入數字</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to select a number using a slider -->
+    <string name="action_type_prompt_number_slider_title">提示輸入數字 (滑桿)</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a date -->
     <string name="action_type_prompt_date_title">提示輸入日期</string>
     <!-- Shortcut Action Title: Show Dialog that asks the user to input a time -->
@@ -892,6 +930,7 @@
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">開啟應用程式</string>
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
+    <string name="action_type_get_device_id_title">取得裝置識別碼</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">無法傳送意圖：%s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -917,6 +956,7 @@
     <!-- Shortcut Action Title: Send an HTTP request -->
     <string name="action_type_send_http_request">傳送 HTTP 請求</string>
     <!-- Shortcut Action Title: Send a command over an SSH connection and execute it on a remote host -->
+    <string name="action_type_send_ssh_command">傳送 SSH 命令</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">傳送 MQTT 訊息</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -972,6 +1012,7 @@
     <!-- Snackbar message: App was unlocked (settings can be changed again) -->
     <string name="message_app_unlocked">應用程式已解除鎖定。</string>
     <!-- Snackbar message: App lock was fully removed -->
+    <string name="message_app_lock_removed">應用程式鎖定已移除。</string>
     <!-- Warning dialog: Shown to user on startup to inform them that Android's "Data Saver" and/or "Battery Saver" modes may cause problems. -->
     <string name="warning_data_saver_battery_saver_enabled">您的裝置已啟用數據節省及/或省電模式。若您遇到捷徑未能運作之問題，請嘗試停用上述模式。</string>
     <!-- Message: Shown as a snackbar popup when a variable was duplicated. -->
@@ -1113,6 +1154,7 @@
     <!-- Dialog option: shown in code snippet picker, option to get the description of the current shortcut -->
     <string name="dialog_code_snippet_get_shortcut_description">取得捷徑描述</string>
     <!-- Dialog option: shown in code snippet picker, option to get the icon of the current shortcut -->
+    <string name="dialog_code_snippet_get_shortcut_icon">取得捷徑圖示</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a string -->
     <string name="dialog_code_snippet_response_body">取得回應內文作為字串</string>
     <!-- Dialog option: shown in code snippet picker, option allows to get the HTTP response body as a json object -->
@@ -1388,7 +1430,9 @@
     <!-- Description for htmlDecode function in scripting -->
     <string name="action_type_html_decode_description">將一個 HTML 字串解碼成純文字</string>
     <!-- Title for URL Encode function in scripting (for encoding a string of text to be safely used in a URL) -->
+    <string name="action_type_url_encode">URL 編碼</string>
     <!-- Description for URL Encode function in scripting -->
+    <string name="action_type_url_encode_description">將一個字串編碼，好以安全用於 URL 之中</string>
     <!-- Error message: Shown to user when trying to open a URL but no app was found that can handle it. %s is a placeholder for the URL -->
     <string name="error_no_app_found_for_url">找不到可供開啟 URL %s 的應用程式。</string>
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
@@ -1430,6 +1474,7 @@
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
     <string name="label_category_layout_type">版面配置類型</string>
     <!-- Label above dropdown input field for selecting the vertical alignment (top, center, bottom) for a category -->
+    <string name="label_category_vertical_alignment">垂直對齊</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <string name="label_category_scale">比例因素</string>
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
@@ -1521,9 +1566,13 @@
     <!-- Title of event history entry, which states that an execution error has occurred. %s is a placeholder for the shortcut's name -->
     <string name="event_history_title_execution_error">「%s」執行錯誤</string>
     <!-- Title of event history entry, which states that the automatic periodic import ran successfully -->
+    <string name="event_history_title_sync_import_succeeded">自動匯入成功</string>
     <!-- Title of event history entry, which states that the automatic periodic import failed -->
+    <string name="event_history_title_sync_import_failed">自動匯入失敗</string>
     <!-- Title of event history entry, which states that the automatic periodic export ran successfully -->
+    <string name="event_history_title_sync_export_succeeded">自動匯出成功</string>
     <!-- Title of event history entry, which states that the automatic periodic export failed -->
+    <string name="event_history_title_sync_export_failed">自動匯出失敗</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, which indicates how a shortcut was triggered. %s is a placeholder for the trigger source, e.g. "homescreen" -->
     <string name="label_prefix_event_history_trigger_origin">已觸發自：%s</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
@@ -1925,9 +1974,11 @@
     <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the Termux app is not active -->
     <string name="error_termux_not_running">無法執行命令，Termux 應用程式不在使用中。</string>
     <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the HTTP Shortcuts app is in the background -->
+    <string name="error_termux_cannot_start_from_background">Termux 無法在背景啟動</string>
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
     <string name="label_variable_widget_select_variable">全域變數</string>
     <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
+    <string name="label_variable_widget_select_shortcut">按一下時執行捷徑</string>
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
     <string name="empty_state_variable_widget">此小工具可讓您選定一個「%s」類型的全域變數，以便在您的主畫面顯示其數值。\n\n您尚未有任何此類變數。您可在應用程式的主功能表中建立。</string>
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
@@ -1945,56 +1996,109 @@
     <!-- Toast message shown after the Restore process was successful and the user's shortcuts, variables etc. were restored -->
     <string name="message_data_restored">資料已成功還原。</string>
     <!-- label, shown in variable widget editor, to allow the user to enter a title that will be shown on the widget variable -->
+    <string name="label_variable_widget_title">小工具標題</string>
     <!-- Title of setting on troubleshooting screen, for enabling/disabling certain performance optimizations -->
+    <string name="settings_performance_optimizations">效能優化</string>
     <!-- Option in "Performance Optimizations" setting, to enable them (for simple shortcuts) -->
+    <string name="settings_performance_optimizations_enabled">已啟用</string>
     <!-- Option in "Performance Optimizations" setting, to disable them -->
+    <string name="settings_performance_optimizations_disabled">已停用</string>
     <!-- Accessibility description for the "Show password" button that is displayed next to password input fields -->
+    <string name="button_show_password">顯示密碼</string>
     <!-- Accessibility description for the "Hide password" button that is displayed next to password input fields -->
+    <string name="button_hide_password">隱藏密碼</string>
     <!-- Label for setting on "Automatic Import / Export" screen, for when the feature is disabled -->
+    <string name="sync_type_disabled">已停用</string>
     <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import">自動匯入</string>
     <!-- Label for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export">自動匯出</string>
     <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
+    <string name="sync_type_automatic_import_description">定時匯入捷徑、變數等，以便與其他裝置同步。</string>
     <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
+    <string name="sync_type_automatic_export_description">定時匯出捷徑、變數等，以便備份或與其他裝置同步。</string>
     <!-- Label on button to configure the automatic import or export -->
+    <string name="button_sync_configure">組態設定</string>
     <!-- Label above dropdown menu which lets the user select how the automatic import feature should behave -->
+    <string name="label_sync_import_mode">匯入方針</string>
     <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_merge">與現有資料合併</string>
     <!-- Warning message displayed when the user selects the "Replace" strategy for the automatic import feature. %s is a placeholder for the name of the strategy -->
+    <string name="warning_sync_import_mode_replace">當「%s」方針作用時，會停用建立與編輯捷徑、變數等。所有本機資料將予刪除，並以匯入的資料取代。請確定此乃合您心意。</string>
     <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_replace">取代現有資料</string>
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
+    <string name="label_export_schedule">排程</string>
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
+    <string name="label_import_schedule">排程</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <string name="sync_schedule_every_day">每天一次</string>
     <!-- Option in dropdown for the schedule for the automatic export feature, to run after changes were made (to shortcuts, variables, ...) -->
+    <string name="sync_schedule_on_change">每當有變更時</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
+    <string name="sync_schedule_every_week">每週一次</string>
     <!-- Label above input field in automatic export, to protect the file with a password -->
+    <string name="label_export_protect_with_password">以密碼保護</string>
     <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->
+    <string name="label_import_protected_with_password">受密碼保護</string>
     <!-- Label above dropdown menu, to select where to the automatic export should be made -->
+    <string name="label_sync_export_target">匯出至</string>
     <!-- Label above dropdown menu, to select where from the automatic import should be made -->
+    <string name="label_sync_import_target">匯入自</string>
     <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a locally stored file -->
+    <string name="option_sync_target_file">本機檔案</string>
     <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a web server -->
+    <string name="option_sync_target_url">Web 伺服器</string>
     <!-- Button label to select the local directory in which the file for automatic import/export resides -->
+    <string name="label_sync_directory">目錄</string>
     <!-- Label for input field, where the user can specify the name of the file that is used for automatic import/export to/from the local file system -->
+    <string name="label_sync_file_name">檔案名稱</string>
     <!-- Instruction text for automatic export to a web server -->
+    <string name="instructions_sync_export_web">一則 HTTP PUT 請求，將會發送至提供的 URL (像是 WebDAV 伺服器)，如有提供使用者名稱和密碼，則會使用基本驗證。</string>
     <!-- Instruction text for automatic export to a local file -->
+    <string name="instructions_sync_export_file">在選取的目錄中，將會以提供的名稱建立一個檔案。若已存在相同名稱的檔案，則予取代。</string>
     <!-- Instruction text for automatic import from a web server -->
+    <string name="instructions_sync_import_web">一則 HTTP GET 請求，將會發送至提供的 URL，如有提供使用者名稱和密碼，則會使用基本驗證。</string>
     <!-- Instruction text for automatic import from a local file -->
+    <string name="instructions_sync_import_file">應用程式將會在選取的目錄中，尋找一個以所提供名稱命名的檔案並匯入。若未有提供名稱，則會使用目錄中最新的 ZIP 檔案。</string>
     <!-- Snackbar message, which states that the automatic periodic import ran successfully -->
+    <string name="message_sync_import_succeeded">匯入成功。</string>
     <!-- Snackbar message, which states that the automatic periodic import failed -->
+    <string name="message_sync_import_failed">匯入失敗。</string>
     <!-- Snackbar message, which states that the automatic periodic export ran successfully -->
+    <string name="message_sync_export_succeeded">匯出成功。</string>
     <!-- Snackbar message, which states that the automatic periodic export failed -->
+    <string name="message_sync_export_failed">匯出失敗。</string>
     <!-- Label used to display the time at which the automatic import/export feature has last run successfully. %s is a placeholder for the time. -->
+    <string name="label_sync_last_success_pattern">上一次成功：%s</string>
     <!-- Label used to display the time at which the automatic import/export feature has last failed. %s is a placeholder for the time. -->
+    <string name="label_sync_last_failure_pattern">上一次失敗：%s</string>
     <!-- Error message shown when automatic import fails due to an incorrect (or missing) password -->
+    <string name="error_sync_import_wrong_password">ZIP 檔案受密碼保護，惟提供的密碼有誤</string>
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
+    <string name="description_sync_failed_too_many_times">自動匯入或匯出多次執行失敗，故已經停用。請檢查組態設定，並確保其有效。</string>
     <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
+    <string name="error_sync_server_error">伺服器傳回錯誤代碼：%s</string>
     <!-- Error message shown when icons could not be loaded in the icon picker -->
+    <string name="instructions_icon_search_failed">無法載入圖示</string>
     <!-- Title for dialog that lets the user select an icon from the "Material Design Icons" collection -->
+    <string name="dialog_title_material_design_icons">Material Design Icons</string>
     <!-- Option in Icon selector dialog, to go to the "Material Design Icons" collection to pick an icon from it -->
+    <string name="dialog_option_material_design_icon">Material Design Icon</string>
     <!-- Message for dialog that informs the user about Material Design Icons -->
+    <string name="instructions_material_design_icons">「Material Design Icons」乃由 pictogrammers.com 提供的向量圖示集，依據 Apache Version 2.0 的條款授權。\n\n圖示將從網際網路提取，故須要網路連線。\n\n選取圖示後，可變更其色彩。</string>
     <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
+    <string name="accessibility_clear_search">清除</string>
     <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
+    <string name="error_no_webview">此裝置上似乎未有安裝 WebView。內容恕未能顯示。</string>
     <!-- Pattern for combining the name of a language with its translation progress percentage. %s is a placeholder for the language, %d a placeholder for the percentage, %% a placeholder for the percentage sign itself -->
+    <string name="translation_progress_pattern">%s (%d%%)</string>
     <!-- Title of dialog where the user can choose a different icon for the app -->
+    <string name="dialog_title_select_app_icon">變更應用程式圖示</string>
     <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
+    <string name="instructions_apply_new_app_icon">應用程式或需自行關閉，以變更應用程式圖示。啟動器更新圖示或需時數秒。\n\n在您手動重新開啟應用程式之前，已放置於主畫面的捷徑或未能運作。</string>
     <!-- Message displayed in a toast when the user selects a different icon for the app -->
+    <string name="message_apply_new_app_icon">正在套用新的應用程式圖示</string>
     <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
+    <string name="dialog_title_select_icon_background_color">圖示背景色彩</string>
 </resources>
