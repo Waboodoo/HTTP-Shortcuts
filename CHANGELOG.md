@@ -1,13 +1,14 @@
+## Version 4.8.2
+
+### Improvements
+- Android 17 requires a permission to connect to other devices on the local network. This permission is now explicitly requested whenever such a request is made, as opposed to requiring the user to manually enable access. If you are on Android 17 and find that some or all of your shortcuts fail when connecting to devices on the local network, you may need to enable the option "Allow Access to Local Network" from the Troubleshooting screen.
+
 ## Version 4.8.1
 
 ### Bugfixes
 - MQTT Shortcuts and the `sendMQTTMessages` function no longer fail internally
 
 ## Version 4.8.0
-
-### Potentially Breaking Changes
-
-If you are on Android 17 and find that some or all of your shortcuts fail when connecting to devices on the local network, you may need to enable the newly added option "Allow Access to Local Network" from the Troubleshooting screen.
 
 ### Improvements
 - You can now execute commands over SSH via the newly added Scripting function [sendSSHCommand](https://http-shortcuts.rmy.ch/scripting#send-ssh-command).
