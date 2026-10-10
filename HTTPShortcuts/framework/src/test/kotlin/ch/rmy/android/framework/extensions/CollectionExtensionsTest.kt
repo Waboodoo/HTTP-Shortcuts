@@ -19,4 +19,11 @@ class CollectionExtensionsTest {
         assertFalse(listOf(1, 3, 2, 4).isSubSequenceOf(listOf(1, 2, 3, 4, 5)))
         assertFalse(listOf(3).isSubSequenceOf(listOf(1, 2, 4)))
     }
+
+    @Test
+    fun `has duplicates by`() {
+        assertFalse(listOf(1, 2, 3).hasDuplicatesBy { it % 3 })
+        assertTrue(listOf(1, 2, 3, 4).hasDuplicatesBy { it % 3 })
+        assertFalse(emptyList<Int>().hasDuplicatesBy { it % 3 })
+    }
 }
