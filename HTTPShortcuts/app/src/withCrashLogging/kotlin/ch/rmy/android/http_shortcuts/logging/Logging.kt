@@ -95,7 +95,7 @@ object Logging : ch.rmy.android.framework.extensions.Logging {
             isCausedByBrokenDevice(e)
 
     private fun isCausedByBrokenDevice(e: Throwable): Boolean {
-        if (Build.MODEL != "Pixel 8 Pro" || Build.VERSION.SDK_INT != Build.VERSION_CODES.CINNAMON_BUN) {
+        if (Build.MODEL != "Pixel 8 Pro" || Build.VERSION.SDK_INT != Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             return false
         }
         return e is NoSuchMethodError || (e is IllegalStateException && e.message == "missing request Id intent flag")
