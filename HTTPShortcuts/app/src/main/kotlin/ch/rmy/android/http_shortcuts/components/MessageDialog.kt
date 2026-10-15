@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.components
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -20,7 +21,9 @@ fun MessageDialog(message: String, title: String? = null, onDismissRequest: () -
             { Text(title) }
         },
         text = {
-            Text(message)
+            SelectionContainer {
+                Text(message)
+            }
         },
         confirmButton = {
             TextButton(onClick = onDismissRequest) {
