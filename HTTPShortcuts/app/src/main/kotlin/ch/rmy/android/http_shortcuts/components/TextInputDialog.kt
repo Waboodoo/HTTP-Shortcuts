@@ -41,6 +41,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.SecureFlagPolicy
 import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.http_shortcuts.R
 import kotlin.time.Duration.Companion.milliseconds
@@ -81,7 +82,14 @@ fun TextInputDialog(
     }
     AlertDialog(
         modifier = Modifier.padding(Spacing.MEDIUM),
-        properties = DialogProperties(usePlatformDefaultWidth = false),
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            securePolicy = if (keyboardType == KeyboardType.Password && value.text.isNotEmpty()) {
+                SecureFlagPolicy.SecureOn
+            } else {
+                SecureFlagPolicy.Inherit
+            },
+        ),
         onDismissRequest = {
             onDismissRequest(null)
         },

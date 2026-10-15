@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.BlockScreenCapture
 
 @Composable
 fun PasswordProtection(
@@ -33,6 +34,9 @@ fun PasswordProtection(
     var showPassword by rememberSaveable {
         mutableStateOf(false)
     }
+    BlockScreenCapture(
+        enabled = showPassword && password.isNotEmpty(),
+    )
     TextField(
         modifier = modifier,
         label = {

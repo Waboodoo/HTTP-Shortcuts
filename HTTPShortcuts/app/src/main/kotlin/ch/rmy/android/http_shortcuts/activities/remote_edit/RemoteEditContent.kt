@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import ch.rmy.android.http_shortcuts.R
+import ch.rmy.android.http_shortcuts.components.BlockScreenCapture
 import ch.rmy.android.http_shortcuts.components.FontSize
 import ch.rmy.android.http_shortcuts.components.Spacing
 
@@ -79,6 +80,9 @@ private fun DeviceId(deviceId: String) {
 
 @Composable
 private fun Password(password: String, onPasswordChanged: (String) -> Unit) {
+    BlockScreenCapture(
+        enabled = password.isNotEmpty(),
+    )
     TextField(
         modifier = Modifier
             .fillMaxWidth(),
