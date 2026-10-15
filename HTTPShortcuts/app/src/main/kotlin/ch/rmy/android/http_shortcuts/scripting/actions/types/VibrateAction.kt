@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.scripting.actions.types
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.userError
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.VibrationUtil
@@ -115,7 +116,9 @@ constructor(
                         vibrator.vibrate(VibrationEffect.createOneShot(duration.inWholeMilliseconds, VibrationEffect.DEFAULT_AMPLITUDE))
                     }
                 }
-                else -> userError { "Unknown vibration pattern: $patternName" }
+                else -> userError {
+                    getString(R.string.error_unknown_vibration_pattern, patternName)
+                }
             }
     }
 }

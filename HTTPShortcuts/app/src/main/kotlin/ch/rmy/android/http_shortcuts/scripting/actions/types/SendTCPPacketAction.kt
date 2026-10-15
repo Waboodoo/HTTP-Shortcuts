@@ -65,7 +65,7 @@ constructor(
                                     .readLine()
                             }
                             else -> throw ActionException {
-                                "Unknown read mode, only 'text' and 'line' are supported but got: $readMode"
+                                getString(R.string.error_tcp_unsupported_read_mode, readMode)
                             }
                         }
                     } catch (e: Exception) {

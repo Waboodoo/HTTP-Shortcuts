@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ActionAlias
 import ch.rmy.android.http_shortcuts.scripting.actions.ActionRunnable
@@ -25,22 +26,26 @@ constructor(
 
         if (stepSize <= 0) {
             throw ActionException {
-                "Slider step size must be positive"
+                getString(
+                    R.string.error_slider_error,
+                    getString(R.string.error_slider_step_size_must_be_positive),
+                )
             }
         }
         if (min > max) {
             throw ActionException {
-                "Slider min is larger than max"
+                getString(
+                    R.string.error_slider_error,
+                    getString(R.string.error_slider_max_not_greater_than_min),
+                )
             }
         }
-        if (value < min) {
+        if (value !in min..max) {
             throw ActionException {
-                "Slider value is less than min"
-            }
-        }
-        if (value > max) {
-            throw ActionException {
-                "Slider value is more than max"
+                getString(
+                    R.string.error_slider_error,
+                    getString(R.string.error_slider_value_must_be_between_min_and_max),
+                )
             }
         }
 

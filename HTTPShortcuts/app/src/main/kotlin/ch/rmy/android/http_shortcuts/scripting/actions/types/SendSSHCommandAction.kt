@@ -5,6 +5,7 @@ import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.extensions.runIf
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
@@ -47,13 +48,13 @@ constructor(
 
                     val session = client.openSession()
                         ?: throw ActionException {
-                            "Failed to open SSH session"
+                            getString(R.string.error_ssh_failed_to_open_session)
                         }
                     session.use {
                         val result = session.requestExec(command)
                         if (!result) {
                             throw ActionException {
-                                "SSH command rejected by host"
+                                getString(R.string.error_ssh_command_rejected_by_host)
                             }
                         }
 
@@ -73,7 +74,7 @@ constructor(
             } catch (e: Exception) {
                 logException(e)
                 throw ActionException {
-                    "SSH failed unexpectedly: $e"
+                    getString(R.string.error_ssh_failed, e.message ?: e.toString())
                 }
             }
         }
@@ -96,20 +97,20 @@ constructor(
     private suspend fun SshClient.connectOrThrow(verifyHost: String?) {
         when (val result = connect()) {
             is ConnectResult.AlgorithmMismatch -> throw ActionException {
-                "SSH connection failed due to algorithm mismatch: ${result.message}"
+                getString(R.string.error_ssh_failed_with_algorithm_mismatch, result.message)
             }
             is ConnectResult.HostKeyRejected -> throw ActionException {
                 if (verifyHost == null || verifyHost == "<algorithm> <public-key>") {
-                    "SSH host verification failed.\n\nHost key was:\n${result.key.toConfigString()}"
+                    getString(R.string.error_ssh_host_verification_failed, result.key.toConfigString())
                 } else {
-                    "SSH host verification failed.\n\nExpected host key:\n$verifyHost\n\ngot:\n'${result.key.toConfigString()}"
+                    getString(R.string.error_ssh_host_verification_failed_with_expected, verifyHost, result.key.toConfigString())
                 }
             }
             is ConnectResult.ProtocolError -> throw ActionException {
-                "SSH connection failed due to a protocol error: ${result.message}"
+                getString(R.string.error_ssh_failed, result.message)
             }
             is ConnectResult.TransportError -> throw ActionException {
-                "SSH connection failed due to a transport error: ${result.cause.message}"
+                getString(R.string.error_ssh_failed, result.cause.message)
             }
             ConnectResult.Success -> Unit
         }
@@ -124,14 +125,14 @@ constructor(
             AuthResult.Success
         }
         if (authResult !is AuthResult.Success || !isAuthenticated) {
-            val details = when (val errorMessage = (authResult as? AuthResult.Error)?.message) {
-                "Decryption failed (check integers don't match)" -> "Decryption failed. Incorrect passphrase?"
-                else -> errorMessage
-            }
             throw ActionException {
-                "SSH authentication failed"
+                val details = when (val errorMessage = (authResult as? AuthResult.Error)?.message) {
+                    "Decryption failed (check integers don't match)" -> getString(R.string.error_ssh_incorrect_passphrase)
+                    else -> errorMessage?.takeUnlessEmpty()
+                }
+                getString(R.string.error_ssh_authentication_failed)
                     .runIfNotNull(details) {
-                        plus(": $it")
+                        plus("\n\n$it")
                     }
             }
         }
@@ -152,9 +153,9 @@ constructor(
     private suspend fun SshSession.readCode(): Long? =
         when (val exitInfo = exitInfo.await()) {
             is SessionExit.Signal -> throw ActionException {
-                "SSH command failed with signal ${exitInfo.signalName}"
+                getString(R.string.error_ssh_command_failed_with_signal, exitInfo.signalName)
                     .runIf(exitInfo.errorMessage.isNotEmpty()) {
-                        plus(": ${exitInfo.errorMessage}")
+                        plus("\n\n${exitInfo.errorMessage}")
                     }
             }
             is SessionExit.Status -> exitInfo.code

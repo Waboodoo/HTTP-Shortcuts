@@ -1,5 +1,6 @@
 package ch.rmy.android.http_shortcuts.scripting.actions.types
 
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.scripting.JsObject
@@ -25,7 +26,7 @@ constructor() : Action<ParseHTMLAction.Params> {
             }
         } catch (e: SelectorParseException) {
             throw ActionException {
-                "Error in parseHTML selector: ${e.message}"
+                getString(R.string.error_in_parse_html_selector, e.message)
             }
         }
         if (query == ":root" && results.size == 1) {
@@ -41,7 +42,7 @@ constructor() : Action<ParseHTMLAction.Params> {
             select(query)
         } else {
             throw ActionException {
-                "Error in parseHTML: unknown query type $queryType"
+                getString(R.string.error_in_parse_html_unknown_query_type, queryType)
             }
         }
 

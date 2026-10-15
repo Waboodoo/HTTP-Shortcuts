@@ -146,17 +146,23 @@ constructor(
             ?.let { directoryUri ->
                 workingDirectoryUtil.getDocumentFile(directoryUri)
             }
-            ?: userError("No directory set")
+            ?: userError {
+                getString(R.string.error_sync_no_directory_set)
+            }
 
         val fileName = config.targetFileName?.replacePlaceholders()
         val file = if (fileName != null) {
             directory.findFile(fileName)
-                ?: userError("No file named '$fileName' found in directory")
+                ?: userError {
+                    getString(R.string.error_sync_file_not_found, fileName)
+                }
         } else {
             directory.listFiles()
                 .filter { file -> file.isFile && file.name?.endsWith(".zip", ignoreCase = true) == true }
                 .maxByOrNull { file -> file.lastModified() }
-                ?: userError("No ZIP file found in directory")
+                ?: userError {
+                    getString(R.string.error_sync_zip_file_not_found)
+                }
         }
         return import(config, targetUri = file.uri)
     }
@@ -171,7 +177,9 @@ constructor(
             val client = httpClientFactory.getClient(context)
             val url = config.targetUrl
                 ?.replacePlaceholders()
-                ?: userError("No URL set")
+                ?: userError {
+                    getString(R.string.error_sync_no_url_set)
+                }
             val call = client.newCall(
                 buildRequest("GET", url) {
                     userAgent(UserAgentProvider.getUserAgent(context))
@@ -235,10 +243,14 @@ constructor(
             ?.let { directoryUri ->
                 workingDirectoryUtil.getDocumentFile(directoryUri)
             }
-            ?: userError("No directory set")
+            ?: userError {
+                getString(R.string.error_sync_no_directory_set)
+            }
         directory.findFile(fileName)?.delete()
         val documentFile = directory.createFile(MIME_TYPE, fileName)
-            ?: userError("Failed to create file, directory might not exist or no permission granted")
+            ?: userError {
+                getString(R.string.error_sync_failed_to_create_file)
+            }
         return export(config, targetUri = documentFile.uri)
     }
 
@@ -250,7 +262,9 @@ constructor(
             val client = httpClientFactory.getClient(context)
             val url = config.targetUrl
                 ?.replacePlaceholders()
-                ?: userError("No URL set")
+                ?: userError {
+                    getString(R.string.error_sync_no_url_set)
+                }
             val call = client.newCall(
                 buildRequest("PUT", url) {
                     userAgent(UserAgentProvider.getUserAgent(context))

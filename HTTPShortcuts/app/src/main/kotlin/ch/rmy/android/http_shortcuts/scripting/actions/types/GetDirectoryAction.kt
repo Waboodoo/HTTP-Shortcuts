@@ -6,6 +6,7 @@ import android.webkit.MimeTypeMap
 import androidx.documentfile.provider.DocumentFile
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.data.domains.working_directories.WorkingDirectoryRepository
 import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
@@ -104,14 +105,14 @@ constructor(
             workingDirectoryRepository.getWorkingDirectoryByNameOrId(directoryNameOrId)
         } catch (_: NoSuchElementException) {
             throw ActionException {
-                "Directory \"${directoryNameOrId}\" not found"
+                getString(R.string.error_directory_not_found, directoryNameOrId)
             }
         }
         workingDirectoryRepository.touchWorkingDirectory(workingDirectory.id)
         val directory = workingDirectoryUtil.getDocumentFile(workingDirectory)
         if (directory == null || !directory.isDirectory) {
             throw ActionException {
-                "Directory \"${workingDirectory.name}\" is not mounted"
+                getString(R.string.error_directory_not_mounted, workingDirectory.name)
             }
         }
 

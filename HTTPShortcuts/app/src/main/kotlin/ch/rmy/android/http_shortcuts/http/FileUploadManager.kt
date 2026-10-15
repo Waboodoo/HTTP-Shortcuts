@@ -11,6 +11,7 @@ import ch.rmy.android.framework.extensions.tryOrLog
 import ch.rmy.android.framework.utils.FileUtil
 import ch.rmy.android.framework.utils.UUIDUtils.newUUID
 import ch.rmy.android.http_shortcuts.BuildConfig
+import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.extensions.userError
 import java.io.IOException
 import kotlinx.coroutines.Dispatchers
@@ -81,10 +82,14 @@ class FileUploadManager internal constructor(
             )
         } catch (e: SecurityException) {
             logException(e)
-            userError(e.message?.let { "Security Error: $it" } ?: e.toString())
+            userError {
+                getString(R.string.error_file_access_security, e.message ?: e.toString())
+            }
         } catch (e: IllegalArgumentException) {
             logException(e)
-            userError(e.message?.let { "Failed to access file: $it" } ?: e.toString())
+            userError {
+                getString(R.string.error_file_access_generic, e.message ?: e.toString())
+            }
         }
     }
 

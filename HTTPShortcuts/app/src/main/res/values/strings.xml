@@ -813,6 +813,8 @@
     <string name="label_variable_slider_suffix">Suffix Text</string>
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">The maximum must be greater than the minimum.</string>
+    <!-- error message displayed a slider's value is not between its defined minimum and maximum -->
+    <string name="error_slider_value_must_be_between_min_and_max">The value must be between the minimum and the maximum.</string>
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">The step size must be a positive number.</string>
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
@@ -1549,6 +1551,8 @@
     <string name="error_failed_to_send_tcp">Failed to send TCP packet: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_receive_tcp">Failed to read from TCP socket: %s</string>
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but provides an unsupported 'read mode' value. %s is a placeholder for the value that was provided -->
+    <string name="error_tcp_unsupported_read_mode">Unsupported read mode \'%s\' for TCP. Must be \'text\' or \'line\'</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">Opening files using openUrl() is not supported</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -2118,4 +2122,48 @@
     <string name="dialog_title_select_icon_background_color">Icon Background Color</string>
     <!-- Error shown when reading a file shared into the app fails -->
     <string name="error_read_shared_file">Failed to receive shared file</string>
+    <!-- Error shown when an SSH command fails because the SSH session can not be opened -->
+    <string name="error_ssh_failed_to_open_session">Failed to open SSH session</string>
+    <!-- Error shown when an SSH command fails because the SSH host rejected it -->
+    <string name="error_ssh_command_rejected_by_host">SSH command rejected by host</string>
+    <!-- Error shown when an SSH command fails with a signal on the host. %s is a placeholder for the signal -->
+    <string name="error_ssh_command_failed_with_signal">SSH command failed with signal %s</string>
+    <!-- Error shown when an SSH command fails. %s is a placeholder for the error details -->
+    <string name="error_ssh_failed">SSH failed expectedly: %s</string>
+    <!-- Error shown when an SSH command fails due a mismatch of the algorithm. %s is a placeholder for the error details -->
+    <string name="error_ssh_failed_with_algorithm_mismatch">SSH connection failed due to algorithm mismatch: %s</string>
+    <!-- Error shown when an SSH command fails because the SSH host can not be verified. %s is a placeholder for the host's algorithm and public key -->
+    <string name="error_ssh_host_verification_failed">SSH host verification failed.\n\nHost key was:\n%s</string>
+    <!-- Error shown when an SSH command fails because the SSH host can not be verified. %1$s and %2$s are placeholders for the host's algorithm and public key (expected and actual) -->
+    <string name="error_ssh_host_verification_failed_with_expected">SSH host verification failed.\n\nExpected:\n%1$s\n\nWas:\n%2$s</string>
+    <!-- Error shown when an SSH command fails due to an authentication error -->
+    <string name="error_ssh_authentication_failed">SSH authentication failed</string>
+    <!-- Error shown when an SSH command due to a decryption error, likely because an incorrect passphrase was provided -->
+    <string name="error_ssh_incorrect_passphrase">Decryption failed. Incorrect passphrase?</string>
+    <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not found -->
+    <string name="error_directory_not_found">Directory "%s" not found</string>
+    <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not mounted, i.e., not accessible -->
+    <string name="error_directory_not_mounted">Directory "%s" is not mounted</string>
+    <!-- Error shown when the `parseHTML` Scripting function is used but an invalid selector argument is provided. %s is a placeholder for the error details -->
+    <string name="error_in_parse_html_selector">Error in parseHTML selector: %s</string>
+    <!-- Error shown when the `parseHTML` Scripting function is used but an query type argument is provided. %s is a placeholder for the value that was provided. -->
+    <string name="error_in_parse_html_unknown_query_type">Error in parseHTML: unknown query type \'%s\', must be \'css\' or \'xpath\'</string>
+    <!-- Error shown when a slider is incorrectly used in Scripting. %s is a placeholder for the error details -->
+    <string name="error_slider_error">Slider error: %s</string>
+    <!-- Error shown when a the 'vibrate' Scripting function is used but an unsupported vibration pattern is provided. %s is a placeholder for the name of the pattern -->
+    <string name="error_unknown_vibration_pattern">Unknown vibration pattern: %s</string>
+    <!-- Error when automatic import/export fails because no directory is configured to export to or import from -->
+    <string name="error_sync_no_directory_set">No directory set</string>
+    <!-- Error when automatic export fails because the backup file could not be created -->
+    <string name="error_sync_failed_to_create_file">Failed to create file, directory might not exist or no permission granted</string>
+    <!-- Error when automatic import/export fails because no url is configured to export to or import from -->
+    <string name="error_sync_no_url_set">No URL set</string>
+    <!-- Error when automatic import failed because the file does not exist. %s is a placeholder for the file's name -->
+    <string name="error_sync_file_not_found">No file named \'%s\' found in directory</string>
+    <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
+    <string name="error_sync_zip_file_not_found">No ZIP file found in directory</string>
+    <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
+    <string name="error_file_access_security">Security error: %s</string>
+    <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <string name="error_file_access_generic">Failed to access file: %s</string>
 </resources>
