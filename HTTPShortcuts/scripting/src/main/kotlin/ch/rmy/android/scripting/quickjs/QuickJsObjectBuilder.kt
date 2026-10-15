@@ -14,6 +14,10 @@ internal class QuickJsObjectBuilder(
 ) : JsObjectBuilder {
     private val jsObject = jsContext.createNewJSObject()
 
+    override fun property(name: String, value: ByteArray?) {
+        jsObject.setProperty(name, value)
+    }
+
     override fun property(name: String, value: String?) {
         jsObject.setProperty(name, value)
     }

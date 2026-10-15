@@ -9,7 +9,9 @@ import ch.rmy.android.http_shortcuts.exceptions.ActionException
 import ch.rmy.android.http_shortcuts.scripting.ExecutionContext
 import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import ch.rmy.android.scripting.JsObject
+import java.nio.ByteBuffer
 import javax.inject.Inject
+import kotlin.text.decodeToString
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -30,15 +32,11 @@ constructor(
     override suspend fun Params.execute(executionContext: ExecutionContext): JsObject {
         localNetworkPermissionManager.requestLocalNetworkPermissionIfNeeded(host)
 
-        val result = withContext(Dispatchers.IO) {
+        val result: Result = withContext(Dispatchers.IO) {
             try {
                 val hostKeyVerifier = object : HostKeyVerifier {
-                    override suspend fun verify(key: PublicKey): Boolean {
-                        if (verifyHost?.isEmpty() == true) {
-                            return true
-                        }
-                        return verifyHost == key.toConfigString()
-                    }
+                    override suspend fun verify(key: PublicKey) =
+                        verifyHost?.isEmpty() == true || verifyHost == key.toConfigString()
                 }
 
                 val client = SshClient(host, port = port, hostKeyVerifier = hostKeyVerifier)
@@ -59,7 +57,11 @@ constructor(
                             }
                         }
 
-                        return@withContext session.readResult()
+                        return@withContext if (rawBytes) {
+                            session.readRawResult()
+                        } else {
+                            session.readStringResult()
+                        }
                     }
                 } finally {
                     client.disconnect()
@@ -77,8 +79,16 @@ constructor(
         }
 
         return executionContext.scriptingEngine.buildJsObject {
-            property("stdout", result.stdout)
-            property("stderr", result.stderr)
+            when (result) {
+                is RawResult -> {
+                    property("stdout", result.stdout)
+                    property("stderr", result.stderr)
+                }
+                is StringResult -> {
+                    property("stdout", result.stdout)
+                    property("stderr", result.stderr)
+                }
+            }
             property("code", result.code)
         }
     }
@@ -89,17 +99,17 @@ constructor(
                 "SSH connection failed due to algorithm mismatch: ${result.message}"
             }
             is ConnectResult.HostKeyRejected -> throw ActionException {
-                if (verifyHost == null) {
-                    "SSH connection failed due to unconfigured host key verification.\ngot ${result.key.toConfigString()}"
+                if (verifyHost == null || verifyHost == "<algorithm> <public-key>") {
+                    "SSH host verification failed.\n\nHost key was:\n${result.key.toConfigString()}"
                 } else {
-                    "SSH connection failed due to unexpected host key:\nexpected $verifyHost\ngot ${result.key.toConfigString()}"
+                    "SSH host verification failed.\n\nExpected host key:\n$verifyHost\n\ngot:\n'${result.key.toConfigString()}"
                 }
             }
             is ConnectResult.ProtocolError -> throw ActionException {
                 "SSH connection failed due to a protocol error: ${result.message}"
             }
             is ConnectResult.TransportError -> throw ActionException {
-                "SSH connection failed due to a transport error: ${result.cause}"
+                "SSH connection failed due to a transport error: ${result.cause.message}"
             }
             ConnectResult.Success -> Unit
         }
@@ -114,17 +124,33 @@ constructor(
             AuthResult.Success
         }
         if (authResult !is AuthResult.Success || !isAuthenticated) {
+            val details = when (val errorMessage = (authResult as? AuthResult.Error)?.message) {
+                "Decryption failed (check integers don't match)" -> "Decryption failed. Incorrect passphrase?"
+                else -> errorMessage
+            }
             throw ActionException {
                 "SSH authentication failed"
-                    .runIfNotNull((authResult as? AuthResult.Error)?.message) {
+                    .runIfNotNull(details) {
                         plus(": $it")
                     }
             }
         }
     }
 
-    private suspend fun SshSession.readResult(): Result {
-        val code = when (val exitInfo = exitInfo.await()) {
+    private suspend fun SshSession.readStringResult() = StringResult(
+        code = readCode(),
+        stdout = stdout.readAll()?.decodeToString(),
+        stderr = stderr.readAll()?.decodeToString(),
+    )
+
+    private suspend fun SshSession.readRawResult() = RawResult(
+        code = readCode(),
+        stdout = stdout.readAll(),
+        stderr = stderr.readAll(),
+    )
+
+    private suspend fun SshSession.readCode(): Long? =
+        when (val exitInfo = exitInfo.await()) {
             is SessionExit.Signal -> throw ActionException {
                 "SSH command failed with signal ${exitInfo.signalName}"
                     .runIf(exitInfo.errorMessage.isNotEmpty()) {
@@ -134,26 +160,21 @@ constructor(
             is SessionExit.Status -> exitInfo.code
             null -> null
         }
-        return Result(
-            code = code,
-            stdout = stdout.readAllIntoString(),
-            stderr = stderr.readAllIntoString(),
-        )
-    }
 
-    private suspend fun ReceiveChannel<ByteArray>.readAllIntoString(): String? =
+    private suspend fun ReceiveChannel<ByteArray>.readAll(): ByteArray? =
         buildList {
             while (true) {
-                val value = receiveCatching().getOrNull()?.decodeToString()
-                if (value != null) {
-                    add(value)
-                } else {
-                    break
-                }
+                add(receiveCatching().getOrNull() ?: break)
             }
         }
             .takeUnlessEmpty()
-            ?.joinToString(separator = "")
+            ?.let { byteArrays ->
+                val buffer = ByteBuffer.allocate(byteArrays.sumOf { it.size })
+                byteArrays.forEach { byteArray ->
+                    buffer.put(byteArray)
+                }
+                buffer.array()
+            }
 
     data class Params(
         val host: String,
@@ -164,14 +185,25 @@ constructor(
         val passphrase: String?,
         val verifyHost: String?,
         val command: String,
+        val rawBytes: Boolean,
     )
 
     private fun PublicKey.toConfigString(): String =
         "$type ${Base64.encodeToString(encoded, Base64.DEFAULT).trim()}"
 
-    private data class Result(
-        val code: Long?,
+    sealed interface Result {
+        val code: Long?
+    }
+
+    private data class StringResult(
+        override val code: Long?,
         val stdout: String?,
         val stderr: String?,
-    )
+    ) : Result
+
+    private data class RawResult(
+        override val code: Long?,
+        val stdout: ByteArray?,
+        val stderr: ByteArray?,
+    ) : Result
 }

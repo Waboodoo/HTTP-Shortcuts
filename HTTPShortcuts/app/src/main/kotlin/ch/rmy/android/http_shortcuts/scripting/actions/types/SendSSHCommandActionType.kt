@@ -26,6 +26,7 @@ constructor(
                 privateKey = (options["privateKey"] as? String)?.takeUnlessEmpty(),
                 passphrase = (options["passphrase"] as? String),
                 verifyHost = (options["verifyHost"] as? String),
+                rawBytes = options["rawBytes"]?.let { (it as? Boolean) ?: (it as? String)?.toBoolean() } ?: false,
                 command = args.getString(2) ?: "",
             ),
         )

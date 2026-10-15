@@ -579,8 +579,13 @@ constructor(
                     keywords = setOf("network", "client", "shell", "remote", "host", "execute"),
                 ) {
                     insertText(
-                        "sendSSHCommand(\n  \"<host>\",\n  {\n    username: \"\",\n    password: \"\",\n    privateKey: \"\"\n" +
-                            "    verifyHost: \"<algorithm> <public-key>\",\n  },\n  \"<command>",
+                        "sendSSHCommand(\n  \"<host>\",\n  {\n" +
+                            "    username: \"\",\n" +
+                            "    password: \"\",\n" +
+                            "    privateKey: \"\",\n" +
+                            "    passphrase: \"\",\n" +
+                            "    verifyHost: \"<algorithm> <public-key>\"," +
+                            "\n  },\n  \"<command>",
                         "\",\n);\n",
                     )
                 }

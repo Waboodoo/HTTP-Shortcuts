@@ -3,6 +3,7 @@ package ch.rmy.android.scripting
 interface JsObjectBuilder {
     val scriptingEngine: ScriptingEngine
 
+    fun property(name: String, value: ByteArray?)
     fun property(name: String, value: String?)
     fun property(name: String, value: Int?)
     fun property(name: String, value: Long?)
