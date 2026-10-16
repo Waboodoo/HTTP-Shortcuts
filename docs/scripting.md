@@ -888,8 +888,7 @@ With the `sendSSHCommand` function you can connect to a remote host over SSH and
 |privateKey|The private key for authenticating with the host, as you would find it in a key file. May be set to null or omitted if `password` is provided instead|string|
 |passphrase|The passphrase for decrypting the private key. May be set to null or omitted if the `privateKey` is not encrypted or when using `password` for authentication instead.|string|
 |verifyHost|The expected public key of the host, in the form of "algorithm base64(public_key)", similar to how it might appear in a known_hosts file. May be set to the empty string to opt out of host verification, though this is strongly discouraged.|string|
-|rawBytes|Whether to return `stdout` and `stderr` as raw bytes instead of a string. Defaults to false|boolean|
-
+|rawBytes|Whether to return `stdout` and `stderr` as raw bytes instead of a UTF-8 string. Defaults to false|boolean|
 
 > It is recommended to store passwords, private keys, public keys, and passphrases in global variables, or possibly even files. This makes it easier to change their values later, allows reusing them across shortcuts, and also makes the code more readable.
 

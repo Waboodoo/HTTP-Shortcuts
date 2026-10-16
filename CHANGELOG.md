@@ -1,3 +1,16 @@
+## Version 4.9.0
+
+### Improvements
+- Screen recordings and screenshots are now disallowed while a non-empty password fields is visible
+- Text in dialog windows is now selectable, making it possible to copy
+- The `sendSSHCommand` Scripting function can now be configured to return raw bytes instead of treating stdout and stderr as UTF-8
+
+### Bugfixes
+- Fixed an internal error with the `sendSSHCommand` Scripting function
+
+### Miscellaneous
+- Many error messages, in particular those for Scripting functions, are now translateable instead of being hardcoded to English
+
 ## Version 4.8.2
 
 ### Improvements
