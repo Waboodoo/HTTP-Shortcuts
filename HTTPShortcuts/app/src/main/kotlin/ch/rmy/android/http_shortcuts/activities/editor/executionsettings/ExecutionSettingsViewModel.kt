@@ -49,6 +49,7 @@ constructor(
         return ExecutionSettingsViewState(
             executionType = shortcut.executionType,
             runInBackground = shortcut.runInForegroundService,
+            runOnAppStart = shortcut.runOnAppStart,
             directShareOptionVisible = launcherShortcutManager.supportsDirectShare(),
             waitForConnection = shortcut.isWaitForNetwork,
             waitForConnectionOptionVisible = shortcut.executionType.canWaitForConnection,
@@ -93,6 +94,15 @@ constructor(
         }
         withProgressTracking {
             temporaryShortcutRepository.setRunInForegroundService(runInBackground)
+        }
+    }
+
+    fun onRunOnAppStartChanged(runOnAppStart: Boolean) = runAction {
+        updateViewState {
+            copy(runOnAppStart = runOnAppStart)
+        }
+        withProgressTracking {
+            temporaryShortcutRepository.setRunOnAppStart(runOnAppStart)
         }
     }
 

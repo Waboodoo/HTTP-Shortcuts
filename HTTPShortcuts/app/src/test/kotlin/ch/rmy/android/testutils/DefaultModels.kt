@@ -66,6 +66,7 @@ object DefaultModels {
         proxyPassword = null,
         excludeFromFileSharing = false,
         runInForegroundService = false,
+        runOnAppStart = false,
         wolMacAddress = "",
         wolPort = 0,
         wolBroadcastAddress = "",

@@ -58,6 +58,7 @@ data class ImportExportShortcut(
     val excludeFromHistory: Boolean? = null,
     val excludeFromFileSharing: Boolean? = null,
     val runInForegroundService: Boolean? = null,
+    val runOnAppStart: Boolean? = null,
     val wolMacAddress: String? = null,
     val wolPort: Int? = null,
     val wolBroadcastAddress: String? = null,

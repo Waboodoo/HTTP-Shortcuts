@@ -307,6 +307,7 @@ constructor(
                 proxyPassword = shortcut.proxyPassword,
                 excludeFromFileSharing = shortcut.excludeFromFileSharing == true,
                 runInForegroundService = shortcut.runInForegroundService == true,
+                runOnAppStart = shortcut.runOnAppStart == true,
                 wolMacAddress = shortcut.wolMacAddress ?: "",
                 wolPort = shortcut.wolPort!!,
                 wolBroadcastAddress = shortcut.wolBroadcastAddress ?: "",

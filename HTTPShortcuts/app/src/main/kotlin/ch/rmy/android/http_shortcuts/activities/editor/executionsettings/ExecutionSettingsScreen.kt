@@ -44,6 +44,7 @@ fun ExecutionSettingsScreen() {
         ExecutionSettingsContent(
             executionType = viewState.executionType,
             runInBackground = viewState.runInBackground,
+            runOnAppStart = viewState.runOnAppStart,
             delay = viewState.delay,
             waitForConnection = viewState.waitForConnection,
             waitForConnectionOptionVisible = viewState.waitForConnectionOptionVisible,
@@ -59,6 +60,7 @@ fun ExecutionSettingsScreen() {
             canUseFiles = viewState.canUseFiles,
             usesFiles = viewState.usesFiles,
             onRunInBackgroundChanged = viewModel::onRunInBackgroundChanged,
+            onRunOnAppStartChanged = viewModel::onRunOnAppStartChanged,
             onLauncherShortcutChanged = viewModel::onLauncherShortcutChanged,
             onSecondaryLauncherShortcutChanged = viewModel::onSecondaryLauncherShortcutChanged,
             onQuickSettingsTileShortcutChanged = viewModel::onQuickSettingsTileShortcutChanged,

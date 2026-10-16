@@ -273,6 +273,7 @@ constructor(
                                 excludeFromHistory = shortcut.excludeFromHistory.trueOrNull(),
                                 excludeFromFileSharing = shortcut.excludeFromFileSharing.trueOrNull(),
                                 runInForegroundService = shortcut.runInForegroundService.trueOrNull(),
+                                runOnAppStart = shortcut.runOnAppStart.trueOrNull(),
                                 wolMacAddress = shortcut.takeIf { type == WAKE_ON_LAN }
                                     ?.wolMacAddress,
                                 wolPort = shortcut.takeIf { type == WAKE_ON_LAN }

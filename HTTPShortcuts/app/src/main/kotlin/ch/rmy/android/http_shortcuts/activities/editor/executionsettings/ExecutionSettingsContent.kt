@@ -31,6 +31,7 @@ import kotlin.time.Duration.Companion.seconds
 fun ExecutionSettingsContent(
     executionType: ShortcutExecutionType,
     runInBackground: Boolean,
+    runOnAppStart: Boolean,
     delay: Duration,
     waitForConnection: Boolean,
     waitForConnectionOptionVisible: Boolean,
@@ -46,6 +47,7 @@ fun ExecutionSettingsContent(
     canUseFiles: Boolean,
     usesFiles: Boolean,
     onRunInBackgroundChanged: (Boolean) -> Unit,
+    onRunOnAppStartChanged: (Boolean) -> Unit,
     onLauncherShortcutChanged: (Boolean) -> Unit,
     onSecondaryLauncherShortcutChanged: (Boolean) -> Unit,
     onQuickSettingsTileShortcutChanged: (Boolean) -> Unit,
@@ -59,8 +61,10 @@ fun ExecutionSettingsContent(
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
     ) {
+        VerticalSpacer(Spacing.MEDIUM)
+
         Column(
-            modifier = Modifier.padding(Spacing.MEDIUM),
+            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
         ) {
             SelectionField(
                 title = stringResource(R.string.settings_title_execution_mode),
@@ -79,6 +83,59 @@ fun ExecutionSettingsContent(
                 )
             }
         }
+
+        Checkbox(
+            label = stringResource(R.string.label_run_on_app_start),
+            checked = runOnAppStart,
+            onCheckedChange = onRunOnAppStartChanged,
+        )
+
+        Column(
+            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
+        ) {
+            SelectionField(
+                title = stringResource(R.string.label_run_repeatedly),
+                selectedKey = repetitionInterval,
+                items = REPETITION_TYPES.map { (value, label) -> value to label.localize() },
+                onItemSelected = onRepetitionIntervalChanged,
+            )
+
+            AnimatedVisibility(visible = repetitionInterval != null) {
+                HelpText(
+                    text = stringResource(R.string.instructions_repetitions),
+                    modifier = Modifier.padding(top = Spacing.SMALL),
+                )
+            }
+        }
+
+        VerticalSpacer(Spacing.MEDIUM)
+
+        HorizontalDivider()
+
+        VerticalSpacer(Spacing.MEDIUM)
+
+        ConfirmationTypeSelection(
+            modifier = Modifier.padding(horizontal = Spacing.MEDIUM),
+            canUseBiometrics = canUseBiometrics,
+            confirmationType = confirmationType,
+            onConfirmationTypeChanged = onConfirmationTypeChanged,
+        )
+
+        VerticalSpacer(Spacing.SMALL)
+
+        if (waitForConnectionOptionVisible) {
+            Checkbox(
+                label = stringResource(R.string.label_wait_for_connection),
+                checked = waitForConnection,
+                onCheckedChange = onWaitForConnectionChanged,
+            )
+        }
+
+        SettingsButton(
+            title = stringResource(R.string.label_delay_execution),
+            subtitle = DurationLocalizable(delay).localize(),
+            onClick = onDelayButtonClicked,
+        )
 
         HorizontalDivider()
 
@@ -106,6 +163,8 @@ fun ExecutionSettingsContent(
             onCheckedChange = onQuickSettingsTileShortcutChanged,
         )
 
+        HorizontalDivider()
+
         if (canUseFiles) {
             Checkbox(
                 label = stringResource(R.string.label_shortcut_as_file_share_target),
@@ -121,51 +180,6 @@ fun ExecutionSettingsContent(
                 },
             )
         }
-
-        HorizontalDivider()
-
-        ConfirmationTypeSelection(
-            modifier = Modifier.padding(Spacing.MEDIUM),
-            canUseBiometrics = canUseBiometrics,
-            confirmationType = confirmationType,
-            onConfirmationTypeChanged = onConfirmationTypeChanged,
-        )
-
-        if (waitForConnectionOptionVisible) {
-            Checkbox(
-                label = stringResource(R.string.label_wait_for_connection),
-                checked = waitForConnection,
-                onCheckedChange = onWaitForConnectionChanged,
-            )
-        }
-
-        SettingsButton(
-            title = stringResource(R.string.label_delay_execution),
-            subtitle = DurationLocalizable(delay).localize(),
-            onClick = onDelayButtonClicked,
-        )
-
-        HorizontalDivider()
-
-        Column(
-            modifier = Modifier.padding(Spacing.MEDIUM),
-        ) {
-            SelectionField(
-                title = stringResource(R.string.label_run_repeatedly),
-                selectedKey = repetitionInterval,
-                items = REPETITION_TYPES.map { (value, label) -> value to label.localize() },
-                onItemSelected = onRepetitionIntervalChanged,
-            )
-
-            AnimatedVisibility(visible = repetitionInterval != null) {
-                HelpText(
-                    text = stringResource(R.string.instructions_repetitions),
-                    modifier = Modifier.padding(top = Spacing.SMALL),
-                )
-            }
-        }
-
-        HorizontalDivider()
 
         Checkbox(
             label = stringResource(R.string.label_exclude_from_history),
@@ -221,6 +235,7 @@ private fun ExecutionSettingsContent_Preview() {
     ExecutionSettingsContent(
         executionType = ShortcutExecutionType.HTTP,
         runInBackground = false,
+        runOnAppStart = false,
         delay = 0.seconds,
         waitForConnection = false,
         waitForConnectionOptionVisible = false,
@@ -236,6 +251,7 @@ private fun ExecutionSettingsContent_Preview() {
         canUseFiles = true,
         usesFiles = false,
         onRunInBackgroundChanged = {},
+        onRunOnAppStartChanged = {},
         onLauncherShortcutChanged = {},
         onSecondaryLauncherShortcutChanged = {},
         onQuickSettingsTileShortcutChanged = {},

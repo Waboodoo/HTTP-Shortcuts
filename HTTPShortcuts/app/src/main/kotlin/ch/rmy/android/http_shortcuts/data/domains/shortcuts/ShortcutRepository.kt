@@ -63,6 +63,10 @@ constructor(
         shortcutDao().getShortcuts().groupBy { it.categoryId }
     }
 
+    suspend fun getRunOnAppStartShortcuts(): List<Shortcut> = query {
+        shortcutDao().getRunOnAppStartShortcuts()
+    }
+
     suspend fun getQuickSettingsShortcuts(): List<Shortcut> = query {
         shortcutDao().getQuickSettingsShortcuts()
     }

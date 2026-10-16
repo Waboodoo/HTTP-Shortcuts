@@ -297,6 +297,12 @@ constructor(
         }
     }
 
+    suspend fun setRunOnAppStart(runOnAppStart: Boolean) {
+        updateShortcut {
+            copy(runOnAppStart = runOnAppStart)
+        }
+    }
+
     suspend fun setRunInForegroundService(runInForegroundService: Boolean) {
         updateShortcut {
             copy(runInForegroundService = runInForegroundService)

@@ -134,6 +134,8 @@ data class Shortcut(
     val excludeFromFileSharing: Boolean,
     @ColumnInfo(name = "run_in_foreground_service")
     val runInForegroundService: Boolean,
+    @ColumnInfo(name = "run_on_app_start", defaultValue = "false")
+    val runOnAppStart: Boolean,
     @ColumnInfo(name = "wol_mac_address")
     val wolMacAddress: String,
     @ColumnInfo(name = "wol_port")
@@ -271,6 +273,7 @@ data class Shortcut(
                 proxyPassword = null,
                 excludeFromFileSharing = executionType == ShortcutExecutionType.SCRIPTING,
                 runInForegroundService = false,
+                runOnAppStart = false,
                 wolMacAddress = "",
                 wolPort = if (executionType == ShortcutExecutionType.WAKE_ON_LAN) 9 else 0,
                 wolBroadcastAddress = if (executionType == ShortcutExecutionType.WAKE_ON_LAN) "255.255.255.255" else "",

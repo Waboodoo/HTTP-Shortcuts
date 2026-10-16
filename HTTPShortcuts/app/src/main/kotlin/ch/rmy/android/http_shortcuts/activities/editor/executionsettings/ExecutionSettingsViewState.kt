@@ -11,6 +11,7 @@ data class ExecutionSettingsViewState(
     val dialogState: ExecutionSettingsDialogState? = null,
     val executionType: ShortcutExecutionType,
     val runInBackground: Boolean,
+    val runOnAppStart: Boolean,
     val delay: Duration,
     val waitForConnection: Boolean,
     val waitForConnectionOptionVisible: Boolean,

@@ -43,6 +43,7 @@ fun MainScreen(
     widgetId: Int?,
     importUrl: Uri?,
     cancelPendingExecutions: Boolean,
+    suppressRunOnAppStart: Boolean,
 ) {
     val (viewModel, state) = bindViewModel<MainViewModel.InitData, MainViewState, MainViewModel>(
         MainViewModel.InitData(
@@ -51,6 +52,7 @@ fun MainScreen(
             widgetId = widgetId,
             importUrl = importUrl,
             cancelPendingExecutions = cancelPendingExecutions,
+            suppressRunOnAppStart = suppressRunOnAppStart,
         ),
     )
 

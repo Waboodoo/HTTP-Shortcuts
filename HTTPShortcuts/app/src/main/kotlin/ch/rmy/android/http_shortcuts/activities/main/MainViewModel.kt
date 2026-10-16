@@ -32,6 +32,7 @@ import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableReposi
 import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.CategoryAlignment
+import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.WidgetBackgroundType
 import ch.rmy.android.http_shortcuts.data.models.Category
@@ -60,6 +61,7 @@ import ch.rmy.android.http_shortcuts.widget.WidgetsUtil
 import ch.rmy.curlcommand.CurlCommand
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.net.URLEncoder
+import java.time.Instant
 import javax.inject.Inject
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
@@ -193,7 +195,7 @@ constructor(
             if (initData.cancelPendingExecutions) {
                 pendingExecutionsRepository.removeAllPendingExecutions()
                 showSnackbar(R.string.message_pending_executions_cancelled)
-            } else {
+            } else if (data.selectionMode == SelectionMode.NORMAL && !data.suppressRunOnAppStart) {
                 scheduleExecutions()
             }
             shortcutUpdateWorkerStarter.invoke()
@@ -268,6 +270,17 @@ constructor(
             }
 
     private suspend fun scheduleExecutions() {
+        shortcutRepository.getRunOnAppStartShortcuts().forEach { shortcut ->
+            pendingExecutionsRepository.createPendingExecution(
+                shortcutId = shortcut.id,
+                triggeredAt = Instant.now(),
+                tryNumber = 0,
+                delay = shortcut.delay.milliseconds,
+                requiresNetwork = shortcut.isWaitForNetwork,
+                recursionDepth = 0,
+                type = PendingExecutionType.EXPLICITLY_SCHEDULED,
+            )
+        }
         executionScheduler.schedule()
     }
 
@@ -827,5 +840,6 @@ constructor(
         val widgetId: Int?,
         val importUrl: Uri?,
         val cancelPendingExecutions: Boolean,
+        val suppressRunOnAppStart: Boolean,
     )
 }

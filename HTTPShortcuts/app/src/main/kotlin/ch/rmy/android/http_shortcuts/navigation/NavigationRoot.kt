@@ -67,6 +67,7 @@ fun NavigationRoot(navController: NavHostController) {
                 widgetId = WidgetsUtil.getWidgetIdFromIntent(intent),
                 importUrl = intent.getParcelable(MainActivity.EXTRA_IMPORT_URL),
                 cancelPendingExecutions = intent.getBooleanExtra(MainActivity.EXTRA_CANCEL_PENDING_EXECUTIONS, false),
+                suppressRunOnAppStart = intent.getBooleanExtra(MainActivity.EXTRA_SUPPRESS_ON_APP_START, false),
             )
         }
 

@@ -349,6 +349,7 @@ open class MainActivity : BaseComposeActivity() {
                 startActivity(
                     IntentBuilder()
                         .categoryId(event.activeCategoryId)
+                        .suppressRunOnAppStart()
                         .build(context),
                 )
             }
@@ -409,6 +410,10 @@ open class MainActivity : BaseComposeActivity() {
             intent.putExtra(EXTRA_CANCEL_PENDING_EXECUTIONS, true)
         }
 
+        fun suppressRunOnAppStart() = also {
+            intent.putExtra(EXTRA_SUPPRESS_ON_APP_START, true)
+        }
+
         override fun build(context: Context): Intent {
             val intent = super.build(context)
             context.packageManager.getLaunchIntentForPackage(context.packageName)
@@ -429,6 +434,7 @@ open class MainActivity : BaseComposeActivity() {
         const val EXTRA_CATEGORY_ID = "ch.rmy.android.http_shortcuts.category_id"
         const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
         const val EXTRA_CANCEL_PENDING_EXECUTIONS = "ch.rmy.android.http_shortcuts.cancel_executions"
+        const val EXTRA_SUPPRESS_ON_APP_START = "ch.rmy.android.http_shortcuts.suppress_on_app_start"
 
         fun determineMode(context: Context, intent: Intent) = when (intent.action) {
             Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
