@@ -345,6 +345,7 @@
     <string name="execution_delayed">İnternet bağlantısı sağlandığında %1$s yürütülecek.</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">Çevrimdışıyken bağlantıyı bekleyin</string>
+    <!-- Label: Shown on checkbox in "Trigger & Execution Settings" section of shortcut editor, to allow configuring a shortcut to be run every time the user opens the app -->
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Gecikmeli Yürütme</string>
     <!-- Button, shown on About page, to allow opening the app's Play Store page -->
@@ -721,6 +722,7 @@ Ancak henüz yapılandırılmış herhangi bir değişkeniniz yok.</string>
     <string name="label_variable_slider_suffix">Sonek Metni</string>
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">Maksimum değer minimum değerden büyük olmalıdır.</string>
+    <!-- error message displayed a slider's value is not between its defined minimum and maximum -->
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">Adım boyutu pozitif bir sayı olmalıdır.</string>
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
@@ -1401,6 +1403,7 @@ Ancak henüz yapılandırılmış herhangi bir değişkeniniz yok.</string>
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_send_tcp">TCP paketi gönderilemedi: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but provides an unsupported 'read mode' value. %s is a placeholder for the value that was provided. 'text' and 'line' must be kept as-is and not translated. -->
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">openUrl() kullanarak dosya açmak desteklenmiyor</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -1766,4 +1769,26 @@ Ancak henüz yapılandırılmış herhangi bir değişkeniniz yok.</string>
     <!-- Message displayed in a toast when the user selects a different icon for the app -->
     <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
     <!-- Error shown when reading a file shared into the app fails -->
+    <!-- Error shown when an SSH command fails because the SSH session can not be opened -->
+    <!-- Error shown when an SSH command fails because the SSH host rejected it -->
+    <!-- Error shown when an SSH command fails with a signal on the host. %s is a placeholder for the signal -->
+    <!-- Error shown when an SSH command fails. %s is a placeholder for the error details -->
+    <!-- Error shown when an SSH command fails due a mismatch of the algorithm. %s is a placeholder for the error details -->
+    <!-- Error shown when an SSH command fails because the SSH host can not be verified. %s is a placeholder for the host's algorithm and public key -->
+    <!-- Error shown when an SSH command fails because the SSH host can not be verified. %1$s and %2$s are placeholders for the host's algorithm and public key (expected and actual) -->
+    <!-- Error shown when an SSH command fails due to an authentication error -->
+    <!-- Error shown when an SSH command due to a decryption error, likely because an incorrect passphrase was provided -->
+    <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not found -->
+    <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not mounted, i.e., not accessible -->
+    <!-- Error shown when the `parseHTML` Scripting function is used but an invalid selector argument is provided. %s is a placeholder for the error details -->
+    <!-- Error shown when the `parseHTML` Scripting function is used but an query type argument is provided. %s is a placeholder for the value that was provided. -->
+    <!-- Error shown when a slider is incorrectly used in Scripting. %s is a placeholder for the error details -->
+    <!-- Error shown when a the 'vibrate' Scripting function is used but an unsupported vibration pattern is provided. %s is a placeholder for the name of the pattern -->
+    <!-- Error when automatic import/export fails because no directory is configured to export to or import from -->
+    <!-- Error when automatic export fails because the backup file could not be created -->
+    <!-- Error when automatic import/export fails because no url is configured to export to or import from -->
+    <!-- Error when automatic import failed because the file does not exist. %s is a placeholder for the file's name -->
+    <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
+    <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
+    <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
 </resources>

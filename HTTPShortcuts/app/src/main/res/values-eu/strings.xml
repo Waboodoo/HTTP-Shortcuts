@@ -25,9 +25,11 @@
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Nabigatzailea</string>
     <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
+    <string name="label_browser_shortcut_default_browser">Nabigatzailearen lasterbideen nabigatzaile lehenetsia</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Erabili nabigatzaile lehenetsia</string>
     <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
+    <string name="placeholder_browser_system_default">Sistemak lehenetsia</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">Erabili fitxa pertsonalizatua</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -379,6 +381,7 @@
     <string name="execution_delayed">%1$s exekutatuko da Internet konexioa erabilgarri dagoenean.</string>
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">Itxaron konektatu arte</string>
+    <!-- Label: Shown on checkbox in "Trigger & Execution Settings" section of shortcut editor, to allow configuring a shortcut to be run every time the user opens the app -->
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Atzeratu exekuzioa</string>
     <!-- Button, shown on About page, to allow opening the app's Play Store page -->
@@ -802,6 +805,7 @@
     <string name="label_variable_slider_suffix">Atzizki-testua</string>
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">Maximoak minimoa baino handiagoa izan behar du.</string>
+    <!-- error message displayed a slider's value is not between its defined minimum and maximum -->
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">Urratsaren tamainak zenbaki positiboa izan behar du.</string>
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
@@ -834,6 +838,10 @@
     <string name="label_trigger_shortcuts">Lasterbideak</string>
     <!-- Section subtitle in shortcut editor: "Shortcuts", allows to choose which shortcuts to trigger. No shortcuts set. -->
     <string name="label_trigger_shortcuts_subtitle_none">Oraindik ez da lasterbiderik hautatu</string>
+    <plurals name="label_trigger_shortcuts_subtitle">
+        <item quantity="one">%d lasterbide hautatuta</item>
+        <item quantity="other">%d lasterbide hautatu dira</item>
+    </plurals>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. Code can run before shortcut execution -->
     <string name="label_scripting_browser_shortcuts_subtitle">Exekutatu JavaScript kodea exekutatu aurretik</string>
     <!-- Section subtitle in shortcut editor: "Scripting", allows to write scripts for advanced workflows. -->
@@ -1032,6 +1040,10 @@
     <!-- Section subtitle, shown in shortcut editor when the shortcut has no custom HTTP headers -->
     <string name="subtitle_request_headers_none">Ez da goibururik ezarri</string>
     <!-- Section subtitle, shown in shortcut editor when the shortcut has one or more custom HTTP headers -->
+    <plurals name="subtitle_request_headers_pattern">
+        <item quantity="one">%d goiburu ezarri dira</item>
+        <item quantity="other">%d goiburu ezarri dira</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no authentication behavior is defined -->
     <string name="subtitle_authentication_none">Autentifikaziorik ez</string>
     <!-- Section subtitle, shown in shortcut editor when using a client certificate for authentication -->
@@ -1047,7 +1059,15 @@
     <!-- Section subtitle, shown in shortcut editor when no (POST) parameters are set -->
     <string name="subtitle_request_body_params_none">Ez da parametrorik ezarri</string>
     <!-- Section subtitle, shown in shortcut editor when one or more (POST) parameters are set -->
+    <plurals name="subtitle_request_body_params_pattern">
+        <item quantity="one">%d parametro ezarri dira</item>
+        <item quantity="other">%d parametro ezarri dira</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor for MQTT shortcuts, to indicate how many MQTT messages are configured -->
+    <plurals name="subtitle_mqtt_messages">
+        <item quantity="one">%d mezu ezarri dira</item>
+        <item quantity="other">%d mezu ezarri dira</item>
+    </plurals>
     <!-- Section subtitle, shown in shortcut editor when no custom request body is set -->
     <string name="subtitle_request_body_none">Ez da eskaera-edukirik ezarri</string>
     <!-- Section subtitle, shown in shortcut editor when request body is set to 'File' -->
@@ -1434,11 +1454,15 @@
     <!-- Label above dropdown input field for selecting the vertical alignment (top, center, bottom) for a category -->
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
+    <string name="label_category_shortcut_label_visibility">Lasterbideen etiketak</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">Ikusgai</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">Ezkutuan</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
     <!-- Description for the "Variable Widget", shown in Android's widget picker -->
+    <string name="description_variable_widget">Aldagai global estatiko baten balioa bistaratu.</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
@@ -1451,7 +1475,9 @@
     <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
     <!-- Button label on menu, for searching. Used in Code Snippet picker and for Documentation screens -->
+    <string name="menu_action_search">Bilatu</string>
     <!-- Generic message for empty state when a search yields no results, displayed in the middle of the screen -->
+    <string name="instructions_search_no_results">Ez dago emaitzarik</string>
     <!-- Status message shown while some data or files are being processed, e.g. for sharing -->
     <!-- Message: shown in snackbar, indicates to the user that the app's quick settings tile was successfully added to the device's notification shade -->
     <!-- Title: Shown on the Documentation screen, where users can read through the app's documentation -->
@@ -1463,6 +1489,7 @@
     <!-- Error message: Shown when the user tries to send a UDP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <!-- Error message: Shown when the user tries to send a TCP packet via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but provides an unsupported 'read mode' value. %s is a placeholder for the value that was provided. 'text' and 'line' must be kept as-is and not translated. -->
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <!-- Page title, for page showing all events that happened recently -->
     <!-- Button in Event History screen, to clear all events and empty the history -->
@@ -1543,6 +1570,7 @@
     <!-- Option in dropdown to select the confirmation type for a shortcut: simple confirmation, i.e., only asking the user to press a button -->
     <!-- Option in dropdown to select the confirmation type for a shortcut: biometric confirmation, i.e., asking the user to authenticate by fingerprint or similar -->
     <!-- Title of section in settings that allows user to change the "User-Agent" header that is sent by default with all shortcuts -->
+    <string name="settings_user_agent">Pertsonalizatu Erabiltzaile-agentea</string>
     <!-- Message shown in snackbar as confirmation when the user changes the "User-Agent" header's value in the settings -->
     <!-- Dialog title: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
     <!-- Dialog message: Shown in dialog title when changing the "User-Agent" header used for all HTTP requests -->
@@ -1563,14 +1591,20 @@
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <!-- Subtitle on button, shown in Response settings of shortcut editor, shows how many buttons the user has selected to be shown in the response window toolbar -->
     <!-- Option in settings, allows to set whether hidden shortcuts should be visible or not -->
+    <string name="settings_title_show_hidden_shortcuts">Ezkutuko lasterbideak</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected all hidden shortcuts will be shown -->
+    <string name="settings_option_show_hidden_shortcuts">Erakutsi ezkutuko lasterbideak</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
+    <string name="settings_option_hide_hidden_shortcuts">Ez erakutsi ezkutuko lasterbideak</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the background, i.e., showing no loading spinner -->
     <!-- Title of setting in settings screen, for selecting the app's color theme -->
+    <string name="settings_dynamic_color">Gaia</string>
     <!-- Option in "Theme" setting, to use the default theme the app's colors -->
+    <string name="settings_dynamic_color_option_dynamic_color">Erabili kolore dinamikoa</string>
     <!-- Option in "Theme" setting, to use Dynamic Color, i.e., use the same color scheme as the OS -->
+    <string name="settings_dynamic_color_option_default_theme">Erabili lehenetsitako gaia</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
@@ -1584,6 +1618,7 @@
     <!-- Option in dialog that lets the user choose the shape of their custom icon -->
     <!-- Warning message shown to user when an HTML page wants to open a URL in the external browser. %s is a placeholder for the URL. -->
     <!-- Placeholder text shown in the text field for the search feature on the Documentation screen -->
+    <string name="placeholder_documentation_search_query">Bilatu orrian...</string>
     <!-- Label for dropdown in shortcut editor, for picking the font size in which the response should be displayed -->
     <!-- Option in font size drop down: Tiny -->
     <!-- Option in font size drop down: Very small -->
@@ -1600,6 +1635,7 @@
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
     <!-- Snackbar message, shown when the user clicks the Device ID button in the Privacy section -->
     <!-- Message displayed in at the top of the Export screen, to instruct the user what to do -->
+    <string name="instructions_export">Hautatu zein lasterbide esportatu behar diren. Beharrezko aldagai global guztiak automatikoki esportatuko dira.</string>
     <!-- Title shown on Response screen which allows to expand a panel showing some meta information about the response -->
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute values (e.g. 13:37) -->
     <!-- Snackbar message, shown when the user switches the time mode on the Event History screen, to change the times to be displayed as absolute relative (e.g. 42 sec ago) -->
@@ -1616,24 +1652,37 @@
     <!-- Message of warning dialog that shows when a request contains malformed JSON in its body -->
     <!-- Label for checkbox in editor, to allow JSON responses to be displayed as a table instead of plain JSON -->
     <!-- Screen title, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="title_working_directories">Muntatutako direktorioak</string>
     <!-- Option in main screen's menu, for the Directories screen, which lets the user configure directories that can be used to read and write files -->
+    <string name="menu_action_working_directories">Direktorioak</string>
     <!-- Empty state, shown in list when there are no Directories yet -->
+    <string name="empty_state_working_directories">Oraindik ez duzu inongo direktoriorik muntatu.</string>
     <!-- Empty state instructions, shown in list when there are no directories yet -->
+    <string name="empty_state_working_directories_instructions">Hemen zure gailuko fitxategi-sistemako direktorioak munta ditzakezu, aplikazioari haien edukia atzitzeko eta fitxategi berriak sortzeko aukera ematen dio.\n\nSakatu + botoian direktorio bat muntatzeko.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a directory was created/mounted -->
     <!-- Message, shown in snackbar, confirming to user that a directory was deleted. %1$s is a placeholder for the directory's name -->
     <!-- Action button label, shown in context menu of Directories screen, to allow re-mounting a directory, i.e., connecting it to a directory in the device's file system -->
+    <string name="button_mount_working_directory">Muntatu</string>
     <!-- Generic action button label, shown in context menus, allows renaming things, e.g. directories -->
+    <string name="action_rename">Berrizendatu</string>
     <!-- Subtitle shown below directory name on Directories screen, when a directory is not mounted, i.e., it is disconnected from its counterpart on the device's file system -->
+    <string name="working_directory_unmounted_subtitle">Muntatu gabe</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate when this directory was last read from or written to -->
+    <string name="working_directory_last_accessed">Azken sarbidea: %s</string>
     <!-- Subtitle shown below directory name on Directories screen, to indicate that this directory was never read from or written to -->
+    <string name="working_directory_never_accessed">Inoiz sartu gabe</string>
     <!-- Instructions: Shown at the top of the Directories screen when picking a directory that should be used for a specific feature -->
+    <string name="instructions_select_directory">Hautatu edo muntatu direktorio berri bat aplikazioak bertan fitxategiak irakurri eta idazteko aukera izan dezan.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a directory -->
     <!-- Title for the dialog window that lets the user rename a directory -->
     <!-- Error message, informing user that the entered directory name already exists -->
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to hide a shortcut -->
     <!-- Action, shown on dropdown when editing a shortcut, for allowing to show a hidden shortcut -->
+    <string name="action_show_shortcut">Erakutsi</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut was hidden -->
+    <string name="message_shortcut_hidden">Lasterbidea ezkutatuta dago.</string>
     <!-- Message, shown in snackbar, to confirm to the user that a shortcut is no longer hidden and visible again -->
+    <string name="message_shortcut_visible">Lasterbidea ez dago ezkutatuta.</string>
     <!-- Title for dialog, when selecting a directory (to be used in Scripting) -->
     <!-- Warning message shown to user when saving their first shortcut, but not having opened the Response Handling screen -->
     <!-- Title for notification channel, used for executing shortcuts using a Foreground Service -->
@@ -1659,8 +1708,11 @@
     <!-- Accessibility label for the generic "go back" arrow button in the nav bar -->
     <!-- Accessibility label for the generic "close" cross button in the nav bar -->
     <!-- Accessibility label for the "go to next result" button in search bars -->
+    <string name="accessibility_search_go_to_next">Hurrengoa</string>
     <!-- Accessibility label for the "go to previous result" button in search bars -->
+    <string name="accessibility_search_go_to_previous">Aurrekoa</string>
     <!-- Message shown in dialog window that pops up the first time the user hides a shortcut, to inform them how they can unhide the shortcut again -->
+    <string name="instructions_shortcut_unhiding">Ezkutuko lasterbideak berriro ikus ditzakezu Ezarpenak pantailara joan eta \“%s\” aukera bilatuz.</string>
     <!-- Pattern used to construct the category / section headers on the "Move Shortcut" screen. %s$1 is a placeholder for a category name, %2$s is a placeholder for a section name -->
     <!-- Title of "Category Sections" screen, which lets the user manage sections within a category -->
     <!-- Title of dialog to edit a section within a category -->
@@ -1679,8 +1731,10 @@
     <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the Termux app is not active -->
     <!-- Error message, shown in when the user tries to run a "Termux" command from Scripting, but the HTTP Shortcuts app is in the background -->
     <!-- Label: shown above dropdown menu to select a variable for the Variable Widget -->
+    <string name="label_variable_widget_select_variable">Aldagai globala</string>
     <!-- Label: shown above dropdown menu to select a shortcut that should be run when a specific Variable Widget is clicked -->
     <!-- Empty state instructions, shown in the editor for variable widgets when the user hasn't created any global variables of type "Static Variable" yet. -->
+    <string name="empty_state_variable_widget">Trepeta honekin \“%s\” motako aldagai global baten balioa zure hasierako pantailan bistaratu dezakezu.\n\nOraindik ez duzu horrelako aldagairik. Aplikazioaren menu nagusitik sor ditzakezu.</string>
     <!-- Error message, shown when app is updated after a long time and data can not be restored, instructs the user how to recover the app data -->
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data. Clicking the button will attempt to restore the shortcuts, variables etc. -->
     <!-- Label on button, shown on dialog that shows when the app's data can not be automatically restored after an update, gives the user the option to export all data -->
@@ -1731,10 +1785,12 @@
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
     <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
     <!-- Error message shown when icons could not be loaded in the icon picker -->
+    <string name="instructions_icon_search_failed">Ezin izan dira kargatu ikonoak</string>
     <!-- Title for dialog that lets the user select an icon from the "Material Design Icons" collection -->
     <!-- Option in Icon selector dialog, to go to the "Material Design Icons" collection to pick an icon from it -->
     <!-- Message for dialog that informs the user about Material Design Icons -->
     <!-- Accessibility text for the "Clear" button in search bars, to reset the search query -->
+    <string name="accessibility_clear_search">Garbitu</string>
     <!-- Error message shown in places where web-based content would be displayed, but no webview is installed on the device that could serve this content -->
     <!-- Pattern for combining the name of a language with its translation progress percentage. %s is a placeholder for the language, %d a placeholder for the percentage, %% a placeholder for the percentage sign itself -->
     <!-- Title of dialog where the user can choose a different icon for the app -->
@@ -1742,4 +1798,26 @@
     <!-- Message displayed in a toast when the user selects a different icon for the app -->
     <!-- Title for dialog where the user can pick the background color for a shortcut icon when placing the shortcut on the home screen -->
     <!-- Error shown when reading a file shared into the app fails -->
+    <!-- Error shown when an SSH command fails because the SSH session can not be opened -->
+    <!-- Error shown when an SSH command fails because the SSH host rejected it -->
+    <!-- Error shown when an SSH command fails with a signal on the host. %s is a placeholder for the signal -->
+    <!-- Error shown when an SSH command fails. %s is a placeholder for the error details -->
+    <!-- Error shown when an SSH command fails due a mismatch of the algorithm. %s is a placeholder for the error details -->
+    <!-- Error shown when an SSH command fails because the SSH host can not be verified. %s is a placeholder for the host's algorithm and public key -->
+    <!-- Error shown when an SSH command fails because the SSH host can not be verified. %1$s and %2$s are placeholders for the host's algorithm and public key (expected and actual) -->
+    <!-- Error shown when an SSH command fails due to an authentication error -->
+    <!-- Error shown when an SSH command due to a decryption error, likely because an incorrect passphrase was provided -->
+    <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not found -->
+    <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not mounted, i.e., not accessible -->
+    <!-- Error shown when the `parseHTML` Scripting function is used but an invalid selector argument is provided. %s is a placeholder for the error details -->
+    <!-- Error shown when the `parseHTML` Scripting function is used but an query type argument is provided. %s is a placeholder for the value that was provided. -->
+    <!-- Error shown when a slider is incorrectly used in Scripting. %s is a placeholder for the error details -->
+    <!-- Error shown when a the 'vibrate' Scripting function is used but an unsupported vibration pattern is provided. %s is a placeholder for the name of the pattern -->
+    <!-- Error when automatic import/export fails because no directory is configured to export to or import from -->
+    <!-- Error when automatic export fails because the backup file could not be created -->
+    <!-- Error when automatic import/export fails because no url is configured to export to or import from -->
+    <!-- Error when automatic import failed because the file does not exist. %s is a placeholder for the file's name -->
+    <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
+    <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
+    <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
 </resources>

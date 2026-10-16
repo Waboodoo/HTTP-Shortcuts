@@ -1553,7 +1553,7 @@
     <string name="error_failed_to_send_tcp">Failed to send TCP packet: %s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_receive_tcp">Failed to read from TCP socket: %s</string>
-    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but provides an unsupported 'read mode' value. %s is a placeholder for the value that was provided -->
+    <!-- Error message: Shown when the user tries to read a TCP response via Scripting but provides an unsupported 'read mode' value. %s is a placeholder for the value that was provided. 'text' and 'line' must be kept as-is and not translated. -->
     <string name="error_tcp_unsupported_read_mode">Unsupported read mode \'%s\' for TCP. Must be \'text\' or \'line\'</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">Opening files using openUrl() is not supported</string>
@@ -2131,7 +2131,7 @@
     <!-- Error shown when an SSH command fails with a signal on the host. %s is a placeholder for the signal -->
     <string name="error_ssh_command_failed_with_signal">SSH command failed with signal %s</string>
     <!-- Error shown when an SSH command fails. %s is a placeholder for the error details -->
-    <string name="error_ssh_failed">SSH failed expectedly: %s</string>
+    <string name="error_ssh_failed">SSH failed: %s</string>
     <!-- Error shown when an SSH command fails due a mismatch of the algorithm. %s is a placeholder for the error details -->
     <string name="error_ssh_failed_with_algorithm_mismatch">SSH connection failed due to algorithm mismatch: %s</string>
     <!-- Error shown when an SSH command fails because the SSH host can not be verified. %s is a placeholder for the host's algorithm and public key -->

@@ -1,15 +1,16 @@
 ## Version 4.9.0
 
 ### Improvements
+- Shortcuts can now be configured to run automatically whenever the app is opened
+- Text in some dialog windows is now selectable, making it possible to copy
 - Screen recordings and screenshots are now disallowed while a non-empty password fields is visible
-- Text in dialog windows is now selectable, making it possible to copy
-- The `sendSSHCommand` Scripting function can now be configured to return raw bytes instead of treating stdout and stderr as UTF-8
+- The `sendSSHCommand` Scripting function can now be configured to return raw bytes instead of treating `stdout` and `stderr` as UTF-8
 
 ### Bugfixes
 - Fixed an internal error with the `sendSSHCommand` Scripting function
 
 ### Miscellaneous
-- Many error messages, in particular those for Scripting functions, are now translateable instead of being hardcoded to English
+- Many error messages, in particular those for Scripting functions, are now translatable instead of being hard-coded to English
 
 ## Version 4.8.2
 
