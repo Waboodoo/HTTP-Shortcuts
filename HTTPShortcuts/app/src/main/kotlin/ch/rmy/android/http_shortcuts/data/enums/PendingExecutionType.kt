@@ -7,6 +7,7 @@ enum class PendingExecutionType {
     REPEAT,
     EXPLICITLY_SCHEDULED,
     NEW_INTENT,
+    APP_START,
     ;
 
     companion object {

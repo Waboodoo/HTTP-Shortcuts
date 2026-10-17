@@ -102,6 +102,7 @@ constructor(
                 .executionId(pendingExecution.id)
                 .trigger(
                     when (pendingExecution.type) {
+                        PendingExecutionType.APP_START -> ShortcutTriggerType.APP_START
                         PendingExecutionType.EXPLICITLY_SCHEDULED -> if (
                             pendingExecution.delayUntil == null && pendingExecution.waitForNetwork == false
                         ) {

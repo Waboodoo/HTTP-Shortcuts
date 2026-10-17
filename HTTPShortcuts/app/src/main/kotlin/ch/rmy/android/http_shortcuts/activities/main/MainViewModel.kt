@@ -278,7 +278,7 @@ constructor(
                 delay = shortcut.delay.milliseconds,
                 requiresNetwork = shortcut.isWaitForNetwork,
                 recursionDepth = 0,
-                type = PendingExecutionType.EXPLICITLY_SCHEDULED,
+                type = PendingExecutionType.APP_START,
             )
         }
         executionScheduler.schedule()

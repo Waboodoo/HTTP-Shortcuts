@@ -21,6 +21,7 @@ enum class ShortcutTriggerType {
     WIDGET,
     SCRIPTING,
     QUICK_ACCESS_DEVICE_CONTROLS,
+    APP_START,
     ;
 
     companion object {
