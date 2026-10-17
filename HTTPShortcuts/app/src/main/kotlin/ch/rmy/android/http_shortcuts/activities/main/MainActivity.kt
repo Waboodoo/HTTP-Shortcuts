@@ -121,7 +121,7 @@ open class MainActivity : BaseComposeActivity() {
                         } catch (e: CancellationException) {
                             throw e
                         } catch (e: Exception) {
-                            if (e !is ImportException) {
+                            if (e !is ImportException && e !is SecurityException) {
                                 logException(e)
                             }
                             showToast(context.getString(R.string.import_failed_with_reason, e.message ?: e::class.java.simpleName))
@@ -144,7 +144,7 @@ open class MainActivity : BaseComposeActivity() {
                         } catch (e: CancellationException) {
                             throw e
                         } catch (e: Exception) {
-                            if (e !is ImportException) {
+                            if (e !is ImportException && e !is SecurityException) {
                                 logException(e)
                             }
                             showToast(context.getString(R.string.import_failed_with_reason, e.message ?: e::class.java.simpleName))

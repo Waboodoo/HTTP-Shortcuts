@@ -81,7 +81,6 @@ class FileUploadManager internal constructor(
                 fileUris.map(::uriToFile),
             )
         } catch (e: SecurityException) {
-            logException(e)
             userError {
                 getString(R.string.error_file_access_security, e.message ?: e.toString())
             }

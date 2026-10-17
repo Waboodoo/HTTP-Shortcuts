@@ -45,6 +45,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.io.File
 import java.io.IOException
+import java.lang.SecurityException
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -107,7 +108,7 @@ constructor(
             return Result.success()
         } catch (e: Exception) {
             syncRepository.setLastFailed(syncType, Instant.now())
-            if (e !is IOException && e !is ImportException && e !is UserException) {
+            if (e !is IOException && e !is ImportException && e !is UserException && e !is SecurityException) {
                 logException(e)
             }
             return if (isSingleRun) {

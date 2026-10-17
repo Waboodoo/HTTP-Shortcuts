@@ -166,7 +166,7 @@ constructor(
                 }
                 setDialogState(ImportExportDialogState.ImportPasswordPrompt(uri, tryAgain = password != null))
             } catch (e: Exception) {
-                if (e !is ImportException) {
+                if (e !is ImportException && e !is SecurityException) {
                     logException(e)
                 }
                 showError(StringResLocalizable(R.string.import_failed_with_reason, e.message ?: e::class.java.simpleName))
