@@ -1,8 +1,10 @@
 package ch.rmy.android.http_shortcuts.activities.execute
 
+import android.app.ForegroundServiceStartNotAllowedException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
@@ -42,10 +44,19 @@ constructor(
 
             if (shortcutRepository.shouldUseForegroundService(shortcutId)) {
                 logInfo("Starting execution using foreground service")
-                context.startForegroundService(
-                    Intent(context, ExecutionService::class.java)
-                        .putExtras(intent),
-                )
+                try {
+                    context.startForegroundService(
+                        Intent(context, ExecutionService::class.java)
+                            .putExtras(intent),
+                    )
+                } catch (e: Exception) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                        logInfo("Starting in foreground failed, falling back to activity")
+                        intent.startActivity(context)
+                    } else {
+                        throw e
+                    }
+                }
             } else {
                 logInfo("Starting execution using activity")
                 intent.startActivity(context)
