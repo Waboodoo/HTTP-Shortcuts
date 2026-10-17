@@ -2,9 +2,9 @@
 
 ### Improvements
 - Shortcuts can now be configured to run automatically whenever the app is opened
-- Text in some dialog windows is now selectable, making it possible to copy
-- Screen recordings and screenshots are now disallowed while a non-empty password fields is visible
-- The `sendSSHCommand` Scripting function can now be configured to return raw bytes instead of treating `stdout` and `stderr` as UTF-8
+- Text in some dialog windows is now selectable, making it easier to copy error parts of it
+- Screen recordings and screenshots are now disallowed while a non-empty password field is visible
+- The `sendSSHCommand` Scripting function can now be configured to return raw bytes instead of treating `stdout` and `stderr` as UTF-8 strings
 
 ### Bugfixes
 - Fixed an internal error with the `sendSSHCommand` Scripting function
