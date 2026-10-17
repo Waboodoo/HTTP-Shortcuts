@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.data.models.CertificatePin
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
+import ch.rmy.android.http_shortcuts.exceptions.UserException
 import ch.rmy.android.http_shortcuts.extensions.shouldIncludeInHistory
 import ch.rmy.android.http_shortcuts.extensions.toCertificatePin
 import ch.rmy.android.http_shortcuts.history.HistoryEvent
@@ -386,6 +387,14 @@ constructor(
                             error = errorFormatter.getErrorMessage(e),
                         ),
                     )
+                }
+                throw e
+            } catch (e: IllegalArgumentException) {
+                if (e.message?.startsWith("unexpected host") == true) {
+                    throw UserException.create {
+                        // TODO: localize
+                        e.message!!
+                    }
                 }
                 throw e
             }
