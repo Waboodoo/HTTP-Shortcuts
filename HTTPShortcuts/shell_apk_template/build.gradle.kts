@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.gradle.tasks.PackageAndroidArtifact
 import com.android.utils.forEach
 import java.awt.Color
 import java.awt.image.BufferedImage
@@ -42,6 +43,10 @@ extensions.configure<ApplicationExtension> {
     dependenciesInfo {
         includeInApk = false
     }
+}
+
+tasks.withType<PackageAndroidArtifact> {
+    doFirst { appMetadata.asFile.get().writeText("") }
 }
 
 val generatedIconResDir = layout.buildDirectory.dir("generated/res/shell-template-icon").get().asFile
