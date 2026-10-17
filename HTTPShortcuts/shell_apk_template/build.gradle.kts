@@ -34,6 +34,7 @@ extensions.configure<ApplicationExtension> {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
+            vcsInfo.include = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
