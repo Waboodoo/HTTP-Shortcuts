@@ -2,9 +2,11 @@ package ch.rmy.android.http_shortcuts.activities.response
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.TransactionTooLargeException
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.lifecycleScope
 import ch.rmy.android.framework.extensions.finishWithoutAnimation
+import ch.rmy.android.framework.extensions.logException
 import ch.rmy.android.framework.ui.BaseIntentBuilder
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.activities.BaseComposeActivity
@@ -73,6 +75,14 @@ class DisplayResponseActivity : BaseComposeActivity() {
         super.onBackPressed()
         ActivityCloser.onDisplayResponseActivityClosed()
         finish()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        try {
+            super.onSaveInstanceState(outState)
+        } catch (e: TransactionTooLargeException) {
+            logException(e)
+        }
     }
 
     class IntentBuilder(title: String, responseDataId: NavigationArgStore.ArgStoreId) : BaseIntentBuilder(DisplayResponseActivity::class) {
