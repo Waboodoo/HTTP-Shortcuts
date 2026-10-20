@@ -75,7 +75,7 @@ constructor(
         tryOrLog {
             notificationManager?.notify(
                 idCounter.incrementAndGet(),
-                NotificationCompat.Builder(context, NotificationChannelIds.SHORTCUT_EXECUTION)
+                NotificationCompat.Builder(context, NotificationChannelIds.SHORTCUT_RESULTS)
                     .apply(content)
                     .setSmallIcon(R.drawable.ic_quick_settings_tile)
                     .setAutoCancel(true)
