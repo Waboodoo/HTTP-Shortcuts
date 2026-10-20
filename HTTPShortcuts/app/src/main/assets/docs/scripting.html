@@ -162,50 +162,50 @@ const result = parseHTML(myHTML);
 /*
 The result variable now holds the following object (blank text fields omitted for clarity):
 {
-  "name": "html",
-  "attributes": {
-    "lang": "de"
+  name: "html",
+  attributes: {
+    lang: "de"
   },
-  "children": [
+  children: [
     {
-      "name": "head",
-      "attributes": {},
-      "children": [
+      name: "head",
+      attributes: {},
+      children: [
         {
-          "name": "title",
-          "attributes": {},
-           "children": [],
-           "text": "Hello World"
+          name: "title",
+          attributes: {},
+          children": [],
+          text: "Hello World"
         }
       ]
     },
     {
-      "name": "body",
-      "attributes": {},
-      "children": [
+      name: "body",
+      attributes: {},
+      children: [
         {
-          "name": "ul",
-          "attributes": {
-            "style": "color: red"
+          name: "ul",
+          attributes: {
+            style: "color: red"
           },
-          "children": [
+          children: [
             {
-              "name": "li",
-              "attributes": {},
-              "children": [],
-              "text": "Item 1"
+              name: "li",
+              attributes: {},
+              children: [],
+              text: "Item 1"
             },
             {
-              "name": "li",
-              "attributes": {},
-              "children": [],
-              "text": "Item 2"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              name: "li",
+              attributes: {},
+              children: [],
+              text: "Item 2"
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 */
 
@@ -219,17 +219,17 @@ const result = parseHTML(myHTML, 'ul > li'); // query for all `li` elements whic
 The result variable now holds the following array of objects:
 [
   {
-    "name": "li",
-    "attributes": {},
-    "children": [],
-    "text": "Item 1"
+    name: "li",
+    attributes: {},
+    children: [],
+    text: "Item 1"
   },
   {
-    "name": "li",
-    "attributes": {},
-    "children": [],
-    "text": "Item 2"
-  }
+    name: "li",
+    attributes: {},
+    children: [],
+    text: "Item 2"
+  },
 ]
 */
 </code></pre><p>In case you're not familiar with CSS selectors, here's some examples:<ul><li><code>li</code> would select all <code>&lt;li></code> elements<li><code>.my-class</code> would select all elements that have the class "my-class"<li><code>p img</code> would select all <code>&lt;img></code> elements which are within a <code>&lt;p></code> element (not necessarily as a direct child)<li><code>a[href]</code> would select all <code>&lt;a></code> elements which have a <code>href</code> attribute<li><code>[id="my-id"]</code> would select all elements which have the <code>id="my-id"</code> attribute<li><code>ul.my-class > li</code> would select all <code>&lt;li></code> elements which are direct child elements of <code>&lt;ul></code> elements which have the "my-class" class</ul><p><a id=parse-xml></a><h3>parseXML</h3><p>The <code>parseXML</code> function allows to parse an XML string into an object representation. Each XML element is converted into a JS object with attributes <code>name</code>, <code>attributes</code>, <code>children</code>, and <code>text</code> (if any), as is showcased by the following example:<pre><code class=language-js>// Given some XML string
@@ -242,19 +242,19 @@ const result = parseXML(myXML);
 /*
 The result variable now holds the following object:
 {
-  "name": "element",
-  "attributes": {},
-  "children": [
+  name: "element",
+  attributes: {},
+  children: [
     {
-      "name": "foo",
-      "attributes": {
-        "bar": "123"
+      name: "foo",
+      attributes: {
+        bar: "123"
       },
-      "children": [],
-      "text": "Hello World"
-    }
+      children: [],
+      text: "Hello World"
+    },
   ],
-  "text": "\n    \n"
+  text: "\n    \n",
 }
 */
 
@@ -308,18 +308,31 @@ if (result.code == 0) {
 }
 </code></pre><p><a id=send-mqtt-message></a><h3>Send MQTT message</h3><p>The <code>sendMqttMessages</code> function allows you to connect to an MQTT broker, send (i.e. publish) one or more messages to it, and then disconnect again. The first argument is the URI of the server/broker, the second (optional) argument provides options for the connection (e.g. username and password) and the third argument is an array of all the messages that should be sent.<pre><code class=language-js>sendMQTTMessages(
   "tcp://192.168.0.42:1234",
-  {"username": "admin", "password": "1234"},
+  {
+    username: "admin",
+    password: "1234",
+  },
   [
-    {"topic": "hallway-lamp/set", "payload": "{\"state\":\"ON\"}"},
-    {"topic": "desk-lamp/set", "payload": "{\"state\":\"ON\", \"brightness\": 255}"},
-  ]
+    {
+      topic: "hallway-lamp/set",
+      payload: "{\"state\":\"ON\"}",
+    },
+    {
+      topic: "desk-lamp/set",
+      payload: "{\"state\":\"ON\", \"brightness\": 255}",
+    },
+  ],
 );
-</code></pre><blockquote><p>Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way, meaning you can't receive any MQTT messages.</blockquote><p>If you use SSL, you may also configure the hostname verification by adding additional options to the second argument, to either check for a specific SHA-1 or SHA-5 fingerprint by including the <code>"fingerprint": "AA:AA:..."</code> option, or to just skip hostname verification entirely by including the <code>"verifyHostname": false</code> option. This is mainly only useful when using self-signed certificates, and you should only do this if you know what you are doing.<pre><code class=language-js>sendMQTTMessages(
+</code></pre><blockquote><p>Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way, meaning you can't receive any MQTT messages.</blockquote><p>If you use SSL, you may also configure the hostname verification by adding additional options to the second argument, to either check for a specific SHA-1 or SHA-256 fingerprint by including the <code>fingerprint: "AA:AA:..."</code> option, or to just skip hostname verification entirely by including the <code>verifyHostname: false</code> option. This is mainly useful when using self-signed certificates, and you should only do this if you know what you are doing.<pre><code class=language-js>sendMQTTMessages(
   "ssl://192.168.0.42:1234",
-  {"username": "admin", "password": "1234", "fingerprint": "AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD"},
+  {
+    username: "admin",
+    password: "1234",
+    fingerprint: "AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD"
+  },
   [
     {"topic": "my_topic", "payload": "my_payload"},
-  ]
+  ],
 );
 </code></pre><p><a id=send-tcp-packet></a><h3>Send TCP Packet</h3><p>You can use the <code>sendTCPPacket</code> function to send a TCP packet to another device on your network. This can be useful when interacting with devices that have a telnet interface.<p>Pass the packet data as the first argument (either as a string, <code>Uint8Array</code> or array of numbers denoting bytes), the target host's name or IP address as the second argument and its TCP port as the third argument.<pre><code class=language-js>sendTCPPacket('hello', '192.168.1.42', 1337);
 

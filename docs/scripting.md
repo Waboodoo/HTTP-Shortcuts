@@ -667,50 +667,50 @@ const result = parseHTML(myHTML);
 /*
 The result variable now holds the following object (blank text fields omitted for clarity):
 {
-  "name": "html",
-  "attributes": {
-    "lang": "de"
+  name: "html",
+  attributes: {
+    lang: "de"
   },
-  "children": [
+  children: [
     {
-      "name": "head",
-      "attributes": {},
-      "children": [
+      name: "head",
+      attributes: {},
+      children: [
         {
-          "name": "title",
-          "attributes": {},
-           "children": [],
-           "text": "Hello World"
+          name: "title",
+          attributes: {},
+          children": [],
+          text: "Hello World"
         }
       ]
     },
     {
-      "name": "body",
-      "attributes": {},
-      "children": [
+      name: "body",
+      attributes: {},
+      children: [
         {
-          "name": "ul",
-          "attributes": {
-            "style": "color: red"
+          name: "ul",
+          attributes: {
+            style: "color: red"
           },
-          "children": [
+          children: [
             {
-              "name": "li",
-              "attributes": {},
-              "children": [],
-              "text": "Item 1"
+              name: "li",
+              attributes: {},
+              children: [],
+              text: "Item 1"
             },
             {
-              "name": "li",
-              "attributes": {},
-              "children": [],
-              "text": "Item 2"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              name: "li",
+              attributes: {},
+              children: [],
+              text: "Item 2"
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 */
 
@@ -728,17 +728,17 @@ const result = parseHTML(myHTML, 'ul > li'); // query for all `li` elements whic
 The result variable now holds the following array of objects:
 [
   {
-    "name": "li",
-    "attributes": {},
-    "children": [],
-    "text": "Item 1"
+    name: "li",
+    attributes: {},
+    children: [],
+    text: "Item 1"
   },
   {
-    "name": "li",
-    "attributes": {},
-    "children": [],
-    "text": "Item 2"
-  }
+    name: "li",
+    attributes: {},
+    children: [],
+    text: "Item 2"
+  },
 ]
 */
 ```
@@ -767,19 +767,19 @@ const result = parseXML(myXML);
 /*
 The result variable now holds the following object:
 {
-  "name": "element",
-  "attributes": {},
-  "children": [
+  name: "element",
+  attributes: {},
+  children: [
     {
-      "name": "foo",
-      "attributes": {
-        "bar": "123"
+      name: "foo",
+      attributes: {
+        bar: "123"
       },
-      "children": [],
-      "text": "Hello World"
-    }
+      children: [],
+      text: "Hello World"
+    },
   ],
-  "text": "\n    \n"
+  text: "\n    \n",
 }
 */
 
@@ -921,25 +921,38 @@ The `sendMqttMessages` function allows you to connect to an MQTT broker, send (i
 ```js
 sendMQTTMessages(
   "tcp://192.168.0.42:1234",
-  {"username": "admin", "password": "1234"},
+  {
+    username: "admin",
+    password: "1234",
+  },
   [
-    {"topic": "hallway-lamp/set", "payload": "{\"state\":\"ON\"}"},
-    {"topic": "desk-lamp/set", "payload": "{\"state\":\"ON\", \"brightness\": 255}"},
-  ]
+    {
+      topic: "hallway-lamp/set",
+      payload: "{\"state\":\"ON\"}",
+    },
+    {
+      topic: "desk-lamp/set",
+      payload: "{\"state\":\"ON\", \"brightness\": 255}",
+    },
+  ],
 );
 ```
 
 > Please note that this does not provide any particular quality of service guarantees, and that it is not possible to subscribe to topics this way, meaning you can't receive any MQTT messages.
 
-If you use SSL, you may also configure the hostname verification by adding additional options to the second argument, to either check for a specific SHA-1 or SHA-5 fingerprint by including the `"fingerprint": "AA:AA:..."` option, or to just skip hostname verification entirely by including the `"verifyHostname": false` option. This is mainly only useful when using self-signed certificates, and you should only do this if you know what you are doing.
+If you use SSL, you may also configure the hostname verification by adding additional options to the second argument, to either check for a specific SHA-1 or SHA-256 fingerprint by including the `fingerprint: "AA:AA:..."` option, or to just skip hostname verification entirely by including the `verifyHostname: false` option. This is mainly useful when using self-signed certificates, and you should only do this if you know what you are doing.
 
 ```js
 sendMQTTMessages(
   "ssl://192.168.0.42:1234",
-  {"username": "admin", "password": "1234", "fingerprint": "AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD"},
+  {
+    username: "admin",
+    password: "1234",
+    fingerprint: "AA:BB:CC:DD:EE:FF:00:11:22:33:44:55:66:77:88:99:AA:BB:CC:DD"
+  },
   [
     {"topic": "my_topic", "payload": "my_payload"},
-  ]
+  ],
 );
 ```
 
