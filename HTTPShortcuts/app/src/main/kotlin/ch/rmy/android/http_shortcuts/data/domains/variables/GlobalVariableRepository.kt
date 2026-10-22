@@ -35,6 +35,20 @@ constructor(
             }
     }
 
+    suspend fun updateVariableValue(
+        globalVariableId: GlobalVariableId,
+        transformation: (String?) -> String,
+    ): String? = query {
+        var updatedValue: String? = null
+        globalVariableDao()
+            .update(globalVariableId) { variable ->
+                val newValue = transformation(variable.value)
+                updatedValue = newValue
+                variable.copy(value = newValue)
+            }
+        updatedValue
+    }
+
     suspend fun moveVariable(globalVariableId1: GlobalVariableId, globalVariableId2: GlobalVariableId) = query {
         globalVariableDao().swap(globalVariableId1, globalVariableId2)
     }

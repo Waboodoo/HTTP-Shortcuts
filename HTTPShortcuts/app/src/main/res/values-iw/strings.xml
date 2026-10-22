@@ -1889,4 +1889,21 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">הדמיית נגן מדיה</string>
+    <string name="label_event_history_trigger_type_media_controls">פקדי מדיה</string>
+    <string name="settings_media_controls_summary">מאפשר שליטה, למשל באמצעות שעון חכם או לחצני אוזניות.</string>
+    <string name="notification_channel_media_controls_title">הדמיית נגן מדיה</string>
+    <string name="media_controls_notification_text">הדמיית נגן המדיה פעילה</string>
+    <string name="media_controls_no_shortcuts">אין קיצורי דרך זמינים</string>
+    <string name="media_controls_stop">סיום</string>
+    <string name="settings_media_controls_section_title">נגן מדיה מדומה</string>
+    <string name="settings_media_controls_categories_title">הגבלה לקטגוריות</string>
+    <string name="settings_media_controls_all_categories">לכלול את כל הקטגוריות</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d מתוך %2$d קטגוריות</string>
+    <string name="settings_media_controls_info_title">מידע נוסף</string>
+    <string name="settings_media_controls_info_text">כאשר האפשרות פעילה, HTTP Shortcuts מציג קיצורי דרך גלויים כרצועות בנגן מדיה מדומה. השתמשו בקודם ובהבא לבחירת קיצור דרך, ובהפעלה או השהיה כדי להפעיל אותו.\n\nאם נבחרו מספר קטגוריות, אך לא כולן, כל קטגוריה מוצגת כאלבום. בחרו „החלפת קטגוריה” ולחצו על הפעלה או השהיה כדי לעבור לקטגוריה הבאה. קטגוריות וקיצורי דרך מוסתרים לעולם אינם נכללים.\n\nההדמיה נשארת פעילה ברקע כדי ששעונים חכמים וכפתורי אוזניות יוכלו למצוא אותה. ניתן לעצור אותה מההתראה הקבועה או על ידי השבתת הגדרה זו.</string>
+    <string name="media_controls_change_category">החלפת קטגוריה</string>
+    <string name="media_controls_change_category_summary">לחצו על הפעלה או השהיה לבחירת הקטגוריה הבאה</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

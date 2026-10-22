@@ -3,6 +3,7 @@ package ch.rmy.android.http_shortcuts.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import ch.rmy.android.http_shortcuts.R
 import javax.inject.Inject
@@ -20,6 +21,17 @@ constructor(
             ?.createNotificationChannels(getChannels())
     }
 
+    fun isChannelEnabled(channelId: String): Boolean {
+        if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) {
+            return false
+        }
+        return notificationManager
+            ?.getNotificationChannel(channelId)
+            ?.importance
+            ?.let { it != NotificationManager.IMPORTANCE_NONE }
+            ?: false
+    }
+
     private fun getChannels() = listOf(
         NotificationChannel(
             NotificationChannelIds.SHORTCUT_EXECUTION,
@@ -30,6 +42,11 @@ constructor(
             NotificationChannelIds.SHORTCUT_RESULTS,
             context.getString(R.string.notification_channel_shortcut_result_title),
             NotificationManager.IMPORTANCE_DEFAULT,
+        ),
+        NotificationChannel(
+            NotificationChannelIds.MEDIA_CONTROLS,
+            context.getString(R.string.notification_channel_media_controls_title),
+            NotificationManager.IMPORTANCE_LOW,
         ),
     )
 }

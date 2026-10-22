@@ -1820,4 +1820,21 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simulatu multimedia-erreproduzitzailea</string>
+    <string name="label_event_history_trigger_type_media_controls">Multimedia-kontrolak</string>
+    <string name="settings_media_controls_summary">Kontrolatzea ahalbidetzen du, adibidez, erloju adimendun baten edo entzungailuen botoien bidez.</string>
+    <string name="notification_channel_media_controls_title">Multimedia-erreproduzitzailearen simulazioa</string>
+    <string name="media_controls_notification_text">Multimedia-erreproduzitzailearen simulazioa aktibo dago</string>
+    <string name="media_controls_no_shortcuts">Ez dago lasterbiderik erabilgarri</string>
+    <string name="media_controls_stop">Amaitu</string>
+    <string name="settings_media_controls_section_title">Simulatutako multimedia-erreproduzigailua</string>
+    <string name="settings_media_controls_categories_title">Kategorietara mugatu</string>
+    <string name="settings_media_controls_all_categories">Kategoria guztiak sartu</string>
+    <string name="settings_media_controls_selected_categories_pattern">%2$d kategoriatik %1$d</string>
+    <string name="settings_media_controls_info_title">Informazio gehiago</string>
+    <string name="settings_media_controls_info_text">Aktibatuta dagoenean, HTTP Shortcuts aplikazioak lasterbide ikusgaiak simulatutako multimedia-erreproduzigailu bateko pista gisa erakusten ditu. Erabili aurrekoa eta hurrengoa lasterbidea hautatzeko, eta erreproduzitu edo pausatu hura abiarazteko.\n\nKategoria bat baino gehiago hautatzen badira, baina ez guztiak, kategoria bakoitza album gisa agertzen da. Hautatu «Aldatu kategoria» eta sakatu erreproduzitu edo pausatu hurrengo kategoriara joateko. Ezkutuko kategoriak eta lasterbideak ez dira inoiz sartzen.\n\nSimulazioa atzeko planoan aktibo mantentzen da erloju adimendunek eta entzungailuen botoiek aurki dezaten. Jakinarazpen iraunkorretik edo ezarpen hau desgaituta geldi dezakezu.</string>
+    <string name="media_controls_change_category">Aldatu kategoria</string>
+    <string name="media_controls_change_category_summary">Sakatu erreproduzitu edo pausatu hurrengo kategoria hautatzeko</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

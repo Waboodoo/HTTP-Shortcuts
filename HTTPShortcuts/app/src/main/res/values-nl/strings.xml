@@ -1975,4 +1975,21 @@ U hebt echter nog geen variabelen geconfigureerd.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Mediaspeler simuleren</string>
+    <string name="label_event_history_trigger_type_media_controls">Mediabediening</string>
+    <string name="settings_media_controls_summary">Maakt bediening mogelijk, bijvoorbeeld via een smartwatch of hoofdtelefoonknoppen.</string>
+    <string name="notification_channel_media_controls_title">Mediaspelersimulatie</string>
+    <string name="media_controls_notification_text">Mediaspelersimulatie actief</string>
+    <string name="media_controls_no_shortcuts">Geen snelkoppelingen beschikbaar</string>
+    <string name="media_controls_stop">Beëindigen</string>
+    <string name="settings_media_controls_section_title">Gesimuleerde mediaspeler</string>
+    <string name="settings_media_controls_categories_title">Beperken tot categorieën</string>
+    <string name="settings_media_controls_all_categories">Alle categorieën opnemen</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d van %2$d categorieën</string>
+    <string name="settings_media_controls_info_title">Meer informatie</string>
+    <string name="settings_media_controls_info_text">Wanneer ingeschakeld, biedt HTTP Shortcuts zichtbare snelkoppelingen aan als nummers van een gesimuleerde mediaspeler. Gebruik vorige en volgende om een snelkoppeling te selecteren en afspelen of pauzeren om deze uit te voeren.\n\nAls meerdere, maar niet alle categorieën zijn geselecteerd, wordt elke categorie als album weergegeven. Selecteer ‘Categorie wijzigen’ en druk op afspelen of pauzeren om naar de volgende categorie te gaan. Verborgen categorieën en snelkoppelingen worden nooit opgenomen.\n\nDe simulatie blijft op de achtergrond actief, zodat smartwatches en hoofdtelefoonknoppen haar kunnen vinden. Je kunt haar altijd stoppen via de permanente melding of door deze instelling uit te schakelen.</string>
+    <string name="media_controls_change_category">Categorie wijzigen</string>
+    <string name="media_controls_change_category_summary">Druk op afspelen of pauzeren om de volgende categorie te selecteren</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

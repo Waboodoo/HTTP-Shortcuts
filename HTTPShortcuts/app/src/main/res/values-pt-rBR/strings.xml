@@ -1657,4 +1657,21 @@ No entanto, você não tem nenhuma variável configurada ainda.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simular player de mídia</string>
+    <string name="label_event_history_trigger_type_media_controls">Controles de mídia</string>
+    <string name="settings_media_controls_summary">Permite o controle, por exemplo, por smartwatch ou botões dos fones de ouvido.</string>
+    <string name="notification_channel_media_controls_title">Simulação do player de mídia</string>
+    <string name="media_controls_notification_text">Simulação do player de mídia ativa</string>
+    <string name="media_controls_no_shortcuts">Nenhum atalho disponível</string>
+    <string name="media_controls_stop">Encerrar</string>
+    <string name="settings_media_controls_section_title">Reprodutor de mídia simulado</string>
+    <string name="settings_media_controls_categories_title">Limitar a categorias</string>
+    <string name="settings_media_controls_all_categories">Incluir todas as categorias</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d de %2$d categorias</string>
+    <string name="settings_media_controls_info_title">Mais informações</string>
+    <string name="settings_media_controls_info_text">Enquanto estiver ativado, o HTTP Shortcuts apresenta os atalhos visíveis como faixas de um reprodutor de mídia simulado. Use anterior e próximo para selecionar um atalho e reprodução ou pausa para executá-lo.\n\nSe várias categorias, mas não todas, forem selecionadas, cada categoria será apresentada como um álbum. Selecione “Mudar categoria” e pressione reprodução ou pausa para ir à próxima categoria. Categorias e atalhos ocultos nunca são incluídos.\n\nA simulação permanece ativa em segundo plano para que smartwatches e botões de fone de ouvido possam encontrá-la. Você pode interrompê-la pela notificação permanente ou desativando esta configuração.</string>
+    <string name="media_controls_change_category">Mudar categoria</string>
+    <string name="media_controls_change_category_summary">Pressione reprodução ou pausa para selecionar a próxima categoria</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

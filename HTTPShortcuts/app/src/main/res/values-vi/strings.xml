@@ -1688,4 +1688,21 @@ Tuy nhiên, bạn chưa có bất kỳ biến nào được định cấu hình.
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Mô phỏng trình phát đa phương tiện</string>
+    <string name="label_event_history_trigger_type_media_controls">Điều khiển phương tiện</string>
+    <string name="settings_media_controls_summary">Cho phép điều khiển, ví dụ qua đồng hồ thông minh hoặc các nút tai nghe.</string>
+    <string name="notification_channel_media_controls_title">Mô phỏng trình phát đa phương tiện</string>
+    <string name="media_controls_notification_text">Mô phỏng trình phát đa phương tiện đang hoạt động</string>
+    <string name="media_controls_no_shortcuts">Không có lối tắt nào</string>
+    <string name="media_controls_stop">Kết thúc</string>
+    <string name="settings_media_controls_section_title">Trình phát đa phương tiện mô phỏng</string>
+    <string name="settings_media_controls_categories_title">Giới hạn theo danh mục</string>
+    <string name="settings_media_controls_all_categories">Bao gồm tất cả danh mục</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d trong số %2$d danh mục</string>
+    <string name="settings_media_controls_info_title">Thông tin thêm</string>
+    <string name="settings_media_controls_info_text">Khi bật, HTTP Shortcuts hiển thị các lối tắt đang hiện dưới dạng bài hát của trình phát đa phương tiện mô phỏng. Dùng trước và tiếp theo để chọn lối tắt, rồi phát hoặc tạm dừng để chạy lối tắt.\n\nNếu chọn nhiều nhưng không phải tất cả danh mục, mỗi danh mục sẽ được trình bày như một album. Chọn “Đổi danh mục” rồi nhấn phát hoặc tạm dừng để chuyển sang danh mục tiếp theo. Danh mục và lối tắt bị ẩn không bao giờ được bao gồm.\n\nMô phỏng vẫn hoạt động trong nền để đồng hồ thông minh và nút tai nghe có thể tìm thấy. Bạn có thể dừng từ thông báo thường trực hoặc bằng cách tắt cài đặt này.</string>
+    <string name="media_controls_change_category">Đổi danh mục</string>
+    <string name="media_controls_change_category_summary">Nhấn phát hoặc tạm dừng để chọn danh mục tiếp theo</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

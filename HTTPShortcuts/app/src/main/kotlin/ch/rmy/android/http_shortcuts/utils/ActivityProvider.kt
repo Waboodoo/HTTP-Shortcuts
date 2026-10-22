@@ -20,9 +20,7 @@ constructor(
     private val context: Context,
 ) {
     suspend fun <T> withActivity(action: suspend (FragmentActivity) -> T): T {
-        val activeActivity = withContext(Dispatchers.Main) {
-            activeActivities.lastOrNull()?.get()
-        }
+        val activeActivity = getActiveActivity()
         if (activeActivity != null) {
             return action(activeActivity)
         }
@@ -39,6 +37,14 @@ constructor(
             HostActivity.stop()
         }
     }
+
+    suspend fun hasActiveActivity(): Boolean =
+        getActiveActivity() != null
+
+    private suspend fun getActiveActivity(): FragmentActivity? =
+        withContext(Dispatchers.Main) {
+            activeActivities.lastOrNull()?.get()
+        }
 
     companion object {
 

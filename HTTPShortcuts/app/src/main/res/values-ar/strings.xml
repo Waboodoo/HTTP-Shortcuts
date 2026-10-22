@@ -2055,4 +2055,21 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">محاكاة مشغّل الوسائط</string>
+    <string name="label_event_history_trigger_type_media_controls">عناصر التحكم في الوسائط</string>
+    <string name="settings_media_controls_summary">يسمح بالتحكم، مثلاً عبر ساعة ذكية أو أزرار سماعة الرأس.</string>
+    <string name="notification_channel_media_controls_title">محاكاة مشغّل الوسائط</string>
+    <string name="media_controls_notification_text">محاكاة مشغّل الوسائط نشطة</string>
+    <string name="media_controls_no_shortcuts">لا توجد اختصارات متاحة</string>
+    <string name="media_controls_stop">إيقاف</string>
+    <string name="settings_media_controls_section_title">مشغّل وسائط مُحاكى</string>
+    <string name="settings_media_controls_categories_title">التقييد بالفئات</string>
+    <string name="settings_media_controls_all_categories">تضمين جميع الفئات</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d من %2$d فئات</string>
+    <string name="settings_media_controls_info_title">مزيد من المعلومات</string>
+    <string name="settings_media_controls_info_text">عند تفعيلها، يعرض HTTP Shortcuts الاختصارات الظاهرة كمقاطع في مشغّل وسائط مُحاكى. استخدم السابق والتالي لاختيار اختصار، والتشغيل أو الإيقاف المؤقت لتنفيذه.\n\nعند اختيار عدة فئات دون اختيارها كلها، تظهر كل فئة كألبوم. اختر «تغيير الفئة» واضغط التشغيل أو الإيقاف المؤقت للانتقال إلى الفئة التالية. لا تُضمّن الفئات والاختصارات المخفية.\n\nتبقى المحاكاة نشطة في الخلفية كي تتمكن الساعات الذكية وأزرار سماعات الرأس من العثور عليها. يمكنك إيقافها من الإشعار الدائم أو بتعطيل هذا الإعداد.</string>
+    <string name="media_controls_change_category">تغيير الفئة</string>
+    <string name="media_controls_change_category_summary">اضغط التشغيل أو الإيقاف المؤقت لاختيار الفئة التالية</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

@@ -46,4 +46,21 @@ Zusätzlich musst du eventuell auch noch die App von Akku-Optimierungen ausschli
     <string name="sync_type_automatic_export_description">Exportiere regelmässig Shortcuts, Variablen usw. um sie zu sichern oder mit anderen Geräten zu synchronisieren.</string>
     <!-- Instructions shown in a dialog window the first time the user selects a different icon for the app -->
     <string name="instructions_apply_new_app_icon">Um das App-Symbol zu ändern, muss sich die App möglicherweise selbst schliessen. Es kann ein paar Sekunden dauern, bis der Launcher das Symbol aktualisiert.\n\nShortcuts die bereits auf dem Startbildschirm platziert wurden, funktionieren möglicherweise nicht bis die App neu gestartet wird.</string>
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Media Player simulieren</string>
+    <string name="label_event_history_trigger_type_media_controls">Mediensteuerung</string>
+    <string name="settings_media_controls_summary">Erlaubt die Steuerung z.B. per Smartwatch oder Kopfhörertasten.</string>
+    <string name="settings_media_controls_section_title">Simulierter Media Player</string>
+    <string name="settings_media_controls_categories_title">Auf Kategorien beschränken</string>
+    <string name="settings_media_controls_all_categories">Alle Kategorien einbeziehen</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d von %2$d Kategorien</string>
+    <string name="settings_media_controls_info_title">Weitere Informationen</string>
+    <string name="settings_media_controls_info_text">Solange die Funktion aktiv ist, stellt HTTP Shortcuts sichtbare Shortcuts als Titel eines simulierten Media Players bereit. Mit Zurück und Weiter wird ein Shortcut ausgewählt; mit Wiedergabe oder Pause wird er ausgelöst.\n\nSind mehrere, aber nicht alle Kategorien ausgewählt, wird jede Kategorie als Album dargestellt. Wähle „Kategorie wechseln“ und drücke Wiedergabe oder Pause, um zur nächsten Kategorie zu wechseln. Ausgeblendete Kategorien und Shortcuts werden nie einbezogen.\n\nDie Simulation bleibt im Hintergrund aktiv, damit Smartwatches und Kopfhörertasten sie finden. Sie kann jederzeit über die permanente Benachrichtigung oder durch Deaktivieren dieser Einstellung beendet werden.</string>
+    <string name="notification_channel_media_controls_title">Media Player Simulation</string>
+    <string name="media_controls_notification_text">Media Player Simulation aktiv</string>
+    <string name="media_controls_no_shortcuts">Keine Shortcuts verfügbar</string>
+    <string name="media_controls_stop">Beenden</string>
+    <string name="media_controls_change_category">Kategorie wechseln</string>
+    <string name="media_controls_change_category_summary">Wiedergabe oder Pause drücken, um die nächste Kategorie auszuwählen</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

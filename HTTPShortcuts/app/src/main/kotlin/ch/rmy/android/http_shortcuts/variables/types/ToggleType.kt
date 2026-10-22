@@ -14,10 +14,15 @@ constructor(
     override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
         val options = variable.getStringListData(KEY_VALUES)?.takeUnlessEmpty() ?: return ""
 
-        val previousIndex = variable.value?.toIntOrNull()?.coerceAtLeast(0) ?: 0
-        val index = (previousIndex + 1) % options.size
-        variablesRepository.setVariableValue(variable.id, index.toString())
+        val index = variablesRepository.updateVariableValue(variable.id) { previousValue ->
+            getNextIndex(previousValue, options.size).toString()
+        }?.toIntOrNull() ?: getNextIndex(variable.value, options.size)
         return options[index]
+    }
+
+    private fun getNextIndex(previousValue: String?, numberOfOptions: Int): Int {
+        val previousIndex = previousValue?.toIntOrNull()?.coerceAtLeast(0) ?: 0
+        return (previousIndex + 1) % numberOfOptions
     }
 
     companion object {

@@ -56,6 +56,7 @@ import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.import_export.ImportException
 import ch.rmy.android.http_shortcuts.import_export.ImportMode
 import ch.rmy.android.http_shortcuts.import_export.Importer
+import ch.rmy.android.http_shortcuts.media_controls.MediaControlsController
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationRoot
 import ch.rmy.android.http_shortcuts.utils.ActivityCloser
@@ -79,8 +80,14 @@ open class MainActivity : BaseComposeActivity() {
     @Inject
     lateinit var appLockController: AppLockController
 
+    @Inject
+    lateinit var mediaControlsController: MediaControlsController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!Application.unmigratedRealmFound) {
+            mediaControlsController.applyPreference()
+        }
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 appLockController.monitor()

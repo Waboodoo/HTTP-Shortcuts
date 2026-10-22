@@ -31,6 +31,14 @@ constructor(
         get() = getBoolean(KEY_SHOW_HIDDEN_SHORTCUTS)
         set(value) = putBoolean(KEY_SHOW_HIDDEN_SHORTCUTS, value)
 
+    var mediaControlsEnabled: Boolean
+        get() = getBoolean(KEY_MEDIA_CONTROLS_ENABLED)
+        set(value) = putBoolean(KEY_MEDIA_CONTROLS_ENABLED, value)
+
+    var mediaControlCategorySelection: MediaControlCategorySelection
+        get() = MediaControlCategorySelection.parse(getString(KEY_MEDIA_CONTROL_CATEGORY_SELECTION))
+        set(value) = putString(KEY_MEDIA_CONTROL_CATEGORY_SELECTION, value.serialize())
+
     var isCrashReportingAllowed: Boolean
         get() = (getString(KEY_CRASH_REPORTING) ?: "true") != "false"
         set(value) = putString(KEY_CRASH_REPORTING, value.toString())
@@ -78,6 +86,12 @@ constructor(
     fun observeSyncType(): Flow<SyncType?> =
         observe { syncType }
 
+    fun observeMediaControlsEnabled(): Flow<Boolean> =
+        observe { mediaControlsEnabled }
+
+    fun observeMediaControlCategorySelection(): Flow<MediaControlCategorySelection> =
+        observe { mediaControlCategorySelection }
+
     private val _colorThemeFlow = MutableStateFlow(colorTheme)
     val colorThemeFlow = _colorThemeFlow.asStateFlow()
 
@@ -91,6 +105,8 @@ constructor(
         private const val KEY_LANGUAGE = "language"
         private const val KEY_CLICK_BEHAVIOR = "click_behavior"
         private const val KEY_SHOW_HIDDEN_SHORTCUTS = "show_hidden_shortcuts"
+        private const val KEY_MEDIA_CONTROLS_ENABLED = "media_controls_enabled"
+        private const val KEY_MEDIA_CONTROL_CATEGORY_SELECTION = "media_control_category_selection"
         private const val KEY_CRASH_REPORTING = "crash_reporting"
         private const val KEY_REMOTE_EDIT_SERVER = "remote_edit_server"
         private const val KEY_REMOTE_EDIT_PASSWORD = "remote_edit_password"

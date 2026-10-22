@@ -2135,4 +2135,21 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Симулиране на медиен плейър</string>
+    <string name="label_event_history_trigger_type_media_controls">Управление на мултимедия</string>
+    <string name="settings_media_controls_summary">Позволява управление например чрез смарт часовник или бутони на слушалки.</string>
+    <string name="notification_channel_media_controls_title">Симулация на медиен плейър</string>
+    <string name="media_controls_notification_text">Симулацията на медийния плейър е активна</string>
+    <string name="media_controls_no_shortcuts">Няма налични бързи команди</string>
+    <string name="media_controls_stop">Спиране</string>
+    <string name="settings_media_controls_section_title">Симулиран медиен плейър</string>
+    <string name="settings_media_controls_categories_title">Ограничаване до категории</string>
+    <string name="settings_media_controls_all_categories">Включване на всички категории</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d от %2$d категории</string>
+    <string name="settings_media_controls_info_title">Повече информация</string>
+    <string name="settings_media_controls_info_text">Когато е включена, HTTP Shortcuts представя видимите бързи команди като песни в симулиран медиен плейър. Използвайте предишна и следваща, за да изберете команда, и възпроизвеждане или пауза, за да я стартирате.\n\nАко са избрани няколко, но не всички категории, всяка категория се показва като албум. Изберете „Смяна на категорията“ и натиснете възпроизвеждане или пауза, за да преминете към следващата категория. Скритите категории и команди никога не се включват.\n\nСимулацията остава активна във фонов режим, за да бъде откривана от смарт часовници и бутони на слушалки. Можете да я спрете от постоянното известие или като изключите тази настройка.</string>
+    <string name="media_controls_change_category">Смяна на категорията</string>
+    <string name="media_controls_change_category_summary">Натиснете възпроизвеждане или пауза за следващата категория</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

@@ -8,12 +8,14 @@ import android.os.Build
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.startActivity
+import ch.rmy.android.framework.utils.UUIDUtils
 import ch.rmy.android.http_shortcuts.activities.ExecuteActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.VariableKeyOrId
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.extensions.shouldUseForegroundService
+import ch.rmy.android.http_shortcuts.media_controls.MediaControlExecutionTracker
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +26,7 @@ class ExecutionStarter
 constructor(
     private val context: Context,
     private val shortcutRepository: ShortcutRepository,
+    private val mediaControlExecutionTracker: MediaControlExecutionTracker,
 ) {
     private val scope = CoroutineScope(Dispatchers.Default)
 
@@ -32,34 +35,50 @@ constructor(
         trigger: ShortcutTriggerType,
         variableValues: Map<VariableKeyOrId, String> = emptyMap(),
         fileUris: List<Uri> = emptyList(),
+        forceForegroundService: Boolean = false,
     ) {
+        val mediaControlExecutionId = if (forceForegroundService && trigger == ShortcutTriggerType.MEDIA_CONTROLS) {
+            UUIDUtils.newUUID()
+        } else {
+            null
+        }
+        mediaControlExecutionId?.let(mediaControlExecutionTracker::onExecutionStarted)
         scope.launch {
-            val intent = ExecuteActivity.IntentBuilder(shortcutId)
-                .runIfNotNull(trigger) {
-                    trigger(it)
-                }
-                .variableValues(variableValues)
-                .files(fileUris)
-                .build(context)
-
-            if (shortcutRepository.shouldUseForegroundService(shortcutId)) {
-                logInfo("Starting execution using foreground service")
-                try {
-                    context.startForegroundService(
-                        Intent(context, ExecutionService::class.java)
-                            .putExtras(intent),
-                    )
-                } catch (e: Exception) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
-                        logInfo("Starting in foreground failed, falling back to activity")
-                        intent.startActivity(context)
-                    } else {
-                        throw e
+            try {
+                val intent = ExecuteActivity.IntentBuilder(shortcutId)
+                    .runIfNotNull(trigger) {
+                        trigger(it)
                     }
+                    .variableValues(variableValues)
+                    .files(fileUris)
+                    .build(context)
+
+                if (forceForegroundService || shortcutRepository.shouldUseForegroundService(shortcutId)) {
+                    logInfo("Starting execution using foreground service")
+                    try {
+                        context.startForegroundService(
+                            Intent(context, ExecutionService::class.java)
+                                .putExtras(intent)
+                                .runIfNotNull(mediaControlExecutionId) {
+                                    putExtra(MediaControlExecutionTracker.EXTRA_EXECUTION_ID, it)
+                                },
+                        )
+                    } catch (e: Exception) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && e is ForegroundServiceStartNotAllowedException) {
+                            mediaControlExecutionId?.let(mediaControlExecutionTracker::onExecutionCompleted)
+                            logInfo("Starting in foreground failed, falling back to activity")
+                            intent.startActivity(context)
+                        } else {
+                            throw e
+                        }
+                    }
+                } else {
+                    logInfo("Starting execution using activity")
+                    intent.startActivity(context)
                 }
-            } else {
-                logInfo("Starting execution using activity")
-                intent.startActivity(context)
+            } catch (e: Throwable) {
+                mediaControlExecutionId?.let(mediaControlExecutionTracker::onExecutionCompleted)
+                throw e
             }
         }
     }

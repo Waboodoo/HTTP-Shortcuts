@@ -2128,4 +2128,21 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">模擬媒體播放器</string>
+    <string name="label_event_history_trigger_type_media_controls">媒體控制</string>
+    <string name="settings_media_controls_summary">允許透過智慧型手錶或耳機按鈕等方式進行控制。</string>
+    <string name="notification_channel_media_controls_title">媒體播放器模擬</string>
+    <string name="media_controls_notification_text">媒體播放器模擬已啟用</string>
+    <string name="media_controls_no_shortcuts">沒有可用的捷徑</string>
+    <string name="media_controls_stop">結束</string>
+    <string name="settings_media_controls_section_title">模擬媒體播放器</string>
+    <string name="settings_media_controls_categories_title">限制為指定類別</string>
+    <string name="settings_media_controls_all_categories">包含所有類別</string>
+    <string name="settings_media_controls_selected_categories_pattern">已選取 %2$d 個類別中的 %1$d 個</string>
+    <string name="settings_media_controls_info_title">更多資訊</string>
+    <string name="settings_media_controls_info_text">啟用後，HTTP Shortcuts 會將可見捷徑作為模擬媒體播放器的曲目提供。使用上一首和下一首選取捷徑，使用播放或暫停來觸發。\n\n如果選取多個但不是全部類別，每個類別會顯示為一張專輯。選取「切換類別」，然後按播放或暫停即可前往下一個類別。隱藏的類別和捷徑不會被包含。\n\n模擬會在背景保持運作，以便智慧手錶和耳機按鈕能夠找到。你可以隨時透過常駐通知或關閉此設定來停止模擬。</string>
+    <string name="media_controls_change_category">切換類別</string>
+    <string name="media_controls_change_category_summary">按播放或暫停選取下一個類別</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

@@ -1791,4 +1791,21 @@ Ancak henüz yapılandırılmış herhangi bir değişkeniniz yok.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Medya oynatıcıyı simüle et</string>
+    <string name="label_event_history_trigger_type_media_controls">Medya kontrolleri</string>
+    <string name="settings_media_controls_summary">Örneğin akıllı saat veya kulaklık düğmeleriyle kontrole izin verir.</string>
+    <string name="notification_channel_media_controls_title">Medya oynatıcı simülasyonu</string>
+    <string name="media_controls_notification_text">Medya oynatıcı simülasyonu etkin</string>
+    <string name="media_controls_no_shortcuts">Kullanılabilir kısayol yok</string>
+    <string name="media_controls_stop">Sonlandır</string>
+    <string name="settings_media_controls_section_title">Simüle edilmiş medya oynatıcı</string>
+    <string name="settings_media_controls_categories_title">Kategorilerle sınırla</string>
+    <string name="settings_media_controls_all_categories">Tüm kategorileri dahil et</string>
+    <string name="settings_media_controls_selected_categories_pattern">%2$d kategoriden %1$d tanesi</string>
+    <string name="settings_media_controls_info_title">Daha fazla bilgi</string>
+    <string name="settings_media_controls_info_text">Etkinleştirildiğinde HTTP Shortcuts, görünür kısayolları simüle edilmiş bir medya oynatıcının parçaları olarak sunar. Kısayol seçmek için önceki ve sonrakini, çalıştırmak için oynat veya duraklatı kullanın.\n\nBirden fazla ancak tümü olmayan kategoriler seçildiğinde her kategori albüm olarak gösterilir. “Kategori değiştir” öğesini seçin ve sonraki kategoriye geçmek için oynat veya duraklata basın. Gizli kategoriler ve kısayollar hiçbir zaman dahil edilmez.\n\nAkıllı saatlerin ve kulaklık düğmelerinin bulabilmesi için simülasyon arka planda etkin kalır. Kalıcı bildirimden veya bu ayarı devre dışı bırakarak istediğiniz zaman durdurabilirsiniz.</string>
+    <string name="media_controls_change_category">Kategori değiştir</string>
+    <string name="media_controls_change_category_summary">Sonraki kategoriyi seçmek için oynat veya duraklata basın</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

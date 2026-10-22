@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.activities.settings
 
 import androidx.compose.runtime.Stable
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.AppIconType
 
 @Stable
@@ -23,6 +24,16 @@ sealed class SettingsDialogState {
 
     @Stable
     data object ClearCookies : SettingsDialogState()
+
+    @Stable
+    data class SelectMediaControlCategories(
+        val categories: List<MediaControlCategoryOption>,
+        val includeAllCategories: Boolean,
+        val selectedCategoryIds: Set<CategoryId>,
+    ) : SettingsDialogState()
+
+    @Stable
+    data object MediaControlInfo : SettingsDialogState()
 
     @Stable
     data class Unlock(

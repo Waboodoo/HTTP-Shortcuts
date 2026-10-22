@@ -2003,4 +2003,21 @@ Zatím však nemáte žádné proměnné nakonfigurovány.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simulovat přehrávač médií</string>
+    <string name="label_event_history_trigger_type_media_controls">Ovládání médií</string>
+    <string name="settings_media_controls_summary">Umožňuje ovládání například pomocí chytrých hodinek nebo tlačítek sluchátek.</string>
+    <string name="notification_channel_media_controls_title">Simulace přehrávače médií</string>
+    <string name="media_controls_notification_text">Simulace přehrávače médií je aktivní</string>
+    <string name="media_controls_no_shortcuts">Nejsou k dispozici žádné zkratky</string>
+    <string name="media_controls_stop">Ukončit</string>
+    <string name="settings_media_controls_section_title">Simulovaný přehrávač médií</string>
+    <string name="settings_media_controls_categories_title">Omezit na kategorie</string>
+    <string name="settings_media_controls_all_categories">Zahrnout všechny kategorie</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d z %2$d kategorií</string>
+    <string name="settings_media_controls_info_title">Další informace</string>
+    <string name="settings_media_controls_info_text">Je-li funkce zapnutá, HTTP Shortcuts nabízí viditelné zkratky jako skladby simulovaného přehrávače médií. Předchozí a další vybere zkratku, přehrát nebo pozastavit ji spustí.\n\nPokud je vybráno více kategorií, ale ne všechny, každá kategorie se zobrazí jako album. Vyberte „Změnit kategorii“ a stisknutím přehrát nebo pozastavit přejděte na další kategorii. Skryté kategorie a zkratky se nikdy nezahrnují.\n\nSimulace zůstává aktivní na pozadí, aby ji našly chytré hodinky a tlačítka sluchátek. Zastavit ji lze trvalým oznámením nebo vypnutím tohoto nastavení.</string>
+    <string name="media_controls_change_category">Změnit kategorii</string>
+    <string name="media_controls_change_category_summary">Stisknutím přehrát nebo pozastavit vyberete další kategorii</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

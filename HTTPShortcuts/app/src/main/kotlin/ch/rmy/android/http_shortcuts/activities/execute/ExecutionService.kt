@@ -21,10 +21,13 @@ import ch.rmy.android.http_shortcuts.activities.execute.models.ExecutionStatus
 import ch.rmy.android.http_shortcuts.activities.main.MainActivity
 import ch.rmy.android.http_shortcuts.activities.misc.host.HostActivity
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.http.UploadProgress
+import ch.rmy.android.http_shortcuts.media_controls.MediaControlExecutionTracker
 import ch.rmy.android.http_shortcuts.notifications.NotificationChannelIds
 import ch.rmy.android.http_shortcuts.notifications.NotificationChannelManager
+import ch.rmy.android.http_shortcuts.utils.ActivityProvider
 import ch.rmy.android.http_shortcuts.utils.IconUtil
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.ConcurrentHashMap
@@ -48,6 +51,12 @@ class ExecutionService : LifecycleService() {
     @Inject
     lateinit var notificationChannelManager: NotificationChannelManager
 
+    @Inject
+    lateinit var mediaControlExecutionTracker: MediaControlExecutionTracker
+
+    @Inject
+    lateinit var activityProvider: ActivityProvider
+
     private val activeExecutions = AtomicInteger()
     private val activeShortcuts = ConcurrentHashMap<String, Shortcut>()
 
@@ -57,8 +66,17 @@ class ExecutionService : LifecycleService() {
         super.onStartCommand(intent, flags, startId)
         val params = intent!!.toExecutionParams()
         val invocationId = UUIDUtils.newUUID()
+        val mediaControlExecutionId = intent.getStringExtra(MediaControlExecutionTracker.EXTRA_EXECUTION_ID)
         logInfo("ExecutionService: onStartCommand")
-        lifecycleScope.launch {
+        val executionJob = lifecycleScope.launch {
+            val executionDialogHandle = if (
+                params.trigger == ShortcutTriggerType.MEDIA_CONTROLS &&
+                !activityProvider.hasActiveActivity()
+            ) {
+                unavailableDialogHandle
+            } else {
+                dialogHandler
+            }
             activeExecutions.incrementAndGet()
             val foregroundJob = launch {
                 try {
@@ -69,24 +87,28 @@ class ExecutionService : LifecycleService() {
                 }
                 startOrUpdateForegroundService()
             }
-            val dialogJob = launch {
-                dialogHandler.dialogState.collect { dialogState ->
-                    logInfo("ExecutionService processing dialog")
-                    if (dialogState != null) {
-                        try {
-                            val result = HostActivity.showDialog(context, dialogState)
-                            logInfo("ExecutionService dialog result received")
-                            dialogHandler.onDialogResult(result)
-                        } catch (_: CancellationException) {
-                            logInfo("ExecutionService dialog cancelled")
-                            dialogHandler.onDialogDismissed()
+            val dialogJob = if (executionDialogHandle === dialogHandler) {
+                launch {
+                    dialogHandler.dialogState.collect { dialogState ->
+                        logInfo("ExecutionService processing dialog")
+                        if (dialogState != null) {
+                            try {
+                                val result = HostActivity.showDialog(context, dialogState)
+                                logInfo("ExecutionService dialog result received")
+                                dialogHandler.onDialogResult(result)
+                            } catch (_: CancellationException) {
+                                logInfo("ExecutionService dialog cancelled")
+                                dialogHandler.onDialogDismissed()
+                            }
                         }
                     }
                 }
+            } else {
+                null
             }
 
             try {
-                val execution = executionFactory.createExecution(params, dialogHandler)
+                val execution = executionFactory.createExecution(params, executionDialogHandle)
                 execution.execute().collect { status ->
                     if (status is ExecutionStatus.ProgressUpdate) {
                         startOrUpdateForegroundService(status.progress)
@@ -100,7 +122,7 @@ class ExecutionService : LifecycleService() {
             } finally {
                 foregroundJob.join()
                 activeShortcuts.remove(invocationId)
-                dialogJob.cancel()
+                dialogJob?.cancel()
             }
             if (activeExecutions.decrementAndGet() == 0) {
                 activeShortcuts.clear()
@@ -108,6 +130,11 @@ class ExecutionService : LifecycleService() {
                 stopSelf()
             } else {
                 startOrUpdateForegroundService()
+            }
+        }
+        mediaControlExecutionId?.let { executionId ->
+            executionJob.invokeOnCompletion {
+                mediaControlExecutionTracker.onExecutionCompleted(executionId)
             }
         }
         return START_NOT_STICKY
@@ -160,6 +187,13 @@ class ExecutionService : LifecycleService() {
                     },
             )
             .build()
+    }
+
+    private val unavailableDialogHandle = object : DialogHandle {
+        override suspend fun <T : Any> showDialog(dialogState: ExecuteDialogState<T>): T {
+            logInfo("Cancelling background media controls execution because it requires user interaction")
+            throw CancellationException()
+        }
     }
 
     companion object {

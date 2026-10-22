@@ -63,7 +63,7 @@ class ImporterTest {
         coVerify(exactly = 1) { importRepository.import(base = any(), mode = ImportMode.MERGE) }
         assertEquals(
             ImportBase(
-                version = 91,
+                version = 92,
                 compatibilityVersion = 90,
                 categories = listOf(
                     ImportCategory(
@@ -71,6 +71,7 @@ class ImporterTest {
                         name = "Shortcuts",
                         iconName = null,
                         layoutType = "medium_grid",
+                        alignment = "top",
                         background = "color\u003d#FF0A11",
                         hidden = null,
                         hiddenLabels = null,
@@ -158,6 +159,7 @@ class ImporterTest {
                                 description = "description",
                                 iconName = "flat_color_lightbulb_3",
                                 executionType = "scripting",
+                                excludeFromFileSharing = true,
                                 section = "ae5b6c9b-2cee-488f-9eb6-78c1446420c0",
                                 launcherShortcut = false,
                                 codeOnPrepare = ";",
