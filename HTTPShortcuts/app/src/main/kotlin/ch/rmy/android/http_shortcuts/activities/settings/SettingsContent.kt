@@ -37,6 +37,7 @@ fun SettingsContent(
     crashReportingEnabled: Boolean,
     colorTheme: String,
     showHiddenShortcuts: Boolean,
+    mediaControlsEnabled: Boolean,
     rememberActiveCategory: Boolean,
     rememberActiveCategoryEnabled: Boolean,
     translationProgress: Map<String, Int>,
@@ -57,6 +58,7 @@ fun SettingsContent(
     onCrashReportingChanged: (Boolean) -> Unit,
     onColorThemeChanged: (String) -> Unit,
     onShowHiddenShortcutsChanged: (Boolean) -> Unit,
+    onMediaControlsEnabledChanged: (Boolean) -> Unit,
     onTranslateButtonClicked: () -> Unit,
     onDefaultBrowserChanged: (TargetBrowser.Browser) -> Unit,
 ) {
@@ -218,6 +220,14 @@ fun SettingsContent(
                     ShortcutClickBehavior.MENU to stringResource(R.string.settings_click_behavior_menu),
                 ),
                 onItemSelected = onClickActionOptionSelected,
+            )
+
+            SettingsSwitch(
+                icon = painterResource(R.drawable.outline_play_arrow_24),
+                title = stringResource(R.string.settings_media_controls_title),
+                subtitle = stringResource(R.string.settings_media_controls_summary),
+                checked = mediaControlsEnabled,
+                onCheckedChanged = onMediaControlsEnabledChanged,
             )
 
             SettingsButton(

@@ -1767,6 +1767,22 @@
     <string name="settings_option_show_hidden_shortcuts">Show hidden shortcuts</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <string name="settings_option_hide_hidden_shortcuts">Don\'t show hidden shortcuts</string>
+    <!-- Title of setting that exposes shortcuts through Android media controls -->
+    <string name="settings_media_controls_title">Media Controls</string>
+    <!-- Description of setting that exposes shortcuts through Android media controls -->
+    <string name="settings_media_controls_summary">Select and run shortcuts from a smartwatch or another device that can control media playback</string>
+    <!-- Title of notification channel used for the persistent media controls -->
+    <string name="notification_channel_media_controls_title">Media Controls</string>
+    <!-- Fallback notification title shown before a shortcut is available -->
+    <string name="media_controls_notification_title">HTTP Shortcuts Media Controls</string>
+    <!-- Text shown by media controls when there are no visible shortcuts -->
+    <string name="media_controls_no_shortcuts">No shortcuts available</string>
+    <!-- Accessibility label for media action that selects the previous shortcut -->
+    <string name="media_controls_previous">Previous shortcut</string>
+    <!-- Accessibility label for media action that executes the selected shortcut -->
+    <string name="media_controls_execute">Run shortcut</string>
+    <!-- Accessibility label for media action that selects the next shortcut -->
+    <string name="media_controls_next">Next shortcut</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Execution Mode</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->

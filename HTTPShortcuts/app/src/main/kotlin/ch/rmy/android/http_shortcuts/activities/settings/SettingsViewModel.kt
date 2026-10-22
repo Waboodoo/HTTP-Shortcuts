@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
+import ch.rmy.android.http_shortcuts.media_controls.MediaControlsController
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.sync.ObserveSyncReplaceUseCase
 import ch.rmy.android.http_shortcuts.sync.SyncScheduler
@@ -63,6 +64,7 @@ constructor(
     private val setAppIcon: SetAppIconUseCase,
     private val syncScheduler: SyncScheduler,
     private val availableBrowserPackageNamesLookup: AvailableBrowserPackageNamesLookup,
+    private val mediaControlsController: MediaControlsController,
 ) : BaseViewModel<Unit, SettingsViewState>(application) {
 
     override suspend fun initialize(data: Unit): SettingsViewState {
@@ -102,6 +104,7 @@ constructor(
             crashReportingAllowed = userPreferences.isCrashReportingAllowed,
             colorTheme = userPreferences.colorTheme,
             showHiddenShortcuts = userPreferences.showHiddenShortcuts,
+            mediaControlsEnabled = userPreferences.mediaControlsEnabled,
             rememberActiveCategory = userPreferences.isRememberActiveCategory,
             rememberActiveCategoryEnabled = categoryRepository.getCategories().count { !it.hidden } > 1,
             browserPackageNameOptions = availableBrowserPackageNamesLookup(appConfig.defaultBrowser?.packageName),
@@ -325,6 +328,14 @@ constructor(
         userPreferences.showHiddenShortcuts = show
         updateViewState {
             copy(showHiddenShortcuts = show)
+        }
+    }
+
+    fun onMediaControlsEnabledChanged(enabled: Boolean) = runAction {
+        userPreferences.mediaControlsEnabled = enabled
+        mediaControlsController.setEnabled(enabled)
+        updateViewState {
+            copy(mediaControlsEnabled = enabled)
         }
     }
 

@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Needed for checking the current wi-fi SSID, and for the `getLocation()` scripting function -->
@@ -318,6 +319,11 @@
             android:name=".activities.execute.ExecutionService"
             android:exported="false"
             android:foregroundServiceType="shortService" />
+
+        <service
+            android:name=".media_controls.MediaControlsService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
         <service
             android:name=".controls.ControlsService"

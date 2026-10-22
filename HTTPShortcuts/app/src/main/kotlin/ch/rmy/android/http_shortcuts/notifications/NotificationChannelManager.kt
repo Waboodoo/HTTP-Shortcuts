@@ -31,5 +31,10 @@ constructor(
             context.getString(R.string.notification_channel_shortcut_result_title),
             NotificationManager.IMPORTANCE_DEFAULT,
         ),
+        NotificationChannel(
+            NotificationChannelIds.MEDIA_CONTROLS,
+            context.getString(R.string.notification_channel_media_controls_title),
+            NotificationManager.IMPORTANCE_LOW,
+        ),
     )
 }
