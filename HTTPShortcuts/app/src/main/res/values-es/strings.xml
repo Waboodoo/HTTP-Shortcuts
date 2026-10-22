@@ -1986,4 +1986,21 @@ Sin embargo, todavía no tiene ninguna variable configurada.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simular reproductor multimedia</string>
+    <string name="label_event_history_trigger_type_media_controls">Controles multimedia</string>
+    <string name="settings_media_controls_summary">Permite el control, por ejemplo, mediante un reloj inteligente o los botones de los auriculares.</string>
+    <string name="notification_channel_media_controls_title">Simulación del reproductor multimedia</string>
+    <string name="media_controls_notification_text">Simulación del reproductor multimedia activa</string>
+    <string name="media_controls_no_shortcuts">No hay accesos directos disponibles</string>
+    <string name="media_controls_stop">Finalizar</string>
+    <string name="settings_media_controls_section_title">Reproductor multimedia simulado</string>
+    <string name="settings_media_controls_categories_title">Limitar a categorías</string>
+    <string name="settings_media_controls_all_categories">Incluir todas las categorías</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d de %2$d categorías</string>
+    <string name="settings_media_controls_info_title">Más información</string>
+    <string name="settings_media_controls_info_text">Mientras esté activado, HTTP Shortcuts muestra los accesos directos visibles como pistas de un reproductor multimedia simulado. Usa anterior y siguiente para seleccionar un acceso directo, y reproducción o pausa para ejecutarlo.\n\nSi se seleccionan varias categorías, pero no todas, cada categoría se presenta como un álbum. Selecciona «Cambiar categoría» y pulsa reproducción o pausa para pasar a la categoría siguiente. Las categorías y los accesos directos ocultos nunca se incluyen.\n\nLa simulación permanece activa en segundo plano para que los relojes inteligentes y los botones de auriculares puedan encontrarla. Puedes detenerla desde la notificación permanente o desactivando este ajuste.</string>
+    <string name="media_controls_change_category">Cambiar categoría</string>
+    <string name="media_controls_change_category_summary">Pulsa reproducción o pausa para seleccionar la categoría siguiente</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

@@ -2159,4 +2159,21 @@
     <string name="error_file_access_security">安全错误： %s</string>
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
     <string name="error_file_access_generic">访问文件失败: %s</string>
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">模拟媒体播放器</string>
+    <string name="label_event_history_trigger_type_media_controls">媒体控制</string>
+    <string name="settings_media_controls_summary">允许通过智能手表或耳机按键等方式进行控制。</string>
+    <string name="notification_channel_media_controls_title">媒体播放器模拟</string>
+    <string name="media_controls_notification_text">媒体播放器模拟已启用</string>
+    <string name="media_controls_no_shortcuts">没有可用的快捷方式</string>
+    <string name="media_controls_stop">结束</string>
+    <string name="settings_media_controls_section_title">模拟媒体播放器</string>
+    <string name="settings_media_controls_categories_title">限制为指定分类</string>
+    <string name="settings_media_controls_all_categories">包括所有分类</string>
+    <string name="settings_media_controls_selected_categories_pattern">已选择 %2$d 个分类中的 %1$d 个</string>
+    <string name="settings_media_controls_info_title">更多信息</string>
+    <string name="settings_media_controls_info_text">启用后，HTTP Shortcuts 会将可见快捷方式作为模拟媒体播放器的曲目提供。使用上一首和下一首选择快捷方式，使用播放或暂停触发它。\n\n如果选择了多个但不是全部分类，每个分类会显示为一张专辑。选择“切换分类”，然后按播放或暂停即可转到下一个分类。隐藏的分类和快捷方式不会被包括。\n\n模拟会在后台保持活动，以便智能手表和耳机按钮能够找到它。你可以随时通过常驻通知或关闭此设置来停止模拟。</string>
+    <string name="media_controls_change_category">切换分类</string>
+    <string name="media_controls_change_category_summary">按播放或暂停选择下一个分类</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

@@ -1668,4 +1668,21 @@ Malgrat tot, encara no tens cap variable configurada.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simula el reproductor multimèdia</string>
+    <string name="label_event_history_trigger_type_media_controls">Controls multimèdia</string>
+    <string name="settings_media_controls_summary">Permet el control, per exemple, mitjançant un rellotge intel·ligent o els botons dels auriculars.</string>
+    <string name="notification_channel_media_controls_title">Simulació del reproductor multimèdia</string>
+    <string name="media_controls_notification_text">Simulació del reproductor multimèdia activa</string>
+    <string name="media_controls_no_shortcuts">No hi ha dreceres disponibles</string>
+    <string name="media_controls_stop">Atura</string>
+    <string name="settings_media_controls_section_title">Reproductor multimèdia simulat</string>
+    <string name="settings_media_controls_categories_title">Limita a categories</string>
+    <string name="settings_media_controls_all_categories">Inclou totes les categories</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d de %2$d categories</string>
+    <string name="settings_media_controls_info_title">Més informació</string>
+    <string name="settings_media_controls_info_text">Quan està activat, HTTP Shortcuts mostra les dreceres visibles com a pistes d’un reproductor multimèdia simulat. Utilitza anterior i següent per seleccionar una drecera, i reproducció o pausa per executar-la.\n\nSi se seleccionen diverses categories, però no totes, cada categoria es presenta com un àlbum. Selecciona «Canvia de categoria» i prem reproducció o pausa per passar a la categoria següent. Les categories i dreceres ocultes no s’inclouen mai.\n\nLa simulació roman activa en segon pla perquè els rellotges intel·ligents i els botons dels auriculars la puguin trobar. Pots aturar-la des de la notificació permanent o desactivant aquesta opció.</string>
+    <string name="media_controls_change_category">Canvia de categoria</string>
+    <string name="media_controls_change_category_summary">Prem reproducció o pausa per seleccionar la categoria següent</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

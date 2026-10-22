@@ -2012,4 +2012,21 @@ Nie masz jednak jeszcze skonfigurowanych żadnych zmiennych.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Symuluj odtwarzacz multimediów</string>
+    <string name="label_event_history_trigger_type_media_controls">Sterowanie multimediami</string>
+    <string name="settings_media_controls_summary">Umożliwia sterowanie, np. za pomocą smartwatcha lub przycisków słuchawek.</string>
+    <string name="notification_channel_media_controls_title">Symulacja odtwarzacza multimediów</string>
+    <string name="media_controls_notification_text">Symulacja odtwarzacza multimediów jest aktywna</string>
+    <string name="media_controls_no_shortcuts">Brak dostępnych skrótów</string>
+    <string name="media_controls_stop">Zakończ</string>
+    <string name="settings_media_controls_section_title">Symulowany odtwarzacz multimediów</string>
+    <string name="settings_media_controls_categories_title">Ogranicz do kategorii</string>
+    <string name="settings_media_controls_all_categories">Uwzględnij wszystkie kategorie</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d z %2$d kategorii</string>
+    <string name="settings_media_controls_info_title">Więcej informacji</string>
+    <string name="settings_media_controls_info_text">Po włączeniu HTTP Shortcuts udostępnia widoczne skróty jako utwory symulowanego odtwarzacza multimediów. Poprzedni i następny wybierają skrót, a odtwarzanie lub pauza go uruchamia.\n\nJeśli wybrano kilka, ale nie wszystkie kategorie, każda kategoria jest przedstawiana jako album. Wybierz „Zmień kategorię” i naciśnij odtwarzanie lub pauzę, aby przejść do następnej kategorii. Ukryte kategorie i skróty nigdy nie są uwzględniane.\n\nSymulacja pozostaje aktywna w tle, aby mogły ją znaleźć smartwatche i przyciski słuchawek. Można ją zatrzymać z trwałego powiadomienia lub wyłączając to ustawienie.</string>
+    <string name="media_controls_change_category">Zmień kategorię</string>
+    <string name="media_controls_change_category_summary">Naciśnij odtwarzanie lub pauzę, aby wybrać następną kategorię</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

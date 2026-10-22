@@ -10,10 +10,10 @@ class IncrementType
 constructor(
     private val variablesRepository: GlobalVariableRepository,
 ) : VariableType {
-    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String {
-        val previousValue = variable.value?.toLongOrNull() ?: 0
-        val newValue = (previousValue + 1).toString()
-        variablesRepository.setVariableValue(variable.id, newValue)
-        return newValue
-    }
+    override suspend fun resolve(variable: GlobalVariable, dialogHandle: DialogHandle): String =
+        variablesRepository.updateVariableValue(variable.id, ::getNextValue)
+            ?: getNextValue(variable.value)
+
+    private fun getNextValue(previousValue: String?) =
+        ((previousValue?.toLongOrNull() ?: 0) + 1).toString()
 }

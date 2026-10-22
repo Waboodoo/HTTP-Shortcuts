@@ -2082,4 +2082,21 @@ Wake-on-LAN</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Имитировать медиаплеер</string>
+    <string name="label_event_history_trigger_type_media_controls">Управление мультимедиа</string>
+    <string name="settings_media_controls_summary">Позволяет управлять, например, с помощью умных часов или кнопок наушников.</string>
+    <string name="notification_channel_media_controls_title">Имитация медиаплеера</string>
+    <string name="media_controls_notification_text">Имитация медиаплеера активна</string>
+    <string name="media_controls_no_shortcuts">Нет доступных ярлыков</string>
+    <string name="media_controls_stop">Завершить</string>
+    <string name="settings_media_controls_section_title">Имитируемый медиаплеер</string>
+    <string name="settings_media_controls_categories_title">Ограничить категориями</string>
+    <string name="settings_media_controls_all_categories">Включить все категории</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d из %2$d категорий</string>
+    <string name="settings_media_controls_info_title">Подробнее</string>
+    <string name="settings_media_controls_info_text">Когда функция включена, HTTP Shortcuts представляет видимые ярлыки как композиции имитируемого медиаплеера. Используйте предыдущую и следующую композицию для выбора ярлыка, а воспроизведение или паузу — для его запуска.\n\nЕсли выбрано несколько, но не все категории, каждая категория показывается как альбом. Выберите «Сменить категорию» и нажмите воспроизведение или паузу, чтобы перейти к следующей категории. Скрытые категории и ярлыки никогда не включаются.\n\nИмитация остаётся активной в фоне, чтобы её могли обнаружить умные часы и кнопки наушников. Остановить её можно через постоянное уведомление или отключив эту настройку.</string>
+    <string name="media_controls_change_category">Сменить категорию</string>
+    <string name="media_controls_change_category_summary">Нажмите воспроизведение или паузу для выбора следующей категории</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

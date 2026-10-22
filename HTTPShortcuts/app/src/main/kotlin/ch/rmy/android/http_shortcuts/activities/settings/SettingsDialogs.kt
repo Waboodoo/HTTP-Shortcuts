@@ -6,18 +6,23 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.plus
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,15 +36,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import ch.rmy.android.framework.extensions.addOrRemove
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.ChangeTitleDialog
 import ch.rmy.android.http_shortcuts.components.Checkbox
 import ch.rmy.android.http_shortcuts.components.ConfirmDialog
 import ch.rmy.android.http_shortcuts.components.ProgressDialog
 import ch.rmy.android.http_shortcuts.components.SelectDialog
+import ch.rmy.android.http_shortcuts.components.SelectDialogEntry
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.TextInputDialog
 import ch.rmy.android.http_shortcuts.components.UnlockAppDialog
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.enums.AppIconType
 import ch.rmy.android.http_shortcuts.extensions.runIf
 import ch.rmy.android.http_shortcuts.utils.Validation
@@ -54,6 +63,7 @@ fun SettingsDialogs(
     onUserAgentChangeConfirmed: (String) -> Unit,
     onClearCookiesConfirmed: () -> Unit,
     onAppIconTypeSelected: (AppIconType) -> Unit,
+    onMediaControlCategoriesSelected: (Boolean, Set<CategoryId>) -> Unit,
     onDismissalRequested: () -> Unit,
 ) {
     when (dialogState) {
@@ -102,6 +112,18 @@ fun SettingsDialogs(
                 onDismissalRequested = onDismissalRequested,
             )
         }
+        is SettingsDialogState.SelectMediaControlCategories -> {
+            SelectMediaControlCategoriesDialog(
+                categories = dialogState.categories,
+                initiallyIncludeAllCategories = dialogState.includeAllCategories,
+                initiallySelectedCategoryIds = dialogState.selectedCategoryIds,
+                onConfirm = onMediaControlCategoriesSelected,
+                onDismissalRequested = onDismissalRequested,
+            )
+        }
+        SettingsDialogState.MediaControlInfo -> {
+            MediaControlInfoDialog(onDismissalRequested)
+        }
         is SettingsDialogState.AppIconInfo -> {
             ConfirmDialog(
                 message = stringResource(R.string.instructions_apply_new_app_icon),
@@ -117,6 +139,98 @@ fun SettingsDialogs(
             )
         }
         null -> Unit
+    }
+}
+
+@Composable
+private fun SelectMediaControlCategoriesDialog(
+    categories: List<MediaControlCategoryOption>,
+    initiallyIncludeAllCategories: Boolean,
+    initiallySelectedCategoryIds: Set<CategoryId>,
+    onConfirm: (Boolean, Set<CategoryId>) -> Unit,
+    onDismissalRequested: () -> Unit,
+) {
+    var includeAllCategories by remember { mutableStateOf(initiallyIncludeAllCategories) }
+    val selectedCategoryIds = remember {
+        mutableStateListOf<CategoryId>().apply {
+            addAll(initiallySelectedCategoryIds)
+        }
+    }
+
+    AlertDialog(
+        modifier = Modifier.padding(Spacing.MEDIUM),
+        properties = DialogProperties(usePlatformDefaultWidth = false),
+        onDismissRequest = onDismissalRequested,
+        title = {
+            Text(stringResource(R.string.settings_media_controls_categories_title))
+        },
+        text = {
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                item(key = "all") {
+                    SelectDialogEntry(
+                        horizontalPadding = 0.dp,
+                        label = stringResource(R.string.settings_media_controls_all_categories),
+                        checked = includeAllCategories,
+                        onClick = {
+                            includeAllCategories = !includeAllCategories
+                            if (!includeAllCategories && selectedCategoryIds.isEmpty()) {
+                                selectedCategoryIds.addAll(categories.map(MediaControlCategoryOption::id))
+                            }
+                        },
+                    )
+                }
+                items(
+                    items = categories,
+                    key = MediaControlCategoryOption::id,
+                ) { category ->
+                    SelectDialogEntry(
+                        horizontalPadding = 0.dp,
+                        label = category.name,
+                        checked = includeAllCategories || category.id in selectedCategoryIds,
+                        enabled = !includeAllCategories,
+                        shortcutIcon = category.icon,
+                        onClick = {
+                            if (category.id !in selectedCategoryIds || selectedCategoryIds.size > 1) {
+                                selectedCategoryIds.addOrRemove(category.id)
+                            }
+                        },
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                enabled = includeAllCategories || selectedCategoryIds.isNotEmpty(),
+                onClick = {
+                    onConfirm(includeAllCategories, selectedCategoryIds.toSet())
+                },
+            ) {
+                Text(stringResource(R.string.dialog_ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissalRequested) {
+                Text(stringResource(R.string.dialog_cancel))
+            }
+        },
+    )
+}
+
+@Composable
+private fun MediaControlInfoDialog(onDismissalRequested: () -> Unit) {
+    SelectDialog(
+        title = stringResource(R.string.settings_media_controls_info_title),
+        extraButton = {
+            TextButton(onClick = onDismissalRequested) {
+                Text(stringResource(R.string.dialog_ok))
+            }
+        },
+        onDismissRequest = onDismissalRequested,
+    ) { horizontalPadding ->
+        Text(
+            modifier = Modifier.padding(horizontal = horizontalPadding),
+            text = stringResource(R.string.settings_media_controls_info_text),
+        )
     }
 }
 

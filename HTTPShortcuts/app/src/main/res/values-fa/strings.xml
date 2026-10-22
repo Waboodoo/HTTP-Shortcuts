@@ -1849,4 +1849,21 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">شبیه‌سازی پخش‌کننده رسانه</string>
+    <string name="label_event_history_trigger_type_media_controls">کنترل‌های رسانه</string>
+    <string name="settings_media_controls_summary">امکان کنترل، برای مثال با ساعت هوشمند یا دکمه‌های هدفون، را فراهم می‌کند.</string>
+    <string name="notification_channel_media_controls_title">شبیه‌سازی پخش‌کننده رسانه</string>
+    <string name="media_controls_notification_text">شبیه‌سازی پخش‌کننده رسانه فعال است</string>
+    <string name="media_controls_no_shortcuts">میان‌بری موجود نیست</string>
+    <string name="media_controls_stop">پایان</string>
+    <string name="settings_media_controls_section_title">پخش‌کنندهٔ رسانهٔ شبیه‌سازی‌شده</string>
+    <string name="settings_media_controls_categories_title">محدود کردن به دسته‌ها</string>
+    <string name="settings_media_controls_all_categories">همهٔ دسته‌ها لحاظ شوند</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d از %2$d دسته</string>
+    <string name="settings_media_controls_info_title">اطلاعات بیشتر</string>
+    <string name="settings_media_controls_info_text">هنگام فعال بودن، HTTP Shortcuts میان‌برهای قابل مشاهده را به‌صورت قطعه‌های یک پخش‌کنندهٔ رسانهٔ شبیه‌سازی‌شده نمایش می‌دهد. برای انتخاب میان‌بر از قبلی و بعدی و برای اجرای آن از پخش یا مکث استفاده کنید.\n\nاگر چند دسته، اما نه همهٔ آن‌ها انتخاب شوند، هر دسته به‌صورت یک آلبوم نمایش داده می‌شود. «تغییر دسته» را انتخاب کنید و برای رفتن به دستهٔ بعدی پخش یا مکث را فشار دهید. دسته‌ها و میان‌برهای پنهان هرگز لحاظ نمی‌شوند.\n\nشبیه‌سازی در پس‌زمینه فعال می‌ماند تا ساعت‌های هوشمند و دکمه‌های هدفون بتوانند آن را پیدا کنند. می‌توانید آن را از اعلان دائمی یا با غیرفعال کردن این تنظیم متوقف کنید.</string>
+    <string name="media_controls_change_category">تغییر دسته</string>
+    <string name="media_controls_change_category_summary">برای انتخاب دستهٔ بعدی پخش یا مکث را فشار دهید</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

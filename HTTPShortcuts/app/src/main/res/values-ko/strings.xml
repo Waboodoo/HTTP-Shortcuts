@@ -1958,4 +1958,21 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">미디어 플레이어 시뮬레이션</string>
+    <string name="label_event_history_trigger_type_media_controls">미디어 컨트롤</string>
+    <string name="settings_media_controls_summary">스마트워치 또는 헤드폰 버튼 등을 통한 제어를 허용합니다.</string>
+    <string name="notification_channel_media_controls_title">미디어 플레이어 시뮬레이션</string>
+    <string name="media_controls_notification_text">미디어 플레이어 시뮬레이션 활성화됨</string>
+    <string name="media_controls_no_shortcuts">사용 가능한 바로가기가 없습니다</string>
+    <string name="media_controls_stop">종료</string>
+    <string name="settings_media_controls_section_title">시뮬레이션된 미디어 플레이어</string>
+    <string name="settings_media_controls_categories_title">카테고리로 제한</string>
+    <string name="settings_media_controls_all_categories">모든 카테고리 포함</string>
+    <string name="settings_media_controls_selected_categories_pattern">카테고리 %2$d개 중 %1$d개</string>
+    <string name="settings_media_controls_info_title">추가 정보</string>
+    <string name="settings_media_controls_info_text">활성화하면 HTTP Shortcuts가 표시되는 바로가기를 시뮬레이션된 미디어 플레이어의 트랙으로 제공합니다. 이전 및 다음으로 바로가기를 선택하고 재생 또는 일시중지로 실행하세요.\n\n여러 카테고리를 선택하되 전부 선택하지 않으면 각 카테고리가 앨범으로 표시됩니다. “카테고리 변경”을 선택하고 재생 또는 일시중지를 눌러 다음 카테고리로 이동하세요. 숨겨진 카테고리와 바로가기는 포함되지 않습니다.\n\n스마트워치와 헤드폰 버튼이 찾을 수 있도록 시뮬레이션은 백그라운드에서 계속 활성 상태를 유지합니다. 상시 알림이나 이 설정을 비활성화하여 언제든 중지할 수 있습니다.</string>
+    <string name="media_controls_change_category">카테고리 변경</string>
+    <string name="media_controls_change_category_summary">재생 또는 일시중지를 눌러 다음 카테고리 선택</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

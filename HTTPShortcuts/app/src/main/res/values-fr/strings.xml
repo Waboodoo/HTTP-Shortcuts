@@ -2050,4 +2050,21 @@ Vous devrez peut-être aussi exclure l\'application des optimisations de la batt
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simuler un lecteur multimédia</string>
+    <string name="label_event_history_trigger_type_media_controls">Commandes multimédias</string>
+    <string name="settings_media_controls_summary">Permet le contrôle, par exemple depuis une montre connectée ou les boutons d’un casque.</string>
+    <string name="notification_channel_media_controls_title">Simulation du lecteur multimédia</string>
+    <string name="media_controls_notification_text">Simulation du lecteur multimédia active</string>
+    <string name="media_controls_no_shortcuts">Aucun raccourci disponible</string>
+    <string name="media_controls_stop">Arrêter</string>
+    <string name="settings_media_controls_section_title">Lecteur multimédia simulé</string>
+    <string name="settings_media_controls_categories_title">Limiter aux catégories</string>
+    <string name="settings_media_controls_all_categories">Inclure toutes les catégories</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d catégories sur %2$d</string>
+    <string name="settings_media_controls_info_title">Plus d’informations</string>
+    <string name="settings_media_controls_info_text">Lorsque cette fonction est activée, HTTP Shortcuts présente les raccourcis visibles comme des pistes d’un lecteur multimédia simulé. Utilisez précédent et suivant pour sélectionner un raccourci, puis lecture ou pause pour l’exécuter.\n\nSi plusieurs catégories, mais pas toutes, sont sélectionnées, chaque catégorie apparaît comme un album. Sélectionnez « Changer de catégorie » et appuyez sur lecture ou pause pour passer à la catégorie suivante. Les catégories et raccourcis masqués ne sont jamais inclus.\n\nLa simulation reste active en arrière-plan afin que les montres connectées et les boutons de casque puissent la détecter. Vous pouvez l’arrêter depuis la notification permanente ou en désactivant ce réglage.</string>
+    <string name="media_controls_change_category">Changer de catégorie</string>
+    <string name="media_controls_change_category_summary">Appuyez sur lecture ou pause pour sélectionner la catégorie suivante</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

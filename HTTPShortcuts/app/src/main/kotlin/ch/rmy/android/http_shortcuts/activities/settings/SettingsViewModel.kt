@@ -11,11 +11,13 @@ import ch.rmy.android.http_shortcuts.activities.settings.usecases.GetTranslation
 import ch.rmy.android.http_shortcuts.activities.settings.usecases.SetAppIconUseCase
 import ch.rmy.android.http_shortcuts.applock.AppLockController
 import ch.rmy.android.http_shortcuts.data.domains.app_config.AppConfigRepository
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryRepository
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.AppIconType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.settings.DeviceLocalPreferences
+import ch.rmy.android.http_shortcuts.data.settings.MediaControlCategorySelection
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 import ch.rmy.android.http_shortcuts.http.CookieManager
 import ch.rmy.android.http_shortcuts.logging.Logging
@@ -37,6 +39,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
@@ -91,6 +94,39 @@ constructor(
                 )
             }
         }
+        val mediaControlsEnabled = monitorFlow(userPreferences.observeMediaControlsEnabled(), Dispatchers.Default) { enabled ->
+            updateViewState {
+                copy(mediaControlsEnabled = enabled)
+            }
+        }
+        val mediaControlCategorySettings = monitorFlow(
+            combine(
+                categoryRepository.observeCategories(),
+                userPreferences.observeMediaControlCategorySelection(),
+            ) { categories, selection ->
+                MediaControlCategorySettings(
+                    categories = categories
+                        .filterNot { it.hidden }
+                        .map { category ->
+                            MediaControlCategoryOption(
+                                id = category.id,
+                                name = category.name,
+                                icon = category.icon,
+                            )
+                        },
+                    selection = selection,
+                )
+            },
+            Dispatchers.Default,
+        ) { categorySettings ->
+            updateViewState {
+                copy(
+                    mediaControlCategories = categorySettings.categories,
+                    mediaControlsIncludeAllCategories = categorySettings.selection.includeAllCategories,
+                    mediaControlSelectedCategoryIds = categorySettings.selection.selectedCategoryIds,
+                )
+            }
+        }
 
         val appConfig = appConfigRepository.getAppConfig()
 
@@ -104,7 +140,10 @@ constructor(
             crashReportingAllowed = userPreferences.isCrashReportingAllowed,
             colorTheme = userPreferences.colorTheme,
             showHiddenShortcuts = userPreferences.showHiddenShortcuts,
-            mediaControlsEnabled = userPreferences.mediaControlsEnabled,
+            mediaControlsEnabled = mediaControlsEnabled,
+            mediaControlCategories = mediaControlCategorySettings.categories,
+            mediaControlsIncludeAllCategories = mediaControlCategorySettings.selection.includeAllCategories,
+            mediaControlSelectedCategoryIds = mediaControlCategorySettings.selection.selectedCategoryIds,
             rememberActiveCategory = userPreferences.isRememberActiveCategory,
             rememberActiveCategoryEnabled = categoryRepository.getCategories().count { !it.hidden } > 1,
             browserPackageNameOptions = availableBrowserPackageNamesLookup(appConfig.defaultBrowser?.packageName),
@@ -331,7 +370,52 @@ constructor(
         }
     }
 
-    fun onMediaControlsEnabledChanged(enabled: Boolean) = runAction {
+    fun onMediaControlsChanged(enabled: Boolean) = runAction {
+        if (enabled) {
+            emitEvent(SettingsEvent.RequestNotificationPermission)
+        } else {
+            setMediaControlsEnabled(false)
+        }
+    }
+
+    fun onMediaControlsNotificationPermissionResult(granted: Boolean) = runAction {
+        if (granted) {
+            setMediaControlsEnabled(true)
+        }
+    }
+
+    fun onMediaControlCategoriesButtonClicked() = runAction {
+        val viewState = getCurrentViewState()
+        val visibleCategoryIds = viewState.mediaControlCategories.mapTo(linkedSetOf(), MediaControlCategoryOption::id)
+        val selectedCategoryIds = viewState.mediaControlSelectedCategoryIds
+            .intersect(visibleCategoryIds)
+            .ifEmpty { visibleCategoryIds }
+        updateDialogState(
+            SettingsDialogState.SelectMediaControlCategories(
+                categories = viewState.mediaControlCategories,
+                includeAllCategories = viewState.mediaControlsIncludeAllCategories,
+                selectedCategoryIds = selectedCategoryIds,
+            ),
+        )
+    }
+
+    fun onMediaControlCategoriesSelected(includeAllCategories: Boolean, selectedCategoryIds: Set<CategoryId>) = runAction {
+        val visibleCategoryIds = getCurrentViewState().mediaControlCategories
+            .mapTo(linkedSetOf(), MediaControlCategoryOption::id)
+        val validSelectedCategoryIds = selectedCategoryIds.intersect(visibleCategoryIds)
+        val includeAll = includeAllCategories || validSelectedCategoryIds.isEmpty()
+        userPreferences.mediaControlCategorySelection = MediaControlCategorySelection(
+            includeAllCategories = includeAll,
+            selectedCategoryIds = validSelectedCategoryIds,
+        )
+        updateDialogState(null)
+    }
+
+    fun onMediaControlInfoButtonClicked() = runAction {
+        updateDialogState(SettingsDialogState.MediaControlInfo)
+    }
+
+    private suspend fun setMediaControlsEnabled(enabled: Boolean) {
         userPreferences.mediaControlsEnabled = enabled
         mediaControlsController.setEnabled(enabled)
         updateViewState {
@@ -359,4 +443,9 @@ constructor(
             copy(defaultBrowser = defaultBrowser)
         }
     }
+
+    private data class MediaControlCategorySettings(
+        val categories: List<MediaControlCategoryOption>,
+        val selection: MediaControlCategorySelection,
+    )
 }

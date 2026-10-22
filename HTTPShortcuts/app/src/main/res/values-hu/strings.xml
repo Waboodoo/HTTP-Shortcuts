@@ -1777,4 +1777,21 @@ Egyelőre azonban még nincs beállítva semmilyen változó.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Médialejátszó szimulálása</string>
+    <string name="label_event_history_trigger_type_media_controls">Médiavezérlők</string>
+    <string name="settings_media_controls_summary">Lehetővé teszi a vezérlést például okosórával vagy a fejhallgató gombjaival.</string>
+    <string name="notification_channel_media_controls_title">Médialejátszó-szimuláció</string>
+    <string name="media_controls_notification_text">A médialejátszó-szimuláció aktív</string>
+    <string name="media_controls_no_shortcuts">Nincsenek elérhető parancsikonok</string>
+    <string name="media_controls_stop">Leállítás</string>
+    <string name="settings_media_controls_section_title">Szimulált médialejátszó</string>
+    <string name="settings_media_controls_categories_title">Korlátozás kategóriákra</string>
+    <string name="settings_media_controls_all_categories">Minden kategória felvétele</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d / %2$d kategória</string>
+    <string name="settings_media_controls_info_title">További információ</string>
+    <string name="settings_media_controls_info_text">Bekapcsolt állapotban a HTTP Shortcuts a látható parancsikonokat egy szimulált médialejátszó zeneszámaiként teszi elérhetővé. Az előző és következő vezérlővel válasszon parancsikont, a lejátszás vagy szünet vezérlővel pedig indítsa el.\n\nHa több, de nem minden kategória van kijelölve, minden kategória albumként jelenik meg. Válassza a „Kategóriaváltás” elemet, majd nyomja meg a lejátszás vagy szünet gombot a következő kategóriához. A rejtett kategóriák és parancsikonok soha nem szerepelnek.\n\nA szimuláció a háttérben aktív marad, hogy az okosórák és a fejhallgatógombok megtalálják. A folyamatos értesítésből vagy e beállítás kikapcsolásával bármikor leállítható.</string>
+    <string name="media_controls_change_category">Kategóriaváltás</string>
+    <string name="media_controls_change_category_summary">A következő kategóriához nyomja meg a lejátszás vagy szünet gombot</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

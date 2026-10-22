@@ -5,11 +5,13 @@ This page is a collection of some less commonly used or more advanced use cases,
 <a id="media-controls"></a>
 ## Trigger shortcuts via media controls
 
-You can expose your visible shortcuts as an Android media session, allowing you to select and run them from a smartwatch, headset, car display, or another connected device that supports media controls. Enable **Media Controls** on the Settings screen to start a persistent media notification.
+You can expose your visible shortcuts as an Android media session, allowing you to select and run them from a smartwatch, headset, car display, or another connected device that supports media controls. Enable **Simulate Media Player** on the Settings screen to start the persistent media session.
 
-Use the previous and next media actions to select a shortcut. The selected shortcut's name is shown as the track title and its category is shown as the artist. Use either play or pause to run the selected shortcut. Hidden shortcuts and shortcuts in hidden categories are not included.
+Use the previous and next media actions to select a shortcut. The selected shortcut's name is shown as the track title and its category is exposed as the album, album artist, and artist for compatibility with different devices. Use either play or pause to run the selected shortcut. Hidden shortcuts and shortcuts in hidden categories are not included.
 
-Because Android treats this feature like active media playback, HTTP Shortcuts remains visible in the media player and notification area until you disable the setting.
+You can include all categories or select a subset. If multiple, but not all, categories are selected, choose the **Change category** track and press play or pause to move to the next category.
+
+The simulation remains active in the background until you disable the setting or stop it from the permanent notification.
 
 <a id="headless-mode"></a>
 ## Run shortcuts in "headless mode"

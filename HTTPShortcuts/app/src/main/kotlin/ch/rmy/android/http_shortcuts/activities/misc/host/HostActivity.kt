@@ -18,12 +18,14 @@ import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogState
 import ch.rmy.android.http_shortcuts.activities.execute.ExecuteDialogs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 
 @AndroidEntryPoint
 class HostActivity : BaseComposeActivity() {
@@ -79,6 +81,8 @@ class HostActivity : BaseComposeActivity() {
     }
 
     companion object {
+        private val ACTIVITY_START_TIMEOUT = 5.seconds
+
         private val dialogStateFlow = MutableStateFlow<ExecuteDialogState<*>?>(null)
         private var deferredResult: CompletableDeferred<Any>? = null
         private var activityFlow = MutableStateFlow<FragmentActivity?>(null)
@@ -94,6 +98,11 @@ class HostActivity : BaseComposeActivity() {
                 start(context)
                 return deferred.await()
             } finally {
+                if (deferredResult === deferred) {
+                    deferredResult = null
+                    dialogStateFlow.value = null
+                }
+                deferred.cancel()
                 stop()
             }
         }
@@ -103,7 +112,9 @@ class HostActivity : BaseComposeActivity() {
             return activityFlow.value
                 ?: run {
                     startActivity(context)
-                    activityFlow.awaitNonNull()
+                    withTimeout(ACTIVITY_START_TIMEOUT) {
+                        activityFlow.awaitNonNull()
+                    }
                 }
         }
 

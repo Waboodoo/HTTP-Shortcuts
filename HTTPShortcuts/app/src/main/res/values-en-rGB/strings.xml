@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Type of variable: Color Input, i.e., a dialog that asks user to pick a color in a color picker -->
     <string name="variable_type_color">Colour Input</string>
     <!-- Label: Shown in widget configuration screen, clicking it allows the user to pick a color for the widget label -->
@@ -57,4 +57,21 @@
     <string name="label_shortcut_as_file_share_target">Allow receiving files from share dialogue</string>
     <string name="dialog_title_select_icon_background_color">Icon Background Colour</string>
     <string name="category_vertical_alignment_center">Centre</string>
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simulate Media Player</string>
+    <string name="label_event_history_trigger_type_media_controls">Media Controls</string>
+    <string name="settings_media_controls_summary">Allows control via a smartwatch or headphone buttons, for example.</string>
+    <string name="settings_media_controls_section_title">Simulated Media Player</string>
+    <string name="settings_media_controls_categories_title">Limit to Categories</string>
+    <string name="settings_media_controls_all_categories">Include All Categories</string>
+    <string name="settings_media_controls_selected_categories_pattern" tools:ignore="PluralsCandidate">%1$d of %2$d categories</string>
+    <string name="settings_media_controls_info_title">More Information</string>
+    <string name="settings_media_controls_info_text">While enabled, HTTP Shortcuts exposes visible shortcuts as tracks of a simulated media player. Use the previous and next controls to select a shortcut and the play or pause control to trigger it.\n\nIf multiple, but not all, categories are selected, each category is presented as an album. Select “Change category” and press play or pause to switch to the next category. Hidden categories and hidden shortcuts are never included.\n\nThe simulation remains active in the background so that smartwatches and headphone buttons can find it. You can stop it at any time using the permanent notification or by disabling this setting.</string>
+    <string name="notification_channel_media_controls_title">Media Player Simulation</string>
+    <string name="media_controls_notification_text">Media Player Simulation active</string>
+    <string name="media_controls_no_shortcuts">No shortcuts available</string>
+    <string name="media_controls_stop">Stop</string>
+    <string name="media_controls_change_category">Change category</string>
+    <string name="media_controls_change_category_summary">Press play or pause to select the next category</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

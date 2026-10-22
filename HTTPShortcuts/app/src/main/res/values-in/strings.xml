@@ -1676,4 +1676,21 @@ Namun, Anda belum memiliki variabel yang terkonfigurasi.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simulasikan pemutar media</string>
+    <string name="label_event_history_trigger_type_media_controls">Kontrol media</string>
+    <string name="settings_media_controls_summary">Memungkinkan kontrol, misalnya melalui jam tangan pintar atau tombol headphone.</string>
+    <string name="notification_channel_media_controls_title">Simulasi pemutar media</string>
+    <string name="media_controls_notification_text">Simulasi pemutar media aktif</string>
+    <string name="media_controls_no_shortcuts">Tidak ada pintasan yang tersedia</string>
+    <string name="media_controls_stop">Hentikan</string>
+    <string name="settings_media_controls_section_title">Pemutar media tersimulasi</string>
+    <string name="settings_media_controls_categories_title">Batasi ke kategori</string>
+    <string name="settings_media_controls_all_categories">Sertakan semua kategori</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d dari %2$d kategori</string>
+    <string name="settings_media_controls_info_title">Informasi selengkapnya</string>
+    <string name="settings_media_controls_info_text">Saat diaktifkan, HTTP Shortcuts menampilkan pintasan yang terlihat sebagai trek pemutar media tersimulasi. Gunakan sebelumnya dan berikutnya untuk memilih pintasan, serta putar atau jeda untuk menjalankannya.\n\nJika beberapa, tetapi tidak semua kategori dipilih, setiap kategori ditampilkan sebagai album. Pilih “Ganti kategori” lalu tekan putar atau jeda untuk berpindah ke kategori berikutnya. Kategori dan pintasan tersembunyi tidak pernah disertakan.\n\nSimulasi tetap aktif di latar belakang agar jam tangan pintar dan tombol headphone dapat menemukannya. Anda dapat menghentikannya melalui notifikasi permanen atau dengan menonaktifkan pengaturan ini.</string>
+    <string name="media_controls_change_category">Ganti kategori</string>
+    <string name="media_controls_change_category_summary">Tekan putar atau jeda untuk memilih kategori berikutnya</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

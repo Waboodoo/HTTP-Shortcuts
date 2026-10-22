@@ -19,6 +19,7 @@ import ch.rmy.android.http_shortcuts.components.SettingsGroup
 import ch.rmy.android.http_shortcuts.components.SettingsSelection
 import ch.rmy.android.http_shortcuts.components.SettingsSwitch
 import ch.rmy.android.http_shortcuts.components.Spacing
+import ch.rmy.android.http_shortcuts.data.domains.categories.CategoryId
 import ch.rmy.android.http_shortcuts.data.dtos.TargetBrowser
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences.Companion.DARK_THEME_AUTO
@@ -38,6 +39,9 @@ fun SettingsContent(
     colorTheme: String,
     showHiddenShortcuts: Boolean,
     mediaControlsEnabled: Boolean,
+    mediaControlCategories: List<MediaControlCategoryOption>,
+    mediaControlsIncludeAllCategories: Boolean,
+    mediaControlSelectedCategoryIds: Set<CategoryId>,
     rememberActiveCategory: Boolean,
     rememberActiveCategoryEnabled: Boolean,
     translationProgress: Map<String, Int>,
@@ -58,7 +62,9 @@ fun SettingsContent(
     onCrashReportingChanged: (Boolean) -> Unit,
     onColorThemeChanged: (String) -> Unit,
     onShowHiddenShortcutsChanged: (Boolean) -> Unit,
-    onMediaControlsEnabledChanged: (Boolean) -> Unit,
+    onMediaControlsChanged: (Boolean) -> Unit,
+    onMediaControlCategoriesButtonClicked: () -> Unit,
+    onMediaControlInfoButtonClicked: () -> Unit,
     onTranslateButtonClicked: () -> Unit,
     onDefaultBrowserChanged: (TargetBrowser.Browser) -> Unit,
 ) {
@@ -222,14 +228,6 @@ fun SettingsContent(
                 onItemSelected = onClickActionOptionSelected,
             )
 
-            SettingsSwitch(
-                icon = painterResource(R.drawable.outline_play_arrow_24),
-                title = stringResource(R.string.settings_media_controls_title),
-                subtitle = stringResource(R.string.settings_media_controls_summary),
-                checked = mediaControlsEnabled,
-                onCheckedChanged = onMediaControlsEnabledChanged,
-            )
-
             SettingsButton(
                 icon = painterResource(R.drawable.outline_badge_24),
                 title = stringResource(R.string.settings_user_agent),
@@ -265,6 +263,35 @@ fun SettingsContent(
             )
         }
 
+        SettingsGroup(
+            title = stringResource(R.string.settings_media_controls_section_title),
+        ) {
+            SettingsSwitch(
+                icon = painterResource(R.drawable.outline_play_arrow_24),
+                title = stringResource(R.string.settings_media_controls_title),
+                subtitle = stringResource(R.string.settings_media_controls_summary),
+                checked = mediaControlsEnabled,
+                onCheckedChanged = onMediaControlsChanged,
+            )
+
+            SettingsButton(
+                icon = painterResource(R.drawable.outline_list_24),
+                title = stringResource(R.string.settings_media_controls_categories_title),
+                subtitle = getMediaControlCategorySummary(
+                    categories = mediaControlCategories,
+                    includeAllCategories = mediaControlsIncludeAllCategories,
+                    selectedCategoryIds = mediaControlSelectedCategoryIds,
+                ),
+                onClick = onMediaControlCategoriesButtonClicked,
+            )
+
+            SettingsButton(
+                icon = painterResource(R.drawable.outline_info_24),
+                title = stringResource(R.string.settings_media_controls_info_title),
+                onClick = onMediaControlInfoButtonClicked,
+            )
+        }
+
         if (privacySectionVisible) {
             SettingsGroup(
                 title = stringResource(R.string.settings_title_privacy),
@@ -282,5 +309,24 @@ fun SettingsContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun getMediaControlCategorySummary(
+    categories: List<MediaControlCategoryOption>,
+    includeAllCategories: Boolean,
+    selectedCategoryIds: Set<CategoryId>,
+): String {
+    val selectedCategories = categories.filter { it.id in selectedCategoryIds }
+    return when {
+        includeAllCategories || selectedCategories.isEmpty() || selectedCategories.size == categories.size ->
+            stringResource(R.string.settings_media_controls_all_categories)
+        selectedCategories.size == 1 -> selectedCategories.first().name
+        else -> stringResource(
+            R.string.settings_media_controls_selected_categories_pattern,
+            selectedCategories.size,
+            categories.size,
+        )
     }
 }

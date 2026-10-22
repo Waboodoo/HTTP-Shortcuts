@@ -158,6 +158,7 @@ constructor() {
             ShortcutTriggerType.LEGACY_SHORTCUT -> context.getString(R.string.label_event_history_trigger_type_legacy_shortcut)
             ShortcutTriggerType.WIDGET -> context.getString(R.string.label_event_history_trigger_type_widget)
             ShortcutTriggerType.SCRIPTING -> context.getString(R.string.label_event_history_trigger_type_scripting)
+            ShortcutTriggerType.MEDIA_CONTROLS -> context.getString(R.string.label_event_history_trigger_type_media_controls)
             else -> name.lowercase().replace('_', ' ')
         }
 

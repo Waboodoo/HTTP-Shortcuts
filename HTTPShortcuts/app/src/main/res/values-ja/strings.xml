@@ -2149,4 +2149,21 @@
     <string name="error_file_access_security">セキュリティーエラー: %s</string>
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
     <string name="error_file_access_generic">ファイルへのアクセスに失敗: %s</string>
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">メディア プレーヤーをシミュレート</string>
+    <string name="label_event_history_trigger_type_media_controls">メディア コントロール</string>
+    <string name="settings_media_controls_summary">スマートウォッチやヘッドホンのボタンなどから操作できるようにします。</string>
+    <string name="notification_channel_media_controls_title">メディア プレーヤーのシミュレーション</string>
+    <string name="media_controls_notification_text">メディア プレーヤーのシミュレーションが有効です</string>
+    <string name="media_controls_no_shortcuts">利用可能なショートカットはありません</string>
+    <string name="media_controls_stop">終了</string>
+    <string name="settings_media_controls_section_title">シミュレートされたメディア プレーヤー</string>
+    <string name="settings_media_controls_categories_title">カテゴリを制限</string>
+    <string name="settings_media_controls_all_categories">すべてのカテゴリを含める</string>
+    <string name="settings_media_controls_selected_categories_pattern">%2$d 個中 %1$d 個のカテゴリ</string>
+    <string name="settings_media_controls_info_title">詳細情報</string>
+    <string name="settings_media_controls_info_text">有効にすると、HTTP Shortcuts は表示中のショートカットをシミュレートされたメディア プレーヤーのトラックとして公開します。前へ／次へでショートカットを選び、再生または一時停止で実行します。\n\n複数（ただし全部ではない）のカテゴリを選ぶと、各カテゴリがアルバムとして表示されます。「カテゴリを変更」を選び、再生または一時停止を押すと次のカテゴリへ移動します。非表示のカテゴリとショートカットは含まれません。\n\nスマートウォッチやヘッドホンのボタンが検出できるよう、シミュレーションはバックグラウンドで動作し続けます。常駐通知またはこの設定を無効にすることで、いつでも停止できます。</string>
+    <string name="media_controls_change_category">カテゴリを変更</string>
+    <string name="media_controls_change_category_summary">再生または一時停止を押して次のカテゴリを選択</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>

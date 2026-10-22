@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
     <!-- The name of the default category -->
@@ -1767,22 +1767,23 @@
     <string name="settings_option_show_hidden_shortcuts">Show hidden shortcuts</string>
     <!-- Option in "Hidden Shortcuts" selection in Setting screen, when selected no hidden shortcuts will be shown -->
     <string name="settings_option_hide_hidden_shortcuts">Don\'t show hidden shortcuts</string>
-    <!-- Title of setting that exposes shortcuts through Android media controls -->
-    <string name="settings_media_controls_title">Media Controls</string>
-    <!-- Description of setting that exposes shortcuts through Android media controls -->
-    <string name="settings_media_controls_summary">Select and run shortcuts from a smartwatch or another device that can control media playback</string>
-    <!-- Title of notification channel used for the persistent media controls -->
-    <string name="notification_channel_media_controls_title">Media Controls</string>
-    <!-- Fallback notification title shown before a shortcut is available -->
-    <string name="media_controls_notification_title">HTTP Shortcuts Media Controls</string>
-    <!-- Text shown by media controls when there are no visible shortcuts -->
+    <string name="settings_media_controls_title">Simulate Media Player</string>
+    <string name="label_event_history_trigger_type_media_controls">Media Controls</string>
+    <string name="settings_media_controls_summary">Allows control via a smartwatch or headphone buttons, for example.</string>
+    <string name="settings_media_controls_section_title">Simulated Media Player</string>
+    <string name="settings_media_controls_categories_title">Limit to Categories</string>
+    <string name="settings_media_controls_all_categories">Include All Categories</string>
+    <!-- This string is only used when at least two categories are selected. -->
+    <string name="settings_media_controls_selected_categories_pattern" tools:ignore="PluralsCandidate">%1$d of %2$d categories</string>
+    <string name="settings_media_controls_info_title">More Information</string>
+    <string name="settings_media_controls_info_text">While enabled, HTTP Shortcuts exposes visible shortcuts as tracks of a simulated media player. Use the previous and next controls to select a shortcut and the play or pause control to trigger it.\n\nIf multiple, but not all, categories are selected, each category is presented as an album. Select “Change category” and press play or pause to switch to the next category. Hidden categories and hidden shortcuts are never included.\n\nThe simulation remains active in the background so that smartwatches and headphone buttons can find it. You can stop it at any time using the permanent notification or by disabling this setting.</string>
+    <string name="notification_channel_media_controls_title">Media Player Simulation</string>
+    <string name="media_controls_notification_text">Media Player Simulation active</string>
     <string name="media_controls_no_shortcuts">No shortcuts available</string>
-    <!-- Accessibility label for media action that selects the previous shortcut -->
-    <string name="media_controls_previous">Previous shortcut</string>
-    <!-- Accessibility label for media action that executes the selected shortcut -->
-    <string name="media_controls_execute">Run shortcut</string>
-    <!-- Accessibility label for media action that selects the next shortcut -->
-    <string name="media_controls_next">Next shortcut</string>
+    <string name="media_controls_stop">Stop</string>
+    <string name="media_controls_change_category">Change category</string>
+    <string name="media_controls_change_category_summary">Press play or pause to select the next category</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
     <!-- Option in experimental settings, lets the user pick how shortcuts should be executed -->
     <string name="settings_title_execution_mode">Execution Mode</string>
     <!-- Option for "Execution Mode" experimental setting, shown in dropdown. Allows the use configure shortcuts to run in the foreground, i.e., showing a loading spinner -->

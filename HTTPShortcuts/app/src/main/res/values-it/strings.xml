@@ -1998,4 +1998,21 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Media controls -->
++    <string name="settings_media_controls_title">Simula lettore multimediale</string>
+    <string name="label_event_history_trigger_type_media_controls">Controlli multimediali</string>
+    <string name="settings_media_controls_summary">Consente il controllo, ad esempio tramite smartwatch o pulsanti delle cuffie.</string>
+    <string name="notification_channel_media_controls_title">Simulazione del lettore multimediale</string>
+    <string name="media_controls_notification_text">Simulazione del lettore multimediale attiva</string>
+    <string name="media_controls_no_shortcuts">Nessuna scorciatoia disponibile</string>
+    <string name="media_controls_stop">Termina</string>
+    <string name="settings_media_controls_section_title">Lettore multimediale simulato</string>
+    <string name="settings_media_controls_categories_title">Limita alle categorie</string>
+    <string name="settings_media_controls_all_categories">Includi tutte le categorie</string>
+    <string name="settings_media_controls_selected_categories_pattern">%1$d di %2$d categorie</string>
+    <string name="settings_media_controls_info_title">Ulteriori informazioni</string>
+    <string name="settings_media_controls_info_text">Quando è attiva, HTTP Shortcuts presenta le scorciatoie visibili come brani di un lettore multimediale simulato. Usa precedente e successivo per selezionare una scorciatoia e riproduci o pausa per eseguirla.\n\nSe vengono selezionate più categorie, ma non tutte, ogni categoria viene presentata come un album. Seleziona “Cambia categoria” e premi riproduci o pausa per passare alla categoria successiva. Le categorie e le scorciatoie nascoste non vengono mai incluse.\n\nLa simulazione rimane attiva in background affinché smartwatch e pulsanti delle cuffie possano rilevarla. Puoi interromperla dalla notifica permanente o disattivando questa impostazione.</string>
+    <string name="media_controls_change_category">Cambia categoria</string>
+    <string name="media_controls_change_category_summary">Premi riproduci o pausa per selezionare la categoria successiva</string>
+    <string name="media_controls_category_item_pattern">%1$s — %2$s</string>
 </resources>
