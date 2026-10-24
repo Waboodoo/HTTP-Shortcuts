@@ -49,6 +49,16 @@ constructor(
         variableWidgetDao().getWidgetsByVariableId(variableId)
     }
 
+    suspend fun clearShortcutFromVariableWidgets(shortcutId: ShortcutId): List<Int> = query {
+        val widgetDao = variableWidgetDao()
+        widgetDao.getWidgets()
+            .filter { it.shortcutId == shortcutId }
+            .map { widget ->
+                widgetDao.insertOrReplace(widget.copy(shortcutId = null))
+                widget.widgetId
+            }
+    }
+
     suspend fun deleteDeadVariableWidgets() = query {
         val globalVariableDao = globalVariableDao()
         val widgetDao = variableWidgetDao()
