@@ -236,10 +236,10 @@ class QuickTileService : TileService() {
                             IconUtil.getIcon(context, it, adaptive = false)
                         }
                     }
-                    ?: Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
+                    ?: Icon.createWithResource(context, R.drawable.ic_app_icon_small)
             } else {
                 qsTile.label = getString(R.string.action_quick_settings_tile_trigger)
-                qsTile.icon = Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
+                qsTile.icon = Icon.createWithResource(context, R.drawable.ic_app_icon_small)
             }
             qsTile.state = Tile.STATE_INACTIVE
             qsTile.updateTile()

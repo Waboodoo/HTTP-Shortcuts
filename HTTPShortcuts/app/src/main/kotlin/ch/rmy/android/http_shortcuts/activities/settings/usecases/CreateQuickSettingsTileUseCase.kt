@@ -38,7 +38,7 @@ constructor(
                     IconUtil.getIcon(context, it, adaptive = false)
                 }
             }
-            ?: Icon.createWithResource(context, R.drawable.ic_quick_settings_tile)
+            ?: Icon.createWithResource(context, R.drawable.ic_app_icon_small)
         val result = suspendCancellableCoroutine { continuation ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 context.getSystemService<StatusBarManager>()!!.requestAddTileService(
