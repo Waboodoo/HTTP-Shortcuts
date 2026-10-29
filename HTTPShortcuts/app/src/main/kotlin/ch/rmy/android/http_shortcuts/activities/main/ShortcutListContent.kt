@@ -2,7 +2,6 @@ package ch.rmy.android.http_shortcuts.activities.main
 
 import android.content.ActivityNotFoundException
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -29,9 +28,7 @@ import ch.rmy.android.http_shortcuts.data.dtos.ShortcutPlaceholder
 import ch.rmy.android.http_shortcuts.data.enums.CategoryBackgroundType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.import_export.OpenFilePickerForExportContract
-import ch.rmy.android.http_shortcuts.logging.Logging.logException
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ShortcutListContent(
     isInSyncReplaceMode: Boolean,
@@ -70,8 +67,7 @@ fun ShortcutListContent(
                     openFilePickerForExport.launch(
                         OpenFilePickerForExportContract.Params(single = true),
                     )
-                } catch (e: ActivityNotFoundException) {
-                    logException("ShortcutListContent", e)
+                } catch (_: ActivityNotFoundException) {
                     context.showToast(R.string.error_not_supported)
                 }
             }
