@@ -82,6 +82,7 @@ extensions.configure<ApplicationExtension> {
             "pt-rBR",
             "ru",
             "tr",
+            "uk",
             "zh-rCN",
             "zh-rTW",
             "ja",

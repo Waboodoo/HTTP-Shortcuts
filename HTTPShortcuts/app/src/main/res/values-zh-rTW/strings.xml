@@ -385,6 +385,7 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">離線時等待連線</string>
     <!-- Label: Shown on checkbox in "Trigger & Execution Settings" section of shortcut editor, to allow configuring a shortcut to be run every time the user opens the app -->
+    <string name="label_run_on_app_start">每次開啟應用程式時均執行</string>
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">延遲執行</string>
     <!-- Button, shown on About page, to allow opening the app's Play Store page -->
@@ -808,6 +809,7 @@
     <!-- error message displayed when "Maximum" is lesser than or equal to "Minimum" for "slider" variable type -->
     <string name="error_slider_max_not_greater_than_min">最大值必須大於最小值。</string>
     <!-- error message displayed a slider's value is not between its defined minimum and maximum -->
+    <string name="error_slider_value_must_be_between_min_and_max">數值必須介乎最小與最大值之間。</string>
     <!-- error message displayed when "Step Size" is not a positive number for "slider" variable type -->
     <string name="error_slider_step_size_must_be_positive">步幅大小必須為正數。</string>
     <!-- Title: Shown above cropper/resizer tool when picking a custom icon -->
@@ -1540,6 +1542,7 @@
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but it fails. %s is a placeholder for a more detailed error message -->
     <string name="error_failed_to_receive_tcp">無法讀取自 TCP 通訊端：%s</string>
     <!-- Error message: Shown when the user tries to read a TCP response via Scripting but provides an unsupported 'read mode' value. %s is a placeholder for the value that was provided. 'text' and 'line' must be kept as-is and not translated. -->
+    <string name="error_tcp_unsupported_read_mode">TCP 不支援讀取模式「%s」。必須為「text」或「line」</string>
     <!-- Error message: Shown when the user tries to open a file via the openUrl function in Scripting, which is not supported -->
     <string name="error_opening_files_using_open_url_not_supported">不支援使用 openUrl() 開啟檔案</string>
     <!-- Page title, for page showing all events that happened recently -->
@@ -2107,25 +2110,47 @@
     <!-- Error shown when reading a file shared into the app fails -->
     <string name="error_read_shared_file">無法接收分享的檔案</string>
     <!-- Error shown when an SSH command fails because the SSH session can not be opened -->
+    <string name="error_ssh_failed_to_open_session">無法開啟 SSH 工作階段</string>
     <!-- Error shown when an SSH command fails because the SSH host rejected it -->
+    <string name="error_ssh_command_rejected_by_host">SSH 命令被主機拒絕</string>
     <!-- Error shown when an SSH command fails with a signal on the host. %s is a placeholder for the signal -->
+    <string name="error_ssh_command_failed_with_signal">SSH 命令失敗，傳回訊號 %s</string>
     <!-- Error shown when an SSH command fails. %s is a placeholder for the error details -->
+    <string name="error_ssh_failed">SSH 失敗：%s</string>
     <!-- Error shown when an SSH command fails due a mismatch of the algorithm. %s is a placeholder for the error details -->
+    <string name="error_ssh_failed_with_algorithm_mismatch">SSH 連線失敗，乃因演算法不相符：%s</string>
     <!-- Error shown when an SSH command fails because the SSH host can not be verified. %s is a placeholder for the host's algorithm and public key -->
+    <string name="error_ssh_host_verification_failed">SSH 主機驗證失敗。\n\n主機金鑰為：\n%s</string>
     <!-- Error shown when an SSH command fails because the SSH host can not be verified. %1$s and %2$s are placeholders for the host's algorithm and public key (expected and actual) -->
+    <string name="error_ssh_host_verification_failed_with_expected">SSH 主機驗證失敗。\n\n預期：\n%1$s\n\n實際：\n%2$s</string>
     <!-- Error shown when an SSH command fails due to an authentication error -->
+    <string name="error_ssh_authentication_failed">SSH 認證失敗</string>
     <!-- Error shown when an SSH command due to a decryption error, likely because an incorrect passphrase was provided -->
+    <string name="error_ssh_incorrect_passphrase">解密失敗。密令是否有誤？</string>
     <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not found -->
+    <string name="error_directory_not_found">找不到目錄「%s」</string>
     <!-- Error shown when the `getDirectory` Scripting function is used but the directory is not mounted, i.e., not accessible -->
+    <string name="error_directory_not_mounted">目錄「%s」未掛接</string>
     <!-- Error shown when the `parseHTML` Scripting function is used but an invalid selector argument is provided. %s is a placeholder for the error details -->
+    <string name="error_in_parse_html_selector">parseHTML 選取器發生錯誤：%s</string>
     <!-- Error shown when the `parseHTML` Scripting function is used but an query type argument is provided. %s is a placeholder for the value that was provided. -->
+    <string name="error_in_parse_html_unknown_query_type">parseHTML 發生錯誤：未知的查詢類型「%s」，必須為「css」或「xpath」</string>
     <!-- Error shown when a slider is incorrectly used in Scripting. %s is a placeholder for the error details -->
+    <string name="error_slider_error">滑桿錯誤：%s</string>
     <!-- Error shown when a the 'vibrate' Scripting function is used but an unsupported vibration pattern is provided. %s is a placeholder for the name of the pattern -->
+    <string name="error_unknown_vibration_pattern">未知的震動模式：%s</string>
     <!-- Error when automatic import/export fails because no directory is configured to export to or import from -->
+    <string name="error_sync_no_directory_set">未設定目錄</string>
     <!-- Error when automatic export fails because the backup file could not be created -->
+    <string name="error_sync_failed_to_create_file">無法建立檔案，目錄或不存在，又或未有授權</string>
     <!-- Error when automatic import/export fails because no url is configured to export to or import from -->
+    <string name="error_sync_no_url_set">未設定 URL</string>
     <!-- Error when automatic import failed because the file does not exist. %s is a placeholder for the file's name -->
+    <string name="error_sync_file_not_found">目錄中找不到名稱為「%s」的檔案</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
+    <string name="error_sync_zip_file_not_found">目錄中找不到 ZIP 檔案</string>
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
+    <string name="error_file_access_security">安全性錯誤：%s</string>
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <string name="error_file_access_generic">無法存取檔案：%s</string>
 </resources>

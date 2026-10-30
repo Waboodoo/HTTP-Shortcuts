@@ -21,7 +21,8 @@ pt-rBR:49
 pt:73
 ru:85
 tr:59
+uk:100
 vi:49
 zh-rCN:95
-zh-rTW:97
+zh-rTW:100
 en:100

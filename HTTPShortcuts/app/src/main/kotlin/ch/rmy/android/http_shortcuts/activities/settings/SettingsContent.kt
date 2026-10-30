@@ -93,6 +93,7 @@ fun SettingsContent(
                     "pt" to stringResource(R.string.language_portuguese),
                     "pt-rBR" to stringResource(R.string.language_brazilian_portuguese),
                     "ru" to stringResource(R.string.language_russian),
+                    "uk" to stringResource(R.string.language_ukrainian),
                     "vi" to stringResource(R.string.language_vietnamese),
                     "tr" to stringResource(R.string.language_turkish),
                     "zh-rCN" to stringResource(R.string.language_chinese),

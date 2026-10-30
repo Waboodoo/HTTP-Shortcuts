@@ -29,4 +29,5 @@
     <locale android:name="nl" />
     <locale android:name="pt" />
     <locale android:name="vi" />
+    <locale android:name="uk" />
 </locale-config>
