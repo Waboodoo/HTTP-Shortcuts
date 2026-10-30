@@ -37,6 +37,7 @@ import ch.rmy.android.http_shortcuts.data.enums.FileUploadType
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutTriggerType
 import ch.rmy.android.http_shortcuts.data.models.Category
 import ch.rmy.android.http_shortcuts.data.models.RequestHeader
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
@@ -226,10 +227,14 @@ class Execution(
         try {
             loadData()
         } catch (_: NoSuchElementException) {
+            val errorMessageRes = when (params.trigger) {
+                ShortcutTriggerType.WIDGET -> R.string.shortcut_not_found_for_widget
+                else -> R.string.shortcut_not_found
+            }
             dialogHandle.showDialog(
                 ExecuteDialogState.GenericMessage(
                     title = StringResLocalizable(R.string.dialog_title_error),
-                    message = StringResLocalizable(R.string.shortcut_not_found),
+                    message = StringResLocalizable(errorMessageRes),
                 ),
             )
             throw CancellationException("Cancelling because shortcut was not found")

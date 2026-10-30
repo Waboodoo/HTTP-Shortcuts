@@ -124,6 +124,8 @@
     <string name="executed">%s executed.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Shortcut not found. You might have to re-add it to the home screen.</string>
+    <!-- Error message shown when clicking a widget, but the configured shortcut does not exist -->
+    <string name="shortcut_not_found_for_widget">The shortcut associated with this widget does not exist anymore. You need to re-configure or re-add the widget.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">This shortcut was deleted.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->

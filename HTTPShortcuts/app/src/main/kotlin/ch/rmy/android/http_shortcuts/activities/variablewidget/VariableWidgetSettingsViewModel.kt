@@ -53,7 +53,12 @@ constructor(
             fontSize = widget?.fontSize ?: 22,
             title = widget?.title ?: "",
             background = widget?.background,
-            shortcutId = widget?.shortcutId,
+            shortcutId = widget?.shortcutId
+                ?.takeIf { shortcutId ->
+                    selectableShortcuts.any { selectableShortcut ->
+                        selectableShortcut.shortcutId == shortcutId
+                    }
+                },
             selectableShortcuts = selectableShortcuts,
         )
     }
