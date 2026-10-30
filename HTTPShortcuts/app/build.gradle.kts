@@ -174,6 +174,12 @@ extensions.configure<ApplicationExtension> {
     packaging {
         jniLibs {
             excludes.add("META-INF/*")
+
+            // Bugsnag's ANR and root detection, as well as NDK support is disabled,
+            // so we don't need any of these binaries
+            excludes.add("**/libbugsnag-root-detection.so")
+            excludes.add("**/libbugsnag-plugin-android-anr.so")
+            excludes.add("**/libbugsnag-ndk.so")
         }
         resources {
             excludes.add("META-INF/*")
