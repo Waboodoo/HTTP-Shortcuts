@@ -41,6 +41,7 @@ import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.activities.documentation.models.SearchDirection
 import ch.rmy.android.http_shortcuts.components.EventHandler
 import ch.rmy.android.http_shortcuts.components.FontSize
+import ch.rmy.android.http_shortcuts.components.MessageDialog
 import ch.rmy.android.http_shortcuts.components.SimpleScaffold
 import ch.rmy.android.http_shortcuts.components.Spacing
 import ch.rmy.android.http_shortcuts.components.ToolbarIcon
@@ -80,6 +81,14 @@ fun DocumentationScreen(url: Uri?) {
     }
     val searchDirectionRequests = remember {
         MutableSharedFlow<SearchDirection>()
+    }
+
+    if (state?.englishOnlyDialogVisible == true) {
+        MessageDialog(
+            title = stringResource(R.string.title_documentation),
+            message = stringResource(R.string.message_docs_only_available_in_english),
+            onDismissRequest = viewModel::onDismissEnglishOnlyDialog,
+        )
     }
 
     SimpleScaffold(

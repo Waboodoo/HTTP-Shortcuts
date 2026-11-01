@@ -6,4 +6,5 @@ import androidx.compose.runtime.Stable
 @Stable
 data class DocumentationViewState(
     val url: Uri,
+    val englishOnlyDialogVisible: Boolean,
 )

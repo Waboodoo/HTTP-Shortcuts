@@ -2176,4 +2176,6 @@
     <string name="error_file_access_security">Security error: %s</string>
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
     <string name="error_file_access_generic">Failed to access file: %s</string>
+    <!-- Dialog message, shown to the user on the Documentation screen the first time to inform them that docs are only available in English -->
+    <string name="message_docs_only_available_in_english">The documentation is only available in English. To view it in a different language, please click the button in the navigation bar to open the website and use your browser\'s translation feature.</string>
 </resources>

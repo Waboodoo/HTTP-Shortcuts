@@ -93,6 +93,10 @@ constructor(
         get() = getBoolean(KEY_AWARE_OF_APP_ICON_CHANGE)
         set(value) = putBoolean(KEY_AWARE_OF_APP_ICON_CHANGE, value)
 
+    var isAwareOfEnglishOnlyDocs: Boolean
+        get() = getBoolean(KEY_AWARE_OF_ENGLISH_ONLY_DOCS)
+        set(value) = putBoolean(KEY_AWARE_OF_ENGLISH_ONLY_DOCS, value)
+
     var lastActiveCategoryId: CategoryId?
         get() = getString(KEY_LAST_ACTIVE_CATEGORY_ID)
         set(value) = putString(KEY_LAST_ACTIVE_CATEGORY_ID, value)
@@ -128,6 +132,7 @@ constructor(
         private const val KEY_AWARE_OF_MATERIAL_ICONS_INFO = "aware_of_material_icons_info"
         private const val KEY_AWARE_OF_APP_ICON_CHANGE = "aware_of_app_icon_change"
         private const val KEY_AWARE_OF_SHELL_APKS = "aware_of_shell_apks"
+        private const val KEY_AWARE_OF_ENGLISH_ONLY_DOCS = "aware_of_english_only_docs"
         private const val KEY_LAST_ACTIVE_CATEGORY_ID = "last_active_category_id"
         private const val KEY_SYNC_ERROR_COUNT = "sync_error_count"
         private const val KEY_SYNC_TOO_MANY_ERRORS = "sync_too_many_errors"
