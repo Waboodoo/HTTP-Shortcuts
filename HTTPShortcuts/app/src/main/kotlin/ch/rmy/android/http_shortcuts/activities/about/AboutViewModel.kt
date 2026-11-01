@@ -30,6 +30,7 @@ constructor(
 
     override suspend fun initialize(data: Unit): AboutViewState =
         AboutViewState(
+            openDocsInBrowser = userPreferences.openDocsInBrowser,
             versionNumber = getFormattedVersionNumber(),
             fDroidVisible = !installUtil.isAppInstalledFromPlayStore(),
             changeLogDialogPermanentlyHidden = deviceLocalPreferences.isChangeLogPermanentlyHidden,
@@ -105,6 +106,13 @@ constructor(
 
     fun onRedditButtonClicked() = runAction {
         openURL(ExternalURLs.REDDIT)
+    }
+
+    fun onChangeOpenDocsInBrowser(openDocsInBrowser: Boolean) = runAction {
+        updateViewState {
+            copy(openDocsInBrowser = openDocsInBrowser)
+        }
+        userPreferences.openDocsInBrowser = openDocsInBrowser
     }
 
     fun onDialogDismissalRequested() = runAction {

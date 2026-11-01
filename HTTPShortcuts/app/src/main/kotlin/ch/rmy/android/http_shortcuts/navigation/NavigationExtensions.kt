@@ -10,6 +10,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.core.net.toUri
 import androidx.lifecycle.SavedStateHandle
@@ -29,6 +30,7 @@ import ch.rmy.android.framework.navigation.NavigationRequestImpl
 import ch.rmy.android.framework.viewmodel.ViewModelEvent
 import ch.rmy.android.http_shortcuts.activities.documentation.DocumentationUrlManager
 import ch.rmy.android.http_shortcuts.components.EventHandler
+import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
 
 private const val RESULT_KEY = "result"
 
@@ -45,6 +47,7 @@ fun ResultHandler(savedStateHandle: SavedStateHandle, onResult: (result: Any) ->
 
 @Composable
 fun NavigationEventHandler(navController: NavController) {
+    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
 
     EventHandler { event ->
@@ -57,7 +60,7 @@ fun NavigationEventHandler(navController: NavController) {
             }
             is ViewModelEvent.OpenURL -> {
                 val uri = event.url.toUri()
-                if (DocumentationUrlManager.canHandle(uri)) {
+                if (DocumentationUrlManager.canHandle(uri) && !UserPreferences(context).openDocsInBrowser) {
                     consume {
                         navController.navigate(route = NavigationDestination.Documentation.buildRequest(uri).route)
                     }

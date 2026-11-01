@@ -17,11 +17,13 @@ fun AboutScreen() {
     ) { viewState ->
         AboutContent(
             versionNumber = viewState.versionNumber,
+            openDocsInBrowser = viewState.openDocsInBrowser,
             fDroidVisible = viewState.fDroidVisible,
             deviceId = viewState.deviceId,
             crashReportingAllowed = viewState.crashReportingAllowed,
             onChangeLogButtonClicked = viewModel::onChangeLogButtonClicked,
             onDocumentationButtonClicked = viewModel::onDocumentationButtonClicked,
+            onChangeOpenDocsInBrowser = viewModel::onChangeOpenDocsInBrowser,
             onContactButtonClicked = viewModel::onContactButtonClicked,
             onTranslateButtonClicked = viewModel::onTranslateButtonClicked,
             onPlayStoreButtonClicked = viewModel::onPlayStoreButtonClicked,

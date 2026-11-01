@@ -10,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import ch.rmy.android.http_shortcuts.R
 import ch.rmy.android.http_shortcuts.components.SettingsButton
+import ch.rmy.android.http_shortcuts.components.SettingsSelection
 import ch.rmy.android.http_shortcuts.components.Spacing
 
 @Composable
@@ -18,8 +19,10 @@ fun AboutContent(
     fDroidVisible: Boolean,
     deviceId: String,
     crashReportingAllowed: Boolean,
+    openDocsInBrowser: Boolean,
     onChangeLogButtonClicked: () -> Unit,
     onDocumentationButtonClicked: () -> Unit,
+    onChangeOpenDocsInBrowser: (Boolean) -> Unit,
     onContactButtonClicked: () -> Unit,
     onTranslateButtonClicked: () -> Unit,
     onPlayStoreButtonClicked: () -> Unit,
@@ -42,6 +45,16 @@ fun AboutContent(
             title = stringResource(R.string.settings_documentation),
             subtitle = stringResource(R.string.settings_documentation_summary),
             onClick = onDocumentationButtonClicked,
+        )
+        SettingsSelection(
+            icon = painterResource(R.drawable.outline_open_in_browser_24),
+            title = stringResource(R.string.settings_documentation_source),
+            selectedKey = openDocsInBrowser,
+            items = listOf(
+                false to stringResource(R.string.settings_documentation_source_in_app),
+                true to stringResource(R.string.settings_documentation_source_in_browser),
+            ),
+            onItemSelected = onChangeOpenDocsInBrowser,
         )
 
         SettingsButton(
