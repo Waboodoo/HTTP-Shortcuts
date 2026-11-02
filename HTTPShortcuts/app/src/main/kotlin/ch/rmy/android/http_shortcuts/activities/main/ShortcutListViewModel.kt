@@ -35,6 +35,7 @@ import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutId
 import ch.rmy.android.http_shortcuts.data.domains.shortcuts.ShortcutRepository
 import ch.rmy.android.http_shortcuts.data.domains.variables.GlobalVariableRepository
 import ch.rmy.android.http_shortcuts.data.domains.widgets.ShortcutWidgetsRepository
+import ch.rmy.android.http_shortcuts.data.domains.widgets.VariableWidgetsRepository
 import ch.rmy.android.http_shortcuts.data.enums.PendingExecutionType
 import ch.rmy.android.http_shortcuts.data.enums.SelectionMode
 import ch.rmy.android.http_shortcuts.data.enums.ShortcutClickBehavior
@@ -64,6 +65,7 @@ import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import ch.rmy.android.http_shortcuts.utils.ShareUtil
 import ch.rmy.android.http_shortcuts.utils.ShortcutUpdateWorker
+import ch.rmy.android.http_shortcuts.widget.VariableWidgetManager
 import ch.rmy.curlcommand.CurlConstructor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -89,6 +91,8 @@ constructor(
     private val globalVariableRepository: GlobalVariableRepository,
     private val pendingExecutionsRepository: PendingExecutionsRepository,
     private val shortcutWidgetsRepository: ShortcutWidgetsRepository,
+    private val variableWidgetsRepository: VariableWidgetsRepository,
+    private val variableWidgetManager: VariableWidgetManager,
     private val curlExporter: CurlExporter,
     private val executionScheduler: ExecutionScheduler,
     private val userPreferences: UserPreferences,
@@ -596,6 +600,10 @@ constructor(
             pendingExecutionsRepository.removePendingExecutionsForShortcut(shortcutId)
             cancelAlarms(shortcutId)
             shortcutWidgetsRepository.deleteDeadShortcutWidgets()
+            val affectedWidgetIds = variableWidgetsRepository.clearShortcutFromVariableWidgets(shortcutId)
+            if (affectedWidgetIds.isNotEmpty()) {
+                variableWidgetManager.updateWidgets(affectedWidgetIds)
+            }
             launcherShortcutManager.removeShortcut(shortcutId)
             showSnackbar(StringResLocalizable(R.string.shortcut_deleted, shortcut.name))
             emitEvent(ShortcutListEvent.RemoveShortcutFromHomeScreen(shortcut.toShortcutPlaceholder()))
