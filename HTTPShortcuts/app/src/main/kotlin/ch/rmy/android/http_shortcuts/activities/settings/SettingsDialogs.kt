@@ -168,9 +168,6 @@ private fun LockAppDialog(
         singleLine = true,
         imeAction = ImeAction.Go,
         keyboardType = KeyboardType.Password,
-        transformValue = {
-            it.take(50)
-        },
         bottomContent = {
             if (canUseBiometrics) {
                 Checkbox(

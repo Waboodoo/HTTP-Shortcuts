@@ -1,6 +1,7 @@
 package ch.rmy.android.http_shortcuts.applock
 
 import at.favre.lib.crypto.bcrypt.BCrypt
+import at.favre.lib.crypto.bcrypt.LongPasswordStrategies
 import ch.rmy.android.framework.utils.ElapsedTime
 import ch.rmy.android.framework.utils.ElapsedTimeProvider
 import ch.rmy.android.http_shortcuts.data.domains.app_lock.AppLockRepository
@@ -54,7 +55,8 @@ constructor(
 
     suspend fun setLock(password: String, useBiometrics: Boolean) {
         appLockRepository.setLock(
-            passwordHash = BCrypt.withDefaults().hashToString(10, password.toCharArray()),
+            passwordHash = BCrypt.with(LongPasswordStrategies.hashSha512(BCrypt.Version.VERSION_2A))
+                .hashToString(10, password.toCharArray()),
             useBiometrics = useBiometrics,
         )
         lock()
@@ -63,7 +65,8 @@ constructor(
     suspend fun isPasswordCorrect(password: String): Boolean {
         val lock = appLockRepository.getLock()
             ?: return true
-        return BCrypt.verifyer().verify(password.toCharArray(), lock.passwordHash).verified
+        return BCrypt.verifyer(BCrypt.Version.VERSION_2A, LongPasswordStrategies.hashSha512(BCrypt.Version.VERSION_2A))
+            .verify(password.toCharArray(), lock.passwordHash).verified
     }
 
     suspend fun removeLock() {
