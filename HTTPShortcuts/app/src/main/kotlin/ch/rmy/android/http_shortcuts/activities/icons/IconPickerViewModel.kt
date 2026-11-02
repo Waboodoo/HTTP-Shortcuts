@@ -9,6 +9,7 @@ import ch.rmy.android.framework.extensions.context
 import ch.rmy.android.framework.extensions.logInfo
 import ch.rmy.android.framework.extensions.runIfNotNull
 import ch.rmy.android.framework.extensions.takeUnlessEmpty
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.framework.viewmodel.BaseViewModel
 import ch.rmy.android.framework.viewmodel.ViewModelScope
 import ch.rmy.android.http_shortcuts.R
@@ -302,12 +303,23 @@ constructor(
     }
 
     private suspend fun computeIconIndex(): List<MaterialIcon> = coroutineScope {
+        val cacheFile = File(context.cacheDir, MATERIAL_ICONS_INDEX_FILE)
         val iconFetcher = IconFetcher(
             client = httpClientFactory.getClient(context, userAgent = UserAgentProvider.getUserAgent(context)),
             baseUrl = ICONS_BASE_URL,
-            cacheFile = File(context.cacheDir, MATERIAL_ICONS_INDEX_FILE),
+            cacheFile = cacheFile,
         )
-        iconFetcher.getIcons()
+        try {
+            iconFetcher.getIcons()
+        } catch (e: Exception) {
+            if (cacheFile.exists()) {
+                tryOrIgnore {
+                    logInfo("Icon cache file: ${cacheFile.readText().take(200)}")
+                }
+                cacheFile.delete()
+            }
+            throw e
+        }
             .chunked(1000)
             .map { iconEntries: List<IconEntry> ->
                 async {

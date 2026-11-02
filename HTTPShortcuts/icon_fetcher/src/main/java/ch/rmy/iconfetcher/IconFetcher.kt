@@ -27,7 +27,7 @@ class IconFetcher(
             if (e.message?.contains("Expected BEGIN_ARRAY but was STRING") == true) {
                 // The server sometimes returns fails and returns an error message.
                 // We treat this as an IOException as it is temporary and expected.
-                throw IOException(e)
+                throw IOException("Unexpected response", e)
             } else {
                 throw e
             }
@@ -37,7 +37,9 @@ class IconFetcher(
     private fun getEntries(): List<IconEntry> {
         if (!isCacheFileValid()) {
             fetchIconIndex().use { responseBody ->
-                responseBody.byteStream().copyTo(cacheFile.outputStream())
+                cacheFile.outputStream().use { outputStream ->
+                    responseBody.byteStream().copyTo(outputStream)
+                }
             }
         }
         return getCachedIconIndex().use { reader ->
@@ -54,9 +56,12 @@ class IconFetcher(
                 .build(),
         )
             .execute()
-            .takeIf { it.isSuccessful }
-            ?.body
-            ?: throw IOException()
+            .let { response ->
+                response
+                    .takeIf { it.isSuccessful }
+                    ?.body
+                    ?: throw IOException("Failed with ${response.code}")
+            }
 
     private fun getCachedIconIndex(): Reader =
         cacheFile.reader()
