@@ -1,13 +1,17 @@
 package ch.rmy.android.http_shortcuts.activities.execute.usecases
 
+import androidx.core.net.toUri
+import ch.rmy.android.framework.extensions.tryOrIgnore
 import ch.rmy.android.http_shortcuts.data.enums.ParameterType.FILE
 import ch.rmy.android.http_shortcuts.data.enums.ResponseFailureOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseSuccessOutput
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType.NOTIFICATION
 import ch.rmy.android.http_shortcuts.data.enums.ResponseUiType.TOAST
+import ch.rmy.android.http_shortcuts.data.enums.ShortcutExecutionType
 import ch.rmy.android.http_shortcuts.data.models.RequestParameter
 import ch.rmy.android.http_shortcuts.data.models.Shortcut
 import ch.rmy.android.http_shortcuts.data.settings.UserPreferences
+import ch.rmy.android.http_shortcuts.utils.LocalNetworkPermissionManager
 import ch.rmy.android.http_shortcuts.utils.NetworkUtil
 import ch.rmy.android.http_shortcuts.utils.PermissionManager
 import ch.rmy.android.http_shortcuts.variables.ResolvedVariableValues
@@ -17,6 +21,7 @@ class CheckHeadlessExecutionUseCase
 @Inject
 constructor(
     private val permissionManager: PermissionManager,
+    private val localNetworkPermissionManager: LocalNetworkPermissionManager,
     private val networkUtil: NetworkUtil,
     private val userPreferences: UserPreferences,
 ) {
@@ -54,6 +59,15 @@ constructor(
         }
         if (networkUtil.isNetworkPerformanceRestricted()) {
             return false
+        }
+
+        tryOrIgnore {
+            if (
+                shortcut.executionType == ShortcutExecutionType.HTTP &&
+                shortcut.url.toUri().host?.let(localNetworkPermissionManager::requiresLocalNetworkPermission) == true
+            ) {
+                return false
+            }
         }
         return computeVariablesSize(variableValues) < MAX_VARIABLES_SIZE
     }

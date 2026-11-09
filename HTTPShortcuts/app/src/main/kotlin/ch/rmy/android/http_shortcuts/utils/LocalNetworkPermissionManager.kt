@@ -9,19 +9,21 @@ constructor(
     private val permissionManager: PermissionManager,
 ) {
     suspend fun requestLocalNetworkPermissionIfNeeded(host: String) {
-        if (permissionManager.hasLocalNetworkPermission()) {
-            return
-        }
-
-        val normalizedHost = host
-            .let(::normalizeHost)
-            .takeUnlessEmpty()
-            ?: return
-
-        if (isLocalHost(normalizedHost)) {
+        if (requiresLocalNetworkPermission(host)) {
             // Return value intentionally ignored, as we might be wrong about needing the permission
             permissionManager.requestLocalNetworkPermissionIfNeeded()
         }
+    }
+
+    fun requiresLocalNetworkPermission(host: String): Boolean {
+        if (permissionManager.hasLocalNetworkPermission()) {
+            return false
+        }
+        val normalizedHost = host
+            .let(::normalizeHost)
+            .takeUnlessEmpty()
+            ?: return false
+        return isLocalHost(normalizedHost)
     }
 
     private fun normalizeHost(host: String) =
@@ -99,7 +101,7 @@ constructor(
             ?: return null
         return IntArray(4) { index ->
             val part = parts[index]
-            if (part.startsWith("0")) {
+            if (part != "0" && part.startsWith("0")) {
                 return null
             }
             part.toIntOrNull()
