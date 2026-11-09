@@ -104,6 +104,12 @@ constructor(
         pendingExecutionDao().deleteForShortcut(shortcutId)
     }
 
+    suspend fun removePendingExecutionsForShortcuts(shortcutIds: Collection<ShortcutId>) = commitTransaction {
+        shortcutIds.forEach { shortcutId ->
+            pendingExecutionDao().deleteForShortcut(shortcutId)
+        }
+    }
+
     suspend fun getNextPendingExecution(withNetworkConstraints: Boolean): PendingExecution? = query {
         pendingExecutionDao()
             .run {

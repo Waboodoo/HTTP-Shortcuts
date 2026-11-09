@@ -128,6 +128,8 @@
     <string name="shortcut_not_found_for_widget">The shortcut associated with this widget does not exist anymore. You need to re-configure or re-add the widget.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">This shortcut was deleted.</string>
+    <!-- Error message shown when a user clicks a category that was pinned to the home screen, but the category no longer exists because it was deleted. -->
+    <string name="error_category_deleted">This category was deleted.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Please enter a name.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->

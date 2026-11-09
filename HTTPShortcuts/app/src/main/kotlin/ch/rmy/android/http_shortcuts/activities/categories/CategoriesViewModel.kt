@@ -22,6 +22,7 @@ import ch.rmy.android.http_shortcuts.icons.ShortcutIcon
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.Categories.RESULT_CATEGORIES_CHANGED
 import ch.rmy.android.http_shortcuts.sync.SyncScheduler
+import ch.rmy.android.http_shortcuts.usecases.CleanUpDeletedShortcutsUseCase
 import ch.rmy.android.http_shortcuts.utils.ExternalURLs
 import ch.rmy.android.http_shortcuts.utils.LauncherShortcutManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +42,7 @@ constructor(
     private val shortcutRepository: ShortcutRepository,
     private val launcherShortcutManager: LauncherShortcutManager,
     private val syncScheduler: SyncScheduler,
+    private val cleanUpDeletedShortcuts: CleanUpDeletedShortcutsUseCase,
 ) : BaseViewModel<Unit, CategoriesViewState>(application) {
 
     private lateinit var categories: List<Category>
@@ -132,6 +134,11 @@ constructor(
 
     private suspend fun ViewModelScope<*>.deleteCategory(categoryId: CategoryId) {
         withProgressTracking {
+            shortcutsByCategoryId[categoryId]?.map { it.id }?.toSet()
+                ?.let { shortcutIds ->
+                    cleanUpDeletedShortcuts(shortcutIds)
+                }
+            launcherShortcutManager.removePinnedCategoryShortcut(categoryId)
             categoryRepository.deleteCategory(categoryId)
             hasChanged = true
             showSnackbar(R.string.message_category_deleted)
