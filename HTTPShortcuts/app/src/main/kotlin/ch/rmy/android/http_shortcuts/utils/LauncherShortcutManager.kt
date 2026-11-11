@@ -155,6 +155,9 @@ constructor(
     }
 
     fun updatePinnedShortcuts(shortcuts: List<LauncherShortcut>) {
+        if (shortcuts.isEmpty()) {
+            return
+        }
         logInfo("Updating pinned shortcut(s): ${shortcuts.size}")
         shortcutManager.updateShortcuts(
             shortcuts.map { shortcut ->
