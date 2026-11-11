@@ -19,9 +19,13 @@ constructor(
         try {
             val clip = ClipData.newPlainText(null, text)
             clipboardManager?.setPrimaryClip(clip)
-        } catch (_: TransactionTooLargeException) {
-            val clip = ClipData.newPlainText(null, text.truncate(MAX_LENGTH))
-            clipboardManager?.setPrimaryClip(clip)
+        } catch (e: Exception) {
+            if (e is TransactionTooLargeException || e.cause is TransactionTooLargeException) {
+                val clip = ClipData.newPlainText(null, text.truncate(MAX_LENGTH))
+                clipboardManager?.setPrimaryClip(clip)
+            } else {
+                throw e
+            }
         }
     }
 
