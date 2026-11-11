@@ -106,7 +106,9 @@
     <string name="executed">%s executada.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Drecera no trobada. És possible que hagis de tornar-la a afegir a la pantalla d\'inici.</string>
+    <!-- Error message shown when clicking a widget, but the configured shortcut does not exist -->
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
+    <!-- Error message shown when a user clicks a category that was pinned to the home screen, but the category no longer exists because it was deleted. -->
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Si us plau introdueix un nom.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -349,6 +351,9 @@
     <string name="settings_f_droid_summary">Buscar actualitzacions</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">Documentació</string>
+    <!-- Title of option in settings screen: allows to select whether the built-in documentation pages or the ones from the website should be shown -->
+    <!-- Option for setting to select how documentation links should be resolved: inside the app (as opposed to in the browser) -->
+    <!-- Option for setting to select how documentation links should be resolved: in the browser (as opposed to inside the app) -->
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">Preguntes freqüents, referències, exemples,...</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
@@ -1668,4 +1673,5 @@ Malgrat tot, encara no tens cap variable configurada.</string>
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Dialog message, shown to the user on the Documentation screen the first time to inform them that docs are only available in English -->
 </resources>

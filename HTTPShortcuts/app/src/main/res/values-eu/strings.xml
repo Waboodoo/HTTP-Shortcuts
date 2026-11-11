@@ -124,8 +124,11 @@
     <string name="executed">%s exekutatuta.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Ez da lasterbidea aurkitu. Baliteke hasierako pantailan berriro gehitu behar izatea.</string>
+    <!-- Error message shown when clicking a widget, but the configured shortcut does not exist -->
+    <string name="shortcut_not_found_for_widget">Trepeta honekin lotutako lasterbidea ez dago jada. Trepeta berriro konfiguratu edo gehitu behar duzu.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">Lasterbidea ezabatu da.</string>
+    <!-- Error message shown when a user clicks a category that was pinned to the home screen, but the category no longer exists because it was deleted. -->
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Sartu izen bat.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -382,6 +385,7 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">Itxaron konektatu arte</string>
     <!-- Label: Shown on checkbox in "Trigger & Execution Settings" section of shortcut editor, to allow configuring a shortcut to be run every time the user opens the app -->
+    <string name="label_run_on_app_start">Exekutatu aplikazioa irekitzen den bakoitzean</string>
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Atzeratu exekuzioa</string>
     <!-- Button, shown on About page, to allow opening the app's Play Store page -->
@@ -394,6 +398,10 @@
     <string name="settings_f_droid_summary">Egiaztatu eguneratzeak dauden</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">Dokumentazioa</string>
+    <!-- Title of option in settings screen: allows to select whether the built-in documentation pages or the ones from the website should be shown -->
+    <!-- Option for setting to select how documentation links should be resolved: inside the app (as opposed to in the browser) -->
+    <!-- Option for setting to select how documentation links should be resolved: in the browser (as opposed to inside the app) -->
+    <string name="settings_documentation_source_in_browser">Ireki webgunea nabigatzailean</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">Ohiko galderak, erreferentziak, adibideak…</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
@@ -1439,20 +1447,29 @@
     <!-- Error message: Shown to the user when the app tries to determine the device's current location but failed, e.g. because of a missing permission -->
     <!-- Placeholder: help text shown for body content input field, where the user can define the HTTP request body -->
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon -->
+    <string name="confirm_delete_custom_icon_message">Ezabatu ikono hau?</string>
     <!-- Dialog prompt to ask user to confirm deletion of a custom icon, which is still in use -->
+    <string name="confirm_delete_custom_icon_still_in_use_message">Ikono hau gutxienez lasterbide 1ean erabiltzen ari da. Ezabatzeak arazoak sor ditzake.\n\nEzabatu nahi duzu hala ere?</string>
     <!-- Option for menu in icon picker screen, to delete all unused custom icons -->
+    <string name="button_delete_all_unused_icons">Ezabatu erabili gabeko ikonoak</string>
     <!-- Dialog prompt to ask user to confirm deletion of all unused custom icons -->
+    <string name="confirm_delete_all_unused_custom_icons_message">Ezabatu erabili gabeko ikonoak?</string>
     <!-- Error message, shown in snackbar when the user tried to fetch a page's favicon but it failed -->
+    <string name="error_failed_to_fetch_favicon">Ezin izan da ikonoa eskuratu. Baliteke webgune honek ikono erabilgarririk ez izatea.</string>
     <!-- Shortcut Action Title: Allows removing leading and trailing whitespace characters from a string -->
     <!-- Shortcut Action Description: Allows removing leading and trailing whitespace characters from a string -->
     <!-- Label of dropdown menu, for selecting which type of data to receive from the share dialog to use as the value of a variable -->
     <!-- Label of an option in the share dialog, for receiving only the text -->
     <!-- Label of an option in the share dialog, for receiving only the title (subject) -->
     <!-- Label of an option in the share dialog, for receiving the title (subject) and the text -->
+    <string name="label_share_support_option_title_and_text">Izenburua eta testua</string>
     <!-- Label above input field in category editor, for category name -->
     <!-- Label above dropdown input field for selecting the layout type (grid, list) for a category -->
+    <string name="label_category_layout_type">Diseinu mota</string>
     <!-- Label above dropdown input field for selecting the vertical alignment (top, center, bottom) for a category -->
+    <string name="label_category_vertical_alignment">Lerrokatze bertikala</string>
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">Eskala-faktorea</string>
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
     <string name="label_category_shortcut_label_visibility">Lasterbideen etiketak</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
@@ -1460,12 +1477,17 @@
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
     <string name="option_shortcut_labels_hidden">Ezkutuan</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
+    <string name="label_category_background">Atzeko planoa</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
+    <string name="description_customizable_widget">Aukeratu zure lasterbidearen etiketaren kolorea edo etiketa guztiz ezkutatu nahi duzun.</string>
     <!-- Description for the "Variable Widget", shown in Android's widget picker -->
     <string name="description_variable_widget">Aldagai global estatiko baten balioa bistaratu.</string>
     <!-- Title of an action in the code snippet picker: Parse a JSON string -->
+    <string name="action_type_parse_json">Analizatu JSON</string>
     <!-- Title of an action in the code snippet picker: Parse an XML string -->
+    <string name="action_type_parse_xml">Analizatu XML</string>
     <!-- Title of an action in the code snippet picker: Parse an HTML string -->
+    <string name="action_type_parse_html">Analizatu HTLM</string>
     <!-- Title of dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it -->
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. %s is a placeholder for the shortcut's name -->
     <!-- Message on dialog, shown when opening the app and unsaved changes to a previously edited shortcut were found, asking the user whether they want to recover it. -->
@@ -1473,6 +1495,7 @@
     <!-- Button text: translate app (prompt to help & become a translator) -->
     <!-- Summary/subtitle of section in settings that prompts user to help translate the app -->
     <!-- Button in Variables menu, allowing the user to (alphabetically) sort all variables -->
+    <string name="button_sort_variables">Ordenatu</string>
     <!-- Message: Shown in a snackbar after all variables have been sorted (alphabetically) -->
     <!-- Button label on menu, for searching. Used in Code Snippet picker and for Documentation screens -->
     <string name="menu_action_search">Bilatu</string>
@@ -1512,12 +1535,14 @@
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_main_screen">Pantaila nagusia</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
+    <string name="label_event_history_trigger_type_widget">Trepeta</string>
     <!-- Text displayed in details of "Shortcut triggered" event in Event History, to denote a specific type of shortcut trigger/origin: -->
     <!-- Message shown in snackbar to let the user know that the details of a (selected) history event were copied to the clipboard -->
     <!-- Label/description for the "result" data object which allows the user to pass arbitrary data from a shortcut at the end of execution back to Tasker (or other 3rd party apps) -->
@@ -1545,16 +1570,22 @@
     <!-- Message, shown in dialog, to ask the user to confirm the deletion of a certificate pinning fingerprint -->
     <!-- Label for text input field in certificate pinning dialog, for specifying the hostname pattern -->
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the hostname pattern -->
+    <string name="hint_certificate_pinning_hostname_pattern">Adib. *.adibide.com</string>
     <!-- Label for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
     <!-- Hint text for text input field in certificate pinning dialog, for specifying the fingerprint of the certificate -->
     <!-- Placeholder text shown when a toggle or multi-select variable option is just an empty string -->
     <!-- Empty state shown on the custom icons screen when the user has no icons set up -->
+    <string name="empty_state_custom_icons">Ez duzu ikono pertsonalizaturik.</string>
     <!-- Checkbox label, shown in Advanced Technical Settings screen, allows the user to configure a shortcut to only run when connected to a specific wifi network -->
+    <string name="label_require_specific_wifi_ssid">Wi-Fi zehatza behar da</string>
     <!-- Option in dropdown menu, for selecting the Internet Protocol version to be used for hostname resolution by a shortcut. This option is used by default when no specific option is chosen. -->
     <!-- Option in dropdown menu, for selecting the type of proxy to use for a shortcut. This option is used by default when no proxy should be used. -->
     <!-- Button label, shown under custom request body input field, allowing the user to format (i.e. pretty print) the JSON code they entered -->
+    <string name="button_format_json">Formatua</string>
     <!-- Error, shown in snackbar, when the user tries to format a custom request body, but it is invalid JSON syntax -->
+    <string name="error_cannot_format_invalid_json">JSON sintaxi baliogabea</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category when it has no shortcuts -->
+    <string name="placeholder_empty_category_for_moving">kategoria honetan lasterbiderik ez dago</string>
     <!-- Placeholder text shown (as part of the screen that allows the user to move around shortcuts) inside a category section when it has no shortcuts -->
     <!-- Label on checkbox, shown in Request Body settings for file body or file parameter, allows to edit images (cropping and rotating) before uploading them -->
     <!-- Label for selection of the host verification type, to choose how the HTTP shortcut should verify that it is connected to the correct host -->
@@ -1564,6 +1595,7 @@
     <!-- Label for text input field in host verification settings, for specifying the fingerprint of the certificate -->
     <!-- Hint text for text input field in host verification settings, for specifying the fingerprint of the certificate -->
     <!-- Button label, for button shown in Scripting editor nav bar to allow the user to undo a recent change -->
+    <string name="button_undo">Desegin</string>
     <!-- Error message shown when biometric (e.g. fingerprint) execution confirmation fails. %s is a placeholder for a more detailed description of the error -->
     <!-- Subtitle shown on biometric confirmation dialog (e.g. asking for a fingerprint), for confirming the execution of a shortcut -->
     <!-- Option in dropdown to select the confirmation type for a shortcut: no confirmation -->
@@ -1608,9 +1640,13 @@
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This is the default option, i.e., determine the type automatically from the response headers -->
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as plain text -->
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as JSON -->
+    <string name="option_response_content_type_json">JSON</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as XML -->
+    <string name="option_response_content_type_xml">XML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response content's type. This option will make the response/message always be treated as HTML -->
+    <string name="option_response_content_type_html">HTML</string>
     <!-- Option in "Response Handling" settings for a shortcut, in dropdown to select the response charset. This is the default option, i.e., determine the charset automatically from the response headers -->
+    <string name="option_response_charset_auto">Zehaztu automatikoki</string>
     <!-- Label for dropdown in "Response Handling" settings, allows the user to choose which character set should be used to decode the HTTP response -->
     <!-- Warning message shown at the bottom of the cURL import screen when curl options have been detected that are not known to the app. The list of unsupported options is shown after this warning. -->
     <!-- Dialog title for dialog that lets the user choose the shape of their custom icon: square or circular -->
@@ -1820,4 +1856,5 @@
     <!-- Error when automatic import failed because no suitable zip file was found in the specified directory -->
     <!-- Error when accessing a file (shared into the app) fails due to a security error, likely because of a problem with the sharing app. %s is a placeholder for the error details -->
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
+    <!-- Dialog message, shown to the user on the Documentation screen the first time to inform them that docs are only available in English -->
 </resources>

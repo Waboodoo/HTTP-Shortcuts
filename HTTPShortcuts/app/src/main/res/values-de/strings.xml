@@ -124,8 +124,12 @@
     <string name="executed">%s ausgeführt.</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">Shortcut nicht gefunden. Der Shortcut muss ev. neu platziert werden.</string>
+    <!-- Error message shown when clicking a widget, but the configured shortcut does not exist -->
+    <string name="shortcut_not_found_for_widget">Der in diesem Widget hinterlegte Shortcut existiert nicht mehr. Du musst das Widget neu konfigurieren oder neu platzieren.</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">Dieser Shortcut wurde gelöscht.</string>
+    <!-- Error message shown when a user clicks a category that was pinned to the home screen, but the category no longer exists because it was deleted. -->
+    <string name="error_category_deleted">Diese Kategorie wurde gelöscht.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Bitte gib einen Namen ein.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -403,6 +407,12 @@
     <string name="settings_f_droid_summary">Nach Updates prüfen</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">Dokumentation</string>
+    <!-- Title of option in settings screen: allows to select whether the built-in documentation pages or the ones from the website should be shown -->
+    <string name="settings_documentation_source">Dokumentationsquelle</string>
+    <!-- Option for setting to select how documentation links should be resolved: inside the app (as opposed to in the browser) -->
+    <string name="settings_documentation_source_in_app">Integrierte Offline-Dokumentation verwenden</string>
+    <!-- Option for setting to select how documentation links should be resolved: in the browser (as opposed to inside the app) -->
+    <string name="settings_documentation_source_in_browser">Webseite im Browser öffnen</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">FAQ, Tipps, Beispiele, …</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
@@ -2173,4 +2183,6 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="error_file_access_security">Sicherheitsfehler: %s</string>
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
     <string name="error_file_access_generic">Zugriff auf Datei fehlgeschlagen: %s</string>
+    <!-- Dialog message, shown to the user on the Documentation screen the first time to inform them that docs are only available in English -->
+    <string name="message_docs_only_available_in_english">Die Dokumentation ist nur in Englisch verfügbar. Um sie in einer anderen Sprache anzuzeigen, klicke bitte auf den Button in der Navigationsleiste, um die Webseite zu öffnen und die Übersetzungsfunktion deines Browsers zu nutzen.</string>
 </resources>

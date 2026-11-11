@@ -3,7 +3,7 @@
     <!-- The name of the app -->
     <string name="app_name">HTTP Shortcuts</string>
     <!-- The name of the default category -->
-    <string name="shortcuts">マイショートカット</string>
+    <string name="shortcuts">My ショートカット</string>
     <!-- The name used as a fallback for shortcuts without a name -->
     <string name="shortcut_safe_name">ショートカット</string>
     <!-- Title in editor when editing a shortcut -->
@@ -13,7 +13,7 @@
     <!-- Content description of icon image, accessibility information -->
     <string name="icon_description">アイコン</string>
     <!-- Label above input field in editor, for shortcut name -->
-    <string name="label_name">ショートカート名</string>
+    <string name="label_name">ショートカット名</string>
     <!-- Label above input field in editor, for shortcut description -->
     <string name="label_description">説明</string>
     <!-- Label above input field in editor, for shortcut URL -->
@@ -25,9 +25,11 @@
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">ブラウザ</string>
     <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
+    <string name="label_browser_shortcut_default_browser">ブラウザ ショートカットのデフォルトブラウザ</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">デフォルトのブラウザを使用</string>
     <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
+    <string name="placeholder_browser_system_default">システムのデフォルト</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">カスタムタブを使用</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -37,21 +39,21 @@
     <!-- Button to test changes made to shortcut -->
     <string name="test_button">テスト</string>
     <!-- Label above input field in editor, for shortcut HTTP method (GET, POST, PUT, …) -->
-    <string name="label_method">HTTP METHOD</string>
+    <string name="label_method">Method</string>
     <!-- Label above input field in editor, for shortcut authentication username -->
     <string name="label_username">ユーザー名</string>
     <!-- Label above input field in editor, for shortcut authentication password -->
     <string name="label_password">パスワード</string>
     <!-- Label above input field in editor, for shortcut authentication token -->
-    <string name="label_auth_token">認証 Token</string>
+    <string name="label_auth_token">トークン</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request succeeds -->
-    <string name="label_response_on_success">成功の時</string>
+    <string name="label_response_on_success">成功時</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the response content should be treated as -->
-    <string name="label_response_type_selection">レスポンスタイプ</string>
+    <string name="label_response_type_selection">レスポンス形式</string>
     <!-- Label above dropdown in "Response Handling" section of shortcut editor, lets the user define what the custom message that they enter should be treated as -->
-    <string name="label_response_message_type_selection">メッセージタイプ</string>
+    <string name="label_response_message_type_selection">メッセージ形式</string>
     <!-- Label above dropdown in editor, to select what should happen when the HTTP request fails -->
-    <string name="label_response_on_failure">失敗の時</string>
+    <string name="label_response_on_failure">失敗時</string>
     <!-- Label for checkbox in editor, to select whether in addition to the HTTP response the app should also display some meta information (e.g. headers) -->
     <string name="label_include_meta_information">メタ情報を表示</string>
     <!-- Label for checkbox in editor, to select whether the webview that displays the response body should allow the execution of JavaScript code -->
@@ -89,7 +91,7 @@
     <!-- Shortcut dropdown option: Move the shortcut (up, down, or to different category) -->
     <string name="action_move">移動</string>
     <!-- Message displayed in snackbar, to let the user know that moving via dragging was enabled. -->
-    <string name="message_moving_enabled">ドラッグ操作によるショートカットの再配置をします</string>
+    <string name="message_moving_enabled">ドラッグ操作でショートカットの再配置します。</string>
     <!-- Dialog title, for exporting a single shortcut. Dialog offers different export options (e.g. as JSON, as cURL)-->
     <string name="title_export_shortcut_as">エクスポート形式…</string>
     <!-- Dialog option, for exporting a single shortcut as a cURL command -->
@@ -99,7 +101,7 @@
     <!-- Empty state, shown in list when there are no shortcuts yet -->
     <string name="empty_state_shortcuts">ショートカットがありません</string>
     <!-- Empty state instructions, shown in list when there are no shortcuts yet. The text in [square brackets] needs to be translated as well, the square brackets need to be kept in the translation. -->
-    <string name="empty_state_shortcuts_instructions">ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。\n\n開始するには[＋]ボタンをクリックするか、「ドキュメント」を確認してください。</string>
+    <string name="empty_state_shortcuts_instructions">ショートカットは、任意のレスポンス処理や表示を含め、１行のHTTPリクエストを送信できます。\n\n開始するには[＋]ボタンをクリックするか、「文書」を確認してください。</string>
     <!-- Empty state, shown in list when there are no shortcuts yet, but the user already knows how to create shortcuts / categories -->
     <string name="empty_state_no_shortcuts_in_category">このカテゴリーにショートカットなし</string>
     <!-- Empty state, shown in list of trigger shortcuts (multi-shortcut) when there are no shortcuts added yet -->
@@ -122,8 +124,12 @@
     <string name="executed">%s 実行しました</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">ショートカットが見つかりません。 ホーム画面に再び追加する必要があるかもしれません。</string>
+    <!-- Error message shown when clicking a widget, but the configured shortcut does not exist -->
+    <string name="shortcut_not_found_for_widget">このウィジェットに関連付けられたショートカットはもう存在しません。ウィジェットを再設定または再追加する必要があります。</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">このショートカットは削除されました。</string>
+    <!-- Error message shown when a user clicks a category that was pinned to the home screen, but the category no longer exists because it was deleted. -->
+    <string name="error_category_deleted">このカテゴリーは削除されました。</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">名前を入力してください</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -360,7 +366,9 @@
     <!-- Button subtitle, for option to go to the app's official subreddit -->
     <string name="settings_reddit_summary">アプリ公式 Subreddit：ディスカッションとアイデアの交換の場</string>
     <!-- Button title, for option to go to the app's official website -->
+    <string name="settings_go_to_website">Webサイトを見る</string>
     <!-- Button subtitle, for option to go to the app's official website -->
+    <string name="settings_go_to_website_summary">アプリの公式Webサイトで詳細を見る</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">質問、新機能リクエスト、ユーザーの声をフィードバック…</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -395,6 +403,12 @@
     <string name="settings_f_droid_summary">アップデートを確認</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">ドキュメント</string>
+    <!-- Title of option in settings screen: allows to select whether the built-in documentation pages or the ones from the website should be shown -->
+    <string name="settings_documentation_source">文書のソース</string>
+    <!-- Option for setting to select how documentation links should be resolved: inside the app (as opposed to in the browser) -->
+    <string name="settings_documentation_source_in_app">組み込みのオフライン文書を使用する</string>
+    <!-- Option for setting to select how documentation links should be resolved: in the browser (as opposed to inside the app) -->
+    <string name="settings_documentation_source_in_browser">ブラウザでWebサイトを開く</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">よくある質問「FAQ」、参照情報、例など…</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
@@ -404,8 +418,9 @@
     <!-- Message, shown in snackbar, confirming to user that a shortcut was placed on the phone's home screen. %1$s is a placeholder for the shortcut's name -->
     <string name="shortcut_placed">「%1$s」ホーム画面に配置しました</string>
     <!-- Message shown when installing a shortcut as app requires the user to grant unknown app installation permission. %s is a placeholder for the app's name. -->
+    <string name="message_shell_apk_intro">この機能を使用すると、起動時にこのショートカットを実行する軽量なアプリを作成できます。これは主に、他のアプリを起動することはできても直にショートカットを扱えない自動化アプリと連携させる際に役立ちます。\n\n作成したAPKファイルの保存先を選択してください。そのアプリ(APK)インストールは手動で行う必要があります。\n\nなお、そのインストールしたアプリが正常に動作するためには、%s およびショートカット本体が、引き続き必要となりますのでご注意ください。</string>
     <!-- Message shown by a generated shell APK when HTTP Shortcuts can no longer handle its deep link -->
-    <string name="message_shell_apk_shortcut_not_found">ショートカットが見つかりません。このアプリをアンインストールしてください。</string>
+    <string name="message_shell_apk_shortcut_not_found">HTTPショートカットアプリが見つかりません</string>
     <!-- Message shown when the generated shell APK was saved to a file successfully -->
     <string name="message_shell_apk_saved">生成されたアプリファイルを保存しました。</string>
     <!-- Generic 'Delete' option, used in various dialogs, e.g., to confirm the deletion of a shortcut -->
@@ -1438,7 +1453,7 @@
     <!-- Error message: Shown to user when trying to open a URL but the chosen app to open it requires a permission that we don't have. %s is a placeholder for the URL -->
     <string name="error_permission_required_for_url">%s を開く権限がありません。</string>
     <!-- Error message: Shown to user when trying to open an app but the app was found that can handle it. %s is a placeholder for the app's package name (i.e. a technical identifier) -->
-    <string name="error_no_app_found">パッケージ名 %s アプリが見つかりませんでした。</string>
+    <string name="error_no_app_found">パッケージ名 %s アプリが見つかりません。</string>
     <!-- Error message: Shown to the user when they try to base64-decode a string which is not valid base64. %s is a placeholder for the string -->
     <string name="error_invalid_base64">無効なBase64: %s</string>
     <!-- Error message: Shown to the user when the app tries to determine the SSID (name) of the current Wi-Fi but failed, e.g. because of a missing permission -->
@@ -2081,6 +2096,7 @@
     <!-- Description: Dialog text automatic import / export was disabled after failing too many times. Shown when the app is opened, to inform the user. -->
     <string name="description_sync_failed_too_many_times">自動インポートまたはエクスポートが複数回、実行失敗が発生したため、自動が無効になりました。 設定を見直して、正しく設定されていることを確認してください。</string>
     <!-- Error message shown when automatic import or export fails with a server error. %s is a placeholder for the error code -->
+    <string name="error_sync_server_error">サーバーがエラーコードで応答: %s</string>
     <!-- Error message shown when icons could not be loaded in the icon picker -->
     <string name="instructions_icon_search_failed">アイコンの読み込みに失敗</string>
     <!-- Title for dialog that lets the user select an icon from the "Material Design Icons" collection -->
@@ -2112,7 +2128,7 @@
     <!-- Error shown when an SSH command fails with a signal on the host. %s is a placeholder for the signal -->
     <string name="error_ssh_command_failed_with_signal">SSHコマンドはシグナル %sで失敗しました</string>
     <!-- Error shown when an SSH command fails. %s is a placeholder for the error details -->
-    <string name="error_ssh_failed">SSHが予想どおり失敗: %s</string>
+    <string name="error_ssh_failed">SSH 失敗: %s</string>
     <!-- Error shown when an SSH command fails due a mismatch of the algorithm. %s is a placeholder for the error details -->
     <string name="error_ssh_failed_with_algorithm_mismatch">アルゴリズム不一致のためSSH接続に失敗: %s</string>
     <!-- Error shown when an SSH command fails because the SSH host can not be verified. %s is a placeholder for the host's algorithm and public key -->
@@ -2149,4 +2165,6 @@
     <string name="error_file_access_security">セキュリティーエラー: %s</string>
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
     <string name="error_file_access_generic">ファイルへのアクセスに失敗: %s</string>
+    <!-- Dialog message, shown to the user on the Documentation screen the first time to inform them that docs are only available in English -->
+    <string name="message_docs_only_available_in_english">ここの文書は英語のみで提供しています。 他の言語で表示するには、ナビゲーションバーのボタンをクリックしてウェブサイトを開いて、ブラウザの翻訳機能を使用してください。</string>
 </resources>

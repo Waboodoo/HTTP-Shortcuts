@@ -124,8 +124,12 @@
     <string name="executed">%s 已执行</string>
     <!-- Error message shown in Toast when shortcut on home screen was clicked but the corresponding data was not found (i.e. might have been deleted). -->
     <string name="shortcut_not_found">快捷方式不存在，您可能需要将其重新添加至桌面</string>
+    <!-- Error message shown when clicking a widget, but the configured shortcut does not exist -->
+    <string name="shortcut_not_found_for_widget">与这个小组件相关联的快捷方式不再存在。您需要重新配置或重新添加小组件。</string>
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">此快捷方式已被删除。</string>
+    <!-- Error message shown when a user clicks a category that was pinned to the home screen, but the category no longer exists because it was deleted. -->
+    <string name="error_category_deleted">已删除此类别。</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">请输入一个名称</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -398,6 +402,12 @@
     <string name="settings_f_droid_summary">检查更新</string>
     <!-- Title of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation">文档</string>
+    <!-- Title of option in settings screen: allows to select whether the built-in documentation pages or the ones from the website should be shown -->
+    <string name="settings_documentation_source">文档来源</string>
+    <!-- Option for setting to select how documentation links should be resolved: inside the app (as opposed to in the browser) -->
+    <string name="settings_documentation_source_in_app">使用内置离线文档</string>
+    <!-- Option for setting to select how documentation links should be resolved: in the browser (as opposed to inside the app) -->
+    <string name="settings_documentation_source_in_browser">在浏览器中打开网站</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">常见问题、参考、例子 …</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
@@ -2159,4 +2169,6 @@
     <string name="error_file_access_security">安全错误： %s</string>
     <!-- Error when accessing a file (shared into the app) fails due to an unknown error. %s is a placeholder for the error details -->
     <string name="error_file_access_generic">访问文件失败: %s</string>
+    <!-- Dialog message, shown to the user on the Documentation screen the first time to inform them that docs are only available in English -->
+    <string name="message_docs_only_available_in_english">文档仅有英文版本。 要使用不同的语言查看它，请单击导航栏中的按钮打开网站并使用您的浏览器翻译功能。</string>
 </resources>
