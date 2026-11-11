@@ -371,7 +371,7 @@ open class MainActivity : BaseComposeActivity() {
 
     object SelectShortcut : ActivityResultContract<Unit, SelectShortcut.Result?>() {
         override fun createIntent(context: Context, input: Unit): Intent =
-            IntentBuilder().build(context)
+            IntentBuilder(newTask = false).build(context)
                 .setAction(ACTION_SELECT_SHORTCUT_FOR_PLUGIN)
 
         override fun parseResult(resultCode: Int, intent: Intent?): Result? =
@@ -387,11 +387,13 @@ open class MainActivity : BaseComposeActivity() {
         data class Result(val shortcutId: ShortcutId, val shortcutName: String)
     }
 
-    class IntentBuilder : BaseIntentBuilder(MainActivity::class) {
+    class IntentBuilder(newTask: Boolean = true) : BaseIntentBuilder(MainActivity::class) {
         init {
             intent.action = Intent.ACTION_VIEW
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            if (newTask) {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
         }
 
         fun categoryId(categoryId: CategoryId) = also {
