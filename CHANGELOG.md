@@ -1,3 +1,19 @@
+## Version 4.10.0
+
+### Improvements
+- The app is now translated into Ukrainian
+- You can now disable the built-in documentation if you prefer to always directly open the website instead
+
+### Bugfixes
+- Notifications for shortcut results and the `showNotification` function now use the correct notification channel (thanks [@frabera](https://github.com/frabera))
+- The app no longer crashes when a very long lock password is entered
+- Fixed an issue where on Android 17 the local network permission was not requested for certain IP addresses
+- Shortcuts that were deleted because their category was deleted now show as disabled on the home screen as well
+- Fixed an issue with shortcut selection when integrating with Tasker
+
+### Miscellaneous
+- Improved error messages when a shortcut can not be found
+
 ## Version 4.9.0
 
 ### Improvements
