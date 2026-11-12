@@ -711,6 +711,13 @@ constructor(
                     insertText("openApp(\"com.example.package_name", "\");\n")
                 }
                 item(
+                    R.string.action_type_open_category_title,
+                    docRef = "open-category",
+                    keywords = setOf("open", "start", "category", "tab", "switch", "navigate"),
+                ) {
+                    insertText("openCategory(\"<name of category>", "\");\n")
+                }
+                item(
                     R.string.action_type_send_intent_title,
                     docRef = "send-intent",
                     keywords = setOf("android", "app", "invoke", "open", "send"),

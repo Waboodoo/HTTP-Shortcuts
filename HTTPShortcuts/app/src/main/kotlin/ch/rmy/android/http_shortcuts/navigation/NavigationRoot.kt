@@ -1,7 +1,9 @@
 package ch.rmy.android.http_shortcuts.navigation
 
+import android.content.Intent
 import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import ch.rmy.android.framework.extensions.getParcelable
@@ -48,11 +50,14 @@ import ch.rmy.android.http_shortcuts.activities.variables.editor.GlobalVariableE
 import ch.rmy.android.http_shortcuts.activities.variablewidget.VariableWidgetSettingsScreen
 import ch.rmy.android.http_shortcuts.activities.workingdirectories.WorkingDirectoriesScreen
 import ch.rmy.android.http_shortcuts.widget.WidgetsUtil
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapNotNull
 
 @Composable
-fun NavigationRoot(navController: NavHostController) {
+fun NavigationRoot(navController: NavHostController, intentFlow: Flow<Intent>) {
     NavigationEventHandler(navController)
 
+    val categoryIdFlow = remember { intentFlow.mapNotNull { it.getStringExtra(MainActivity.EXTRA_CATEGORY_ID) } }
     NavHost(
         navController = navController,
         startDestination = NavigationDestination.Main.routePattern,
@@ -64,6 +69,7 @@ fun NavigationRoot(navController: NavHostController) {
                 savedStateHandle = backStackEntry.savedStateHandle,
                 selectionMode = MainActivity.determineMode(activity, intent),
                 initialCategoryId = intent.getStringExtra(MainActivity.EXTRA_CATEGORY_ID),
+                categoryIdFlow = categoryIdFlow,
                 widgetId = WidgetsUtil.getWidgetIdFromIntent(intent),
                 importUrl = intent.getParcelable(MainActivity.EXTRA_IMPORT_URL),
                 cancelPendingExecutions = intent.getBooleanExtra(MainActivity.EXTRA_CANCEL_PENDING_EXECUTIONS, false),

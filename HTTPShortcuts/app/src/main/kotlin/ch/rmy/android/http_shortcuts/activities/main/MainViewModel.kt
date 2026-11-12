@@ -237,13 +237,17 @@ constructor(
             }
         }
 
+        val activeCategoryId = initData.initialCategoryId
+            ?: (widgetShortcutForEditing?.categoryId ?: deviceLocalPreferences.lastActiveCategoryId)
+                ?.takeIf { categoryId -> categories.find { it.id == categoryId }?.hidden == false }
+            ?: categories.first { !it.hidden }.id
+        if (userPreferences.isRememberActiveCategory) {
+            deviceLocalPreferences.lastActiveCategoryId = activeCategoryId
+        }
         return MainViewState(
             selectionMode = selectionMode,
             categoryItems = getCategoryTabItems(categories),
-            activeCategoryId = initData.initialCategoryId
-                ?: (widgetShortcutForEditing?.categoryId ?: deviceLocalPreferences.lastActiveCategoryId)
-                    ?.takeIf { categoryId -> categories.find { it.id == categoryId }?.hidden == false }
-                ?: categories.first { !it.hidden }.id,
+            activeCategoryId = activeCategoryId,
             hasMultipleCategories = categories.size > 1,
             isLocked = isAppLocked,
             hasLock = appHasLock,
@@ -832,6 +836,17 @@ constructor(
     fun onCustomCategoryIconOptionSelected() = runAction {
         updateDialogState(null)
         navigate(NavigationDestination.IconPicker.buildRequest())
+    }
+
+    fun onSwitchToCategoryRequested(categoryId: CategoryId) = runAction {
+        if (categoryId != getCurrentViewState().activeCategoryId) {
+            updateViewState {
+                copy(activeCategoryId = categoryId)
+            }
+            if (userPreferences.isRememberActiveCategory) {
+                deviceLocalPreferences.lastActiveCategoryId = categoryId
+            }
+        }
     }
 
     data class InitData(

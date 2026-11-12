@@ -1191,6 +1191,15 @@ The `openApp` function allows you to open another app via its package name. If n
 openApp('com.github.android'); // Opens the GitHub app
 ```
 
+<a id="open-category"></a>
+### Open a Category
+
+The `openCategory` function can be used to open a specific [category](categories.md) within the HTTP Shortcuts app. Pass the name or id of the category you want to navigate to as the first argument.
+
+```js
+openCategory('My Category'); // Opens the "My Category" category
+```
+
 <a id="open-url"></a>
 ### Open a URL
 

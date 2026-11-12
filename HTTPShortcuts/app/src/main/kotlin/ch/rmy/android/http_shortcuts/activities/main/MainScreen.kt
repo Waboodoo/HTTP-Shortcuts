@@ -34,12 +34,14 @@ import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.ShortcutWi
 import ch.rmy.android.http_shortcuts.navigation.NavigationDestination.VariableWidget.RESULT_VARIABLE_WIDGET_SETTINGS_CANCELLED
 import ch.rmy.android.http_shortcuts.navigation.ResultHandler
 import ch.rmy.curlcommand.CurlCommand
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun MainScreen(
     savedStateHandle: SavedStateHandle,
     selectionMode: SelectionMode,
     initialCategoryId: CategoryId?,
+    categoryIdFlow: Flow<CategoryId>,
     widgetId: Int?,
     importUrl: Uri?,
     cancelPendingExecutions: Boolean,
@@ -55,6 +57,12 @@ fun MainScreen(
             suppressRunOnAppStart = suppressRunOnAppStart,
         ),
     )
+
+    LaunchedEffect(categoryIdFlow) {
+        categoryIdFlow.collect { categoryId ->
+            viewModel.onSwitchToCategoryRequested(categoryId)
+        }
+    }
 
     val openFilePickerForApk = rememberLauncherForActivityResult(PickFileForApkContract) { fileUri ->
         fileUri?.let(viewModel::onFilePickedForApk)

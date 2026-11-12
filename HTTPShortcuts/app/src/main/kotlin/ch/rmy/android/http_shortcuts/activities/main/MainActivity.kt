@@ -64,6 +64,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -87,6 +88,8 @@ open class MainActivity : BaseComposeActivity() {
             }
         }
     }
+
+    private val intentFlow = MutableSharedFlow<Intent>()
 
     @Composable
     override fun Content() {
@@ -219,7 +222,7 @@ open class MainActivity : BaseComposeActivity() {
                 .navigationBarsPadding()
                 .fillMaxSize(),
         ) {
-            NavigationRoot(navHostController)
+            NavigationRoot(navHostController, intentFlow)
         }
     }
 
@@ -354,6 +357,13 @@ open class MainActivity : BaseComposeActivity() {
                 )
             }
             else -> super.handleEvent(event)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        lifecycleScope.launch {
+            intentFlow.emit(intent)
         }
     }
 

@@ -25,6 +25,7 @@ import ch.rmy.android.http_shortcuts.scripting.actions.types.LogEventActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.MultiSelectionActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.NotificationActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenAppActionType
+import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenCategoryActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.OpenURLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseHTMLActionType
 import ch.rmy.android.http_shortcuts.scripting.actions.types.ParseXMLActionType
@@ -94,6 +95,7 @@ constructor(
     multiSelectionActionType: MultiSelectionActionType,
     notificationActionType: NotificationActionType,
     openAppActionType: OpenAppActionType,
+    openCategoryActionType: OpenCategoryActionType,
     openURLActionType: OpenURLActionType,
     parseHTMLActionType: ParseHTMLActionType,
     parseXMLActionType: ParseXMLActionType,
@@ -168,6 +170,7 @@ constructor(
             multiSelectionActionType,
             notificationActionType,
             openAppActionType,
+            openCategoryActionType,
             openURLActionType,
             parseHTMLActionType,
             parseXMLActionType,
