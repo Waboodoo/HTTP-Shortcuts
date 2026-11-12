@@ -890,6 +890,7 @@ U hebt echter nog geen variabelen geconfigureerd.</string>
     <string name="action_type_open_url_title">Open URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">App openen</string>
+    <!-- Shortcut Action Title: Open a specific category within the app -->
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Gefaald om intentie te verzenden: %s</string>
@@ -1133,6 +1134,7 @@ U hebt echter nog geen variabelen geconfigureerd.</string>
     <string name="error_shortcut_not_found_for_set_visible">Kon de zichtbaarheid van snelkoppeling \"%1$s\" niet wijzigen omdat deze niet bestaat.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <string name="error_category_not_found_for_set_visible">Kon de zichtbaarheid van categorie \"%1$s\" niet wijzigen omdat deze niet bestaat.</string>
+    <!-- Error message: Shown in toast when "Open Category" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Kan icoontje van snelkoppeling \"%1$s\" niet wijzigen omdat het niet bestaat.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

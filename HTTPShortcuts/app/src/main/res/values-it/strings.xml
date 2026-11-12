@@ -25,9 +25,11 @@
     <!-- Label above select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="label_browser_package_name">Browser</string>
     <!-- Label above select field in global settings, for selecting which browser to use by default for Browser Shortcuts -->
+    <string name="label_browser_shortcut_default_browser">Browser predefinito per scorciatoie del browser</string>
     <!-- Placeholder for select field in editor, for entering the package name of the browser with which to open the URL -->
     <string name="placeholder_browser_package_name">Utilizzare il browser predefinito</string>
     <!-- Placeholder for select field on Global Settings screen, to select the default browser for all Browser Shortcuts to be the system default browser -->
+    <string name="placeholder_browser_system_default">Predefinita di sistema</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: in a "Custom Tab", i.e., a special browser mode -->
     <string name="option_browser_custom_tab">Usa Scheda Personalizzata</string>
     <!-- Option in dropdown menu to select how a Browser Shortcut should be opened: using a specific browser, in a "Custom Tab", i.e., a special browser mode. %s is a placeholder for the name of an installed browser -->
@@ -65,11 +67,13 @@
     <!-- Shortcut dropdown option: Place shortcut on home screen -->
     <string name="action_place">Aggiungi alla schermata iniziale</string>
     <!-- Shortcut dropdown option: Install the shortcut as a separate launcher app -->
+    <string name="action_install_as_app">Installa come App</string>
     <!-- Category dropdown option: Place category on home screen -->
     <string name="action_place_category">Posiziona nella schermata principale</string>
     <!-- Shortcut dropdown option: Execute/run the shortcut, to send the HTTP request -->
     <string name="action_run">Esegui</string>
     <!-- Generic dropdown option: Use/select the variable/..., used in pickers that let the user select which variable/... to use for a specific purpose -->
+    <string name="action_select">Seleziona</string>
     <!-- Generic dropdown option: Edit the shortcut/category/... -->
     <string name="action_edit">Modifica</string>
     <!-- Menu option to access the category sections screen, for adding/editing/removing sections within a category -->
@@ -105,11 +109,11 @@
     <!-- Empty state instructions, shown in trigger shortcuts list (multi-shortcut) when there are no shortcuts added yet -->
     <string name="empty_state_trigger_shortcuts_instructions">Aggiungi tutte le scorciatoie a questa lista che desideri attivare come parte di questa scorciatoia multipla.\n\nFai clic sul pulsante + per iniziare.</string>
     <!-- Empty state, shown in list when there are no variables yet -->
-    <string name="empty_state_variables">Ancora nessuna variabile</string>
+    <string name="empty_state_variables">Ancora nessuna variabile.</string>
     <!-- Empty state instructions, shown in list when there are no variables yet -->
     <string name="empty_state_variables_instructions">Le variabili ti permettono di inserire valori dinamicamente nelle scorciatoie, ad es. nell\'URL, negli header o nel corpo della richiesta. Cerca il pulsante \"{}\" mentre modifichi una scorciatoia per trovare tutti i posti dove le variabili possono essere inserite.\n\nFai clic sul pulsante + per aggiungere una variabile.</string>
     <!-- Dialog prompt to ask user to confirm deletion of a shortcut -->
-    <string name="confirm_delete_shortcut_message">Vuoi cancellare questa scorciatoia?</string>
+    <string name="confirm_delete_shortcut_message">Vuoi eliminare questa scorciatoia?</string>
     <!-- Dialog prompt to ask user if unsaved changes should be discarded. -->
     <string name="confirm_discard_changes_message">Hai delle modifiche non salvate. Vuoi abbandonarle?</string>
     <!-- Dialog option: Discard (unsaved changes) -->
@@ -124,6 +128,7 @@
     <!-- Error message shown when a user clicks a shortcut that was pinned to the home screen, but the shortcut no longer exists because it was deleted. -->
     <string name="error_shortcut_deleted">Questa scorciatoia è stata eliminata.</string>
     <!-- Error message shown when a user clicks a category that was pinned to the home screen, but the category no longer exists because it was deleted. -->
+    <string name="error_category_deleted">La categoria è stata eliminata.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a name -->
     <string name="validation_name_not_empty">Inserisci un nome.</string>
     <!-- Validation error, shown when user tries to save a shortcut without a valid URL -->
@@ -133,7 +138,7 @@
     <!-- Validation error, shown when user tries to save an MQTT shortcut without a valid MQTT server URL set -->
     <string name="validation_mqtt_server_url_invalid">Inserisci un URL valido del server MQTT.</string>
     <!-- Error shown in Toast when shortcut failed with an HTTP status code. %1$s is a placeholder for the shortcut's name, %2$d is a placeholder for the status code. -->
-    <string name="error_http">%1$s non riustito con codice di stato %2$d (%3$s).</string>
+    <string name="error_http">%1$s non riuscito con codice di stato %2$d (%3$s).</string>
     <!-- Error shown in Toast when shortcut failed. %1$s is a placeholder for the shortcut's name, %2$s is a placeholder for the error message. -->
     <string name="error_other">%1$s non riuscito: %2$s</string>
     <!-- Error shown when the HTTP response is too large to be loaded into memory. %s is a placeholder for the size limit, e.g. "1 MB") -->
@@ -199,6 +204,7 @@
     <!-- Title of dialog to add an MQTT message to an MQTT shortcut -->
     <string name="title_mqtt_message_add">Aggiungi messaggio</string>
     <!-- Instruction text for MQTT shortcut URL field -->
+    <string name="instructions_mqtt_url">L\'URL deve iniziare con tcp:// o ssl://</string>
     <!-- Title of "Settings" screen, as well as name of "Settings" option in menu of main screen to leads to the settings screen -->
     <string name="title_settings">Impostazioni</string>
     <!-- Menu item in main toolbar menu, leads to page with information about the app (changelog, documentation, …) -->
@@ -206,6 +212,7 @@
     <!-- Name of toolbar action: Unlock the app (will prompt user to enter passcode) -->
     <string name="menu_action_unlock_app">Sblocca impostazioni</string>
     <!-- Name of toolbar action: Lock the app (will prevent access to settings) -->
+    <string name="menu_action_lock_app">Blocca</string>
     <!-- Title of section in "Settings" screen: Basic settings -->
     <string name="settings_title_basic">Impostazioni di base</string>
     <!-- Title of section in "Settings" screen: (Visual) Appearance of the app itself (e.g. themes, dark mode) -->
@@ -223,6 +230,7 @@
     <!-- Subtitle of setting that allows the user to grant permission to the app to display over other apps as an overlay. This is a troubleshooting option, to prevent requests from failing when the app is in the background -->
     <string name="settings_allow_overlay_summary">Abilita se le scorciatoie non funzionano quando vengono attivate dal riquadro impostazioni rapide o da un\'app di terze parti</string>
     <!-- Name of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
+    <string name="settings_allow_local_network_access">Consenti l\'accesso alla rete locale</string>
     <!-- Subtitle of setting that allows the user to grant permission to the app to find and access other devices on the local network. -->
     <!-- Name of setting that allows the user to grant permission to the app to display pop-up windows while in the background. This is a troubleshooting option, to prevent requests from failing when the app is in the background. Used only by Xiaomi devices -->
     <string name="settings_allow_overlay_xiaomi">Consenti la visualizzazione di finestre pop-up in background</string>
@@ -259,9 +267,13 @@
     <!-- Button in settings page to start editing shortcuts from a connected computer -->
     <string name="settings_remote_edit">Modifica sul PC</string>
     <!-- Title for "Advanced" section on Import & Export settings screen -->
+    <string name="title_import_export_advanced_settings">Avanzate</string>
     <!-- Title for "Automatic Import / Export" feature, shown in "Advanced" section of "Import & Export" screen -->
+    <string name="settings_automatic_import_export">Importazione / Esportazione Automatica</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an import of shortcuts & other daa -->
+    <string name="fab_automatic_import_now">Importa ora</string>
     <!-- Label on floating action button on automatic sync screen, to trigger an export of shortcuts & other daa -->
+    <string name="fab_automatic_export_now">Esporta ora</string>
     <!-- Success message, shown in snackbar when export of shortcuts is successful -->
     <plurals name="shortcut_export_success">
         <item quantity="one">%d scorciatoia esportata.</item>
@@ -278,6 +290,7 @@
     <!-- Error message: Import failed due to the data being imported coming from a newer version of the app -->
     <string name="import_failure_reason_data_version_mismatch">Il file selezionato è stato esportato da una versione più recente dell\'app. Assicurati di avere l\'ultima versione dell\'app installata.</string>
     <!-- Error message: Import failed due to an unexpected or invalid file being selected for import -->
+    <string name="import_failure_invalid_file">Importazione non riuscita. Il file non sembra essere del formato giusto o è stato danneggiato.</string>
     <!-- Success message, shown in snackbar when import of shortcuts is successful -->
     <plurals name="shortcut_import_success">
         <item quantity="one">%d scorciatoia importata.</item>
@@ -312,6 +325,7 @@
     <!-- Subtitle for button to select a client certificate, when it is disabled because the shortcut uses HTTP instead of HTTPS -->
     <string name="label_subtitle_not_applicable_for_http">Applicabile solo quando si utilizza HTTPS</string>
     <!-- Subtitle for button to select a client certificate, when it is disabled because the (MQTT) shortcut uses plain TCP instead of SSL -->
+    <string name="label_subtitle_not_applicable_for_ssl">Applicabile solo quando si utilizza SSL</string>
     <!-- Title for dialog, when selecting a client certificate -->
     <string name="title_client_cert">Certificato cliente</string>
     <!-- Label, for option in dialog to pick a client certificate managed by the operating system -->
@@ -350,9 +364,13 @@
     <!-- Button title, for option to contact the app developer (via email) -->
     <string name="settings_mail">Contatta lo Sviluppatorre</string>
     <!-- Button title, for option to go to the app's official subreddit -->
+    <string name="settings_reddit">Comunità Reddit</string>
     <!-- Button subtitle, for option to go to the app's official subreddit -->
+    <string name="settings_reddit_summary">Il subreddit ufficiale dell\'app, per discussioni e scambi d\'idee</string>
     <!-- Button title, for option to go to the app's official website -->
+    <string name="settings_go_to_website">Visita il sito web</string>
     <!-- Button subtitle, for option to go to the app's official website -->
+    <string name="settings_go_to_website_summary">Trova maggiori informazioni sul sito ufficiale dell\'app</string>
     <!-- Button subtitle, for "Contact Developer" button, giving more details as to what the button does -->
     <string name="settings_mail_summary">Domande, richieste di nuove funzionalità, feedback, …</string>
     <!-- Button title, for option to open the app's GitHub page in a browser -->
@@ -374,6 +392,7 @@
     <!-- Label: Shown on checkbox in "Advanced Settings" section of shortcut editor -->
     <string name="label_wait_for_connection">Attendi la connessione quando sei offline</string>
     <!-- Label: Shown on checkbox in "Trigger & Execution Settings" section of shortcut editor, to allow configuring a shortcut to be run every time the user opens the app -->
+    <string name="label_run_on_app_start">Esegui ogni volta che l\'app viene aperta</string>
     <!-- Label: Shown on button that allows to enable execution delay of a shortcut -->
     <string name="label_delay_execution">Ritardo nell\'esecuzione</string>
     <!-- Button, shown on About page, to allow opening the app's Play Store page -->
@@ -389,6 +408,7 @@
     <!-- Title of option in settings screen: allows to select whether the built-in documentation pages or the ones from the website should be shown -->
     <!-- Option for setting to select how documentation links should be resolved: inside the app (as opposed to in the browser) -->
     <!-- Option for setting to select how documentation links should be resolved: in the browser (as opposed to inside the app) -->
+    <string name="settings_documentation_source_in_browser">Apri sito web nel browser</string>
     <!-- Subtitle of option in settings screen: links the user to an external documentation page -->
     <string name="settings_documentation_summary">FAQ, riferimenti, esempi, …</string>
     <!-- Message, shown in snackbar, confirming to user that a shortcut was duplicated. %1$s is a placeholder for the shortcut's name -->
@@ -439,8 +459,11 @@
     <!-- Option when picking the layout for a category: Show shortcuts in a wide grid -->
     <string name="layout_type_wide_grid">Griglia larga</string>
     <!-- Option when picking the vertical alignment for a category: align to the top -->
+    <string name="category_vertical_alignment_top">Alto</string>
     <!-- Option when picking the vertical alignment for a category: align to the center -->
+    <string name="category_vertical_alignment_center">Centro</string>
     <!-- Option when picking the vertical alignment for a category: align to the bottom -->
+    <string name="category_vertical_alignment_bottom">Basso</string>
     <!-- Option to choose from when selecting the background of a category: Default (white, or black in night mode) -->
     <string name="category_background_type_default">Predefinito</string>
     <!-- Option to choose from when selecting the background of a category: custom color -->
@@ -502,8 +525,11 @@
     <!-- label, shown in variable editor for Time Input variable, to allow the user to specify a time format -->
     <string name="label_variable_time_format">Formato ora</string>
     <!-- label, shown in variable editor for Timestamp variable, to allow the user to specify the timezone -->
+    <string name="label_variable_timestamp_timezone">Fuso orario</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select the local timezone -->
+    <string name="label_variable_timestamp_local_timezone">Locale</string>
     <!-- Label of an option in the timezone selector for the "Timestamp" variable type, to select UTC (Universal Coordinated Time) -->
+    <string name="label_variable_timestamp_local_utc">UTC</string>
     <!-- label, shown in variable editor for Select Input variable, to allow the user to specify a separator when using multi-select -->
     <string name="label_select_variable_separator">Separatore</string>
     <!-- Type of variable: Constant, i.e., a variable that always has the same value -->
@@ -614,9 +640,12 @@ Non hai variabili configurate. Le puoi aggiungere premendo sul bottone CREA.</st
 Non hai nessuna variabile configurata.</string>
     <!-- Instructions shown in code snippet picker when the user selects the "Get Variable" option and there are no variables yet -->
     <!-- Dialog option: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
+    <string name="dialog_option_label_local_variable">Variabile locale</string>
     <!-- Dialog option subtitle: shown in variable picker dialog, let's the user insert a placeholder for a local variable -->
     <!-- Dialog title, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_title_local_variable">Variabile locale</string>
     <!-- Dialog instructions, shown on the dialog that lets the user enter the name for a local variable, to insert a placeholder -->
+    <string name="dialog_instructions_local_variable">Inserisci un nome per la tua variabile locale, composta da numeri, lettere e trattini bassi.</string>
     <!-- Title of dialog that allows users to pick a variable from a list to insert its placeholder somewhere -->
     <string name="dialog_title_variable_selection">Variabili</string>
     <!-- Option shown on variable selection dialog, clicking it opens variable editor -->
@@ -642,7 +671,9 @@ Non hai nessuna variabile configurata.</string>
     <!-- Checkbox value, shown in variable editor, allows to enable a variable to remember its previous value -->
     <string name="label_remember_value">Ricorda il valore</string>
     <!-- Checkbox value, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="label_secret_variable_value">Tratta il valore come segreto</string>
     <!-- Checkbox subtitle, shown in variable editor, allows to mark a value as secret, which prevents it from being displayed -->
+    <string name="subtitle_secret_variable_value">Se abilitato, il valore non verrà più visualizzato qui dopo il salvataggio.</string>
     <!-- Checkbox value, shown in variable editor for Select variables, allows to enable multi select -->
     <string name="label_select_variable_multi_select">Permetti la selezione di opzioni multiple</string>
     <!-- Checkbox value, shown in variable editor, allows to enable multiline input for a text variable -->
@@ -713,7 +744,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Digest Authentication", aka. DigestAuth (username & password) -->
     <string name="authentication_digest">Autenticazione Digest</string>
     <!-- Dropdown option for "Authentication" of a shortcut: "Bearer Authentication", aka. BearerAuth (token) -->
-    <string name="authentication_bearer">Autenticazione Del Portatore</string>
+    <string name="authentication_bearer">Bearer</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu, i.e., when long-pressing the app icon on the home screen -->
     <string name="label_launcher_shortcut">Mostra come app sul programma di avvio</string>
     <!-- Subtitle for option in shortcut editor, selecting it will cause the shortcut to appear in the launcher menu -->
@@ -732,16 +763,23 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Label for option in shortcut editor, selecting it will cause the shortcut to appear as an option in the Quick Settings Tile of the app -->
     <string name="label_quick_tile_shortcut">Consenti attivazione tramite Impostazioni Rapide</string>
     <!-- Label for dropdown in Advanced Settings to select which network interface to bind the HTTP request to -->
+    <string name="label_network_preference">Preferenze Di Rete</string>
     <!-- Dropdown option for network preference: use the system default route (no socket or DNS binding) -->
+    <string name="option_network_default">Usa impostazione predefinita di sistema</string>
     <!-- Dropdown option for network preference: prefer cellular, fall back to default if unavailable -->
+    <string name="option_network_prefer_cellular">Preferisci i dati mobili</string>
     <!-- Dropdown option for network preference: only cellular, fail if unavailable -->
+    <string name="option_network_only_cellular">Solo dati mobili</string>
     <!-- Dropdown option for network preference: prefer Wi-Fi, fall back to default if unavailable -->
+    <string name="option_network_prefer_wifi">Preferisci Wi-Fi</string>
     <!-- Dropdown option for network preference: only Wi-Fi, fail if unavailable -->
+    <string name="option_network_only_wifi">Solo Wi-Fi</string>
     <!-- error message displayed when something goes wrong (e.g. response too big) when trying to share/export a response/text -->
     <string name="error_share_failed">Si è verificato un errore durante la condivisione.</string>
     <!-- Generic error shown when an action fails because the device does not support it, e.g. importing from another app -->
     <string name="error_not_supported">Questa funzionalità non è supportata dal tuo dispositivo.</string>
     <!-- Error shown when a browser shortcut fails because the browser with the configured package name was not found (it might not be installed), or because it can not handle the given URL -->
+    <string name="error_browser_not_found_or_cannot_handle_url">Browser \"%s\" non trovato, o non può gestire questo URL</string>
     <!-- Generic error shown when something went wrong and there is no better error message available -->
     <string name="error_generic">Qualcosa è andato storto…</string>
     <!-- Title of section in settings that allows user to click to open privacy policy dialog -->
@@ -764,6 +802,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Summary/subtitle of section in settings that allows user to change the title of the app's main screen -->
     <string name="settings_app_title_summary">Modificare il titolo della schermata principale dell\'applicazione</string>
     <!-- Title of section in settings that allows the user to change the icon of the app -->
+    <string name="settings_app_icon_title">Icona dell\'app</string>
     <!-- Summary/subtitle of section in settings that allows the user to change the icon of the app -->
     <!-- Label above input box, for minimum (numeric) value of a horizontal slider -->
     <string name="label_variable_slider_min">Minimo</string>
@@ -880,6 +919,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Shortcut Action Title: Enqueue a shortcut, i.e., execute it after the current one finishes -->
     <string name="action_type_trigger_shortcut_title">Attiva Scorciatoia</string>
     <!-- Shortcut Action Title: Cancel a scheduled shortcut, i.e., don't execute it if it was scheduled or is repeating -->
+    <string name="action_type_cancel_shortcut_title">Annulla Scorciatoia</string>
     <!-- Shortcut Action Title: Execute another shortcut immediately and return its result -->
     <string name="action_type_execute_shortcut_title">Eseguire la scorciatoia</string>
     <!-- Shortcut Action Title: Sets a custom result, which is returned to the parent shortcut (i.e. the one that called executeShortcut) or to Tasker -->
@@ -899,7 +939,9 @@ Annulla l\'esecuzione in sospeso</string>
     <string name="action_type_open_url_title">Apri URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Apri App</string>
+    <!-- Shortcut Action Title: Open a specific category within the app -->
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
+    <string name="action_type_get_device_id_title">Ottieni Device-ID</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Impossibile inviare l\'intento: %s</string>
     <!-- Shortcut Action Error: Shown when the "Send Wake-on-LAN packet" action fails -->
@@ -911,6 +953,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Shortcut Action Title: Enable or disable a tunnel in the Wireguard app -->
     <string name="action_type_set_wireguard_tunnel_state_title">Abilita o disabilita il tunnel Wireguard</string>
     <!-- Shortcut Action Title: Run a command in the Termux app -->
+    <string name="action_type_run_termux_command_title">Esegui Il Comando Termux</string>
     <!-- Shortcut Action Title: Get the device's current (physical) location -->
     <string name="action_type_get_location_title">Ottenere la posizione corrente</string>
     <!-- Shortcut Action Description: Get the device's current (physical) location -->
@@ -924,6 +967,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Shortcut Action Title: Send an HTTP request -->
     <string name="action_type_send_http_request">Invia Richiesta HTTP</string>
     <!-- Shortcut Action Title: Send a command over an SSH connection and execute it on a remote host -->
+    <string name="action_type_send_ssh_command">Invia Comando SSH</string>
     <!-- Shortcut Action Title: Send an MQTT message to a broker -->
     <string name="action_type_send_mqtt_message">Inviare il messaggio MQTT</string>
     <!-- Shortcut Action Title: Abort the execution of the shortcut -->
@@ -1150,6 +1194,7 @@ Annulla l\'esecuzione in sospeso</string>
     <string name="error_shortcut_not_found_for_set_visible">Impossibile cambiare la visibilità della scorciatoia \“%1$s\” perché non esiste.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <string name="error_category_not_found_for_set_visible">Impossibile cambiare la visibilità della categoria \“%1$s\” perché non esiste.</string>
+    <!-- Error message: Shown in toast when "Open Category" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Impossibile modificare l\'icona della scorciatoia \"%1$s\" perché non esiste.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
@@ -1439,9 +1484,12 @@ Annulla l\'esecuzione in sospeso</string>
     <string name="label_category_layout_type">Tipo di layout</string>
     <!-- Label above dropdown input field for selecting the vertical alignment (top, center, bottom) for a category -->
     <!-- Label above dropdown input field for selecting the scaling (i.e., UI size factor) for a category -->
+    <string name="label_category_scale">Fattore di scala</string>
     <!-- Label above dropdown input field for selecting whether the labels of shortcuts within a category should be visible or hidden -->
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be visible (or hidden) -->
+    <string name="option_shortcut_labels_visible">Visibile</string>
     <!-- Option in dropdown for selecting whether shortcut labels within a specific category should be hidden (or visible) -->
+    <string name="option_shortcut_labels_hidden">Nascosto</string>
     <!-- Label above dropdown input field for selecting the background for a category -->
     <string name="label_category_background">Sfondo</string>
     <!-- Description for the "Customizable Widget", shown in Android's widget picker -->
@@ -1681,10 +1729,13 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a specific static file stored on the device -->
     <string name="option_file_data_source_specific_file">Utilizzare un file specifico</string>
     <!-- Option in dropdown, to select the data source for a file request body or file parameter: Use a static (text) value -->
+    <string name="option_file_data_source_static_value">Usa Valore Statico</string>
     <!-- Button label, for choosing a directory that contains a file to use as a request body or parameter -->
+    <string name="label_file_data_source_choose_directory">Scegli cartella</string>
     <!-- Subtitle, shown on button for selecting a directory that contains file to use as a request body or parameter. %s is a placeholder for the selected directory's name -->
     <!-- Label for input field, to enter the name of a file that should be used as a request body parameter. -->
     <!-- Label for input field, to enter static text that should be used as a file request body parameter. -->
+    <string name="label_file_data_source_static_value">Valore</string>
     <!-- Label on button, shown in Response settings of shortcut editor, allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
     <string name="button_select_response_toolbar_buttons">Mostra i pulsanti della barra degli strumenti</string>
     <!-- Title of the selection dialog which allows the user to select which buttons they want to be displayed in the toolbar of the response window -->
@@ -1760,6 +1811,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Error message, shown to user when they use the Wireguard integration but do not grant the permission for it -->
     <string name="wireguard_permission_not_granted">Il permesso Wireguard non è stato concesso.</string>
     <!-- Error message, shown to user when they use the Termux integration but do not grant the permission for it -->
+    <string name="termux_permission_not_granted">L\'autorizzazione Termux non è stata concessa.</string>
     <!-- Button title, shown in Privacy section, for obtaining the device ID which should be included when making bug reports -->
     <string name="settings_device_id">Id Del Dispositivo</string>
     <!-- Button subtitle, shown in Privacy section, for obtaining the device ID which should be included when making bug reports. %s is a placeholder for the ID, which is a random string of 20 characters -->
@@ -1878,6 +1930,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Accessibility label for help button in Code Snippet picker, to open the documentation page -->
     <string name="accessibility_label_show_documentation">Vai alla documentazione</string>
     <!-- Accessibility label for "Set Password" button in exporter -->
+    <string name="accessibility_label_set_password_for_export">Imposta Password</string>
     <!-- Accessibility label for "Select all" button in exporter -->
     <string name="accessibility_label_select_all_for_export">Seleziona tutto</string>
     <!-- Accessibility label for "Unselect all" button in exporter -->
@@ -1909,6 +1962,7 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Placeholder text shown in any empty category section, to give the user instructions on how they can move shortcuts into the section. -->
     <string name="placeholder_empty_category_section_main_screen">Questa sezione è vuota. Puoi spostare le scorciatoie premendo a lungo una scorciatoia e selezionando \“%s\”.</string>
     <!-- Dialog title: shown on import dialog, e.g. when a password needs to be entered -->
+    <string name="dialog_title_import">Importa</string>
     <!-- Dialog text: Asks user to enter a password to import password-encrypted data into the app -->
     <!-- Dialog text: Asks user to enter the password to import password-encrypted data into the app, after an incorrect try -->
     <!-- Error message: shown when a file for an HTTP request could not be found. %s is a placeholder for the file's name. -->
@@ -1939,23 +1993,40 @@ Annulla l\'esecuzione in sospeso</string>
     <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic import is enabled -->
     <!-- Description for setting on "Automatic Import / Export" screen, for when the automatic export is enabled -->
     <!-- Label on button to configure the automatic import or export -->
+    <string name="button_sync_configure">Configura</string>
     <!-- Label above dropdown menu which lets the user select how the automatic import feature should behave -->
+    <string name="label_sync_import_mode">Strategia D\'Importazione</string>
     <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_merge">Unisci con i dati esistenti</string>
     <!-- Warning message displayed when the user selects the "Replace" strategy for the automatic import feature. %s is a placeholder for the name of the strategy -->
     <!-- Option in dropdown menu for configuring how the automatic import feature behaves  -->
+    <string name="option_sync_import_mode_replace">Sostituisci i dati esistenti</string>
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic export feature -->
+    <string name="label_export_schedule">Pianifica</string>
     <!-- Label above dropdown menu which lets the user select the schedule (i.e., how often to run) for the automatic import feature -->
+    <string name="label_import_schedule">Pianifica</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per day -->
+    <string name="sync_schedule_every_day">Una volta al giorno</string>
     <!-- Option in dropdown for the schedule for the automatic export feature, to run after changes were made (to shortcuts, variables, ...) -->
+    <string name="sync_schedule_on_change">Ogni volta che ci sono modifiche</string>
     <!-- Option in dropdown for the schedule for the automatic import/export feature, to run (roughly) once per week -->
+    <string name="sync_schedule_every_week">Una volta a settimana</string>
     <!-- Label above input field in automatic export, to protect the file with a password -->
+    <string name="label_export_protect_with_password">Proteggi con password</string>
     <!-- Label above input field in automatic import, to enter the password that was used to protect the file -->
+    <string name="label_import_protected_with_password">Protetto con password</string>
     <!-- Label above dropdown menu, to select where to the automatic export should be made -->
+    <string name="label_sync_export_target">Esporta in</string>
     <!-- Label above dropdown menu, to select where from the automatic import should be made -->
+    <string name="label_sync_import_target">Importa da</string>
     <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a locally stored file -->
+    <string name="option_sync_target_file">File locale</string>
     <!-- Option in dropdown for selecting where to/from automatic import/export should happen: from a web server -->
+    <string name="option_sync_target_url">Web Server</string>
     <!-- Button label to select the local directory in which the file for automatic import/export resides -->
+    <string name="label_sync_directory">Cartella</string>
     <!-- Label for input field, where the user can specify the name of the file that is used for automatic import/export to/from the local file system -->
+    <string name="label_sync_file_name">Nome file</string>
     <!-- Instruction text for automatic export to a web server -->
     <!-- Instruction text for automatic export to a local file -->
     <!-- Instruction text for automatic import from a web server -->

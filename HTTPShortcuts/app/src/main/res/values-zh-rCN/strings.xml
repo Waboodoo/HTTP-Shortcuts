@@ -943,6 +943,7 @@
     <string name="action_type_open_url_title">打开 URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">打开应用</string>
+    <!-- Shortcut Action Title: Open a specific category within the app -->
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <string name="action_type_get_device_id_title">获取设备ID</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
@@ -1197,6 +1198,7 @@
     <string name="error_shortcut_not_found_for_set_visible">无法更改快捷方式\“%1$s\” 的可见性，因为它不存在。</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <string name="error_category_not_found_for_set_visible">无法更改类别 \"%1$s\" 的可见性，因为它不存在。</string>
+    <!-- Error message: Shown in toast when "Open Category" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">不能更改快捷方式\"%1$s\"的图标，快捷方式不存在</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

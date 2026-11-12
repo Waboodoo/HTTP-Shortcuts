@@ -955,6 +955,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="action_type_open_url_title">URL öffnen</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">App öffnen</string>
+    <!-- Shortcut Action Title: Open a specific category within the app -->
+    <string name="action_type_open_category_title">Kategorie öffnen</string>
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <string name="action_type_get_device_id_title">Geräte-ID abrufen</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
@@ -1212,6 +1214,8 @@ Du hast jedoch noch keine Variablen konfiguriert.</string>
     <string name="error_shortcut_not_found_for_set_visible">Die Sichtbarkeit des Shortcuts \“%1$s\” konnte nicht geändert werden, da er nicht existiert.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <string name="error_category_not_found_for_set_visible">Die Sichtbarkeit der Kategorie \“%1$s\” konnte nicht geändert werden, da sie nicht existiert.</string>
+    <!-- Error message: Shown in toast when "Open Category" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <string name="error_category_not_found_for_open">Die Kategorie \“%1$s\” konnte nicht geöffnet werden, da sie nicht existiert.</string>
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Das Symbol des Shortcuts ”%1$s” konnte nicht geändert werden, da er nicht existiert.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

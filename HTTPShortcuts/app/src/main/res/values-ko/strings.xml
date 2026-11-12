@@ -892,6 +892,7 @@
     <string name="action_type_open_url_title">URL 열기</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">패키지명으로 앱 열기</string>
+    <!-- Shortcut Action Title: Open a specific category within the app -->
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Intent 전송 실패: %s</string>
@@ -1140,6 +1141,7 @@
     <string name="error_shortcut_not_found_for_renaming">“%1$s” 바로가기가 없어 이름을 바꿀 수 없습니다.</string>
     <!-- Error message: Shown in toast when "Set Shortcut Hidden" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
+    <!-- Error message: Shown in toast when "Open Category" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">“%1$s” 바로가기가 없어 아이콘을 바꿀 수 없습니다.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

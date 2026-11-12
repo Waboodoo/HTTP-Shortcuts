@@ -938,6 +938,7 @@
     <string name="action_type_open_url_title">Ireki URLa</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Ireki aplikazioa</string>
+    <!-- Shortcut Action Title: Open a specific category within the app -->
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <string name="action_type_get_device_id_title">Eskuratu gailuaren IDa</string>
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
@@ -1194,6 +1195,7 @@
     <string name="error_shortcut_not_found_for_set_visible">Ezin izan da \“%1$s\” lasterbidearen ikusgaitasuna aldatu, existitzen ez delako.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <string name="error_category_not_found_for_set_visible">Ezin izan da \“%1$s\” kategoriaren ikusgaitasuna aldatu, existitzen ez delako.</string>
+    <!-- Error message: Shown in toast when "Open Category" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Ezin izan da \“%1$s\” lasterbidearen ikonoa aldatu, ez dagoelako.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->

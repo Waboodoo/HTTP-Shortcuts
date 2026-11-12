@@ -914,6 +914,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="action_type_open_url_title">Ouvrir l\'URL</string>
     <!-- Shortcut Action Title: Open another app (via its package name) -->
     <string name="action_type_open_app_title">Ouvrir l\'application</string>
+    <!-- Shortcut Action Title: Open a specific category within the app -->
     <!-- Shortcut Action Title: get the device ID (i.e., a unique identifier for the app, to differentiate it from app installations on other devices) -->
     <!-- Shortcut Action Error: Shown when the "Send Intent" action fails -->
     <string name="error_action_type_send_intent_failed">Échec de l\'envoi de l\'intention : %s</string>
@@ -1171,6 +1172,7 @@ Cependant, vous n\'avez pas encore configuré de variables.</string>
     <string name="error_shortcut_not_found_for_set_visible">Impossible de modifier la visibilité du raccourci \“%1$s\” car il n\'existe pas.</string>
     <!-- Error message: Shown in toast when "Set Category Hidden" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <string name="error_category_not_found_for_set_visible">Impossible de modifier la visibilité de la catégorie \“%1$s\” car elle n\'existe pas.</string>
+    <!-- Error message: Shown in toast when "Open Category" action cannot find the specified category. %1$s is a placeholder for the category's name -->
     <!-- Error message: Shown in toast when "Change Icon" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
     <string name="error_shortcut_not_found_for_changing_icon">Impossible de modifier le raccourci \"%1$s\" car il n\'existe pas.</string>
     <!-- Error message: Shown in toast when "Change Description" action cannot find the specified shortcut. %1$s is a placeholder for the shortcut's name -->
