@@ -447,19 +447,32 @@ open class MainActivity : BaseComposeActivity() {
         const val EXTRA_IMPORT_URL = "ch.rmy.android.http_shortcuts.import_url"
         const val EXTRA_CANCEL_PENDING_EXECUTIONS = "ch.rmy.android.http_shortcuts.cancel_executions"
         const val EXTRA_SUPPRESS_ON_APP_START = "ch.rmy.android.http_shortcuts.suppress_on_app_start"
+        private const val EXTRA_VARIABLE_WIDGET = "ch.rmy.android.http_shortcuts.variable_widget"
 
         fun determineMode(context: Context, intent: Intent) = when (intent.action) {
             Intent.ACTION_CREATE_SHORTCUT -> SelectionMode.HOME_SCREEN_SHORTCUT_PLACEMENT
             AppWidgetManager.ACTION_APPWIDGET_CONFIGURE -> {
-                val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0)
-                logInfo("Determining mode for widget configuration, has Widget ID = ${widgetId > 0}")
-                val variableLayout = AppWidgetManager.getInstance(context)
-                    .getAppWidgetInfo(widgetId)
-                    ?.initialLayout
-                when (variableLayout) {
-                    R.layout.variable_widget -> SelectionMode.VARIABLE_WIDGET_PLACEMENT
-                    R.layout.shortcut_widget -> SelectionMode.SHORTCUT_WIDGET_PLACEMENT
-                    else -> SelectionMode.SHORTCUT_WIDGET_PLACEMENT // TODO: Find a better fallback
+                if (intent.getBooleanExtra(EXTRA_VARIABLE_WIDGET, false)) {
+                    logInfo("Variable widget mode extra detected")
+                    SelectionMode.VARIABLE_WIDGET_PLACEMENT
+                } else {
+                    val widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0)
+                    logInfo("Determining mode for widget configuration, has Widget ID = ${widgetId > 0}")
+                    val variableLayout = AppWidgetManager.getInstance(context)
+                        .getAppWidgetInfo(widgetId)
+                        ?.initialLayout
+                    when (variableLayout) {
+                        R.layout.variable_widget -> {
+                            intent.putExtra(EXTRA_VARIABLE_WIDGET, true)
+                            SelectionMode.VARIABLE_WIDGET_PLACEMENT
+                        }
+                        R.layout.shortcut_widget -> SelectionMode.SHORTCUT_WIDGET_PLACEMENT
+                        else -> {
+                            // TODO: Find a better fallback. Might not be needed anymore
+                            logInfo("Could not determine widget type")
+                            SelectionMode.SHORTCUT_WIDGET_PLACEMENT
+                        }
+                    }
                 }
             }
             ACTION_SELECT_SHORTCUT_FOR_PLUGIN -> SelectionMode.PLUGIN
