@@ -2,6 +2,7 @@
 
 ### Improvements
 - The app is now translated into Ukrainian
+- The Scripting function [openCategory](https://http-shortcuts.rmy.ch/scripting#open-category) was added, which lets you navigate to a specific category in the app
 - You can now disable the built-in documentation if you prefer to always directly open the website instead
 
 ### Bugfixes
