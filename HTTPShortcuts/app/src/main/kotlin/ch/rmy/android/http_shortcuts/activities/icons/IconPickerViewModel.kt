@@ -314,7 +314,7 @@ constructor(
         } catch (e: Exception) {
             if (cacheFile.exists()) {
                 tryOrIgnore {
-                    logInfo("Icon cache file: ${cacheFile.readText().take(200)}")
+                    logInfo("Icon cache file: ${cacheFile.readText().take(2000)}")
                 }
                 cacheFile.delete()
             }
